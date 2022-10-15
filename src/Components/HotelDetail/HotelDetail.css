@@ -1,0 +1,19 @@
+.hotelDetail-container {
+  text-align: left;
+}
+
+.hotelDetail-img {
+  height: 85vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hotelDetail-title {
+  color: var(--clr-dark-main);
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.hotelDetail-body {
+  padding: 3rem;
+}

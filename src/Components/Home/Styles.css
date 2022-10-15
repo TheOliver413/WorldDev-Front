@@ -1,0 +1,15 @@
+a {
+  text-decoration: none;
+}
+body {
+  background-size: cover;
+}
+
+.container-body {
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

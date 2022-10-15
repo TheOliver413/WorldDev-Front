@@ -1,0 +1,22 @@
+.cardHotels-container {
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: calc(87px + 1rem);
+}
+
+.cardHotels-container a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+@media (min-width: 600px) {
+  .cardHotels-container {
+    flex-direction: row;
+    flex-wrap: wrap ;
+    justify-content: center ;
+    align-items: stretch ;
+  }
+}

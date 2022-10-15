@@ -1,0 +1,26 @@
+.btn-primary {
+  background-color: var(--clr-main) !important;
+  border: none !important;
+  color: black !important;
+  text-transform: uppercase;
+  padding: .75rem 1.75rem !important;
+  letter-spacing: 0.1em;
+}
+
+.card {
+  text-align: left;
+  border: none !important;
+  box-shadow: #20120050 0px 2px 4px;
+  margin: 2rem auto; 
+  max-width: 1190px;
+}
+
+.card img {
+  min-height: 240px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 2rem !important;
+}

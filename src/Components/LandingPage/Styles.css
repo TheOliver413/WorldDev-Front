@@ -1,0 +1,66 @@
+.landingPage-img {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.landingPage-welcome {
+  position: relative;
+  text-align: right;
+}
+
+.landingPage-welcome-img {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+  filter: blur(2px) opacity(.25) drop-shadow(0px 0px .1px var(--clr-light-main));
+}
+
+.landingPage-welcome-body {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.landingpage-title {
+  color: var(--clr-dark-main);
+}
+
+.landingpage-btn {
+  text-transform: uppercase;
+  color: var(--clr-black);
+  padding: 1rem 3rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--clr-main);
+  letter-spacing: .1em;
+  cursor: pointer;
+}
+
+@media (min-width:900px) {
+  .landingPage-welcome {
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+    height: 100vh;
+    gap: 4rem;
+  }
+  .landingPage-welcome-img {
+    height: 100%;
+    width: 50%;
+    filter: blur(0px) opacity(.5) drop-shadow(0px 0px .1px var(--clr-light-main));
+  }
+  .landingPage-welcome-body {
+    position: static;
+    translate: 0 0;
+    width: 50%;
+    padding: 0;
+  }
+  .landingpage-title {
+    font-size: 2.5rem;
+  }
+}

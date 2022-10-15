@@ -1,0 +1,8 @@
+a{
+  text-decoration:none
+}
+
+.footer-container{
+  text-align: left;
+  background-color: var(--clr-dark-main)!important;
+}

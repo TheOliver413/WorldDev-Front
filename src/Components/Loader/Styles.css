@@ -1,0 +1,84 @@
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem .5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loader-card {
+  height: 320px;
+  width: 270px;
+  background-color: white;
+  box-shadow: darkgrey 0px 2px 4px;
+  border-radius: 8px;
+  margin: .75rem;
+  cursor: wait;
+}
+
+.loader-img {
+  height: 200px;
+  width: 100%;
+  
+  background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+  border-radius: 8px 8px 0 0;
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: load89234 2s infinite;
+}
+
+.loader-body {
+  padding: 1rem 1.25rem;
+}
+
+.loader-title {
+  background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: load89234 2s infinite;
+  
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.loader-location {
+  background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: load89234 2s infinite;
+
+  height: .75rem;
+  width: 90%;
+  border-radius: 2px;
+  margin-top: .5em;
+}
+
+.loader-price {
+  background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: load89234 2s infinite;
+
+  height: .75rem;
+  width: 10%;
+  border-radius: 2px;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .loader-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+  }
+}
+
+@keyframes load89234 {
+  100% {
+    background-position: -100% 0;
+  }
+}
