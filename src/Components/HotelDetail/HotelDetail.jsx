@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
-// import CardRoom from "../CardRoom/CardRoom.jsx";
+import CardRoom from "../CardRoom/CardRoom.jsx";
 import Footer from "../Footer/Footer.jsx";
 // import Nav from "../Nav/Nav.jsx";
 import './HotelDetail.css'
@@ -24,7 +24,7 @@ const HotelDetail = () => {
   }, [dispatch])
 
   const hotelDetail = useSelector((state) => state.reducerHotel.detailHotel);
-  const { name, image, qualification, description, Locations } = hotelDetail
+  const { name, image, qualification, description, Locations, Rooms } = hotelDetail
   return (
     <div className="hotelDetail-container">
       {/* <Nav /> */}
@@ -40,17 +40,19 @@ const HotelDetail = () => {
               <button>Back</button>
             </Link>
           </div>
-          {/* <h2>Available rooms</h2>
+          <h2>Available rooms</h2>
           <div>
             <label>Check-in&nbsp;</label>
             <input type={"date"} />
           </div>
           <label>Check-out&nbsp;</label>
-          <input type={"date"} /> */}
-          {/* <CardRoom id={}, name={}, image={}, price={}, description={} /> */}
+          <input type={"date"} />
+          {Rooms.map((r) => (
+            <CardRoom id={r.id} name={r.name} image={r.image} price={r.price} description={r.description} />
+          ))}
 
-          {/* <h2>What this place offers</h2> */}
-          {/* <ServicesHotel /> */}
+          {/* <h2>What this place offers</h2>
+          <ServicesHotel /> */}
         </div>
       ) : (
         <h3>Loading detail</h3>
