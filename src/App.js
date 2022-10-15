@@ -11,6 +11,7 @@ import Footer from './Components/Footer/Footer'
 import CreateRooms from "./Components/CreateRooms/CreateRooms";
 import CreateEvents from "./Components/CreateEvents/CreateEvents";
 import RoomDetail from "./Components/RoomDetail/RoomDetail";
+import Favorite from "./Components/Favorite/Favorite";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/home" component={Home} />
         <Route path='/hotel/room/:id' component={RoomDetail}/>
         <Route path='/hotel/:id' component={HotelDetail} />
+        <Route path='/favorite' component={Favorite} />
       </Switch>
       <Footer />
     </div>
