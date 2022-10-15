@@ -4,7 +4,7 @@ import "./CardRoom.css";
 
 const CardRoom = ({ id, name, image, price, description }) => {
   return (
-    <Link to={`/hotel/room/${id}`} >
+    <Link className="cardRoom-container" to={`/hotel/room/${id}`} >
     <div className="card">
       <div className="row g-0">
         <div className="col-sm-4">

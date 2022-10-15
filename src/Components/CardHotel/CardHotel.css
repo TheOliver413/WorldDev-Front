@@ -1,12 +1,11 @@
-.card {
+.card-hotel {
   text-align: left;
   border: none !important;
-  box-shadow: #20120050 0px 2px 4px;
   margin: .75rem !important; 
   width: 270px !important;
 }
 
-.card img {
+.card-hotel img {
   border-radius: 8px 8px 0 0;
   height: 200px !important;
   width: 100%;
