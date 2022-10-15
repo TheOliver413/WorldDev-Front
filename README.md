@@ -5,7 +5,7 @@ En este Proyecto vamos a crear una aplicación de busqueda sobre servicios de ho
 **Equipo de desarrollo**
 
 -- Maira Fernanda Bravo Madrid.
--- Maria de los Angeles Gallardo.
+-- Maira de los Angeles Gallardo.
 -- Alexis Franco Llopard.
 -- Alfredo Patricio Uskaer.
 -- Paula Adriana Yedro Infante.

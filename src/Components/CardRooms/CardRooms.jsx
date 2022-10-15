@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRooms } from "../../redux/action/action";
 import CardRoom from "../CardRoom/CardRoom";
+import Loader from "../Loader/Loader";
 
 function CardRooms() {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function CardRooms() {
 
   return (
     <>
-      {rooms.length &&
+      {rooms.length ?
         rooms.map((r) => (
           <CardRoom
             key={r.id}
@@ -23,7 +24,7 @@ function CardRooms() {
             price={r.price}
             description={r.description}
           />
-        ))}
+        )): <Loader />}
     </>
   );
 }

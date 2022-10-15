@@ -9,14 +9,16 @@ import {
   FILTER_BY_CITY,
   ORDER_BY,
   CLEAR_DETAIL,
-  
+  GET_CATEGORY
 } from '../action/action';
 
 const initialStateHotel = {
   hotels: [],
+  allHotels: [],
   detailHotel: {},
   servicesHotel: [],
-  location: []
+  location: [],
+  filterCategory:[]
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
@@ -24,7 +26,8 @@ const hotels_reducer = (state = initialStateHotel, action) => {
     case GET_ALL_HOTELS:
       return {
         ...state,
-        hotels: action.payload
+        hotels: action.payload,
+        allHotels: action.payload
       }
 
     case SEARCH_NAME_HOTEL:
@@ -76,7 +79,7 @@ const hotels_reducer = (state = initialStateHotel, action) => {
     case ORDER_BY:
       let aux = [...state.hotels];
       let order = [];
-      console.log(action.payload)
+      console.log(aux)
       switch (action.payload) {
         case 'all':
           order = [...state.allHotels];
@@ -95,17 +98,6 @@ const hotels_reducer = (state = initialStateHotel, action) => {
             return 0;
           })
           break;
-        case 'qualification asc':
-          order = aux.sort(function (a, b) {
-            return a.qualification - b.qualification
-          });
-          break;
-        case 'qualification desc':
-          order = aux.sort(function (a, b) {
-            return b.qualification - a.qualification
-          });
-          break;
-
         default:
           order = aux
           break;
@@ -114,6 +106,31 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return {
         ...state,
         hotels: order
+      }
+    case GET_CATEGORY:
+      let auxCat= [...state.hotels]
+      let filtCat= []
+      switch(action.payload){
+        case "":
+          filtCat= [...state.allHotels]
+          break;
+        case 'qualification asc':
+          filtCat = auxCat.sort(function (a, b) {
+            return a.qualification - b.qualification
+          });
+        break;
+        case 'qualification desc':
+          filtCat = auxCat.sort(function (a, b) {
+            return b.qualification - a.qualification
+          });
+        break;
+        default:
+          filtCat = auxCat
+        break;
+      }
+      return {
+        ...state,
+        hotels: filtCat,
       }
 
     default:
