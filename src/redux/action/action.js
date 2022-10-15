@@ -20,6 +20,7 @@ export const URL_POST_HOTEL = "URL_POST_HOTEL";
 export const URL_POST_ROOM = "URL_POST_ROOM";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const ORDER_BY = "ORDER_BY";
+export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
@@ -249,3 +250,18 @@ export function createRooms(payload) {
   }
 }
 //-------------------------CREATE ROOMS----------------------//
+
+//------------------------SERVICES HOTEL --------------------//
+
+export function createServicesHotels(payload) {
+  return async function (dispatch) {
+    try {
+      const servicesHotel = await axios.post(`${BACK_URL}/serviceHotels`,payload)
+      dispatch ({
+        type: POST_SERVICES_HOTEL,     
+      })
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }}
