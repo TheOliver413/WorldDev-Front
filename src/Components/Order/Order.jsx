@@ -1,4 +1,3 @@
-//---------------IMPORTS---------------//
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { getHotels, orderBy } from '../../redux/action/action';
@@ -19,7 +18,6 @@ export default function Order() {
             dispatch(getHotels())
         } else {
             dispatch(orderBy(e.target.value))
-            // setPages(0)
             setOrder(`Ordenado ${e.target.value}`)
         }
     }
@@ -31,16 +29,7 @@ export default function Order() {
                 <option value='all'>All Hotels</option>
                 <option value="A-Z">A-Z</option>
                 <option value="Z-A">Z-A</option>
-                <option value="qualification asc">Qualification Ascending</option>
-                <option value="qualification desc">Qualification Descending</option>
             </select>
-            <div>
-                <a href="/home">
-                    <button type='search' class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                </a>
-            </div>
         </div>
     )
 }
