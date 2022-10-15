@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { roomById } from '../../redux/action/action.js';
+import { getDetailRoom } from '../../redux/action/action.js';
 import Loader from '../Loader/Loader.jsx';
 
 
@@ -10,10 +10,12 @@ const RoomDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(roomById(id))
+    dispatch(getDetailRoom(id))
   }, [dispatch, id])
 
   const roomDetail = useSelector((state) => state.reducerRoom.detailRoom)
+
+  const{name, image, price, description}=roomDetail
 
   return (
     <div>
@@ -24,14 +26,14 @@ const RoomDetail = () => {
               <Link to='/hotel/:id'><button>Hotel</button></Link>
             </div> */}
 
-            <img src={roomDetail.image} />
+            <img src={image} alt={name} />
 
             <div>
-              <h2>{roomDetail.name}</h2>
+              <h1>{name}</h1>
             </div>
 
             <div>
-              <p>{roomDetail.description}</p>
+              <p>{description}</p>
             </div>
 
             <p>Check-in: <input type='date' /></p>
