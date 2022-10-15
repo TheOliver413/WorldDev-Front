@@ -50,6 +50,11 @@ export default function Nav() {
               </Link>
             </li>
             <li class="nav-item">
+              <Link class="nav-link text-dark" to="/favorite">
+                FAVORITES
+              </Link>
+            </li>
+            <li class="nav-item">
               <Link class="nav-link text-dark" to="#">
                 ABOUT US
               </Link>
