@@ -1,6 +1,7 @@
+import { Button } from "bootstrap";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
 import CardRoom from "../CardRoom/CardRoom.jsx";
@@ -35,8 +36,10 @@ const HotelDetail = () => {
             <p>{Locations[0].city}, {Locations[0].country}</p>
             <p>Score: {qualification}</p>
             <p>{description}</p>
+            <Link to="/home">
+              <button>Back</button>
+            </Link>
           </div>
-
           <h2>Available rooms</h2>
           <div>
             <label>Check-in&nbsp;</label>
@@ -48,8 +51,8 @@ const HotelDetail = () => {
             <CardRoom id={r.id} name={r.name} image={r.image} price={r.price} description={r.description} />
           ))}
 
-          {/* <h2>What this place offers</h2> */}
-          {/* <ServicesHotel /> */}
+          {/* <h2>What this place offers</h2>
+          <ServicesHotel /> */}
         </div>
       ) : (
         <h3>Loading detail</h3>

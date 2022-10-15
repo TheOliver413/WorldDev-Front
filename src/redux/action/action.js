@@ -20,7 +20,7 @@ export const URL_POST_HOTEL = "URL_POST_HOTEL";
 export const URL_POST_ROOM = "URL_POST_ROOM";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const ORDER_BY = "ORDER_BY";
-export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
+export const GET_CATEGORY = "GET_CATEGORY"
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
@@ -78,6 +78,13 @@ export function getLocations() {
     })
   }
 }
+
+export function getCategory(payload){
+  return{
+      type: GET_CATEGORY,
+      payload
+  }
+};
 
 export function postHotel(payload){
   return async function(dispatch) {
