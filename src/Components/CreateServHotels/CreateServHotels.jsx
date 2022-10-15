@@ -1,35 +1,37 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getHotels } from "../../redux/action/action";
+import { createServicesHotels, getHotels, modifyServicesHotels } from "../../redux/action/action";
 
-const validate = (input_serv_hotel, input_create) => {
-    let errors = {};
-    if(!input_create) errors = 'Choose an option'
+// const validate = (input_serv_hotel, input_create) => {
+//     let errors = {};
+//     if(!input_create) errors = 'Choose an option'
 
-    if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
+//     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
-    if(!input_serv_hotel.name) errors.name = 'Name is required'
-    if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
+//     if(!input_serv_hotel.name) errors.name = 'Name is required'
+//     if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
     
-    if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
+//     if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
     
-    if(!input_serv_hotel.description) errors.description = 'Description is required'
+//     if(!input_serv_hotel.description) errors.description = 'Description is required'
 
-    return errors;
-}
+//     return errors;
+// }
 
 const CreateServHotels = () => {
     const dispatch = useDispatch();
     const hotels = useSelector(state=>state.reducerHotel.hotels)
 
 const [input_serv_hotel, setInput_serv_hotel] = useState({
-    idHotel:'',
+    idHotel: '',
     name: '',
     image: '',
     description: '',
 })
-const [input_create, setInput_create] = useState({})
+const [input_create, setInput_create] = useState({
+    option:''
+})
 const [errors, setErrors] = useState({})
 
  useEffect(()=>{
@@ -43,10 +45,10 @@ const handleChangeCreate = (e) => {
         ...input_create,
         [e.target.name] : e.target.value
     })        
-    setErrors(validate({
-        ...input_create,
-        [e.target.name] : e.target.value
-    }))
+    // setErrors(validate({
+    //     ...input_create,
+    //     [e.target.name] : e.target.value
+    // }))
 }
 //------------ HANDLE CHANGE NAME SERVICES HOTEL--------------//
 const handleName = (e) => {
@@ -55,10 +57,10 @@ const handleName = (e) => {
         ...input_serv_hotel,
         [e.target.name] : e.target.value.toLowerCase().trim()
     })        
-    setErrors(validate({
-        ...input_serv_hotel,
-        [e.target.name] : e.target.value
-    }))
+    // setErrors(validate({
+    //     ...input_serv_hotel,
+    //     [e.target.name] : e.target.value
+    // }))
 }
 
 //------------ HANDLE CHANGE DEMAS INPUT SERVICES HOTEL----------//
@@ -68,10 +70,10 @@ const handleChange = (e) => {
         ...input_serv_hotel,
         [e.target.name] : e.target.value
     })        
-    setErrors(validate({
-        ...input_serv_hotel,
-        [e.target.name] : e.target.value
-    }))
+    // setErrors(validate({
+    //     ...input_serv_hotel,
+    //     [e.target.name] : e.target.value
+    // }))
 }
 
 //------------ HANDLE CHANGE HOTEL NAME----------//
@@ -79,35 +81,30 @@ const handleChangeHotel = (e) => {
     e.preventDefault();        
     setInput_serv_hotel({
         ...input_serv_hotel,
-       idHotel : e.target.value
+       idHotel : e.target.value.toString()
     })        
-    setErrors(validate({
-        ...input_serv_hotel,
-        idHotel : e.target.value
-    }))
+    // setErrors(validate({
+    //     ...input_serv_hotel,
+    //     idHotel : e.target.value
+    // }))
 }
 
-//----------------HANDLE DELETE SELECT HOTEL------------------//
-const handleDelete = (e) => {
-    e.preventDefault();
-    setInput_serv_hotel({
-        ...input_serv_hotel,
-        idHotel: input.idHotel.filter(e => e !== e.target.value)
-    })
-}
 
 //----------------HANDLE SUBMIT SERVICES HOTEL------------------//
 const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_hotel) {
-        if(input_create.name === 'create') {
+        if(input_create.option === 'create') {
             dispatch(createServicesHotels(input_serv_hotel)) //crear la action
+            console.log(input_serv_hotel)
             alert('Service created successfully')
         }else {
             dispatch(modifyServicesHotels(input_serv_hotel)) //crear la action
             alert('Service modified successfully')
         }
+        console.log(input_serv_hotel)
         input_serv_hotel({
+            idHotel:'',
             name: '',
             image: '',
             description: '',
@@ -124,56 +121,56 @@ return (
 
         {/*----------------CREATE OR MODIFY------------------------ */} 
         <div>
-            <label>Select an option</label>
+            <label>Select an option
             <label> Create
             <input 
             type='radio' 
-            id='create' 
+            id='create'  
             name='option' 
             value='create' 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
-            <label>
+            <label> Modify
             <input
             type='radio' 
             id='modify' 
             name='option' 
-            value='modify'  
+            value='modify' 
             onChange={(e) => handleChangeCreate(e)} />
             </label>
+            </label>
         </div>
-        <div>
+        {/* <div>
             {errors && (<p>{errors}</p>)}
-        </div>
+        </div> */}
         
         {/*-----------------------NAME HOTEL----------------- */} 
         <div>
-            <label>Hotel Name</label>
-                <select onChange={(e) => handleChangeHotel(e)}>
+            <label>Hotel Name
+                <select value={input_serv_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
                 <option hidden selected >Select hotel</option>
                 {hotels?.map(e => 
                     <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
-                </select>
+                </select></label>
             </div>
-            <div>
+            {/* <div>
             {errors.idHotel && (<p>{errors.idHotel}</p>)}
-            </div>
-            <ul>{input.idHotel.map(e => 
-                <li key={e}>{e}<button value={e} onClick = {(e) => handleDelete(e)}>x</button></li>)}
-            </ul>           
+            </div> */}
+                     
         
         {/*-----------------------NAME SERVICE---------------- */} 
         <div>
             <label>Service Name</label>
             <input 
             placeholder="Name service.."
-            type="text" value={input_serv_hotel.name} 
-            name="nameService" 
+            type="text" 
+            name="name" 
+            value={input_serv_hotel.name} 
             onChange={(e) => handleName(e)} />
         </div>
-        <div>
+        {/* <div>
             {errors.name && (<p>{errors.name}</p>)}
-        </div>
+        </div> */}
         
         {/*-----------------------IMAGE------------------------ */} 
         <div>
@@ -185,9 +182,9 @@ return (
             name="image" 
             onChange={(e) => handleChange(e)}/>
             </div>
-        <div>
+        {/* <div>
             {errors.image && (<p>{errors.image}</p>)}
-        </div>
+        </div> */}
 
         {/*--------------------------DESCRIPTION----------------------- */}  
         <div>
@@ -201,14 +198,15 @@ return (
             onChange={(e) => handleChange(e)}>
             </textarea>
         </div>
-        <div>
+        {/* <div>
             {errors.description && (<p>{errors.description}</p>)}
-        </div>
+        </div> */}
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length ? 
-            (<button disabled type="submit">Send</button>) 
+        {!input_serv_hotel.idHotel ||!input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description
+        
+            ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send </button>)}
         </div>
 

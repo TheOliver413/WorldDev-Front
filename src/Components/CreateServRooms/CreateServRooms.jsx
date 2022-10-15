@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import { createServicesRooms, modifyServicesRooms } from "../../redux/action/action";
 
-const validate = (input_serv_room) => {
+const validate = (input_serv_room, input_create) => {
     let errors = {};
-    if(!input_create) errors = 'Choose an option'
+   // if(!input_create) errors = 'Choose an option'
     
     if(!input_serv_room.name) errors.name = 'Name is required'
     if(!/^[a-zA-Z ]*$/.test(input_serv_room.name)) errors.name = 'Invalid name: must only contain letters'
@@ -22,7 +23,9 @@ const [input_serv_room, setInput_serv_room] = useState({
     name: '',
     image: '',
 })
-const [input_create, setInput_create] = useState({})
+const [input_create, setInput_create] = useState({
+    option:'',
+})
 const [errors, setErrors] = useState({})
 
 // useEffect(()=>{
@@ -72,7 +75,7 @@ const handleChange = (e) => {
 const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_room) {
-        if(input_create.name === 'create') {
+        if(input_create.option === 'create') {
             dispatch(createServicesRooms(input_serv_room))//crear la action
             alert('Service created successfully')
         } else {
@@ -114,7 +117,7 @@ return (
             </label>
         </div>
         <div>
-            {errors && (<p>{errors}</p>)}
+             {/* {errors && (<p>{errors}</p>)} */}
         </div>
         
         {/*-----------------------NAME------------------------ */} 
@@ -146,7 +149,7 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_serv_room.name || !input_serv_room.image || Object.keys(errors).length ? 
+        {!input_serv_room.name || !input_serv_room.image ? 
             (<button disabled type="submit">Create</button>) 
             : (<button type="submit">Create </button>)}
         </div>

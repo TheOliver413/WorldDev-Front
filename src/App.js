@@ -17,7 +17,7 @@ import CreateServHotels from "./Components/CreateServHotels/CreateServHotels";
 function App() {
   return (
     <div>
-      <Nav/>
+      {/* <Nav/> */}
       <Switch>
         <Route exact path="/home/createServRooms" component={ CreateServRooms }></Route>
         <Route exact path="/home/createServHotels" component={ CreateServHotels }></Route>
