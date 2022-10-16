@@ -18,6 +18,7 @@ export default function Search() {
     e.preventDefault();
     dispatch(hotelByName(name));
     setName('')
+    
   }
 
   return (
