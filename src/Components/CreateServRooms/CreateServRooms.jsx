@@ -1,12 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useState} from "react";
+import { useDispatch } from 'react-redux';
 import { createServicesRooms, modifyServicesRooms } from "../../redux/action/action";
 
-const validate = (input_serv_room, input_create) => {
+const validate = (input_serv_room) => {
     let errors = {};
-   // if(!input_create) errors = 'Choose an option'
-    
+
     if(!input_serv_room.name) errors.name = 'Name is required'
     if(!/^[a-zA-Z ]*$/.test(input_serv_room.name)) errors.name = 'Invalid name: must only contain letters'
     
@@ -17,7 +16,6 @@ const validate = (input_serv_room, input_create) => {
 
 const CreateServRooms = () => {
     const dispatch = useDispatch();
-    //const servicesHotels = useSelector(state=>state.reducerHotel.hotels)
 
 const [input_serv_room, setInput_serv_room] = useState({
     name: '',
@@ -28,9 +26,6 @@ const [input_create, setInput_create] = useState({
 })
 const [errors, setErrors] = useState({})
 
-// useEffect(()=>{
-//     dispatch(get de hotel)
-// },[dispatch]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
 const handleChangeCreate = (e) => {
@@ -39,10 +34,6 @@ const handleChangeCreate = (e) => {
         ...input_create,
         [e.target.name] : e.target.value
     })        
-    setErrors(validate({
-        ...input_create,
-        [e.target.name] : e.target.value
-    }))
 }
 
 //------------ HANDLE CHANGE NAME SERVICES ROOM--------------//
@@ -93,7 +84,7 @@ const handleSubmit = (e) => {
 
 
 return (
-    <div>
+    <div className="cardHotels-container">
     <form onSubmit={(e) => handleSubmit(e)}>
 
          {/*----------------CREATE OR MODIFY------------------------ */} 
@@ -115,9 +106,6 @@ return (
             value='modify'  
             onChange={(e) => handleChangeCreate(e)} />
             </label>
-        </div>
-        <div>
-             {/* {errors && (<p>{errors}</p>)} */}
         </div>
         
         {/*-----------------------NAME------------------------ */} 
@@ -149,8 +137,8 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_serv_room.name || !input_serv_room.image ? 
-            (<button disabled type="submit">Create</button>) 
+        {!input_create.option || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
+            ? (<button disabled type="submit">Create</button>) 
             : (<button type="submit">Create </button>)}
         </div>
 

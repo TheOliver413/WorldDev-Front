@@ -315,26 +315,26 @@ export function createServicesHotels(payload) {
         }
       }}
 //------------------------CREATE/MODIFY EVENTS --------------------//
-    // export function createEvents(payload) {
-    //   return async function (dispatch) {
-    //     try {
-    //       const servicesRoom = await axios.post(`${BACK_URL}/events`,payload)
-    //       dispatch ({
-    //         type: POST_EVENT,     
-    //       })        
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
-    //   }}
+    export function createEvents(payload) {
+      return async function (dispatch) {
+        try {
+          const servicesRoom = await axios.post(`${BACK_URL}/events`,payload)
+          dispatch ({
+            type: POST_EVENT,     
+          })        
+        } catch (error) {
+          console.log(error)
+        }
+      }}
 
-    //   export function modifyEvents(payload) {
-    //     return async function (dispatch) {
-    //       try {
-    //         const servicesRoom = await axios.put(`${BACK_URL}/events`,payload)
-    //         dispatch ({
-    //           type: PUT_EVENT,     
-    //         })        
-    //       } catch (error) {
-    //         console.log(error)
-    //       }
-    //     }}
+      export function modifyEvents(payload) {
+        return async function (dispatch) {
+          try {
+            const servicesRoom = await axios.put(`${BACK_URL}/events`,payload)
+            dispatch ({
+              type: PUT_EVENT,     
+            })        
+          } catch (error) {
+            console.log(error)
+          }
+        }}

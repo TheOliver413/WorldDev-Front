@@ -3,21 +3,21 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { createServicesHotels, getHotels, modifyServicesHotels } from "../../redux/action/action";
 
-// const validate = (input_serv_hotel, input_create) => {
-//     let errors = {};
-//     if(!input_create) errors = 'Choose an option'
+const validate = (input_serv_hotel) => {
+    let errors = {};
+   
+    if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
-//     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
-
-//     if(!input_serv_hotel.name) errors.name = 'Name is required'
-//     if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
+    if(!input_serv_hotel.name) errors.name = 'Name is required'
+    if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
     
-//     if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
+    if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
     
-//     if(!input_serv_hotel.description) errors.description = 'Description is required'
+    if(!input_serv_hotel.description) errors.description = 'Description is required'
 
-//     return errors;
-// }
+    return errors;
+}
+
 
 const CreateServHotels = () => {
     const dispatch = useDispatch();
@@ -34,6 +34,7 @@ const [input_create, setInput_create] = useState({
 })
 const [errors, setErrors] = useState({})
 
+
  useEffect(()=>{
      dispatch(getHotels())
  },[dispatch]) 
@@ -45,10 +46,6 @@ const handleChangeCreate = (e) => {
         ...input_create,
         [e.target.name] : e.target.value
     })        
-    // setErrors(validate({
-    //     ...input_create,
-    //     [e.target.name] : e.target.value
-    // }))
 }
 //------------ HANDLE CHANGE NAME SERVICES HOTEL--------------//
 const handleName = (e) => {
@@ -57,10 +54,10 @@ const handleName = (e) => {
         ...input_serv_hotel,
         [e.target.name] : e.target.value.toLowerCase().trim()
     })        
-    // setErrors(validate({
-    //     ...input_serv_hotel,
-    //     [e.target.name] : e.target.value
-    // }))
+    setErrors(validate({
+        ...input_serv_hotel,
+        [e.target.name] : e.target.value
+    }))
 }
 
 //------------ HANDLE CHANGE DEMAS INPUT SERVICES HOTEL----------//
@@ -70,10 +67,10 @@ const handleChange = (e) => {
         ...input_serv_hotel,
         [e.target.name] : e.target.value
     })        
-    // setErrors(validate({
-    //     ...input_serv_hotel,
-    //     [e.target.name] : e.target.value
-    // }))
+    setErrors(validate({
+        ...input_serv_hotel,
+        [e.target.name] : e.target.value
+    }))
 }
 
 //------------ HANDLE CHANGE HOTEL NAME----------//
@@ -83,10 +80,10 @@ const handleChangeHotel = (e) => {
         ...input_serv_hotel,
        idHotel : e.target.value.toString()
     })        
-    // setErrors(validate({
-    //     ...input_serv_hotel,
-    //     idHotel : e.target.value
-    // }))
+    setErrors(validate({
+        ...input_serv_hotel,
+        idHotel : e.target.value
+    }))
 }
 
 
@@ -95,11 +92,11 @@ const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_hotel) {
         if(input_create.option === 'create') {
-            dispatch(createServicesHotels(input_serv_hotel)) //crear la action
+            dispatch(createServicesHotels(input_serv_hotel)) 
             console.log(input_serv_hotel)
             alert('Service created successfully')
         }else {
-            dispatch(modifyServicesHotels(input_serv_hotel)) //crear la action
+            dispatch(modifyServicesHotels(input_serv_hotel)) 
             alert('Service modified successfully')
         }
         console.log(input_serv_hotel)
@@ -116,7 +113,7 @@ const handleSubmit = (e) => {
 
 
 return (
-    <div>
+    <div className="cardHotels-container">
     <form onSubmit={(e) => handleSubmit(e)}>
 
         {/*----------------CREATE OR MODIFY------------------------ */} 
@@ -140,9 +137,6 @@ return (
             </label>
             </label>
         </div>
-        {/* <div>
-            {errors && (<p>{errors}</p>)}
-        </div> */}
         
         {/*-----------------------NAME HOTEL----------------- */} 
         <div>
@@ -153,9 +147,9 @@ return (
                     <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
                 </select></label>
             </div>
-            {/* <div>
+            <div>
             {errors.idHotel && (<p>{errors.idHotel}</p>)}
-            </div> */}
+            </div>
                      
         
         {/*-----------------------NAME SERVICE---------------- */} 
@@ -168,9 +162,9 @@ return (
             value={input_serv_hotel.name} 
             onChange={(e) => handleName(e)} />
         </div>
-        {/* <div>
+        <div>
             {errors.name && (<p>{errors.name}</p>)}
-        </div> */}
+        </div>
         
         {/*-----------------------IMAGE------------------------ */} 
         <div>
@@ -182,9 +176,9 @@ return (
             name="image" 
             onChange={(e) => handleChange(e)}/>
             </div>
-        {/* <div>
+        <div>
             {errors.image && (<p>{errors.image}</p>)}
-        </div> */}
+        </div>
 
         {/*--------------------------DESCRIPTION----------------------- */}  
         <div>
@@ -198,14 +192,13 @@ return (
             onChange={(e) => handleChange(e)}>
             </textarea>
         </div>
-        {/* <div>
+        <div>
             {errors.description && (<p>{errors.description}</p>)}
-        </div> */}
+        </div>
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_serv_hotel.idHotel ||!input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description
-        
+        {!input_create.option || !input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length        
             ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send </button>)}
         </div>
