@@ -7,7 +7,6 @@ const validate = (input_serv_room) => {
     let errors = {};
 
     if(!input_serv_room.name) errors.name = 'Name is required'
-    if(!/^[a-zA-Z ]*$/.test(input_serv_room.name)) errors.name = 'Invalid name: must only contain letters'
     
     if(!input_serv_room.image) errors.image = 'Upload at least one image'
     
