@@ -12,10 +12,11 @@ import "./Styles.css";
 
 export default function Nav() {
   return (
-    <nav class="navbar navbar-expand-sm bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
       <div class="container-fluid container-nav">
         <Link class="navbar-brand" to="/">
-          <img className="navbar-logo" src={logo} alt="" />
+          <img className="navbar-logo d-inline-block " src={logo} alt="" />
+          <span className="">WORLD DEVELOPERS</span>
         </Link>
         <button
           class="navbar-toggler"
@@ -26,9 +27,11 @@ export default function Nav() {
           aria-expanded="false"
           aria-label="Toogle navigation"
         >
-        <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="mx-auto"></div>
           <ul class="navbar-nav">
             <li class="nav-item">
               <Link class="nav-link text-dark" to="/">
@@ -60,10 +63,22 @@ export default function Nav() {
                 ABOUT US
               </Link>
             </li>
-            <button type="button" class="btn btn-outline-primary" disabled>
-              LOG IN
-            </button>
-            <li class="nav-item">
+
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" disabled>
+                  <i class="bi bi-bag-fill"></i>
+                </button>
+                <button type="button" class="btn btn-outline-primary" disabled>
+                  LOG IN
+                </button>
+              </div>
+            </div>
+
+
+
+
+            {/* <li class="nav-item">
               <Search />
             </li>
             <li class="nav-item">
@@ -81,7 +96,7 @@ export default function Nav() {
             </div>
             <li class="nav-item">
               <FilterCategory />
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
