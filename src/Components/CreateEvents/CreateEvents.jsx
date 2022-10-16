@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvents, modifyEvents } from "../../redux/action/action";
+import { createEvents, getHotels, modifyEvents } from "../../redux/action/action";
 
 const validate = (input_event) => {
     let errors = {};
@@ -15,14 +15,17 @@ const validate = (input_event) => {
     if(!input_event.date) errors.date = 'Date is required. Example: dd/mm/yyyy'
 
     if(!input_event.price) errors.price = 'Price is required'
-    if(/^\d+$^\d+$/.test(input_event.price)) errors.price = 'The price must be in integers'
+    if(/^\d+$^\d+$/.test(input_event.price)) errors.price = 'Price can only contain numeric values'
+    if(input_event.price < 0) errors.price = 'Price cannot be a negative value'
+
+    if(!input_event.idHotel) errors.idHotel = 'Hotel name is required'
 
     return errors;
 }
 
 const CreateEvents = () => {
     const dispatch = useDispatch();
-    //const servicesHotels = useSelector(state=>state.reducerHotel.hotels)
+    const hotels = useSelector(state=>state.reducerHotel.hotels)
 
 const [input_event, setInput_event] = useState({
     name: '',
@@ -30,16 +33,16 @@ const [input_event, setInput_event] = useState({
     description: '',
     date: '',
     price: 0,
-    //hotel:''???
+    idHotel:'',
 })
 const [input_create, setInput_create] = useState({
    option:''
 })
 const [errors, setErrors] = useState({})
 
-// useEffect(()=>{
-//     dispatch(getHotels())
-// },[dispatch]) 
+useEffect(()=>{
+    dispatch(getHotels())
+},[dispatch]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
 const handleChangeCreate = (e) => {
@@ -48,10 +51,6 @@ const handleChangeCreate = (e) => {
        ...input_create,
        [e.target.name] : e.target.value
    })        
-   setErrors(validate({
-       ...input_create,
-       [e.target.name] : e.target.value
-   }))
 }
 
 //------------ HANDLE CHANGE NAME EVENTO--------------//
@@ -80,6 +79,19 @@ const handleChange = (e) => {
     }))
 }
 
+//------------ HANDLE CHANGE HOTEL NAME----------//
+const handleChangeHotel = (e) => {
+    e.preventDefault();        
+    setInput_event({
+        ...input_event,
+       idHotel : e.target.value
+    })        
+    setErrors(validate({
+        ...input_event,
+        idHotel : e.target.value
+    }))
+}
+
 //----------------HANDLE SUBMIT EVENT------------------//
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -97,6 +109,7 @@ const handleSubmit = (e) => {
          description: '',
          date: '',
          price: 0,
+         idHotel:'',
       })
     } else {
       alert("Check the fields")
@@ -119,7 +132,7 @@ return (
             value='create' 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
-            <label>
+            <label> Modify
             <input
             type='radio' 
             id='modify' 
@@ -129,12 +142,13 @@ return (
             </label>
         </div>
 
-        {/*-----------------------NAME------------------------ */} 
+        {/*------------------EVENT NAME------------------------ */} 
         <div>
             <label>Event Name</label>
             <input 
-            placeholder="Name..."
-            type="text" value={input_event.name} 
+            placeholder="Event Name..."
+            type="text" 
+            value={input_event.name} 
             name="name" 
             onChange={(e) => handleName(e)} />
         </div>
@@ -172,6 +186,19 @@ return (
             {errors.description && (<p>{errors.description}</p>)}
         </div>
 
+        {/*-----------------------HOTEL NAME----------------- */} 
+        <div>
+            <label>Hotel Name
+                <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
+                <option hidden selected >Select hotel</option>
+                {hotels?.map(e => 
+                    <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
+                </select></label>
+            </div>
+            <div>
+            {errors.idHotel && (<p>{errors.idHotel}</p>)}
+            </div>
+
          {/*--------------------------DATE----------------------- */}  
          <div>
             <label>Date</label>
@@ -194,6 +221,7 @@ return (
             type="number" 
             value={input_event.price} 
             name="price"
+            min='0'
             onChange={(e) => handleChange(e)}
             />
         </div>
@@ -203,10 +231,10 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_create.option ||!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.price || Object.keys(errors).length 
+        {!input_create.option ||!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.price ||!input_event.idHotel || Object.keys(errors).length 
          
-            ? (<button disabled type="submit">Create</button>) 
-            : (<button type="submit">Create </button>)}
+            ? (<button disabled type="submit">Send</button>) 
+            : (<button type="submit">Send </button>)}
         </div>
 
     </form>

@@ -6,7 +6,7 @@ import { createServicesRooms, modifyServicesRooms } from "../../redux/action/act
 const validate = (input_serv_room) => {
     let errors = {};
 
-    if(!input_serv_room.name) errors.name = 'Name is required'
+    if(!input_serv_room.name) errors.name = 'Service name is required'
     
     if(!input_serv_room.image) errors.image = 'Upload at least one image'
     
@@ -97,7 +97,7 @@ return (
             value='create' 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
-            <label>
+            <label> Modify
             <input
             type='radio' 
             id='modify' 
@@ -109,9 +109,9 @@ return (
         
         {/*-----------------------NAME------------------------ */} 
         <div>
-            <label>Name</label>
+            <label>Service Name</label>
             <input 
-            placeholder="Name..."
+            placeholder="Service name..."
             type="text" value={input_serv_room.name} 
             name="name" 
             onChange={(e) => handleName(e)} />
@@ -137,8 +137,8 @@ return (
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
         {!input_create.option || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
-            ? (<button disabled type="submit">Create</button>) 
-            : (<button type="submit">Create </button>)}
+            ? (<button disabled type="submit">Send</button>) 
+            : (<button type="submit">Send</button>)}
         </div>
 
     </form>
