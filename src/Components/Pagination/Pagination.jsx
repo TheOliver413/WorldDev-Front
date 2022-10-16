@@ -16,37 +16,38 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
   for (let i = 1; i <= nOfPages; i++) arrPageNumbers.push(i);
 
   //condicion para q no rompa al querer volver a una pag q no existe
-  const handlePrev = () => (actualPage-1) && pages(actualPage - 1)
+  const handlePrev = () => (actualPage - 1) && pages(actualPage - 1)
   //condicion para q no rompa al querer avanzar a una pag q no existe
-  const handleNext = () => (actualPage!==arrPageNumbers.length) && pages(actualPage + 1)
+  const handleNext = () => (actualPage !== arrPageNumbers.length) && pages(actualPage + 1)
+
   const topPage = () => (dispatch(setActualPage(1)))
-  const endPage =() => (dispatch(setActualPage(arrPageNumbers.length)))
+  const endPage = () => (dispatch(setActualPage(arrPageNumbers.length)))
 
   return (
     <ul className='paginationContainer'>
-       {/* Vuelve al Principio */}
-       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
-        <img className='arrow' src={leftArrow} alt='««'/>
+      {/* Vuelve al Principio */}
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
+        <img className='arrow' src={leftArrow} alt='««' />
       </li>
 
       {/* prev */}
-      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
-        <img className='arrow' src={leftArrow} alt='«'/>
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
+        <img className='arrow' src={leftArrow} alt='«' />
       </li>
-      
+
       {/* page n */}
-      {arrPageNumbers.slice(minPageNumber, maxPageNumber).map((n) => 
+      {arrPageNumbers.slice(minPageNumber, maxPageNumber).map((n) =>
         <li className={actualPage === n ? 'pageNumberACTIVE' : 'pageNumber'} onClick={() => pages(n)} key={n}>{n}</li>
       )}
-      
+
       {/* next */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handleNext}>
-        <img className='arrow' src={rightArrow} alt='»'/>
+        <img className='arrow' src={rightArrow} alt='»' />
       </li>
 
       {/* va hasta el final */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={endPage}>
-        <img className='arrow' src={leftArrow} alt='»»'/>
+        <img className='arrow' src={leftArrow} alt='»»' />
       </li>
     </ul>
   );
