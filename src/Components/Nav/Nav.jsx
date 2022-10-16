@@ -12,11 +12,11 @@ import "./Styles.css";
 
 export default function Nav() {
   return (
-    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid container-nav">
         <Link class="navbar-brand" to="/">
           <img className="navbar-logo d-inline-block " src={logo} alt="" />
-          <span className="">WORLD DEVELOPERS</span>
+          <span>WORLD DEVELOPERS</span>
         </Link>
         <button
           class="navbar-toggler"

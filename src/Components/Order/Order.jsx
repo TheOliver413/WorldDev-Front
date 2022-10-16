@@ -24,8 +24,8 @@ export default function Order() {
 
     return (
         <div class="input-group ps-5" id="navbarSupportedContent">
-            <select class="form-control " onChange={e => handleSort(e)}>
-                <option value="">Order By...</option>
+            <select class="form-select form-select-lg mb-3" onChange={e => handleSort(e)}>
+                <option value="">Order By... </option>
                 <option value='all'>All Hotels</option>
                 <option value="A-Z">A-Z</option>
                 <option value="Z-A">Z-A</option>
