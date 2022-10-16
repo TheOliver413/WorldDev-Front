@@ -1,11 +1,13 @@
 import React from "react";
 import CardHotel from "../CardHotel/CardHotel";
 import Loader from "../Loader/Loader";
+import NavFilters from "../Nav/NavFilters";
 import './CardHotels.css'
 
 const CardHotels = ({ actualHotels }) => {
   return (
     <div className="cardHotels-container">
+      <NavFilters/>
       {actualHotels.length ? actualHotels.map((h) => (
         <CardHotel
           key={h.id}
