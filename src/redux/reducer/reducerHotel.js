@@ -9,7 +9,11 @@ import {
   FILTER_BY_CITY,
   ORDER_BY,
   CLEAR_DETAIL,
-  GET_CATEGORY
+  GET_CATEGORY,
+  POST_SERVICES_HOTEL,
+  PUT_SERVICES_HOTEL,
+  POST_EVENT,
+  PUT_EVENT,
 } from '../action/action';
 
 const initialStateHotel = {
@@ -18,7 +22,6 @@ const initialStateHotel = {
   detailHotel: {},
   servicesHotel: [],
   location: [],
-  filterCategory:[]
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
@@ -60,6 +63,26 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       }
 
     case CREATE_ROOMS:
+      return {
+        ...state,
+      }
+    
+    case POST_SERVICES_HOTEL:
+      return {
+        ...state,
+      }
+    
+    case PUT_SERVICES_HOTEL:
+      return {
+          ...state,
+      }
+    
+    case POST_EVENT:
+      return {
+        ...state,
+      }
+    
+    case PUT_EVENT:
       return {
         ...state,
       }
