@@ -1,9 +1,13 @@
+.nav-container {
+  background-color: var(--clr-very-light-main) !important;
+}
+
 .navbar {
   padding: 0;
 }
 
 .container-nav{
-  background-color: var(--clr-very-light-main) !important;
+  max-width: 1200px;
 } 
 
 .navbar-logo {
