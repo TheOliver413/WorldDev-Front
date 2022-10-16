@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActualPage } from "../../redux/action/action";
-import leftArrow from './arrow-left.svg'
-import rightArrow from './arrow-right.svg'
 import "./Pagination.css";
 
 function Pagination({ hotels, hotelsPerPage, pages }) {
@@ -27,12 +25,12 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
     <ul className='paginationContainer'>
       {/* Vuelve al Principio */}
       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
-        <img className='arrow' src={leftArrow} alt='««' />
+        <i class="bi bi-chevron-double-left"></i>
       </li>
 
       {/* prev */}
       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
-        <img className='arrow' src={leftArrow} alt='«' />
+        <i class="bi bi-chevron-left"></i>
       </li>
 
       {/* page n */}
@@ -42,12 +40,12 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
 
       {/* next */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handleNext}>
-        <img className='arrow' src={rightArrow} alt='»' />
+        <i class="bi bi-chevron-right"></i>
       </li>
 
       {/* va hasta el final */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={endPage}>
-        <img className='arrow' src={leftArrow} alt='»»' />
+        <i class="bi bi-chevron-double-right"></i>
       </li>
     </ul>
   );

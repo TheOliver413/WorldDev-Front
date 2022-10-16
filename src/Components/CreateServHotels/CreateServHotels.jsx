@@ -97,7 +97,6 @@ const handleSubmit = (e) => {
             dispatch(modifyServicesHotels(input_serv_hotel)) 
             alert('Service modified successfully')
         }
-
         input_serv_hotel({
             idHotel:'',
             name: '',
