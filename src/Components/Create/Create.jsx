@@ -3,32 +3,75 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { createHotels } from '../../redux/action/action';
-
+import '../Create/Styles.css';
 
 export default function Create() {
 
   //-------------------------- STATE ------------------------//
   const dispatch = useDispatch();
   const history = useHistory();
-
+  // const services = useSelector(state=>state.services)
   //-------------------------USEEFFECT------------------------------//
   // ---------------cargar los services...
   // useEffect(() => {
-  //   dispatch()
+  //   dispatch(get_Services())
   // }, [dispatch])
 
   //------------------------STATE LOCAL FORM------------------------//
   const [input_hotels, input_sethotels] = useState({
     name: "",
-    image: "",
-    qualification: 0,
+    image: [""],
+    qualification: 1,
     description: "",
     city: "",
     country: "",
     continent: "",
 
   })
+  //------------------------VALIDATIONS-----------------------------//
+  let validateName = /^[a-zA-Z\s]+$/;
 
+  const validate = (input_hotels) => {
+    // let errors = {}
+    
+    // if (!input.title.length) {
+    //   errors.title = 'Title cannot be empty'
+    // }
+  
+    // if (!validateTitle.test(input.title)) {
+    //   errors.title = 'Special characters or numbers are not allowed'
+    // }
+  
+    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
+    //   alert(`The title ${input.title} already exist, please choose another one!`)
+    // }
+    // if (input.image && !validateUrl.test(input.image)) {
+    //   errors.image = 'This is not a valid URL'
+    // }
+  
+    // if (!input.summary.length) {
+    //   errors.summary = 'Summary cannot be empty'
+    // }
+  
+    // if (input.summary.length < 40) {
+    //   errors.summary = 'Summary must be at least 40 characters'
+    // }
+  
+    // if (input.healthScore < 1 || input.healthScore > 100) {
+    //   errors.healthScore = 'The healt score must be a number between 1 - 100'
+    // }
+    
+    // if (!input.steps.length) {
+    //   errors.steps = 'Your recipe must have steps to follow'
+    // }
+    
+    // if (input.steps.length < 40) {
+    //   errors.steps = 'Your recipe must have more details'
+    // }
+  
+    // return errors;
+    
+  }
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
@@ -36,26 +79,29 @@ export default function Create() {
       ...input_hotels,
       [e.target.name]: e.target.value
     })
-
+    // setErrors(
+    //   validate({
+    //     ...input,
+    //     [e.target.name]: e.target.value,
+    //   })
+    // )
   }
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log(input_hotels)
     if (input_hotels) {
       dispatch(createHotels(input_hotels))
       
       input_sethotels({
         name: "",
-        image: "",
-        qualification: 0,
+        image: [""],
+        qualification: 1,
         description: "",
         city: "",
         country: "",
         continent: "",
-        services: [],
       })
 
       alert('Hotel created successfully')
@@ -68,10 +114,11 @@ export default function Create() {
   return (
 
     <div className="cardHotels-container">
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={(e) => handleSubmit(e)} >
         <div className="form-group">
-          <h1>Hotel</h1>
+          <h1>✯ Hotel ✯</h1>
           {/*-----------------------NAME------------------------ */}
+          
           <div className="form-row" >
             <input
               className="form-control"
@@ -92,14 +139,13 @@ export default function Create() {
                 onChange={(e) => handleChange(e)} />
             </div>
 
-
-
             {/*--------------------------DESCRIPTION----------------------- */}
             <div >
               <textarea
                 className="form-control"
                 placeholder="Description..."
                 type="text"
+
                 value={input_hotels.description}
                 name="description"
                 maxLength="1000"
@@ -107,20 +153,25 @@ export default function Create() {
               </textarea>
             </div>
 
+            {/*--------------------------QUALIFICATION----------------------- */}
 
-            {/*--------------------QUALIFICATION--------------------------- */}
-            <div className=''>
-              <label className=''>Qualification</label>
+            <div >
+              <h4>Qualification</h4>
               <input
                 className="form-control"
-                type="range" min="0" max="5"
+                type="range"
+                min="1"
+                max="5"
                 value={input_hotels.qualification}
                 name="qualification"
-                onChange={(e) => handleChange(e)} />
+                maxLength="1000"
+                onChange={(e) => handleChange(e)}>
+              </input>
+              {<p className="" > Value : {input_hotels.qualification}</p>}
             </div>
 
             {/*--------------------------CITY----------------------- */}
-            <h4>Location:</h4>
+            <h4>Location</h4>
             <div >
               <input
                 className="form-control"
@@ -156,26 +207,6 @@ export default function Create() {
               </input>
             </div>
 
-            {/*--------------------------SERVICES----------------------- */}
-            <div >
-              <h4>Services:</h4>
-              <select
-                className="form-control"
-                value={input_hotels.services}
-                name="services"
-                onChange={(e) => handleChange(e)}>
-                <option>meeting</option>
-                <option>spa</option>
-                <option>piscina</option>
-                <option>wifi</option>
-                <option>parking</option>
-                <option>admite mascotas</option>
-                <option>barbacoa</option>
-                <option>gym</option>
-                <option>Biking Tours</option>
-              </select>
-            </div>
-
             {/*----------------------------BUTTON------------------------ */}
             <div>
               <button className='btn btn-primary mb-2'
@@ -189,3 +220,4 @@ export default function Create() {
     </div>
   )
 }
+

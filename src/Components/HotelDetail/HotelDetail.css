@@ -1,5 +1,6 @@
 .hotelDetail-container {
   text-align: left;
+  margin-top: 80px;
 }
 
 .hotelDetail-img {
@@ -16,4 +17,10 @@
 
 .hotelDetail-body {
   padding: 3rem;
+  max-width: 1190px;
+  margin-inline: auto;
+}
+
+.hotelDetail-loading {
+  margin-block: calc(90px + 3.5rem) 3.5rem;
 }
