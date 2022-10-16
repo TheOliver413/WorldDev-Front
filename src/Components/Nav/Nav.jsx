@@ -51,6 +51,11 @@ export default function Nav() {
               </Link>
             </li>
             <li class="nav-item">
+              <Link class="nav-link text-dark" to="/favorite">
+                FAVORITES
+              </Link>
+            </li>
+            <li class="nav-item">
               <Link class="nav-link text-dark" to="#">
                 ABOUT US
               </Link>
@@ -70,7 +75,7 @@ export default function Nav() {
             <div>
                 <a href="/home">
                     <button type='search' class="btn btn-outline-primary">
-                        Go Home<i class="bi bi-arrow-clockwise"></i>
+                        Refresh<i class="bi bi-arrow-clockwise"></i>
                     </button>
                 </a>
             </div>

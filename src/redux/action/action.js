@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+//-------------------VARIABLES----------------//
 export const GET_ALL_HOTELS = "GET_ALL_HOTELS";
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
 export const SEARCH_NAME_HOTEL = "SEARCH_NAME_HOTEL";
@@ -16,20 +16,28 @@ export const FILTER_BY_CITY = 'FILTER_BY_CITY'
 
 export const CREATE_HOTELS = "CREATE_HOTELS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
-export const URL_POST_HOTEL = "URL_POST_HOTEL";
-export const URL_POST_ROOM = "URL_POST_ROOM";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const ORDER_BY = "ORDER_BY";
-export const GET_CATEGORY = "GET_CATEGORY"
+export const GET_CATEGORY = "GET_CATEGORY";
+export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
+export const PUT_SERVICES_HOTEL = 'PUT_SERVICES_HOTEL';
+export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
+export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
+export const POST_EVENT = 'POST_EVENT';
+export const PUT_EVENT = 'POST_EVENT';
+
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
 export const SET_MAX_PAGE_NUMBER = "SET_MAX_PAGE_NUMBER";
 
-
+//-----------------URLS----------------------//
 const BACK_URL = "http://localhost:3001"
+const URL_POST_HOTEL = "http://localhost:3001/hotels";
+const URL_POST_ROOM = "http://localhost:3001/rooms";
 
-//pagination
+//-------------------------------------------//
+
 export function setActualPage (n) {
   return {
     type: SET_ACTUAL_PAGE,
@@ -140,19 +148,6 @@ export function hotelByName(name) {
   }
 }
 
-export function postRoom(payload){
-  return async function(dispatch) {
-    try {
-      const rooms = await axios.post(`${BACK_URL}/rooms`,payload)
-      dispatch ({
-        type: POST_ROOM,
-        payload: rooms
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
 
 export function getDetailRoom(id){
   return async function(dispatch) {
@@ -194,8 +189,6 @@ export function roomByName(name) {
   }
 }
 
-//PAULA
-
 export function getAllServicesHotel(){
   return async function (dispatch) {
     try {
@@ -217,8 +210,6 @@ export function orderBy(payload){
   }
 };
 
-//HERNAN
-
 //-------------------------CREATE HOTELS----------------------//
 export function createHotels(payload) {
 
@@ -226,7 +217,6 @@ export function createHotels(payload) {
 
       try {
           const newHotel = await axios.post( URL_POST_HOTEL , payload)
-          //console.log("info hacia el back: ", payload)
           return dispatch({
               type: CREATE_HOTELS,
               payload: newHotel
@@ -245,7 +235,6 @@ export function createRooms(payload) {
 
       try {
           const newRoom = await axios.post( URL_POST_ROOM , payload)
-          //console.log("info hacia el back: ", payload)
           return dispatch({
               type: CREATE_ROOMS,
               payload: newRoom
@@ -256,4 +245,78 @@ export function createRooms(payload) {
       }
   }
 }
-//-------------------------CREATE ROOMS----------------------//
+
+//------------------------CREATE/MODIFY SERVICES HOTEL --------------------//
+
+export function createServicesHotels(payload) {
+  return async function (dispatch) {
+    try {
+      const servicesHotel = await axios.post(`${BACK_URL}/serviceHotels`,payload)
+      dispatch ({
+        type: POST_SERVICES_HOTEL,     
+      })      
+    } catch (error) {
+      console.log(error)
+    }
+  }}
+
+  export function modifyServicesHotels(payload) {
+    return async function (dispatch) {
+      try {
+        const servicesHotel = await axios.put(`${BACK_URL}/serviceHotels`,payload)
+        dispatch ({
+          type: PUT_SERVICES_HOTEL,     
+        })      
+      } catch (error) {
+        console.log(error)
+      }
+    }}
+//------------------------CREATE/MODIFY SERVICES ROOM --------------------//
+
+  export function createServicesRooms(payload) {
+    return async function (dispatch) {
+      try {
+        const servicesRoom = await axios.post(`${BACK_URL}/serviceRooms`,payload)
+        dispatch ({
+          type: POST_SERVICES_ROOM,     
+        })        
+      } catch (error) {
+        console.log(error)
+      }
+    }}
+
+    export function  modifyServicesRooms(payload) {
+      return async function (dispatch) {
+        try {
+          const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`,payload)
+          dispatch ({
+            type: PUT_SERVICES_ROOM,     
+          })        
+        } catch (error) {
+          console.log(error)
+        }
+      }}
+//------------------------CREATE/MODIFY EVENTS --------------------//
+    export function createEvents(payload) {
+      return async function (dispatch) {
+        try {
+          const servicesRoom = await axios.post(`${BACK_URL}/events`,payload)
+          dispatch ({
+            type: POST_EVENT,     
+          })        
+        } catch (error) {
+          console.log(error)
+        }
+      }}
+
+      export function modifyEvents(payload) {
+        return async function (dispatch) {
+          try {
+            const servicesRoom = await axios.put(`${BACK_URL}/events`,payload)
+            dispatch ({
+              type: PUT_EVENT,     
+            })        
+          } catch (error) {
+            console.log(error)
+          }
+        }}
