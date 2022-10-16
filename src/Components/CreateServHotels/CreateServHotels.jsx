@@ -153,7 +153,7 @@ return (
         <div>
             <label>Service Name</label>
             <input 
-            placeholder="Name service.."
+            placeholder="Service name.."
             type="text" 
             name="name" 
             value={input_serv_hotel.name} 

@@ -6,7 +6,7 @@ import { createServicesRooms, modifyServicesRooms } from "../../redux/action/act
 const validate = (input_serv_room) => {
     let errors = {};
 
-    if(!input_serv_room.name) errors.name = 'Name is required'
+    if(!input_serv_room.name) errors.name = 'Service name is required'
     
     if(!input_serv_room.image) errors.image = 'Upload at least one image'
     
