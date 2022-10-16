@@ -47,11 +47,11 @@ export default function Search() {
   return (
     <div class="input-group ps-5" id="navbarSupportedContent">
       <div id="navbar-search-autocomplete" class="form-outline">
-        <input type="search" class="form-control " placeholder='Search hotel ...' onChange={ handleInputChange}value={name}/>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control-lg" placeholder='Search hotel ...' onChange={handleInputChange} value={name} />
+          <button class="btn btn-outline-primary" onClick={handleSubmit} type="submit"><i class="bi bi-search"></i></button>
+        </div>
       </div>
-      <button type='search' onClick={handleSubmit} class="btn btn-outline-primary">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
+    </div >
   )
 }

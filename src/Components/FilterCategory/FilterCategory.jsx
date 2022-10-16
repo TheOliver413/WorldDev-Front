@@ -20,8 +20,8 @@ export default function FilterCategory() {
     }
 
     return(
-        <div>
-            <select onChange={handleCategory}>
+        <div class="input-group ps-5" id="navbarSupportedContent">
+            <select class="form-select form-select-lg mb-3" onChange={handleCategory}>
                 <option value="">Category...</option>
                 <option value="qualification asc">Category Ascending</option>
                 <option value="qualification desc">Category Descending</option>
