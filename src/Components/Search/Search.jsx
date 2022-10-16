@@ -1,34 +1,7 @@
 //---------------IMPORTS---------------//
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { hotelByName } from '../../redux/action/action';
-//import "./Styles.css";
-
-//--------------FUNCTION-----------------//
-/* export default function Search() {
-  const dispatch=useDispatch();
-
-  const [name, setName]=useState('');
-
-  const handleInputChange=(e)=>{
-    e.preventDefault();
-    setName(e.target.value);
-  }
-  
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-    dispatch(hotelByName(name))
-    setName('');
-  } */
-
-//----------------RETURN------------------//
-/*  return (
-   <div>
-     <input type='text' placeholder='Search hotel...' onChange={handleInputChange} />
-     <button type="submit" onClick={handleSubmit}>Search</button>
-   </div>
- );
-} */
+import { hotelByName, setActualPage } from '../../redux/action/action';
 
 export default function Search() {
   const dispatch = useDispatch()
@@ -37,13 +10,17 @@ export default function Search() {
   function handleInputChange(e) {
     e.preventDefault()
     setName(e.target.value)
-    dispatch(hotelByName(name));
+    dispatch(hotelByName(name))
+    dispatch(setActualPage(1))
   }
+
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(hotelByName(name));
-
+    setName('')
+    
   }
+
   return (
     <div class="input-group ps-5" id="navbarSupportedContent">
       <div id="navbar-search-autocomplete" class="form-outline">

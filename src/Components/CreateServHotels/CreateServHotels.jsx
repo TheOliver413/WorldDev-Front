@@ -5,7 +5,7 @@ import { createServicesHotels, getHotels, modifyServicesHotels } from "../../red
 
 const validate = (input_serv_hotel) => {
     let errors = {};
-   
+
     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
     if(!input_serv_hotel.name) errors.name = 'Name is required'
