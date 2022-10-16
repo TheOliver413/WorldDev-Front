@@ -2,9 +2,8 @@
   display: flex ;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
-  margin-top: calc(87px + 1rem);
 }
 
 .cardHotels-container a {

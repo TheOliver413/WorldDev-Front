@@ -10,7 +10,7 @@ const CardHotel = ({ id, image, name, qualification, location }) => {
         <div className="col">
           <div className="card-body">
             <div className="row mb-2">
-              <h3 className="card-title col-9">{name}</h3>
+              <h3 className="card-title col-12">{name}</h3>
               <p className="card-text col-3">✫{qualification}</p>
             </div>
             <p className="card-text">{location}</p>
