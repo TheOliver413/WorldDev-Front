@@ -10,7 +10,8 @@ import HotelDetail from './Components/HotelDetail/HotelDetail.jsx'
 import Footer from './Components/Footer/Footer'
 import CreateRooms from "./Components/CreateRooms/CreateRooms";
 import CreateEvents from "./Components/CreateEvents/CreateEvents";
-// import RoomDetail from "./Components/RoomDetail/RoomDetail";
+import RoomDetail from "./Components/RoomDetail/RoomDetail";
+import Favorite from "./Components/Favorite/Favorite";
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
         <Route exact path="/home/loging" component={ Loging }></Route>
         <Route exact path="/" component={LandingPage}></Route>
         <Route path="/home" component={Home} />
+        <Route path='/hotel/room/:id' component={RoomDetail}/>
         <Route path='/hotel/:id' component={HotelDetail} />
-        {/* <Route path='/hotel/room/:id' component={RoomDetail}/> */}
+        <Route path='/favorite' component={Favorite} />
       </Switch>
       <Footer />
     </div>

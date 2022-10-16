@@ -4,7 +4,7 @@ import './CardHotel.css'
 
 const CardHotel = ({ id, image, name, qualification, location }) => {
   return (
-    <Link to={`/hotel/${id}`} className="card">
+    <Link to={`/hotel/${id}`} className="card card-hotel">
       <div className="row">
         <img src={image} className="img-fluid" alt={name} />
         <div className="col">

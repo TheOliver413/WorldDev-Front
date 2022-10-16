@@ -18,6 +18,7 @@ export const CREATE_HOTELS = "CREATE_HOTELS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const ORDER_BY = "ORDER_BY";
+export const GET_CATEGORY = "GET_CATEGORY"
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
@@ -79,6 +80,26 @@ export function getLocations() {
   }
 }
 
+export function getCategory(payload){
+  return{
+      type: GET_CATEGORY,
+      payload
+  }
+};
+
+export function postHotel(payload){
+  return async function(dispatch) {
+    try {
+      const hotels = await axios.post(`${BACK_URL}/hotels`,payload)
+      return dispatch ({
+        type: POST_HOTEL,
+        payload: hotels
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 export function getDetailHotel(id){
   return async function(dispatch) {

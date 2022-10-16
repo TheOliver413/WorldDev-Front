@@ -5,6 +5,7 @@ import logo from "./world-developers.png";
 import Search from "../Search/Search";
 import Order from "../Order/Order";
 import Filter from "../Filter/Filter";
+import FilterCategory from "../FilterCategory/FilterCategory";
 
 // import Search from "../Search/Search";
 import "./Styles.css";
@@ -50,6 +51,11 @@ export default function Nav() {
               </Link>
             </li>
             <li class="nav-item">
+              <Link class="nav-link text-dark" to="/favorite">
+                FAVORITES
+              </Link>
+            </li>
+            <li class="nav-item">
               <Link class="nav-link text-dark" to="#">
                 ABOUT US
               </Link>
@@ -65,6 +71,16 @@ export default function Nav() {
             </li>
             <li class="nav-item">
               <Filter />
+            </li>
+            <div>
+                <a href="/home">
+                    <button type='search' class="btn btn-outline-primary">
+                        Refresh<i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </a>
+            </div>
+            <li class="nav-item">
+              <FilterCategory />
             </li>
           </ul>
         </div>

@@ -1,0 +1,9 @@
+.roomDetail-container img {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.roomDetail-loading {
+  margin-block: 150px;
+}
