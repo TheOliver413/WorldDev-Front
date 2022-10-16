@@ -8,7 +8,7 @@ const validate = (input_serv_hotel) => {
 
     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
-    if(!input_serv_hotel.name) errors.name = 'Name is required'
+    if(!input_serv_hotel.name) errors.name = 'Service Name is required'
     
     if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
     
@@ -97,7 +97,7 @@ const handleSubmit = (e) => {
             dispatch(modifyServicesHotels(input_serv_hotel)) 
             alert('Service modified successfully')
         }
-        input_serv_hotel({
+        setInput_serv_hotel({
             idHotel:'',
             name: '',
             image: '',
