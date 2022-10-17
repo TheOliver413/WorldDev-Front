@@ -10,7 +10,7 @@ export default function Create() {
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Create Hoteles</h5>
+              <h5 class="card-title">Hoteles</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum quod deserunt autem cum at distinctio, minus repellendus tempore possimus consequuntur, excepturi explicabo molestiae ex eligendi! Magnam quae deleniti excepturi cum?</p>
               <Link to="/home/createHotels">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
@@ -23,7 +23,7 @@ export default function Create() {
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Create Rooms</h5>
+              <h5 class="card-title">Rooms</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
               <Link to="/home/createRooms">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
@@ -36,7 +36,7 @@ export default function Create() {
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Create Services Hotels</h5>
+              <h5 class="card-title">Services Hotels</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
               <Link to="/home/createServHotels">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
@@ -49,7 +49,7 @@ export default function Create() {
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Create Services Rooms</h5>
+              <h5 class="card-title">Services Rooms</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
               <Link to="/home/createServRooms">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
@@ -62,7 +62,7 @@ export default function Create() {
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Create Events</h5>
+              <h5 class="card-title">Events</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
               <Link to="/home/createEvents">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
