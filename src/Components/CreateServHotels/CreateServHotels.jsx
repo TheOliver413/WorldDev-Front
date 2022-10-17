@@ -124,6 +124,7 @@ return (
             id='create'  
             name='option' 
             value='create' 
+            checked 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
             <label> Modify

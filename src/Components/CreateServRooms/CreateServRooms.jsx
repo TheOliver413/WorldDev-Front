@@ -99,7 +99,8 @@ return (
             type='radio' 
             id='create' 
             name='option' 
-            value='create' 
+            value='create'
+            checked 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
             <label> Modify

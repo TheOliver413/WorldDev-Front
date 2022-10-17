@@ -131,7 +131,8 @@ return (
             type='radio' 
             id='create' 
             name='option' 
-            value='create' 
+            value='create'
+            checked 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
             <label> Modify
@@ -189,7 +190,7 @@ return (
          <div>
             <label>Date</label>
             <input
-            type="datetime" 
+            type="datetime-local" 
             value={input_event.date} 
             name="date"  
             onChange={(e) => handleChange(e)}
