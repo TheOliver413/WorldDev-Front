@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState} from "react";
-import { useDispatch } from 'react-redux';
-import { createServicesRooms, modifyServicesRooms } from "../../redux/action/action";
+import { useDispatch, useSelector } from 'react-redux';
+import { createServicesRooms,  getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -15,6 +15,7 @@ const validate = (input_serv_room) => {
 
 const CreateServRooms = () => {
     const dispatch = useDispatch();
+    const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
 
 const [input_serv_room, setInput_serv_room] = useState({
     name: '',
@@ -24,6 +25,10 @@ const [input_create, setInput_create] = useState({
     option:'',
 })
 const [errors, setErrors] = useState({})
+
+useEffect(()=>{
+    dispatch(getAllServicesRoom())
+}, [])
 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
@@ -106,20 +111,35 @@ return (
             onChange={(e) => handleChangeCreate(e)} />
             </label>
         </div>
-        
+
         {/*-----------------------NAME------------------------ */} 
-        <div>
-            <label>Service Name</label>
-            <input 
-            placeholder="Service name..."
-            type="text" value={input_serv_room.name} 
-            name="name" 
-            onChange={(e) => handleName(e)} />
-        </div>
-        <div>
-            {errors.name && (<p>{errors.name}</p>)}
-        </div>
-        
+            {input_create.option === 'create'?
+                (<div>
+                    <label>Service Name</label>
+                    <input 
+                    placeholder="Service name..."
+                    type="text" 
+                    value={input_serv_room.name} 
+                    name="name" 
+                    onChange={(e) => handleName(e)} />
+                </div>)
+                :(<div>
+                    <label>Service Name
+                    <select value={input_serv_room.name }onChange={(e) => handleName(e)}>
+                    <option hidden selected >Select Service Name</option>
+                    {servicesRoom?.sort((a,b)=>{
+                        if(a.name > b.name) return 1;
+                        if(a.name < b.name) return -1;
+                        return 0;
+                    }).map(e => 
+                        <option key= {e.name} value= {e.name} >{e.name}</option>)}
+                    </select>
+                    </label>
+                </div>)}
+            <div>
+                {errors.name && (<p>{errors.name}</p>)}
+            </div>
+
         {/*-----------------------IMAGE------------------------ */} 
         <div>
             <label>Image</label>

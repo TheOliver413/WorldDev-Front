@@ -9,6 +9,7 @@ import Nav from "./Components/Nav/Nav"
 import HotelDetail from './Components/HotelDetail/HotelDetail.jsx'
 import Footer from './Components/Footer/Footer'
 import CreateRooms from "./Components/CreateRooms/CreateRooms";
+import CreateHotel from "./Components/CreateHotel/Create";
 import CreateEvents from "./Components/CreateEvents/CreateEvents";
 import RoomDetail from "./Components/RoomDetail/RoomDetail";
 import Favorite from "./Components/Favorite/Favorite";
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/home/createServHotels" component={CreateServHotels}></Route>
         <Route exact path="/home/createEvents" component={CreateEvents}></Route>
         <Route exact path="/home/createRooms" component={CreateRooms}></Route>
+        <Route exact path="/home/createHotels" component={CreateHotel}></Route>
         <Route exact path="/home/dashboard" component={Create}></Route>
         <Route exact path="/home/loging" component={Loging}></Route>
         <Route exact path="/" component={LandingPage}></Route>
