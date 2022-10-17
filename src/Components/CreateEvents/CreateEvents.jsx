@@ -43,7 +43,7 @@ const [errors, setErrors] = useState({})
 
 useEffect(()=>{
     dispatch(getHotels())
-  //  dispatch(getEventsHotel(input_event.idHotel)) //comentado hasta que funcione la ruta
+  //dispatch(getEventsHotel(input_event.idHotel)) //comentado hasta que funcione la ruta
 },[dispatch]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
@@ -144,6 +144,7 @@ return (
             </label>
         </div>
 
+        <div>
             {/*-----------------------HOTEL NAME----------------- */} 
             <div>
                 <label>Hotel Name
@@ -184,6 +185,19 @@ return (
         <div>
             {errors.name && (<p>{errors.name}</p>)}
         </div>
+
+        {/*-----------------------HOTEL NAME----------------- */} 
+        <div>
+            <label>Hotel Name
+                <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
+                <option hidden selected >Select hotel</option>
+                {hotels?.map(e => 
+                    <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
+                </select></label>
+            </div>
+            <div>
+            {errors.idHotel && (<p>{errors.idHotel}</p>)}
+            </div>
 
          {/*--------------------------DATE----------------------- */}  
          <div>

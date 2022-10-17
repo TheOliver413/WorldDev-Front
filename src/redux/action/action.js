@@ -150,6 +150,10 @@ export function hotelByName(name) {
       }
     } catch (error) {
       console.log(error)
+      dispatch({
+        type:SEARCH_NAME_HOTEL,
+        payload: error.response.data
+      })
     }
   }
 }
