@@ -374,16 +374,17 @@ export function getServicesHotel(id) {
 
 //------------------------GET EVENTS HOTEL --------------------//
 export function getEventsHotel(id) {
-
-return async function (dispatch) {
-try {
-const eventsHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
-dispatch ({
-  type: GET_EVENTS_HOTEL,
-  payload: eventsHotel.data    
-})        
-} catch (error) {
-console.log(error)
+  return async function (dispatch) {
+    try {
+      const eventsHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
+      dispatch ({
+        type: GET_EVENTS_HOTEL,
+        payload: eventsHotel.data    
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export function updateHotels(payload) {
