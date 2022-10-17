@@ -1,7 +1,25 @@
 .roomDetail-container img {
-  height: 100vh;
+  height: 85vh;
   width: 100%;
   object-fit: cover;
+}
+
+.roomDetail-title {
+  color: var(--clr-dark-main);
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.roomDetail-body {
+  padding: 3rem;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.roomDetail-body input {
+  border: var(--clr-main) solid 2px;
+  padding: .5em;
+  border-radius: 4px;
 }
 
 .roomDetail-loading {

@@ -1,15 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createServicesHotels, getHotels, modifyServicesHotels } from "../../redux/action/action";
+import { createServicesHotels, getHotels, getServicesHotel, modifyServicesHotels } from "../../redux/action/action";
 
 const validate = (input_serv_hotel) => {
     let errors = {};
-   
+
     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
-    if(!input_serv_hotel.name) errors.name = 'Name is required'
-    if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
+    if(!input_serv_hotel.name) errors.name = 'Service Name is required'
     
     if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
     
@@ -22,6 +21,7 @@ const validate = (input_serv_hotel) => {
 const CreateServHotels = () => {
     const dispatch = useDispatch();
     const hotels = useSelector(state=>state.reducerHotel.hotels)
+    const servicesHotel= useSelector(state=>state.reducerHotel.onlyServicesHotel)
 
 const [input_serv_hotel, setInput_serv_hotel] = useState({
     idHotel: '',
@@ -37,6 +37,7 @@ const [errors, setErrors] = useState({})
 
  useEffect(()=>{
      dispatch(getHotels())
+     //dispatch(getServicesHotel(input_serv_hotel.idHotel)) //COMENTADO HASTA QUE FUNCIONE LA RUTA
  },[dispatch]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
@@ -78,7 +79,7 @@ const handleChangeHotel = (e) => {
     e.preventDefault();        
     setInput_serv_hotel({
         ...input_serv_hotel,
-       idHotel : e.target.value.toString()
+       idHotel : e.target.value
     })        
     setErrors(validate({
         ...input_serv_hotel,
@@ -93,14 +94,12 @@ const handleSubmit = (e) => {
     if (input_serv_hotel) {
         if(input_create.option === 'create') {
             dispatch(createServicesHotels(input_serv_hotel)) 
-            console.log(input_serv_hotel)
             alert('Service created successfully')
         }else {
             dispatch(modifyServicesHotels(input_serv_hotel)) 
             alert('Service modified successfully')
         }
-        console.log(input_serv_hotel)
-        input_serv_hotel({
+        setInput_serv_hotel({
             idHotel:'',
             name: '',
             image: '',
@@ -143,8 +142,12 @@ return (
             <label>Hotel Name
                 <select value={input_serv_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
                 <option hidden selected >Select hotel</option>
-                {hotels?.map(e => 
-                    <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
+                {hotels?.sort((a,b)=>{
+                    if(a.name > b.name) return 1;
+                    if(a.name < b.name) return -1;
+                    return 0;
+                }).map(e => 
+                    <option key= {e.id} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
                 </select></label>
             </div>
             <div>
@@ -153,18 +156,32 @@ return (
                      
         
         {/*-----------------------NAME SERVICE---------------- */} 
-        <div>
-            <label>Service Name</label>
-            <input 
-            placeholder="Name service.."
-            type="text" 
-            name="name" 
-            value={input_serv_hotel.name} 
-            onChange={(e) => handleName(e)} />
-        </div>
-        <div>
-            {errors.name && (<p>{errors.name}</p>)}
-        </div>
+        {input_create.option === 'create'?
+                (<div>
+                    <label>Service Name</label>
+                    <input 
+                    placeholder="Service name..."
+                    type="text" 
+                    value={input_serv_hotel.name} 
+                    name="name" 
+                    onChange={(e) => handleName(e)} />
+                </div>)
+                :(<div>
+                    <label>Service Name
+                    <select value={input_serv_hotel.name } onChange={(e) => handleName(e)}>
+                    <option hidden selected >Select Service Name</option>
+                    {servicesHotel?.sort((a,b)=>{
+                        if(a.name > b.name) return 1;
+                        if(a.name < b.name) return -1;
+                        return 0;
+                    }).map(e => 
+                        <option key= {e.name} value= {e.name} >{e.name}</option>)}
+                    </select>
+                    </label>
+                </div>)}
+            <div>
+                {errors.name && (<p>{errors.name}</p>)}
+            </div>
         
         {/*-----------------------IMAGE------------------------ */} 
         <div>

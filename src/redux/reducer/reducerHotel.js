@@ -14,6 +14,8 @@ import {
   PUT_SERVICES_HOTEL,
   POST_EVENT,
   PUT_EVENT,
+  GET_SERVICES_HOTEL,
+  GET_EVENTS_HOTEL,
 } from '../action/action';
 
 const initialStateHotel = {
@@ -22,6 +24,9 @@ const initialStateHotel = {
   detailHotel: {},
   servicesHotel: [],
   location: [],
+  filterCategory: [],
+  onlyServicesHotel:[],
+  onlyEventsHotel:[],
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
@@ -66,22 +71,22 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return {
         ...state,
       }
-    
+
     case POST_SERVICES_HOTEL:
       return {
         ...state,
       }
-    
+
     case PUT_SERVICES_HOTEL:
       return {
-          ...state,
+        ...state,
       }
-    
+
     case POST_EVENT:
       return {
         ...state,
       }
-    
+
     case PUT_EVENT:
       return {
         ...state,
@@ -131,30 +136,42 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         hotels: order
       }
     case GET_CATEGORY:
-      let auxCat= [...state.hotels]
-      let filtCat= []
-      switch(action.payload){
+      let auxCat = [...state.hotels]
+      let filtCat = []
+      switch (action.payload) {
         case "":
-          filtCat= [...state.allHotels]
+          filtCat = [...state.allHotels]
           break;
         case 'qualification asc':
           filtCat = auxCat.sort(function (a, b) {
             return a.qualification - b.qualification
           });
-        break;
+          break;
         case 'qualification desc':
           filtCat = auxCat.sort(function (a, b) {
             return b.qualification - a.qualification
           });
-        break;
+          break;
         default:
           filtCat = auxCat
-        break;
+          break;
       }
       return {
         ...state,
         hotels: filtCat,
       }
+
+    case GET_SERVICES_HOTEL:
+      return {
+        ...state,
+        onlyServicesHotel: action.payload
+      } 
+    
+    case GET_EVENTS_HOTEL:
+      return {
+        ...state,
+        onlyEventsHotel: action.payload
+      }  
 
     default:
       return { ...state }

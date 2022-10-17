@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState} from "react";
-import { useDispatch } from 'react-redux';
-import { createServicesRooms, modifyServicesRooms } from "../../redux/action/action";
+import { useDispatch, useSelector } from 'react-redux';
+import { createServicesRooms,  getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
 
 const validate = (input_serv_room) => {
     let errors = {};
 
-    if(!input_serv_room.name) errors.name = 'Name is required'
-    if(!/^[a-zA-Z ]*$/.test(input_serv_room.name)) errors.name = 'Invalid name: must only contain letters'
+    if(!input_serv_room.name) errors.name = 'Service name is required'
     
     if(!input_serv_room.image) errors.image = 'Upload at least one image'
     
@@ -16,6 +15,7 @@ const validate = (input_serv_room) => {
 
 const CreateServRooms = () => {
     const dispatch = useDispatch();
+    const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
 
 const [input_serv_room, setInput_serv_room] = useState({
     name: '',
@@ -25,6 +25,10 @@ const [input_create, setInput_create] = useState({
     option:'',
 })
 const [errors, setErrors] = useState({})
+
+useEffect(()=>{
+    dispatch(getAllServicesRoom())
+}, [])
 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
@@ -98,7 +102,7 @@ return (
             value='create' 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
-            <label>
+            <label> Modify
             <input
             type='radio' 
             id='modify' 
@@ -107,20 +111,35 @@ return (
             onChange={(e) => handleChangeCreate(e)} />
             </label>
         </div>
-        
+
         {/*-----------------------NAME------------------------ */} 
-        <div>
-            <label>Name</label>
-            <input 
-            placeholder="Name..."
-            type="text" value={input_serv_room.name} 
-            name="name" 
-            onChange={(e) => handleName(e)} />
-        </div>
-        <div>
-            {errors.name && (<p>{errors.name}</p>)}
-        </div>
-        
+            {input_create.option === 'create'?
+                (<div>
+                    <label>Service Name</label>
+                    <input 
+                    placeholder="Service name..."
+                    type="text" 
+                    value={input_serv_room.name} 
+                    name="name" 
+                    onChange={(e) => handleName(e)} />
+                </div>)
+                :(<div>
+                    <label>Service Name
+                    <select value={input_serv_room.name }onChange={(e) => handleName(e)}>
+                    <option hidden selected >Select Service Name</option>
+                    {servicesRoom?.sort((a,b)=>{
+                        if(a.name > b.name) return 1;
+                        if(a.name < b.name) return -1;
+                        return 0;
+                    }).map(e => 
+                        <option key= {e.name} value= {e.name} >{e.name}</option>)}
+                    </select>
+                    </label>
+                </div>)}
+            <div>
+                {errors.name && (<p>{errors.name}</p>)}
+            </div>
+
         {/*-----------------------IMAGE------------------------ */} 
         <div>
             <label>Image</label>
@@ -138,8 +157,8 @@ return (
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
         {!input_create.option || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
-            ? (<button disabled type="submit">Create</button>) 
-            : (<button type="submit">Create </button>)}
+            ? (<button disabled type="submit">Send</button>) 
+            : (<button type="submit">Send</button>)}
         </div>
 
     </form>
