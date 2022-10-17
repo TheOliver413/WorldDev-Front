@@ -5,7 +5,6 @@ import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
 import CardRoom from "../CardRoom/CardRoom.jsx";
 import './HotelDetail.css'
-import logo from '../../dataBase/it_world.png';
 
 const HotelDetail = () => {
   const dispatch = useDispatch();
@@ -45,59 +44,63 @@ const HotelDetail = () => {
   const handleCheckOutChange = (e) => setCheckOutInput(e.target.value)
 
   return (
-    <div className="hotelDetail-container">
+    <div className="hotelDetail-container text-start">
       {hotelDetail.name ? (
         <div>
 
-          <div id="carousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <div id="carousel" className="carousel slide" data-bs-ride="carousel">
+            <div className="carousel-indicators">
+              <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
               <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src={ image[0] } class="hotelDetail-img" alt={name} />
-                {/* <image src={image} class="d-block " alt={name}></image> */}
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <img src={ image[0] } className="hotelDetail-img" alt={name} />
+                {/* <image src={image} className="d-block " alt={name}></image> */}
               </div>
-              <div class="carousel-item">
-                <img src= { image[1] } class="hotelDetail-img" alt={name}></img>
+              <div className="carousel-item">
+                <img src= { image[1] } className="hotelDetail-img" alt={name}></img>
               </div>
-              <div class="carousel-item">
-                <img src= { image[2] } class="hotelDetail-img"  alt={name}></img>
+              <div className="carousel-item">
+                <img src= { image[2] } className="hotelDetail-img"  alt={name}></img>
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
+            <button className="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
+            <button className="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
             </button>
           </div>
 
           <div className="hotelDetail-body">
             <h1 className="hotelDetail-title">{name}</h1>
-            <h4>{Locations[0].city}, {Locations[0].country}</h4>
+            <h6>{Locations[0].city}, {Locations[0].country}</h6>
             <p>Score: {qualification} ✫</p>
             <p>{description}</p>
-            <h2>Available rooms</h2>
-            <div className="hotelDetail-input-container d-inline-flex flex-column">
-              <label>Check-in</label>
-              <input
-                type="date"
-                value={checkInInput}
-                min={checkInInput}
-                onChange={handleCheckInChange}
-               />
-              <label>Check-out</label>
-              <input
-                type="date"
-                value={checkOutInput}
-                min={addDays(new Date(), 1)}
-                onChange={handleCheckOutChange}
-               />
+            <h2 className="mt-5">Available rooms</h2>
+            <div className="hotelDetail-input-container d-flex flex-column flex-sm-row gap-3 mt-3">
+              <div className="d-flex flex-column align-items-start">
+                <label>Check-in</label>
+                <input
+                  type="date"
+                  value={checkInInput}
+                  min={new Date().toISOString().split('T')[0]}
+                  onChange={handleCheckInChange}
+                />
+              </div>
+              <div className="d-flex flex-column align-items-start">
+                <label className="">Check-out</label>
+                <input
+                  type="date"
+                  value={checkOutInput}
+                  min={addDays(new Date(checkInInput), 1)}
+                  onChange={handleCheckOutChange}
+                />
+              </div>
             </div>
             {Rooms.map((r) => (
               <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)*restDays(checkInInput, checkOutInput)} description={r.description} />
@@ -105,9 +108,9 @@ const HotelDetail = () => {
 
             {/* <h2>What this place offers</h2> */}
             {/* <ServicesHotel /> */}
-            <div  className="d-grid gap-2 d-sm-block">
+            <div className="d-grid gap-2 d-sm-block">
               <Link to="/home">
-                <button class="btn btn-primary mt-4">Back</button>
+                <button className="btn btn-primary mt-4">Back</button>
               </Link>
             </div>
           </div>
