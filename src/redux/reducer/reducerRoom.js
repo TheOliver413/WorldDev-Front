@@ -3,7 +3,7 @@ import {
   GET_ALL_ROOMS,
   POST_SERVICES_ROOM,
   PUT_SERVICES_ROOM,
-  GET_SERVICES_ROOM,
+  GET_ALL_SERVICES_ROOM,
 
 } from '../action/action';
 
@@ -34,7 +34,7 @@ const rooms_reducer = (state = initialStateRooms, action) => {
       return {
         ...state,
       }
-    case GET_SERVICES_ROOM:
+    case GET_ALL_SERVICES_ROOM:
         return {
           ...state,
           servicesRoom: action.payload

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createServicesRooms, getRooms, getServicesRoom, modifyServicesRooms } from "../../redux/action/action";
+import { createServicesRooms,  getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -27,7 +27,7 @@ const [input_create, setInput_create] = useState({
 const [errors, setErrors] = useState({})
 
 useEffect(()=>{
-    dispatch(getServicesRoom())
+    dispatch(getAllServicesRoom())
 }, [])
 
 
@@ -156,7 +156,7 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_create.option || !input_serv_room.idRoom || !input_serv_room.id || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
+        {!input_create.option || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
             ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send</button>)}
         </div>
