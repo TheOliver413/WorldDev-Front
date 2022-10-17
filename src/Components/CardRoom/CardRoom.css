@@ -26,6 +26,6 @@
   object-fit: cover;
 }
 
-.card-body {
+.cardRoom-container .card-body {
   padding: 2rem !important;
 }
