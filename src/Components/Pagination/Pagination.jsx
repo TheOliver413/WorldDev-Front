@@ -24,12 +24,12 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
   return (
     <ul className='paginationContainer'>
       {/* Vuelve al Principio */}
-      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
         <i class="bi bi-chevron-double-left"></i>
       </li>
 
       {/* prev */}
-      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
         <i class="bi bi-chevron-left"></i>
       </li>
 
