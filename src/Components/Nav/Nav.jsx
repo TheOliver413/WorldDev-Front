@@ -76,26 +76,6 @@ export default function Nav() {
                 </button>
               </div>
             </div>
-
-            {/* <li className="nav-item">
-              <Search />
-            </li>
-            <li className="nav-item">
-              <Order />
-            </li>
-            <li className="nav-item">
-              <Filter />
-            </li>
-            <div>
-              <a href="/home">
-                <button type='search' className="btn btn-outline-primary">
-                  Refresh<i className="bi bi-arrow-clockwise"></i>
-                </button>
-              </a>
-            </div>
-            <li className="nav-item">
-              <FilterCategory />
-            </li> */}
           </ul>
         </div>
       </div>
