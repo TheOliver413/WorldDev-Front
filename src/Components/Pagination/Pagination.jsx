@@ -44,7 +44,7 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
       </li>
 
       {/* va hasta el final */}
-      <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={endPage}>
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
         <i class="bi bi-chevron-double-right"></i>
       </li>
     </ul>
