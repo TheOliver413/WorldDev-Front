@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Home from "./Components/Home/Home.jsx";
 import Create from "./Components/Create/Create";
@@ -19,41 +19,24 @@ import CreateServHotels from "./Components/CreateServHotels/CreateServHotels";
 function App() {
   return (
     <div>
-      <Nav />
-      <Switch>
-        <Route exact path="/home/createServRooms" component={CreateServRooms}></Route>
-        <Route exact path="/home/createServHotels" component={CreateServHotels}></Route>
-        <Route exact path="/home/createEvents" component={CreateEvents}></Route>
-        <Route exact path="/home/createRooms" component={CreateRooms}></Route>
-        <Route exact path="/home/createHotels" component={CreateHotel}></Route>
-        <Route exact path="/home/dashboard" component={Create}></Route>
-        <Route exact path="/home/loging" component={Loging}></Route>
-        <Route exact path="/" component={LandingPage}></Route>
-        <Route path="/home" component={Home} />
-        <Route path='/hotel/room/:id' component={RoomDetail} />
-        <Route path='/hotel/:id' component={HotelDetail} />
-        <Route path='/favorite' component={Favorite} />
-      </Switch>
-      <Footer />
+        <Nav />
+        <Routes>
+          <Route exact path="/home/createServRooms" element={<CreateServRooms/>}/>
+          <Route exact path="/home/createServHotels" element={<CreateServHotels/>}/>
+          <Route exact path="/home/createEvents" element={<CreateEvents/>}/>
+          <Route exact path="/home/createRooms" element={<CreateRooms/>}/>
+          <Route exact path="/home/createHotels" element={<CreateHotel/>}/>
+          <Route exact path="/home/dashboard" element={<Create/>}/>
+          <Route exact path="/home/loging" element={<Loging/>}/>
+          <Route path="/" element={<LandingPage/>}/>
+          <Route path="/home" element={<Home/>} />
+          <Route path='/hotel/room/:id' element={<RoomDetail/>} />
+          <Route path='/hotel/:id' element={<HotelDetail/>} />
+          <Route path='/favorite' element={<Favorite/>} />
+        </Routes>
+        <Footer />
     </div>
   );
 }
 
 export default App;
-
-
-// import "./App.css";
-// import { Route, Switch } from "react-router-dom";
-// import LandingPage from "./Components/LandingPage/LandingPage";
-// import Home from "./Components/Home/Home.jsx";
-
-// function App() {
-//   return (
-//     <Switch>
-//       <Route exact path="/" component={LandingPage}></Route>
-//       <Route path="/home" component={Home} />
-//     </Switch>
-//   );
-// }
-
-// export default App;
