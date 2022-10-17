@@ -14,6 +14,9 @@ export const POST_ROOM = "POST_ROOM";
 export const GET_ALL_LOCATIONS = 'GET_ALL_LOCATIONS'
 export const FILTER_BY_CITY = 'FILTER_BY_CITY'
 
+export const UPDATE_HOTELS = "UPDATE_HOTELS";
+export const UPDATE_ROOMS = "UPDATE_ROOMS";
+
 export const CREATE_HOTELS = "CREATE_HOTELS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
@@ -44,19 +47,19 @@ const URL_POST_ROOM = "http://localhost:3001/rooms";
 
 //-------------------------------------------//
 
-export function setActualPage (n) {
+export function setActualPage(n) {
   return {
     type: SET_ACTUAL_PAGE,
     payload: n
   }
 }
-export function setMinPageNumber (n) {
+export function setMinPageNumber(n) {
   return {
     type: SET_MIN_PAGE_NUMBER,
     payload: n
   }
 }
-export function setMaxPageNumber (n) {
+export function setMaxPageNumber(n) {
   return {
     type: SET_MAX_PAGE_NUMBER,
     payload: n
@@ -65,13 +68,13 @@ export function setMaxPageNumber (n) {
 
 //----------------------- HOTELS ------------------------------//
 
-export function clearDetail () {
+export function clearDetail() {
   return {
     type: CLEAR_DETAIL
   }
 }
 
-export function filterByCity (value) {
+export function filterByCity(value) {
   return async function (dispatch) {
     const filteredHotelByCity = await axios.get(`${BACK_URL}/filtersHotels/location?filter=${value}`)
     dispatch({
@@ -93,18 +96,18 @@ export function getLocations() {
   }
 }
 
-export function getCategory(payload){
-  return{
-      type: GET_CATEGORY,
-      payload
+export function getCategory(payload) {
+  return {
+    type: GET_CATEGORY,
+    payload
   }
 };
 
-export function postHotel(payload){
-  return async function(dispatch) {
+export function postHotel(payload) {
+  return async function (dispatch) {
     try {
-      const hotels = await axios.post(`${BACK_URL}/hotels`,payload)
-      return dispatch ({
+      const hotels = await axios.post(`${BACK_URL}/hotels`, payload)
+      return dispatch({
         type: POST_HOTEL,
         payload: hotels
       })
@@ -114,12 +117,12 @@ export function postHotel(payload){
   }
 }
 
-export function getDetailHotel(id){
-  return async function(dispatch) {
+export function getDetailHotel(id) {
+  return async function (dispatch) {
     try {
       const detailH = await axios.get(`${BACK_URL}/hotels/${id}`)
       return dispatch({
-        type: GET_HOTEL_DETAIL, 
+        type: GET_HOTEL_DETAIL,
         payload: detailH.data
       })
     } catch (error) {
@@ -142,7 +145,7 @@ export function hotelByName(name) {
   return async function (dispatch) {
     try {
       if (name) {
-        let hotelName = await axios.get (`${BACK_URL}/hotels?name=${name}`)
+        let hotelName = await axios.get(`${BACK_URL}/hotels?name=${name}`)
         return dispatch({
           type: SEARCH_NAME_HOTEL,
           payload: hotelName.data
@@ -150,17 +153,21 @@ export function hotelByName(name) {
       }
     } catch (error) {
       console.log(error)
+      dispatch({
+        type: SEARCH_NAME_HOTEL,
+        payload: error.response.data
+      })
     }
   }
 }
 
 
-export function getDetailRoom(id){
-  return async function(dispatch) {
+export function getDetailRoom(id) {
+  return async function (dispatch) {
     try {
       const detailR = await axios.get(`${BACK_URL}/rooms/${id}`)
       return dispatch({
-        type: GET_ROOMS_DETAIL, 
+        type: GET_ROOMS_DETAIL,
         payload: detailR.data
       })
     } catch (error) {
@@ -183,7 +190,7 @@ export function roomByName(name) {
   return async function (dispatch) {
     try {
       if (name) {
-        let roomName = await axios.get (`${BACK_URL}/rooms?name=${name}`)
+        let roomName = await axios.get(`${BACK_URL}/rooms?name=${name}`)
         return dispatch({
           type: SEARCH_NAME_ROOM,
           payload: roomName.data
@@ -195,10 +202,10 @@ export function roomByName(name) {
   }
 }
 
-export function getAllServicesHotel(){
+export function getAllServicesHotel() {
   return async function (dispatch) {
     try {
-      const services= await axios.get(`${BACK_URL}/serviceHotels`)
+      const services = await axios.get(`${BACK_URL}/serviceHotels`)
       return dispatch({
         type: GET_ALL_SERVICES_HOTEL,
         payload: services
@@ -209,46 +216,46 @@ export function getAllServicesHotel(){
   }
 }
 
-export function orderBy(payload){
-  return{
-      type: ORDER_BY,
-      payload
+export function orderBy(payload) {
+  return {
+    type: ORDER_BY,
+    payload
   }
 };
 
 //-------------------------CREATE HOTELS----------------------//
 export function createHotels(payload) {
 
-  return async function(dispatch) {
+  return async function (dispatch) {
 
-      try {
-          const newHotel = await axios.post( URL_POST_HOTEL , payload)
-          return dispatch({
-              type: CREATE_HOTELS,
-              payload: newHotel
-          })
-      } catch (error) {
-          console.log(error && alert("Error, when create Hotel!!"))
+    try {
+      const newHotel = await axios.post(URL_POST_HOTEL, payload)
+      return dispatch({
+        type: CREATE_HOTELS,
+        payload: newHotel
+      })
+    } catch (error) {
+      console.log(error && alert("Error, when create Hotel!!"))
 
-      }
+    }
   }
 }
 
 //-------------------------CREATE ROOMS----------------------//
 export function createRooms(payload) {
 
-  return async function(dispatch) {
+  return async function (dispatch) {
 
-      try {
-          const newRoom = await axios.post( URL_POST_ROOM , payload)
-          return dispatch({
-              type: CREATE_ROOMS,
-              payload: newRoom
-          })
-      } catch (error) {
-          console.log(error && alert("Error, when create Room!!"))
+    try {
+      const newRoom = await axios.post(URL_POST_ROOM, payload)
+      return dispatch({
+        type: CREATE_ROOMS,
+        payload: newRoom
+      })
+    } catch (error) {
+      console.log(error && alert("Error, when create Room!!"))
 
-      }
+    }
   }
 }
 
@@ -265,7 +272,9 @@ export function createServicesHotels(payload) {
     } catch (error) {
       console.log(error)
     }
-  }}
+  }
+}
+
 
   export function modifyServicesHotels(payload) {
     return async function (dispatch) {
@@ -338,31 +347,34 @@ export function getAllServicesRoom() {
   return async function (dispatch) {
     try {
       const servicesRoom = await axios.get(`${BACK_URL}/serviceRooms`)
-      dispatch ({
+      dispatch({
         type: GET_ALL_SERVICES_ROOM,
-        payload: servicesRoom.data    
-      })        
+        payload: servicesRoom.data
+      })
     } catch (error) {
       console.log(error)
     }
-  }}
+  }
+}
 
 //------------------------GET SERVICES HOTEL --------------------//
 export function getServicesHotel(id) {
-return async function (dispatch) {
-try {
-const servicesHotel = await axios.get(`${BACK_URL}/serviceHotels/hotel/${id}`)
-dispatch ({
-  type: GET_SERVICES_HOTEL,
-  payload: servicesHotel.data    
-})        
-} catch (error) {
-console.log(error)
+  return async function (dispatch) {
+    try {
+      const servicesHotel = await axios.get(`${BACK_URL}/serviceHotels/hotel/${id}`)
+      dispatch({
+        type: GET_SERVICES_HOTEL,
+        payload: servicesHotel.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
-}}
 
 //------------------------GET EVENTS HOTEL --------------------//
 export function getEventsHotel(id) {
+
 return async function (dispatch) {
 try {
 const eventsHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
@@ -373,4 +385,37 @@ dispatch ({
 } catch (error) {
 console.log(error)
 }
-}}
+
+export function updateHotels(payload) {
+
+  return async function (dispatch) {
+
+    try {
+      const upDate_Hotel = await axios.put(URL_POST_HOTEL, payload)
+      return dispatch({
+        type: UPDATE_HOTELS,
+        payload: upDate_Hotel
+      })
+    } catch (error) {
+      console.log(error && alert("Error, when update Hotel!!"))
+
+    }
+  }
+}
+
+export function modifyRooms(payload) {
+
+  return async function(dispatch) {
+
+      try {
+          const update_Room = await axios.put( URL_POST_ROOM , payload)
+          return dispatch({
+              type: UPDATE_ROOMS,
+              payload: update_Room
+          })
+      } catch (error) {
+          console.log(error && alert("Error, when modify Room!!"))
+
+      }
+  }
+}
