@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvents, getHotels, modifyEvents } from "../../redux/action/action";
+import { createEvents, getEventsHotel, getHotels, modifyEvents } from "../../redux/action/action";
 
 const validate = (input_event) => {
     let errors = {};
@@ -26,6 +26,7 @@ const validate = (input_event) => {
 const CreateEvents = () => {
     const dispatch = useDispatch();
     const hotels = useSelector(state=>state.reducerHotel.hotels)
+    const events = useSelector(state => state.reducerHotel.onlyEventsHotel)
 
 const [input_event, setInput_event] = useState({
     name: '',
@@ -42,6 +43,7 @@ const [errors, setErrors] = useState({})
 
 useEffect(()=>{
     dispatch(getHotels())
+  //  dispatch(getEventsHotel(input_event.idHotel)) //comentado hasta que funcione la ruta
 },[dispatch]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
@@ -142,8 +144,22 @@ return (
             </label>
         </div>
 
+            {/*-----------------------HOTEL NAME----------------- */} 
+            <div>
+                <label>Hotel Name
+                    <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
+                    <option hidden selected >Select hotel</option>
+                    {hotels?.map(e => 
+                        <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
+                    </select></label>
+                </div>
+                <div>
+                {errors.idHotel && (<p>{errors.idHotel}</p>)}
+                </div>
+
         {/*------------------EVENT NAME------------------------ */} 
-        <div>
+        {input_create.option === 'create'?
+        (<div>
             <label>Event Name</label>
             <input 
             placeholder="Event Name..."
@@ -151,53 +167,23 @@ return (
             value={input_event.name} 
             name="name" 
             onChange={(e) => handleName(e)} />
-        </div>
+        </div>)
+        :(<div>
+            <label>Event Name
+            <select value={input_event.name  }onChange={(e) => handleName(e)}>
+            <option hidden selected >Select Event Name</option>
+            {events?.sort((a,b)=>{
+                if(a.name > b.name) return 1;
+                if(a.name < b.name) return -1;
+                return 0;
+            }).map(e => 
+                <option key= {e.name} value= {e.name} >{e.name}</option>)}
+            </select>
+            </label>
+        </div>)}
         <div>
             {errors.name && (<p>{errors.name}</p>)}
         </div>
-        
-        {/*-----------------------IMAGE------------------------ */} 
-        <div>
-            <label>Image</label>
-            <input
-            placeholder= "Load URL Image..." 
-            type="url" 
-            value={input_event.image} 
-            name="image" 
-            onChange={(e) => handleChange(e)}/>
-            </div>
-        <div>
-            {errors.image && (<p>{errors.image}</p>)}
-        </div>
-
-        {/*--------------------------DESCRIPTION----------------------- */}  
-        <div>
-            <label>Description</label>
-            <textarea
-            placeholder="Description..."
-            type="text" 
-            value={input_event.description} 
-            name="description" 
-            maxLength="1000" 
-            onChange={(e) => handleChange(e)}>
-            </textarea>
-        </div>
-        <div>
-            {errors.description && (<p>{errors.description}</p>)}
-        </div>
-
-        {/*-----------------------HOTEL NAME----------------- */} 
-        <div>
-            <label>Hotel Name
-                <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
-                <option hidden selected >Select hotel</option>
-                {hotels?.map(e => 
-                    <option key= {e.name} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
-                </select></label>
-            </div>
-            <div>
-            {errors.idHotel && (<p>{errors.idHotel}</p>)}
-            </div>
 
          {/*--------------------------DATE----------------------- */}  
          <div>
@@ -212,6 +198,7 @@ return (
         <div>
             {errors.date && (<p>{errors.date}</p>)}
         </div>
+        
 
          {/*--------------------------PRICE----------------------- */}  
          <div>
@@ -228,7 +215,38 @@ return (
         <div>
             {errors.price && (<p>{errors.price}</p>)}
         </div>
+
+        {/*-----------------------IMAGE------------------------ */} 
+        <div>
+            <label>Image</label>
+            <input
+            placeholder= "Load URL Image..." 
+            type="url" 
+            value={input_event.image} 
+            name="image" 
+            onChange={(e) => handleChange(e)}/>
+            </div>
+        <div>
+            {errors.image && (<p>{errors.image}</p>)}
+        </div>
         
+        {/*--------------------------DESCRIPTION----------------------- */}  
+        <div>
+            <label>Description</label>
+            <textarea
+            placeholder="Description..."
+            type="text" 
+            value={input_event.description} 
+            name="description" 
+            maxLength="1000" 
+            onChange={(e) => handleChange(e)}>
+            </textarea>
+        </div>
+        <div>
+            {errors.description && (<p>{errors.description}</p>)}
+        </div>
+        
+
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
         {!input_create.option ||!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.price ||!input_event.idHotel || Object.keys(errors).length 

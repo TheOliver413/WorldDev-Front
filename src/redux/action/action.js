@@ -28,6 +28,7 @@ export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
 export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
+export const GET_EVENTS_HOTEL = 'GET_EVENTS_HOTEL';
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
@@ -346,6 +347,20 @@ export function getServicesHotel(id) {
       dispatch ({
         type: GET_SERVICES_HOTEL,
         payload: servicesHotel.data    
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }}
+  
+//------------------------GET EVENTS HOTEL --------------------//
+export function getEventsHotel(id) {
+  return async function (dispatch) {
+    try {
+      const eventsHotel = await axios.get(`${BACK_URL}/events/${id}`)
+      dispatch ({
+        type: GET_EVENTS_HOTEL,
+        payload: eventsHotel.data    
       })        
     } catch (error) {
       console.log(error)
