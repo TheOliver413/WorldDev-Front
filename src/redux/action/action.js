@@ -259,7 +259,8 @@ export function createServicesHotels(payload) {
     try {
       const servicesHotel = await axios.post(`${BACK_URL}/serviceHotels`,payload)
       dispatch ({
-        type: POST_SERVICES_HOTEL,     
+        type: POST_SERVICES_HOTEL,  
+        payload   
       })      
     } catch (error) {
       console.log(error)
@@ -271,7 +272,8 @@ export function createServicesHotels(payload) {
       try {
         const servicesHotel = await axios.put(`${BACK_URL}/serviceHotels`,payload)
         dispatch ({
-          type: PUT_SERVICES_HOTEL,     
+          type: PUT_SERVICES_HOTEL,
+          payload     
         })      
       } catch (error) {
         console.log(error)
@@ -284,7 +286,8 @@ export function createServicesHotels(payload) {
       try {
         const servicesRoom = await axios.post(`${BACK_URL}/serviceRooms`,payload)
         dispatch ({
-          type: POST_SERVICES_ROOM,     
+          type: POST_SERVICES_ROOM,  
+          payload   
         })        
       } catch (error) {
         console.log(error)
@@ -296,7 +299,8 @@ export function createServicesHotels(payload) {
         try {
           const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`,payload)
           dispatch ({
-            type: PUT_SERVICES_ROOM,     
+            type: PUT_SERVICES_ROOM,  
+            payload   
           })        
         } catch (error) {
           console.log(error)
@@ -308,7 +312,8 @@ export function createServicesHotels(payload) {
         try {
           const servicesRoom = await axios.post(`${BACK_URL}/events`,payload)
           dispatch ({
-            type: POST_EVENT,     
+            type: POST_EVENT, 
+            payload    
           })        
         } catch (error) {
           console.log(error)
@@ -320,7 +325,8 @@ export function createServicesHotels(payload) {
           try {
             const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`)
             dispatch ({
-              type: PUT_EVENT,     
+              type: PUT_EVENT, 
+              payload    
             })        
           } catch (error) {
             console.log(error)
@@ -359,7 +365,7 @@ console.log(error)
 export function getEventsHotel(id) {
 return async function (dispatch) {
 try {
-const eventsHotel = await axios.get(`${BACK_URL}/events/${id}`)
+const eventsHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
 dispatch ({
   type: GET_EVENTS_HOTEL,
   payload: eventsHotel.data    
