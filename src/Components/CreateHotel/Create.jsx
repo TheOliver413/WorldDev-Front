@@ -1,7 +1,7 @@
 //-----------------IMPORTS---------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
 import '../Create/Styles.css';
 
@@ -9,7 +9,7 @@ export default function Create() {
 
   //-------------------------- STATE ------------------------//
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const navigate = useNavigate();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   //------------------------STATE LOCAL FORM------------------------//
   const [input_hotels, input_sethotels] = useState({
