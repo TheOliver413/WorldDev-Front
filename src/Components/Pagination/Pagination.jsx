@@ -29,7 +29,7 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
       </li>
 
       {/* prev */}
-      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
+      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
         <i class="bi bi-chevron-left"></i>
       </li>
 
@@ -44,7 +44,7 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
       </li>
 
       {/* va hasta el final */}
-      <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
+      <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={endPage}>
         <i class="bi bi-chevron-double-right"></i>
       </li>
     </ul>
