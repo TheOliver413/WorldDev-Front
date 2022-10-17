@@ -6,7 +6,7 @@
 }
 
 .card-hotel img {
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0 !important;
   height: 200px !important;
   width: 100%;
   object-fit: cover;

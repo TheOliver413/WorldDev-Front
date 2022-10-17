@@ -22,6 +22,7 @@ const initialStateHotel = {
   detailHotel: {},
   servicesHotel: [],
   location: [],
+  filterCategory: []
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
@@ -66,22 +67,22 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return {
         ...state,
       }
-    
+
     case POST_SERVICES_HOTEL:
       return {
         ...state,
       }
-    
+
     case PUT_SERVICES_HOTEL:
       return {
-          ...state,
+        ...state,
       }
-    
+
     case POST_EVENT:
       return {
         ...state,
       }
-    
+
     case PUT_EVENT:
       return {
         ...state,
@@ -131,25 +132,25 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         hotels: order
       }
     case GET_CATEGORY:
-      let auxCat= [...state.hotels]
-      let filtCat= []
-      switch(action.payload){
+      let auxCat = [...state.hotels]
+      let filtCat = []
+      switch (action.payload) {
         case "":
-          filtCat= [...state.allHotels]
+          filtCat = [...state.allHotels]
           break;
         case 'qualification asc':
           filtCat = auxCat.sort(function (a, b) {
             return a.qualification - b.qualification
           });
-        break;
+          break;
         case 'qualification desc':
           filtCat = auxCat.sort(function (a, b) {
             return b.qualification - a.qualification
           });
-        break;
+          break;
         default:
           filtCat = auxCat
-        break;
+          break;
       }
       return {
         ...state,

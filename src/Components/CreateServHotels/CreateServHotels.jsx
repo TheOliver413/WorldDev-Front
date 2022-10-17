@@ -5,11 +5,10 @@ import { createServicesHotels, getHotels, modifyServicesHotels } from "../../red
 
 const validate = (input_serv_hotel) => {
     let errors = {};
-   
+
     if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
 
-    if(!input_serv_hotel.name) errors.name = 'Name is required'
-    if(!/^[a-zA-Z ]*$/.test(input_serv_hotel.name)) errors.name = 'Invalid name: must only contain letters'
+    if(!input_serv_hotel.name) errors.name = 'Service Name is required'
     
     if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
     
@@ -78,7 +77,7 @@ const handleChangeHotel = (e) => {
     e.preventDefault();        
     setInput_serv_hotel({
         ...input_serv_hotel,
-       idHotel : e.target.value.toString()
+       idHotel : e.target.value
     })        
     setErrors(validate({
         ...input_serv_hotel,
@@ -93,14 +92,12 @@ const handleSubmit = (e) => {
     if (input_serv_hotel) {
         if(input_create.option === 'create') {
             dispatch(createServicesHotels(input_serv_hotel)) 
-            console.log(input_serv_hotel)
             alert('Service created successfully')
         }else {
             dispatch(modifyServicesHotels(input_serv_hotel)) 
             alert('Service modified successfully')
         }
-        console.log(input_serv_hotel)
-        input_serv_hotel({
+        setInput_serv_hotel({
             idHotel:'',
             name: '',
             image: '',
@@ -156,7 +153,7 @@ return (
         <div>
             <label>Service Name</label>
             <input 
-            placeholder="Name service.."
+            placeholder="Service name.."
             type="text" 
             name="name" 
             value={input_serv_hotel.name} 
