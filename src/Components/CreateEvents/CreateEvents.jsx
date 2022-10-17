@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvents, getEventsHotel, getHotels, modifyEvents } from "../../redux/action/action";
+import { createEvents, getHotels } from "../../redux/action/action";
 
 const validate = (input_event) => {
     let errors = {};
@@ -25,35 +25,36 @@ const validate = (input_event) => {
 
 const CreateEvents = () => {
     const dispatch = useDispatch();
-    const hotels = useSelector(state => state.reducerHotel.hotels)
-    const events = useSelector(state => state.reducerHotel.onlyEventsHotel)
 
-    const [input_event, setInput_event] = useState({
-        name: '',
-        image: '',
-        description: '',
-        date: '',
-        price: 0,
-        idHotel: '',
-    })
-    const [input_create, setInput_create] = useState({
-        option: ''
-    })
-    const [errors, setErrors] = useState({})
+    const hotels = useSelector(state=>state.reducerHotel.hotels)
+    //const events = useSelector(state => state.reducerHotel.onlyEventsHotel)
 
-    useEffect(() => {
-        dispatch(getHotels())
-        //dispatch(getEventsHotel(input_event.idHotel)) //comentado hasta que funcione la ruta
-    }, [dispatch])
+const [input_event, setInput_event] = useState({
+    name: '',
+    image: '',
+    description: '',
+    date: '',
+    price: 0,
+    idHotel:'',
+})
+// const [input_create, setInput_create] = useState({
+//    option:''
+// })
+const [errors, setErrors] = useState({})
 
-    //------------ HANDLE CHANGE CREATE/MODIFY --------------//
-    const handleChangeCreate = (e) => {
-        e.preventDefault();
-        setInput_create({
-            ...input_create,
-            [e.target.name]: e.target.value
-        })
-    }
+useEffect(()=>{
+    dispatch(getHotels())
+    //dispatch(getEventsHotel(input_event.idHotel)) 
+},[dispatch]) 
+
+//------------ HANDLE CHANGE CREATE/MODIFY --------------//
+// const handleChangeCreate = (e) => {
+//    e.preventDefault();        
+//    setInput_create({
+//        ...input_create,
+//        [e.target.name] : e.target.value
+//    })        
+// }
 
     //------------ HANDLE CHANGE NAME EVENTO--------------//
     const handleName = (e) => {
@@ -80,8 +81,7 @@ const CreateEvents = () => {
             [e.target.name]: e.target.value
         }))
     }
-
-    //------------ HANDLE CHANGE HOTEL NAME----------//
+ //------------ HANDLE CHANGE HOTEL NAME----------//
     const handleChangeHotel = (e) => {
         e.preventDefault();
         setInput_event({
@@ -92,60 +92,57 @@ const CreateEvents = () => {
             ...input_event,
             idHotel: e.target.value
         }))
-    }
 
-    //----------------HANDLE SUBMIT EVENT------------------//
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if (input_event) {
-            if (input_create.option === 'create') {
-                dispatch(createEvents(input_event)) //crear la action
-                alert('Event created successfully')
-            } else {
-                dispatch(modifyEvents(input_event)) //crear la action
-                alert('Event modified successfully')
-            }
-            setInput_event({
-                name: '',
-                image: '',
-                description: '',
-                date: '',
-                price: 0,
-                idHotel: '',
-            })
-        } else {
-            alert("Check the fields")
-        }
-    }
+//----------------HANDLE SUBMIT EVENT------------------//
+const handleSubmit = (e) => {
+    e.preventDefault()
+    if (input_event) {
+    //   if(input_create.option === 'create') {
+         dispatch(createEvents(input_event)) //crear la action
+         alert('Event created successfully')
+    //   } else{
+    //      dispatch(modifyEvents(input_event)) //crear la action
+    //      alert('Event modified successfully')
+     // }
+      setInput_event({
+         name: '',
+         image: '',
+         description: '',
+         date: '',
+         price: 0,
+         idHotel:'',
+      })
+    } else {
+      alert("Check the fields")
 
+   
+      
 
     return (
         <div className="cardHotels-container">
             <form onSubmit={(e) => handleSubmit(e)}>
-
-                {/*----------------CREATE OR MODIFY------------------------ */}
-                <div>
-                    <label>Select an option</label>
-                    <label> Create
-                        <input
-                            type='radio'
-                            id='create'
-                            name='option'
-                            value='create'
-                            onChange={(e) => handleChangeCreate(e)} />
-                    </label>
-                    <label> Modify
-                        <input
-                            type='radio'
-                            id='modify'
-                            name='option'
-                            value='modify'
-                            onChange={(e) => handleChangeCreate(e)} />
-                    </label>
-                </div>
-
-                <div>
-                    {/*-----------------------HOTEL NAME----------------- */}
+            {/*----------------CREATE OR MODIFY------------------------ */} 
+      {/* <div>
+            <label>Select an option</label>
+            <label> Create
+            <input 
+            type='radio' 
+            id='create' 
+            name='option' 
+            value='create'
+            onChange={(e) => handleChangeCreate(e)}/>
+            </label>
+            <label> Modify
+            <input
+            type='radio' 
+            id='modify' 
+            name='option' 
+            value='modify'  
+            onChange={(e) => handleChangeCreate(e)} />
+            </label>
+        </div> */}
+        
+         {/*-----------------------HOTEL NAME----------------- */}
                     <div>
                         <label>Hotel Name
                             <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
@@ -158,46 +155,34 @@ const CreateEvents = () => {
                         {errors.idHotel && (<p>{errors.idHotel}</p>)}
                     </div>
 
-                    {/*------------------EVENT NAME------------------------ */}
-                    {input_create.option === 'create' ?
-                        (<div>
-                            <label>Event Name</label>
-                            <input
-                                placeholder="Event Name..."
-                                type="text"
-                                value={input_event.name}
-                                name="name"
-                                onChange={(e) => handleName(e)} />
-                        </div>)
-                        : (<div>
-                            <label>Event Name
-                                <select value={input_event.name} onChange={(e) => handleName(e)}>
-                                    <option hidden selected >Select Event Name</option>
-                                    {events?.sort((a, b) => {
-                                        if (a.name > b.name) return 1;
-                                        if (a.name < b.name) return -1;
-                                        return 0;
-                                    }).map(e =>
-                                        <option key={e.name} value={e.name} >{e.name}</option>)}
-                                </select>
-                            </label>
-                        </div>)}
-                    <div>
-                        {errors.name && (<p>{errors.name}</p>)}
-                    </div>
-
-                    {/*-----------------------HOTEL NAME----------------- */}
-                    <div>
-                        <label>Hotel Name
-                            <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
-                                <option hidden selected >Select hotel</option>
-                                {hotels?.map(e =>
-                                    <option key={e.name} value={e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
-                            </select></label>
-                    </div>
-                    <div>
-                        {errors.idHotel && (<p>{errors.idHotel}</p>)}
-                    </div>
+        {/*------------------EVENT NAME------------------------ */} 
+        {/* {input_create.option === 'create'? */}
+        <div>
+            <label>Event Name</label>
+            <input 
+            placeholder="Event Name..."
+            type="text" 
+            value={input_event.name} 
+            name="name" 
+            onChange={(e) => handleName(e)} />
+        </div>
+        {/* :(<div>
+            <label>Event Name
+            <select value={input_event.name  }onChange={(e) => handleName(e)}>
+            <option hidden selected >Select Event Name</option>
+            {events?.sort((a,b)=>{
+                if(a.name > b.name) return 1;
+                if(a.name < b.name) return -1;
+                return 0;
+            }).map(e => 
+                <option key= {e.name} value= {e.name} >{e.name}</option>)}
+            </select>
+            </label>
+        </div>)} */}
+        <div>
+            {errors.name && (<p>{errors.name}</p>)}
+        </div>
+ 
 
                     {/*--------------------------DATE----------------------- */}
                     <div>
@@ -212,7 +197,6 @@ const CreateEvents = () => {
                     <div>
                         {errors.date && (<p>{errors.date}</p>)}
                     </div>
-
 
                     {/*--------------------------PRICE----------------------- */}
                     <div>
@@ -262,12 +246,12 @@ const CreateEvents = () => {
 
 
                     {/*----------------------------BUTTON CREATE------------------------ */}
-                    <div>
-                        {!input_create.option || !input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.price || !input_event.idHotel || Object.keys(errors).length
-
-                            ? (<button disabled type="submit">Send</button>)
-                            : (<button type="submit">Send </button>)}
-                    </div>
+        <div>
+        {!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.price ||!input_event.idHotel || Object.keys(errors).length 
+         
+            ? (<button disabled type="submit">Send</button>) 
+            : (<button type="submit">Send </button>)}
+        </div>
                 </div>
             </form>
         </div>

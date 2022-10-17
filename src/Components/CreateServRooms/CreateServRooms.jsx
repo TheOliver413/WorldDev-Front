@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState} from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { createServicesRooms,  getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
+import { useDispatch } from 'react-redux';
+import { createServicesRooms} from "../../redux/action/action";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -15,30 +15,30 @@ const validate = (input_serv_room) => {
 
 const CreateServRooms = () => {
     const dispatch = useDispatch();
-    const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
+    //const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
 
 const [input_serv_room, setInput_serv_room] = useState({
     name: '',
     image: '',
 })
-const [input_create, setInput_create] = useState({
-    option:'',
-})
+// const [input_create, setInput_create] = useState({
+//     option:'',
+// })
 const [errors, setErrors] = useState({})
 
-useEffect(()=>{
-    dispatch(getAllServicesRoom())
-}, [])
+// useEffect(()=>{
+//     dispatch(getAllServicesRoom())
+// }, [dispatch])
 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
-const handleChangeCreate = (e) => {
-    e.preventDefault();        
-    setInput_create({
-        ...input_create,
-        [e.target.name] : e.target.value
-    })        
-}
+// const handleChangeCreate = (e) => {
+//     e.preventDefault();        
+//     setInput_create({
+//         ...input_create,
+//         [e.target.name] : e.target.value
+//     })        
+// }
 
 //------------ HANDLE CHANGE NAME SERVICES ROOM--------------//
 const handleName = (e) => {
@@ -70,13 +70,13 @@ const handleChange = (e) => {
 const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_room) {
-        if(input_create.option === 'create') {
-            dispatch(createServicesRooms(input_serv_room))//crear la action
+        //if(input_create.option === 'create') {
+            dispatch(createServicesRooms(input_serv_room))
             alert('Service created successfully')
-        } else {
-            dispatch(modifyServicesRooms(input_serv_room))//crear la action
-            alert('Service modified successfully')
-        }
+        // } else {
+        //     dispatch(modifyServicesRooms(input_serv_room))
+        //     alert('Service modified successfully')
+        // }
       setInput_serv_room({
         name: "",
         image: "",
@@ -92,7 +92,7 @@ return (
     <form onSubmit={(e) => handleSubmit(e)}>
 
          {/*----------------CREATE OR MODIFY------------------------ */} 
-      <div>
+      {/* <div>
             <label>Select an option</label>
             <label> Create
             <input 
@@ -110,11 +110,11 @@ return (
             value='modify'  
             onChange={(e) => handleChangeCreate(e)} />
             </label>
-        </div>
+        </div> */}
 
         {/*-----------------------NAME------------------------ */} 
-            {input_create.option === 'create'?
-                (<div>
+            {/* {input_create.option === 'create'? */}
+                <div>
                     <label>Service Name</label>
                     <input 
                     placeholder="Service name..."
@@ -122,8 +122,8 @@ return (
                     value={input_serv_room.name} 
                     name="name" 
                     onChange={(e) => handleName(e)} />
-                </div>)
-                :(<div>
+                </div>
+                {/* :(<div>
                     <label>Service Name
                     <select value={input_serv_room.name }onChange={(e) => handleName(e)}>
                     <option hidden selected >Select Service Name</option>
@@ -135,7 +135,7 @@ return (
                         <option key= {e.name} value= {e.name} >{e.name}</option>)}
                     </select>
                     </label>
-                </div>)}
+                </div>)} */}
             <div>
                 {errors.name && (<p>{errors.name}</p>)}
             </div>
@@ -156,7 +156,7 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_create.option || !input_serv_room.name || !input_serv_room.image || Object.keys(errors).length   
+        {!input_serv_room.image || !input_serv_room.name || Object.keys(errors).length   
             ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send</button>)}
         </div>
