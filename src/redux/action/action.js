@@ -26,6 +26,7 @@ export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
 export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
+export const GET_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
@@ -314,7 +315,7 @@ export function createServicesHotels(payload) {
       export function modifyEvents(payload) {
         return async function (dispatch) {
           try {
-            const servicesRoom = await axios.put(`${BACK_URL}/events`,payload)
+            const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`)
             dispatch ({
               type: PUT_EVENT,     
             })        
@@ -322,4 +323,16 @@ export function createServicesHotels(payload) {
             console.log(error)
           }
         }}
-
+//------------------------GET SERVICES ROOM --------------------//
+      export function getServicesRoom() {
+        return async function (dispatch) {
+          try {
+            const servicesRoom = await axios.get(`${BACK_URL}/serviceRooms`)
+            dispatch ({
+              type: GET_SERVICES_ROOM,
+              payload: servicesRoom.data    
+            })        
+          } catch (error) {
+            console.log(error)
+          }
+        }}
