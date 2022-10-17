@@ -11,7 +11,7 @@ import "./Styles.css";
 
 export default function Nav() {
   return (
-    <nav className="nav-container navbar navbar-expand-lg">
+    <nav className="nav-container navbar navbar-expand-lg sticky-top">
       <div className="container-fluid container-nav">
         <Link className="navbar-brand d-flex justify-content-start align-items-center" to="/">
           <img className="navbar-logo" src={logo} alt="World Developers logo" />
@@ -76,26 +76,6 @@ export default function Nav() {
                 </button>
               </div>
             </div>
-
-            {/* <li className="nav-item">
-              <Search />
-            </li>
-            <li className="nav-item">
-              <Order />
-            </li>
-            <li className="nav-item">
-              <Filter />
-            </li>
-            <div>
-              <a href="/home">
-                <button type='search' className="btn btn-outline-primary">
-                  Refresh<i className="bi bi-arrow-clockwise"></i>
-                </button>
-              </a>
-            </div>
-            <li className="nav-item">
-              <FilterCategory />
-            </li> */}
           </ul>
         </div>
       </div>

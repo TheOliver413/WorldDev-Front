@@ -26,6 +26,7 @@ export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
 export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
+
 export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
 export const GET_EVENTS_HOTEL = 'GET_EVENTS_HOTEL';
@@ -325,44 +326,45 @@ export function createServicesHotels(payload) {
             console.log(error)
           }
         }}
+
 //------------------------GET SERVICES ROOM --------------------//
-      export function getAllServicesRoom() {
-        return async function (dispatch) {
-          try {
-            const servicesRoom = await axios.get(`${BACK_URL}/serviceRooms`)
-            dispatch ({
-              type: GET_ALL_SERVICES_ROOM,
-              payload: servicesRoom.data    
-            })        
-          } catch (error) {
-            console.log(error)
-          }
-        }}
+export function getAllServicesRoom() {
+  return async function (dispatch) {
+    try {
+      const servicesRoom = await axios.get(`${BACK_URL}/serviceRooms`)
+      dispatch ({
+        type: GET_ALL_SERVICES_ROOM,
+        payload: servicesRoom.data    
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }}
 
 //------------------------GET SERVICES HOTEL --------------------//
 export function getServicesHotel(id) {
-  return async function (dispatch) {
-    try {
-      const servicesHotel = await axios.get(`${BACK_URL}/serviceHotels/hotel/${id}`)
-      dispatch ({
-        type: GET_SERVICES_HOTEL,
-        payload: servicesHotel.data    
-      })        
-    } catch (error) {
-      console.log(error)
-    }
-  }}
-  
+return async function (dispatch) {
+try {
+const servicesHotel = await axios.get(`${BACK_URL}/serviceHotels/hotel/${id}`)
+dispatch ({
+  type: GET_SERVICES_HOTEL,
+  payload: servicesHotel.data    
+})        
+} catch (error) {
+console.log(error)
+}
+}}
+
 //------------------------GET EVENTS HOTEL --------------------//
 export function getEventsHotel(id) {
-  return async function (dispatch) {
-    try {
-      const eventsHotel = await axios.get(`${BACK_URL}/events/${id}`)
-      dispatch ({
-        type: GET_EVENTS_HOTEL,
-        payload: eventsHotel.data    
-      })        
-    } catch (error) {
-      console.log(error)
-    }
-  }}
+return async function (dispatch) {
+try {
+const eventsHotel = await axios.get(`${BACK_URL}/events/${id}`)
+dispatch ({
+  type: GET_EVENTS_HOTEL,
+  payload: eventsHotel.data    
+})        
+} catch (error) {
+console.log(error)
+}
+}}
