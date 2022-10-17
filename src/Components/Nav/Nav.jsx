@@ -11,7 +11,7 @@ import "./Styles.css";
 
 export default function Nav() {
   return (
-    <nav className="nav-container navbar navbar-expand-lg">
+    <nav className="nav-container navbar navbar-expand-lg sticky-top">
       <div className="container-fluid container-nav">
         <Link className="navbar-brand d-flex justify-content-start align-items-center" to="/">
           <img className="navbar-logo" src={logo} alt="World Developers logo" />
