@@ -1,7 +1,7 @@
 import React from "react";
 import CardHotel from "../CardHotel/CardHotel";
 import Loader from "../Loader/Loader";
-import NavFilters from "../Nav/NavFilters";
+import NavFilters from "../NavFilters/NavFilters";
 import './CardHotels.css'
 
 const CardHotels = ({ actualHotels }) => {
