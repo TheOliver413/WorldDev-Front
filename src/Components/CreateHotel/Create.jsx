@@ -1,24 +1,19 @@
 //-----------------IMPORTS---------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { createHotels } from '../../redux/action/action';
+// import { Link, useNavigate } from "react-router-dom";
+import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
 import '../Create/Styles.css';
 
 export default function Create() {
 
   //-------------------------- STATE ------------------------//
   const dispatch = useDispatch();
-  const history = useHistory();
-  // const services = useSelector(state=>state.services)
-  //-------------------------USEEFFECT------------------------------//
-  // ---------------cargar los services...
-  // useEffect(() => {
-  //   dispatch(get_Services())
-  // }, [dispatch])
-
+  // const navigate = useNavigate();
+  const data_hotels = useSelector(state => state.reducerHotel.hotels)
   //------------------------STATE LOCAL FORM------------------------//
   const [input_hotels, input_sethotels] = useState({
+    id: "",
     name: "",
     image: [""],
     qualification: 1,
@@ -28,53 +23,65 @@ export default function Create() {
     continent: "",
 
   })
+  const [input_create, setInput_create] = useState({
+    option: ''
+  })
+  //-------------------USEEFECT---------------------//
+  useEffect(() => {
+    dispatch(getHotels())
+
+  }, [dispatch])
+
+
+
   //------------------------VALIDATIONS-----------------------------//
   let validateName = /^[a-zA-Z\s]+$/;
 
   const validate = (input_hotels) => {
     // let errors = {}
-    
+
     // if (!input.title.length) {
     //   errors.title = 'Title cannot be empty'
     // }
-  
+
     // if (!validateTitle.test(input.title)) {
     //   errors.title = 'Special characters or numbers are not allowed'
     // }
-  
+
     // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
     //   alert(`The title ${input.title} already exist, please choose another one!`)
     // }
     // if (input.image && !validateUrl.test(input.image)) {
     //   errors.image = 'This is not a valid URL'
     // }
-  
+
     // if (!input.summary.length) {
     //   errors.summary = 'Summary cannot be empty'
     // }
-  
+
     // if (input.summary.length < 40) {
     //   errors.summary = 'Summary must be at least 40 characters'
     // }
-  
+
     // if (input.healthScore < 1 || input.healthScore > 100) {
     //   errors.healthScore = 'The healt score must be a number between 1 - 100'
     // }
-    
+
     // if (!input.steps.length) {
     //   errors.steps = 'Your recipe must have steps to follow'
     // }
-    
+
     // if (input.steps.length < 40) {
     //   errors.steps = 'Your recipe must have more details'
     // }
-  
+
     // return errors;
-    
+
   }
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
+    console.log("estado actual:", input_create)
     input_sethotels({
       ...input_hotels,
       [e.target.name]: e.target.value
@@ -87,14 +94,49 @@ export default function Create() {
     // )
   }
 
+  const handleChangeCreate = (e) => {
+    e.preventDefault();
+    setInput_create({
+      ...input_create,
+      [e.target.name]: e.target.value
+    })
+  }
+
   //---------------- HANDLE SUBMIT HOTELS------------------//
 
-  function handleSubmit(e) {
+  // function handleSubmit(e) {
+  //   e.preventDefault()
+  //   if (input_hotels) {
+  //     dispatch(createHotels(input_hotels))
+
+  //     input_sethotels({
+  //       name: "",
+  //       image: [""],
+  //       qualification: 1,
+  //       description: "",
+  //       city: "",
+  //       country: "",
+  //       continent: "",
+  //     })
+
+  //     alert('Hotel created successfully')
+  //   } else {
+  //     alert("Check the fields")
+  //   }
+  // }
+  const handleSubmit = (e) => {
     e.preventDefault()
+    //console.log(input_create)
     if (input_hotels) {
-      dispatch(createHotels(input_hotels))
-      
+      if (input_create.option === 'create') {
+        dispatch(createHotels(input_hotels))
+        alert('Hotel created successfully')
+      } else {
+        dispatch(updateHotels(input_hotels))
+        alert('Hotel modified successfully')
+      }
       input_sethotels({
+        id: "",
         name: "",
         image: [""],
         qualification: 1,
@@ -103,13 +145,10 @@ export default function Create() {
         country: "",
         continent: "",
       })
-
-      alert('Hotel created successfully')
     } else {
       alert("Check the fields")
     }
   }
-
   //------------------------------------------RETURN----------------------------//
   return (
 
@@ -118,15 +157,66 @@ export default function Create() {
         <div className="form-group">
           <h1>✯ Hotel ✯</h1>
           {/*-----------------------NAME------------------------ */}
-          
+
+          {/*----------------CREATE OR MODIFY------------------------ */}
+          <div>
+            <label>-Select an option-
+              <br></br>
+              <label> Create
+                <input
+                  type='radio'
+                  id='create'
+                  name='option'
+                  value='create'
+
+                  onChange={(e) => handleChangeCreate(e)} />
+              </label>
+              <label> Modify
+                <input
+                  type='radio'
+                  id='modify'
+                  name='option'
+                  value='modify'
+                  onChange={(e) => handleChangeCreate(e)} />
+              </label>
+            </label>
+          </div>
+
+          {/*-----------------------SELECT HOTELS------------------------ */}
           <div className="form-row" >
-            <input
-              className="form-control"
-              autoFocus
-              placeholder="Name..."
-              type="text" value={input_hotels.name}
-              name="name"
-              onChange={(e) => handleChange(e)} />
+            {input_create.option === 'create' ?
+              (<input
+                className="form-control"
+                autoFocus
+                placeholder="Name..."
+                type="text" value={input_hotels.name}
+                name="name"
+                onChange={(e) => handleChange(e)} />)
+              : (<div>
+
+                <select value={input_create.id} name="id" onChange={(e) => handleChange(e)}>
+                  <option hidden selected >Hotels...</option>
+                  {data_hotels?.sort((a, b) => {
+                    if (a.name > b.name) return 1;
+                    if (a.name < b.name) return -1;
+                    return 0;
+                  }).map(e =>
+                    <option key={e.name} value={e.id} >{e.name}</option>)}
+                </select>
+
+              </div>)}
+
+              {/*--------------------------NAME------------------- */}
+
+            <div className=''>
+              <input
+                className="form-control"
+                placeholder="Name..."
+                type="text"
+                value={input_hotels.name}
+                name="name"
+                onChange={(e) => handleChange(e)} />
+            </div>
 
             {/*--------------------------IMAGE------------------- */}
             <div className=''>
@@ -156,7 +246,7 @@ export default function Create() {
             {/*--------------------------QUALIFICATION----------------------- */}
 
             <div >
-              <h4>Qualification</h4>
+              <h4>Category</h4>
               <input
                 className="form-control"
                 type="range"
@@ -211,12 +301,12 @@ export default function Create() {
             <div>
               <button className='btn btn-primary mb-2'
                 type="submit"
-                onClick={(e) => handleSubmit(e)}>Create</button>
+                onClick={(e) => handleSubmit(e)}>Send</button>
             </div>
 
           </div>
         </div>
-      </form>   
+      </form>
     </div>
   )
 }
