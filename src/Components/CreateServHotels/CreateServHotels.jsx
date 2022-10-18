@@ -36,9 +36,9 @@ const [errors, setErrors] = useState({})
 
 
  useEffect(()=>{
-     dispatch(getHotels())
+    !hotels.length && dispatch(getHotels());
      //dispatch(getServicesHotel(input_serv_hotel.idHotel)) 
- },[dispatch]) 
+ },[dispatch, hotels]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
 // const handleChangeCreate = (e) => {

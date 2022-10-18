@@ -1,17 +1,13 @@
-//-----------------IMPORTS---------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { Link, useNavigate } from "react-router-dom";
 import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
 import '../Create/Styles.css';
 
 export default function Create() {
-
-  //-------------------------- STATE ------------------------//
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
-  //------------------------STATE LOCAL FORM------------------------//
+  const hotels = useSelector(state=>state.reducerHotel.hotels)
+
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
@@ -26,18 +22,15 @@ export default function Create() {
   const [input_create, setInput_create] = useState({
     option: ''
   })
-  //-------------------USEEFECT---------------------//
+
   useEffect(() => {
-    dispatch(getHotels())
-
-  }, [dispatch])
-
-
+    !hotels.length && dispatch(getHotels());
+  }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
-  let validateName = /^[a-zA-Z\s]+$/;
+  // let validateName = /^[a-zA-Z\s]+$/;
 
-  const validate = (input_hotels) => {
+  /* const validate = (input_hotels) => {
     // let errors = {}
 
     // if (!input.title.length) {
@@ -77,7 +70,8 @@ export default function Create() {
 
     // return errors;
 
-  }
+  } */
+  
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
@@ -103,7 +97,6 @@ export default function Create() {
   }
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
-
   // function handleSubmit(e) {
   //   e.preventDefault()
   //   if (input_hotels) {
@@ -124,6 +117,7 @@ export default function Create() {
   //     alert("Check the fields")
   //   }
   // }
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     //console.log(input_create)
@@ -149,9 +143,8 @@ export default function Create() {
       alert("Check the fields")
     }
   }
-  //------------------------------------------RETURN----------------------------//
-  return (
 
+  return (
     <div className="cardHotels-container">
       <form onSubmit={(e) => handleSubmit(e)} >
         <div className="form-group">
