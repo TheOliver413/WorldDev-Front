@@ -1,23 +1,19 @@
-//-----------------IMPORTS---------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-//import { Link, useHistory } from "react-router-dom";
-import { createRooms, getHotels, modifyRooms } from '../../redux/action/action';
+import { createRooms, getHotels } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 
 
 export default function CreateRooms() {
   //--------------------------------------------------//
   const dispatch = useDispatch();
-  //const history = useHistory();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
-  //-------------------------USEEFFECT------------------------------//
+  const hotels = useSelector(state=>state.reducerHotel.hotels)
 
   //console.log("info de hoteles: ",data_hotels)
-  //-------------------USEEFFECT----------------//
   useEffect(() => {
-    dispatch(getHotels())
-  }, [dispatch])
+    !hotels.length && dispatch(getHotels());
+  }, [dispatch, hotels])
 
   //----------------------------------------//
   const [input_rooms, input_setrooms] = useState({
@@ -34,9 +30,9 @@ export default function CreateRooms() {
   //   option: ''
   // })
   //------------------------VALIDATIONS-----------------------------//
-  let validateName = /^[a-zA-Z\s]+$/;
+  // let validateName = /^[a-zA-Z\s]+$/;
 
-  const validate = (input_rooms) => {
+  /* const validate = (input_rooms) => {
     // let errors = {}
 
     // if (!input.title.length) {
@@ -76,7 +72,7 @@ export default function CreateRooms() {
 
     // return errors;
 
-  }
+  } */
 
   //------------------ HANDLE CHANGE ROOMS-------------------//
   function handleChange(e) {

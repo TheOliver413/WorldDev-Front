@@ -39,10 +39,10 @@ const CreateEvents = () => {
   })
   const [errors, setErrors] = useState({})
 
-  useEffect(()=>{
-    dispatch(getHotels())
+  useEffect(() => {
+    !hotels.length && dispatch(getHotels());
     //dispatch(getEventsHotel(input_event.idHotel)) 
-  },[dispatch]) 
+  }, [dispatch, hotels]) 
 
   //------------ HANDLE CHANGE CREATE/MODIFY --------------//
   // const handleChangeCreate = (e) => {
