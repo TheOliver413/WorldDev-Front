@@ -15,3 +15,20 @@
   margin: 16px;
   object-fit: cover;
 }
+
+.nav-cart-container {
+  position: relative;
+  width: fit-content;
+  align-self: center;
+}
+
+.nav-cart-itemsSelected {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  background-color: var(--clr-main);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1;
+}
