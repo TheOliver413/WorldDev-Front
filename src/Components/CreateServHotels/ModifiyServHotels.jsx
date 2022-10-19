@@ -1,34 +1,41 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createServicesHotels, getHotels } from "../../redux/action/action";
+import { modifyServicesHotels, getHotels, getServicesHotel } from "../../redux/action/action";
 
-const validate = (input_serv_hotel) => {
-    let errors = {};
-
-    if(!input_serv_hotel.idHotel) errors.idHotel = 'Hotel name is required'
-
-    if(!input_serv_hotel.name) errors.name = 'Service Name is required'
-    
-    if(!input_serv_hotel.image) errors.image = 'Upload at least one image'
-    
+const validate = (input_hotel) => {
+    let error = {};
+    if(!input_hotel.idHotel) error.idHotel = 'Hotel name is required'    
+    return error;
+}
+const validateTwo = (input_serv_hotel) => {
+    let errors={}
+    if(!input_serv_hotel.id) errors.id = 'Select Service Name'
+    if(!input_serv_hotel.name) errors.name = 'Service Name is required'    
+    if(!input_serv_hotel.image) errors.image = 'Upload at least one image'    
     if(!input_serv_hotel.description) errors.description = 'Description is required'
-
     return errors;
 }
 
 
-const CreateServHotels = () => {
+const ModifyServHotels = () => {
     const dispatch = useDispatch();
+    
     const hotels = useSelector(state=>state.reducerHotel.hotels)
+    const servicesHotelID = useSelector(state=>state.reducerHotel.onlyServicesHotel)
+
+const [input_hotel, setInput_hotel] = useState({
+    idHotel: ''
+})    
 
 const [input_serv_hotel, setInput_serv_hotel] = useState({
-    idHotel: '',
+    id: '',
     name: '',
     image: '',
     description: '',
 })
 
+const [error, setError] = useState({})
 const [errors, setErrors] = useState({})
 
 
@@ -37,42 +44,57 @@ const [errors, setErrors] = useState({})
  },[dispatch, hotels]) 
 
 
+ //------------ HANDLE CHANGE HOTEL NAME----------//
+const handleChangeHotel = (e) => {
+    e.preventDefault();        
+    setInput_hotel({
+        ...input_hotel,
+       idHotel: e.target.value
+    })   
+    setError(validate({
+        ...input_hotel,
+        idHotel: e.target.value
+    }))
+    dispatch(getServicesHotel(e.target.value)) 
+}
+
+//------------ HANDLE CHANGE ID SERVICES HOTEL(select) --------------//
+const handleChangeId = (e) => {
+    e.preventDefault();        
+    setInput_serv_hotel({
+        ...input_serv_hotel,
+        id: e.target.value
+    })        
+    setErrors(validateTwo({
+        ...input_serv_hotel,
+        id: e.target.value
+    }))
+}
+
+
 //------------ HANDLE CHANGE NAME SERVICES HOTEL--------------//
 const handleName = (e) => {
     e.preventDefault();        
     setInput_serv_hotel({
         ...input_serv_hotel,
-        [e.target.name] : e.target.value.toLowerCase().trim()
+        name: e.target.value.toLowerCase().trim()
     })        
-    setErrors(validate({
+    setErrors(validateTwo({
         ...input_serv_hotel,
-        [e.target.name] : e.target.value
+        name: e.target.value
     }))
 }
 
-//------------ HANDLE CHANGE DEMAS INPUT SERVICES HOTEL----------//
+//------------ HANDLE CHANGE -----------------------//
 const handleChange = (e) => {
     e.preventDefault();        
     setInput_serv_hotel({
         ...input_serv_hotel,
         [e.target.name] : e.target.value
     })        
-    setErrors(validate({
+    setErrors(validateTwo({
         ...input_serv_hotel,
         [e.target.name] : e.target.value
-    }))
-}
-
-//------------ HANDLE CHANGE HOTEL NAME----------//
-const handleChangeHotel = (e) => {
-    e.preventDefault();        
-    setInput_serv_hotel({
-        ...input_serv_hotel,
-       idHotel : e.target.value
-    })        
-    setErrors(validate({
-        ...input_serv_hotel,
-        idHotel : e.target.value
     }))
 }
 
@@ -80,11 +102,14 @@ const handleChangeHotel = (e) => {
 //----------------HANDLE SUBMIT SERVICES HOTEL------------------//
 const handleSubmit = (e) => {
     e.preventDefault()
-    if (input_serv_hotel && !Object.keys(errors).length) {
-        dispatch(createServicesHotels(input_serv_hotel)) 
-        alert('Service created successfully')
+    if (input_serv_hotel && !Object.keys(errors).length && !Object.keys(error).length) {
+        dispatch(modifyServicesHotels(input_serv_hotel)) 
+        alert('Service modified successfully')
+        setInput_hotel({
+            idHotel:''
+        })
         setInput_serv_hotel({
-            idHotel:'',
+            id:'',
             name: '',
             image: '',
             description: '',
@@ -98,7 +123,7 @@ const handleSubmit = (e) => {
 return (
     <div className="cardHotels-container">
     <form onSubmit={(e) => handleSubmit(e)}>
-
+        
         {/*-----------------------NAME HOTEL----------------- */} 
         <div>
             <label>Hotel Name
@@ -110,19 +135,35 @@ return (
                     return 0;
                 }).map(e => 
                     <option key= {e.id} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
-                </select>
-                </label>
+                </select></label>
             </div>
             <div>
-            {errors.idHotel && (<p>{errors.idHotel}</p>)}
+            {errors.idHotel && (<p>{error.idHotel}</p>)}
             </div>
                      
         
-        {/*-----------------------NAME SERVICE---------------- */} 
+        {/*-----------------------ID SERVICE (name actual)---------------- */} 
                 <div>
+                    <label> Current Service Name
+                    <select value={input_serv_hotel.id} onChange={(e) => handleChangeId(e)}>
+                    <option hidden selected >Select Service Name</option>
+                    {servicesHotelID?.sort((a,b)=>{
+                    if(a.name > b.name) return 1;
+                    if(a.name < b.name) return -1;
+                    return 0;
+                }).map(e => 
+                        <option key= {e.name} value= {e.id} >{e.name}</option>)}
+                    </select>
+                    </label>
+                </div>
+            <div>
+                {errors.id && (<p>{errors.id}</p>)}
+            </div>
+        {/*-----------------------NEW SERVICE NAME ------------------------ */} 
+        <div>
                     <label>Service Name</label>
                     <input 
-                    placeholder="Service name..."
+                    placeholder="New service name..."
                     type="text" 
                     value={input_serv_hotel.name} 
                     name="name" 
@@ -164,7 +205,7 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length        
+        {!input_hotel.idHotel || !input_serv_hotel.id || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length || Object.keys(error).length     
             ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send </button>)}
         </div>
@@ -173,4 +214,4 @@ return (
     </div>
 )}
 
-export default CreateServHotels;
+export default ModifyServHotels;

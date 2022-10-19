@@ -25,8 +25,8 @@ const initialStateHotel = {
   servicesHotel: [],
   location: [],
   filterCategory: [],
-  onlyServicesHotel:[],
-  onlyEventsHotel:[],
+  onlyServicesHotel: [],
+  onlyEventsHotel: [],
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
