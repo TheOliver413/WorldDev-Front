@@ -1,14 +1,30 @@
+import { ADD_ROOM_TO_CART } from "../action/action";
+
 const initialState = {
-  roomsSelected: 0,
+  cartTotalQuantity: 0,
+  cartRooms: []
 };
 
 const cart_reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_ROOMS_SELECTED':
-      return {
-        ...state,
-        roomsSelected: state.roomsSelected + 1,
-      };
+    case ADD_ROOM_TO_CART:
+      const indexOfroom = state.cartRooms.findIndex(r => r.id === action.payload.id)
+      //nota: cartQuantity es como el stock q quiero llevar(?)
+      //si no tengo esta room agregada al carrito => la agrego, sino => aumento su cartQuantity
+      if (indexOfroom < 0) {
+        alert('Added to cart')
+        return {
+          ...state,
+          cartTotalQuantity: state.cartTotalQuantity += 1,
+          cartRooms: [...state.cartRooms, {...action.payload, cartQuantity: 1}]
+        }
+      } else {
+        state.cartRooms[indexOfroom].cartQuantity += 1
+        alert('Number of rooms updated to ' + state.cartRooms[indexOfroom].cartQuantity)
+        return {
+          ...state
+        }
+      }
 
     default:
       return { ...state };
