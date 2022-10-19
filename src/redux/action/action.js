@@ -47,12 +47,24 @@ export const SET_MAX_PAGE_NUMBER = "SET_MAX_PAGE_NUMBER";
 //-------------------LOCATIONS----------------//
 export const GET_ALL_LOCATIONS = 'GET_ALL_LOCATIONS'
 
+//------------------CART-------------------//
+export const ADD_ROOM_TO_CART = 'ADD_ROOM_TO_CART'
+
 //-----------------URLS----------------------//
 const BACK_URL = "http://localhost:3001"
 const URL_POST_HOTEL = "http://localhost:3001/hotels";
 const URL_POST_ROOM = "http://localhost:3001/rooms";
 
-//-------------------------------------------//
+//------------------CART-------------------//
+export function addRoomToCart (payload) {
+  console.log(payload);
+  return {
+    type: ADD_ROOM_TO_CART,
+    payload
+  }
+}
+
+//----------------PAGINATION--------------------//
 
 export function setActualPage(n) {
   return {

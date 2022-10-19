@@ -6,7 +6,7 @@ import suitcase from './suitcase.svg'
 import "./Styles.css";
 
 export default function Nav() {
-  const roomsSelected = useSelector(state => state.reducerCart.roomsSelected)
+  const cartTotalQuantity = useSelector(state => state.reducerCart.cartTotalQuantity)
 
   return (
     <nav className="nav-container navbar navbar-expand-lg sticky-top">
@@ -19,7 +19,7 @@ export default function Nav() {
           </div>
         </Link>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0 shadow-none"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -65,7 +65,7 @@ export default function Nav() {
             </li>
             <li className="nav-cart-container nav-item">
               <img className="mx-3" src={suitcase} alt='Shopping Cart' />
-              <span className="nav-cart-itemsSelected">{roomsSelected}</span>
+              <span className="nav-cart-itemsSelected">{cartTotalQuantity}</span>
             </li>
 
             <button type="button" className="btn btn-outline-primary ms-4" disabled>
