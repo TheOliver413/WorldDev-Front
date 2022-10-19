@@ -15,6 +15,7 @@ import RoomDetail from "./Components/RoomDetail/RoomDetail";
 import Favorite from "./Components/Favorite/Favorite";
 import CreateServRooms from "./Components/CreateServRooms/CreateServRooms";
 import CreateServHotels from "./Components/CreateServHotels/CreateServHotels";
+import ModifyServHotels from "./Components/CreateServHotels/ModifiyServHotels";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route exact path="/home/createServRooms" element={<CreateServRooms/>}/>
           <Route exact path="/home/createServHotels" element={<CreateServHotels/>}/>
+          <Route exact path="/home/modifyServHotels" element={<ModifyServHotels/>}/>
           <Route exact path="/home/createEvents" element={<CreateEvents/>}/>
           <Route exact path="/home/createRooms" element={<CreateRooms/>}/>
           <Route exact path="/home/createHotels" element={<CreateHotel/>}/>
