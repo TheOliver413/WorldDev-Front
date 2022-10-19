@@ -1,5 +1,5 @@
 .roomDetail-container img {
-  height: 85vh;
+  height: 87vh;
   width: 100%;
   object-fit: cover;
 }
@@ -16,12 +16,6 @@
   margin-inline: auto;
 }
 
-.roomDetail-body input {
-  border: var(--clr-main) solid 2px;
-  padding: .5em;
-  border-radius: 4px;
-}
-
 .roomDetail-loading {
-  margin-block: 150px;
+  margin: 3.75rem 3rem;
 }
