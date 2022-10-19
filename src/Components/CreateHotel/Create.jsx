@@ -18,9 +18,10 @@ export default function Create() {
     image: [""],
     qualification: 1,
     description: "",
+    address:"",
     city: "",
     country: "",
-    continent: "",
+    department: "",
 
   })
   const [input_create, setInput_create] = useState({
@@ -141,9 +142,10 @@ export default function Create() {
         image: [""],
         qualification: 1,
         description: "",
+        address:"",
         city: "",
         country: "",
-        continent: "",
+        department: "",
       })
     } else {
       alert("Check the fields")
@@ -260,21 +262,47 @@ export default function Create() {
               {<p className="" > Value : {input_hotels.qualification}</p>}
             </div>
 
-            {/*--------------------------CITY----------------------- */}
+            {/*--------------------------ADRESS----------------------- */}
             <h4>Location</h4>
             <div >
               <input
                 className="form-control"
-                placeholder="City..."
+                placeholder="Address..."
                 type="text"
-                value={input_hotels.city}
-                name="city"
+                value={input_hotels.address}
+                name="adress"
                 onChange={(e) => handleChange(e)}>
               </input>
             </div>
+             {/*--------------------------DEPARTMENT----------------------- */}          
+              
+             <select>
+              { 
+                <option>departamento</option>
+               }      
+             </select>
+                     
 
+             {/*--------------------------CITY----------------------- */}          
+              
+             <select>
+              { 
+                <option>Moreno</option>
+               }
+             </select>
+              
+            
+              {/*--------------------------STATE----------------------- */}          
+               
+             <select>
+              { 
+                <option>Buenos aires</option>
+               }
+             </select>
+              
+              
             {/*--------------------------COUNTRY----------------------- */}
-            <div >
+            {/* <div >
               <input
                 className="form-control"
                 placeholder="Country..."
@@ -283,10 +311,10 @@ export default function Create() {
                 name="country"
                 onChange={(e) => handleChange(e)}>
               </input>
-            </div>
+            </div> */}
 
             {/*--------------------------CONTINENT----------------------- */}
-            <div >
+            {/* <div >
               <input
                 className="form-control"
                 placeholder="Continent..."
@@ -295,7 +323,7 @@ export default function Create() {
                 name="continent"
                 onChange={(e) => handleChange(e)}>
               </input>
-            </div>
+            </div> */}
 
             {/*----------------------------BUTTON------------------------ */}
             <div>

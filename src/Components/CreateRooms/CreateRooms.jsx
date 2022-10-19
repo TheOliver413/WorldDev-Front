@@ -27,6 +27,8 @@ export default function CreateRooms() {
     price: 10,
     description: "",
     category: "",
+    services:[""],
+    stock: 0,
   })
   //console.log("aca name: ",input_rooms.name)
 
@@ -156,7 +158,9 @@ export default function CreateRooms() {
         image: [""],
         price: 10,
         description: "",
-        category:"",
+        category: "",
+        services:[""],
+        stock: 0,
       })
 
       alert('Rooms created successfully')
@@ -239,6 +243,18 @@ export default function CreateRooms() {
           onChange={(e) => handleChange(e)} />
         {<p >Value U💲{input_rooms.price}</p>}
 
+        {/*-------------------SERVICES---------------- */}
+        <p></p>
+        <select
+          className="form-control" name="services" value={input_rooms.services} onChange={(e) => handleChange(e)}>
+          <option disabled selected >Services...</option>
+          {/* {data_hotels?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })} */}
+        </select>
+          
         {/*--------------------------CATEGORY----------------------- */}
         <select name="category" value={input_rooms.category}
           className="form-control"

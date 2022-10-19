@@ -1,44 +1,51 @@
 import axios from 'axios';
-//-------------------VARIABLES----------------//
+//-------------------HOTELS----------------//
 export const GET_ALL_HOTELS = "GET_ALL_HOTELS";
-export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
-export const SEARCH_NAME_HOTEL = "SEARCH_NAME_HOTEL";
-export const SEARCH_NAME_ROOM = "SEARCH_NAME_ROOM";
 export const GET_HOTEL_DETAIL = "GET_HOTEL_DETAIL";
-export const GET_ROOMS_DETAIL = "GET_ROOMS_DETAIL";
-export const CLEAR_HOTEL_DETAIL = "CLEAR_HOTEL_DETAIL";
-export const CLEAR_ROOM_DETAIL = "CLEAR_ROOM_DETAIL";
-export const GET_ALL_SERVICES_HOTEL = "GET_ALL_SERVICES_HOTEL";
-export const POST_HOTEL = "POST_HOTEL";
-export const POST_ROOM = "POST_ROOM";
-export const GET_ALL_LOCATIONS = 'GET_ALL_LOCATIONS'
-export const FILTER_BY_CITY = 'FILTER_BY_CITY'
-
-export const UPDATE_HOTELS = "UPDATE_HOTELS";
-export const UPDATE_ROOMS = "UPDATE_ROOMS";
-
+export const SEARCH_NAME_HOTEL = "SEARCH_NAME_HOTEL";
 export const CREATE_HOTELS = "CREATE_HOTELS";
-export const CREATE_ROOMS = "CREATE_ROOMS";
-export const CLEAR_DETAIL = "CLEAR_DETAIL";
-export const ORDER_BY = "ORDER_BY";
+export const UPDATE_HOTELS = "UPDATE_HOTELS";
+export const CLEAR_HOTEL_DETAIL = "CLEAR_HOTEL_DETAIL";
+export const POST_HOTEL = "POST_HOTEL";
 
-export const GET_CATEGORY = "GET_CATEGORY"
-export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
-export const PUT_SERVICES_HOTEL = 'PUT_SERVICES_HOTEL';
+//-------------------ROOMS----------------//
+export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
+export const GET_ROOMS_DETAIL = "GET_ROOMS_DETAIL";
+export const SEARCH_NAME_ROOM = "SEARCH_NAME_ROOM";
+export const CLEAR_ROOM_DETAIL = "CLEAR_ROOM_DETAIL";
+export const POST_ROOM = "POST_ROOM";
+export const UPDATE_ROOMS = "UPDATE_ROOMS";
+export const CREATE_ROOMS = "CREATE_ROOMS";
+
+//-------------------SERVICES ROOM----------------//
+export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
 export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
+
+//-------------------SERVICES HOTEL----------------//
+export const GET_ALL_SERVICES_HOTEL = "GET_ALL_SERVICES_HOTEL";
+export const PUT_SERVICES_HOTEL = 'PUT_SERVICES_HOTEL';
+export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
+export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
+
+//-------------------EVENTS----------------//
+export const GET_EVENTS_HOTEL = 'GET_EVENTS_HOTEL';
+export const GET_CATEGORY = "GET_CATEGORY"
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
 
-export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
-export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
-export const GET_EVENTS_HOTEL = 'GET_EVENTS_HOTEL';
+//--------------ORDER/FILTER/CLEAN------------//
+export const CLEAR_DETAIL = "CLEAR_DETAIL";
+export const FILTER_BY_CITY = 'FILTER_BY_CITY'
+export const ORDER_BY = "ORDER_BY";
 
+//-------------------PAGINATION----------------//
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
 export const SET_MIN_PAGE_NUMBER = "SET_MIN_PAGE_NUMBER";
 export const SET_MAX_PAGE_NUMBER = "SET_MAX_PAGE_NUMBER";
 
-
+//-------------------LOCATIONS----------------//
+export const GET_ALL_LOCATIONS = 'GET_ALL_LOCATIONS'
 
 //-----------------URLS----------------------//
 const BACK_URL = "http://localhost:3001"
@@ -66,7 +73,7 @@ export function setMaxPageNumber(n) {
   }
 }
 
-//----------------------- HOTELS ------------------------------//
+//--------------------------------------------------//
 
 export function clearDetail() {
   return {
