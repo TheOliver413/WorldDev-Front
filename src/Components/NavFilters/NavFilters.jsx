@@ -1,11 +1,8 @@
 import React from "react";
-// import { Link } from "react-router-dom";
-// import logo from '../../dataBase/it_world.png';
 import Search from "../Search/Search";
 import Order from "../Order/Order";
 import Filter from "../Filter/Filter";
 import FilterCategory from "../FilterCategory/FilterCategory";
-import "./Styles.css";
 
 export default function Nav() {
   return (

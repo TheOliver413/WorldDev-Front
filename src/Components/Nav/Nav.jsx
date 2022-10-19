@@ -1,15 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import logo from '../../dataBase/it_world.png';
+import { useSelector } from "react-redux/es/exports";
 import logo from "./world-developers.png";
-// import Search from "../Search/Search";
-// import Order from "../Order/Order";
-// import Filter from "../Filter/Filter";
-// import FilterCategory from "../FilterCategory/FilterCategory";
-// import Search from "../Search/Search";
+import suitcase from './suitcase.svg'
 import "./Styles.css";
 
 export default function Nav() {
+  const roomsSelected = useSelector(state => state.reducerCart.roomsSelected)
+
   return (
     <nav className="nav-container navbar navbar-expand-lg sticky-top">
       <div className="container-fluid container-nav">
@@ -65,17 +63,14 @@ export default function Nav() {
                 ABOUT US
               </Link>
             </li>
+            <li className="nav-cart-container nav-item">
+              <img className="mx-3" src={suitcase} alt='Shopping Cart' />
+              <span className="nav-cart-itemsSelected">{roomsSelected}</span>
+            </li>
 
-            <div className="btn-toolbar" role="toolbar">
-              <div className="btn-group">
-                <button type="button" className="btn btn-outline-primary" disabled>
-                  <i className="bi bi-bag-fill"></i>
-                </button>
-                <button type="button" className="btn btn-outline-primary" disabled>
-                  LOG IN
-                </button>
-              </div>
-            </div>
+            <button type="button" className="btn btn-outline-primary ms-4" disabled>
+              LOG IN
+            </button>
           </ul>
         </div>
       </div>
