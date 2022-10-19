@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createServicesHotels, getHotels, getServicesHotel, modifyServicesHotels } from "../../redux/action/action";
+import { createServicesHotels, getHotels } from "../../redux/action/action";
 
 const validate = (input_serv_hotel) => {
     let errors = {};
@@ -21,7 +21,7 @@ const validate = (input_serv_hotel) => {
 const CreateServHotels = () => {
     const dispatch = useDispatch();
     const hotels = useSelector(state=>state.reducerHotel.hotels)
-    const servicesHotel= useSelector(state=>state.reducerHotel.onlyServicesHotel)
+    //const servicesHotelID = useSelector(state=>state.reducerHotel.onlyServicesHotel)
 
 const [input_serv_hotel, setInput_serv_hotel] = useState({
     idHotel: '',
@@ -29,25 +29,25 @@ const [input_serv_hotel, setInput_serv_hotel] = useState({
     image: '',
     description: '',
 })
-const [input_create, setInput_create] = useState({
-    option:''
-})
+// const [input_create, setInput_create] = useState({
+//     option:''
+// })
 const [errors, setErrors] = useState({})
 
 
  useEffect(()=>{
-     dispatch(getHotels())
-     //dispatch(getServicesHotel(input_serv_hotel.idHotel)) //COMENTADO HASTA QUE FUNCIONE LA RUTA
- },[dispatch]) 
+    !hotels.length && dispatch(getHotels());
+     //dispatch(getServicesHotel(input_serv_hotel.idHotel)) 
+ },[dispatch, hotels]) 
 
 //------------ HANDLE CHANGE CREATE/MODIFY --------------//
-const handleChangeCreate = (e) => {
-    e.preventDefault();        
-    setInput_create({
-        ...input_create,
-        [e.target.name] : e.target.value
-    })        
-}
+// const handleChangeCreate = (e) => {
+//     e.preventDefault();        
+//     setInput_create({
+//         ...input_create,
+//         [e.target.name] : e.target.value
+//     })        
+// }
 //------------ HANDLE CHANGE NAME SERVICES HOTEL--------------//
 const handleName = (e) => {
     e.preventDefault();        
@@ -92,13 +92,13 @@ const handleChangeHotel = (e) => {
 const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_hotel) {
-        if(input_create.option === 'create') {
+        // if(input_create.option === 'create') {
             dispatch(createServicesHotels(input_serv_hotel)) 
             alert('Service created successfully')
-        }else {
-            dispatch(modifyServicesHotels(input_serv_hotel)) 
-            alert('Service modified successfully')
-        }
+        // }else {
+        //     dispatch(modifyServicesHotels(input_serv_hotel)) 
+        //     alert('Service modified successfully')
+        // }
         setInput_serv_hotel({
             idHotel:'',
             name: '',
@@ -116,7 +116,7 @@ return (
     <form onSubmit={(e) => handleSubmit(e)}>
 
         {/*----------------CREATE OR MODIFY------------------------ */} 
-        <div>
+        {/* <div>
             <label>Select an option
             <label> Create
             <input 
@@ -124,7 +124,6 @@ return (
             id='create'  
             name='option' 
             value='create' 
-            checked 
             onChange={(e) => handleChangeCreate(e)}/>
             </label>
             <label> Modify
@@ -136,7 +135,7 @@ return (
             onChange={(e) => handleChangeCreate(e)} />
             </label>
             </label>
-        </div>
+        </div> */}
         
         {/*-----------------------NAME HOTEL----------------- */} 
         <div>
@@ -157,8 +156,8 @@ return (
                      
         
         {/*-----------------------NAME SERVICE---------------- */} 
-        {input_create.option === 'create'?
-                (<div>
+        {/* {input_create.option === 'create'?} */}
+                <div>
                     <label>Service Name</label>
                     <input 
                     placeholder="Service name..."
@@ -166,20 +165,16 @@ return (
                     value={input_serv_hotel.name} 
                     name="name" 
                     onChange={(e) => handleName(e)} />
-                </div>)
-                :(<div>
+                </div>
+                {/* :(<div>
                     <label>Service Name
                     <select value={input_serv_hotel.name } onChange={(e) => handleName(e)}>
                     <option hidden selected >Select Service Name</option>
-                    {servicesHotel?.sort((a,b)=>{
-                        if(a.name > b.name) return 1;
-                        if(a.name < b.name) return -1;
-                        return 0;
-                    }).map(e => 
+                    {servicesHotelID?.map(e => 
                         <option key= {e.name} value= {e.name} >{e.name}</option>)}
                     </select>
                     </label>
-                </div>)}
+                </div>) */}
             <div>
                 {errors.name && (<p>{errors.name}</p>)}
             </div>
@@ -216,7 +211,7 @@ return (
         
         {/*----------------------------BUTTON CREATE------------------------ */}
         <div>
-        {!input_create.option || !input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length        
+        {!input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length        
             ? (<button disabled type="submit">Send</button>) 
             : (<button type="submit">Send </button>)}
         </div>
