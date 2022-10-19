@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDetailRoom } from "../../redux/action/action.js";
+import { addDays, format, differenceInDays } from 'date-fns'
 import './RoomDetail.css'
 
 const RoomDetail = () => {
@@ -49,26 +50,11 @@ const RoomDetail = () => {
     setIsFavorite(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
   }, [dispatch, id]);
 
-    //manejo del date input
-    function addDays(date, days) {
-      const copy = new Date(Number(date))
-      copy.setDate(date.getDate() + days)
-      return copy.toISOString().split('T')[0]
-    }
-    
-    function restDays(checkInInput, checkOutInput) {
-      const inDate = new Date(checkInInput); 
-      const outDate = new Date(checkOutInput);
-      const difference = Math.abs(outDate - inDate);
-      const days = difference/(1000 * 3600 * 24)
-      return days
-    }
-  
-    const [checkInInput, setCheckInInput] = useState(new Date().toISOString().split('T')[0])
-    const [checkOutInput, setCheckOutInput] = useState(addDays(new Date(), 1))
-  
-    const handleCheckInChange = (e) => setCheckInInput(e.target.value)
-    const handleCheckOutChange = (e) => setCheckOutInput(e.target.value)  
+  //manejo del date input  
+  const [checkInInput, setCheckInInput] = useState(format(new Date(), 'yyyy-MM-dd'))
+  const [checkOutInput, setCheckOutInput] = useState(format(addDays(new Date(), 1), 'yyyy-MM-dd'))
+  const handleCheckInChange = (e) => setCheckInInput(e.target.value)
+  const handleCheckOutChange = (e) => setCheckOutInput(e.target.value)
 
   return (
     <>
@@ -78,24 +64,28 @@ const RoomDetail = () => {
           <div className="roomDetail-body">
             <h1 className="roomDetail-title mt-2">{name}</h1>
             <p>{description}</p>
-            <div className="hotelDetail-input-container d-inline-flex flex-column gap-1 mt-2">
-              <label>Check-in</label>
-              <input
-                type="date"
-                value={checkInInput}
-                min={checkInInput}
-                onChange={handleCheckInChange}
-               />
-              <label className="mt-2">Check-out</label>
-              <input
-                type="date"
-                value={checkOutInput}
-                min={addDays(new Date(), 1)}
-                onChange={handleCheckOutChange}
-               />
+            <div className="d-flex flex-column flex-sm-row gap-3 mt-3">
+              <div className="d-flex flex-column align-items-start">
+                <label>Check-in</label>
+                <input
+                  type="date"
+                  value={checkInInput}
+                  min={format(new Date(), 'yyyy-MM-dd')}
+                  onChange={handleCheckInChange}
+                />
+              </div>
+              <div className="d-flex flex-column align-items-start">
+                <label>Check-out</label>
+                <input
+                  type="date"
+                  value={checkOutInput}
+                  min={format(addDays(new Date(checkInInput || null), 2), 'yyyy-MM-dd')}
+                  onChange={handleCheckOutChange}
+                />
+              </div>
             </div>
-            <p className="mt-4">The price for {restDays(checkInInput, checkOutInput)} night/s is&nbsp;
-              <strong>${price*restDays(checkInInput, checkOutInput)}</strong>
+            <p className="mt-4">The price for {differenceInDays(new Date(checkOutInput), new Date(checkInInput))} night/s is&nbsp;
+              <strong>${price*differenceInDays(new Date(checkOutInput), new Date(checkInInput))}</strong>
             </p>
             {/* FALTA SERVICIOS CON ICONOS */}
 
@@ -110,7 +100,7 @@ const RoomDetail = () => {
           </div>
         </div>
       ) : (
-        <h3 className="roomDetail-loading">Loading room detail...</h3>
+        <h3 className="roomDetail-loading text-start">Loading room detail...</h3>
       )}
     </>
   );
