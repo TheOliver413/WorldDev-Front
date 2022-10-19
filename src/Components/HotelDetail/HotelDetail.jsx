@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
 import CardRoom from "../CardRoom/CardRoom.jsx";
+import { addDays, format, differenceInDays } from 'date-fns'
 import './HotelDetail.css'
 
 const HotelDetail = () => {
@@ -22,32 +23,16 @@ const HotelDetail = () => {
     return () => dispatch(clearDetail())
   }, [dispatch])
 
-  //manejo del date input
-  function addDays(date, days) {
-    const copy = new Date(Number(date))
-    copy.setDate(date.getDate() + days)
-    return copy.toISOString().split('T')[0]
-  }
-  
-  function restDays(checkInInput, checkOutInput) {
-    const inDate = new Date(checkInInput); 
-    const outDate = new Date(checkOutInput);
-    const difference = Math.abs(outDate - inDate);
-    const days = difference/(1000 * 3600 * 24)
-    return days
-  }
-
-  const [checkInInput, setCheckInInput] = useState(new Date().toISOString().split('T')[0])
-  const [checkOutInput, setCheckOutInput] = useState(addDays(new Date(), 1))
-
+  //manejo del date input  
+  const [checkInInput, setCheckInInput] = useState(format(new Date(), 'yyyy-MM-dd'))
+  const [checkOutInput, setCheckOutInput] = useState(format(addDays(new Date(), 1), 'yyyy-MM-dd'))
   const handleCheckInChange = (e) => setCheckInInput(e.target.value)
   const handleCheckOutChange = (e) => setCheckOutInput(e.target.value)
 
   return (
-    <div className="hotelDetail-container text-start">
+    <div className="text-start">
       {hotelDetail.name ? (
-        <div>
-
+        <>
           <div id="carousel" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-indicators">
               <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -78,32 +63,32 @@ const HotelDetail = () => {
 
           <div className="hotelDetail-body">
             <h1 className="hotelDetail-title">{name}</h1>
-            <h6>{Locations[0].city}, {Locations[0].country}</h6>
+            <h6>{Locations[0].city}, {Locations[0].department}, {Locations[0].state}</h6>
             <p>Score: {qualification} ✫</p>
             <p>{description}</p>
             <h2 className="mt-5">Available rooms</h2>
-            <div className="hotelDetail-input-container d-flex flex-column flex-sm-row gap-3 mt-3">
+            <div className="d-flex flex-column flex-sm-row gap-3 mt-3">
               <div className="d-flex flex-column align-items-start">
                 <label>Check-in</label>
                 <input
                   type="date"
                   value={checkInInput}
-                  min={new Date().toISOString().split('T')[0]}
+                  min={format(new Date(), 'yyyy-MM-dd')}
                   onChange={handleCheckInChange}
                 />
               </div>
               <div className="d-flex flex-column align-items-start">
-                <label className="">Check-out</label>
+                <label>Check-out</label>
                 <input
                   type="date"
                   value={checkOutInput}
-                  min={addDays(new Date(checkInInput), 1)}
+                  min={format(addDays(new Date(checkInInput || null), 2), 'yyyy-MM-dd')}
                   onChange={handleCheckOutChange}
                 />
               </div>
             </div>
             {Rooms.map((r) => (
-              <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)*restDays(checkInInput, checkOutInput)} description={r.description} />
+              <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)*differenceInDays(new Date(checkOutInput), new Date(checkInInput))} description={r.description} />
             ))}
 
             {/* <h2>What this place offers</h2> */}
@@ -114,7 +99,7 @@ const HotelDetail = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <h3 className="hotelDetail-loading">Loading detail...</h3>
       )}
