@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from "react-toastify";
+
 //-------------------HOTELS----------------//
 export const GET_ALL_HOTELS = "GET_ALL_HOTELS";
 export const GET_HOTEL_DETAIL = "GET_HOTEL_DETAIL";
@@ -254,8 +256,10 @@ export function createHotels(payload) {
         payload: newHotel
       })
     } catch (error) {
-      console.log(error && alert("Error, when create Hotel!!"))
-
+      console.log(error.response.data);
+      toast.error("An error occurred while creating the hotel.", {
+        position: "bottom-right"
+      })
     }
   }
 }
@@ -272,8 +276,10 @@ export function createRooms(payload) {
         payload: newRoom
       })
     } catch (error) {
-      console.log(error && alert("Error, when create Room!!"))
-
+      console.log(error.response.data);
+      toast.error("An error occurred while creating the room.", {
+        position: "bottom-right"
+      })
     }
   }
 }
@@ -417,25 +423,27 @@ export function updateHotels(payload) {
         payload: upDate_Hotel
       })
     } catch (error) {
-      console.log(error && alert("Error, when update Hotel!!"))
-
+      console.log(error.response.data);
+      toast.error("An error occurred while updating the hotel.", {
+        position: "bottom-right"
+      })
     }
   }
 }
 
 export function modifyRooms(payload) {
-
-  return async function(dispatch) {
-
-      try {
-          const update_Room = await axios.put( URL_POST_ROOM , payload)
-          return dispatch({
-              type: UPDATE_ROOMS,
-              payload: update_Room
-          })
-      } catch (error) {
-          console.log(error && alert("Error, when modify Room!!"))
-
-      }
-  }
+  return async function (dispatch) {
+    try {
+      const update_Room = await axios.put(URL_POST_ROOM, payload);
+      return dispatch({
+        type: UPDATE_ROOMS,
+        payload: update_Room.data
+      });
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error("An error occurred while modifying the room.", {
+        position: "bottom-right"
+      })
+    }
+  };
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
+import { toast } from "react-toastify";
 import '../Create/Styles.css';
 
 export default function Create() {
@@ -125,10 +126,10 @@ export default function Create() {
     if (input_hotels) {
       if (input_create.option === 'create') {
         dispatch(createHotels(input_hotels))
-        alert('Hotel created successfully')
+        toast.success('Hotel created successfully', { position: 'bottom-right' })
       } else {
         dispatch(updateHotels(input_hotels))
-        alert('Hotel modified successfully')
+        toast.success('Hotel modified successfully', { position: 'bottom-right' })
       }
       input_sethotels({
         id: "",
@@ -142,7 +143,7 @@ export default function Create() {
         department: "",
       })
     } else {
-      alert("Check the fields")
+      toast.error('Check the fields', { position: 'bottom-right' })
     }
   }
 
