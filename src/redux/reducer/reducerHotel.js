@@ -46,11 +46,10 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       }
 
     case SEARCH_NAME_HOTEL:
-      let hotelFound =typeof action.payload === 'object'? action.payload : state.allHotels
+      // let hotelFound =typeof action.payload === 'object'? action.payload : state.allHotels
       return {
         ...state,
-        hotels: hotelFound
-
+        hotels: action.payload
       }
     case GET_HOTEL_DETAIL:
       return {

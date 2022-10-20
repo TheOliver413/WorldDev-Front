@@ -36,10 +36,10 @@ const Home = () => {
   }, [dispatch, hotels]);
 
   return (
-    <div>
-      <CardHotels actualHotels={actualHotels} />
+    <>
+      <CardHotels hotels={hotels} actualHotels={actualHotels} />
       <Pagination hotels={hotels} hotelsPerPage={hotelsPerPage} pages={pages} />
-    </div>
+    </>
   );
 };
 

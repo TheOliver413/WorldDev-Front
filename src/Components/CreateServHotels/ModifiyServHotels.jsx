@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyServicesHotels, getHotels, getServicesHotel } from "../../redux/action/action";
+import { toast } from "react-toastify";
 
 const validate = (input_hotel) => {
     let error = {};
@@ -104,7 +105,7 @@ const handleSubmit = (e) => {
     e.preventDefault()
     if (input_serv_hotel && !Object.keys(errors).length && !Object.keys(error).length) {
         dispatch(modifyServicesHotels(input_serv_hotel)) 
-        alert('Service modified successfully')
+        toast.success('Service modified successfully', { position: 'bottom-right' })
         setInput_hotel({
             idHotel:''
         })
@@ -115,7 +116,7 @@ const handleSubmit = (e) => {
             description: '',
         })
     } else {
-      alert("Check the fields")
+        toast.error("Check the fields", { position: 'bottom-right' })
     }
   } 
 

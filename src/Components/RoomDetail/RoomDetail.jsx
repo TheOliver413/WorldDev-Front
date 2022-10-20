@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addRoomToCart, getDetailRoom } from "../../redux/action/action.js";
 import { addDays, format, differenceInDays } from 'date-fns'
+import { toast } from "react-toastify";
 import './RoomDetail.css'
 
 const RoomDetail = () => {
@@ -21,7 +22,9 @@ const RoomDetail = () => {
       localStorage.setItem('favorites', JSON.stringify([roomDetail]));
       localStorage.setItem('IDs', JSON.stringify([id]));
       setIsFavorite(true)
-      alert(`${name} added to favorites.`)
+      toast.success(`${name} added to favorites.`, {
+        position: 'bottom-right'
+      })
     }
     //si ya tengo algo en fav...
     else {
@@ -31,7 +34,9 @@ const RoomDetail = () => {
         localStorage.setItem('favorites', JSON.stringify([...hasSomething, roomDetail]));
         localStorage.setItem('IDs', JSON.stringify([...IDs, id]));
         setIsFavorite(true)
-        alert(`${name} added to favorites.`)
+        toast.success(`${name} added to favorites.`, {
+          position: 'bottom-right'
+        })
       } 
       //si SÍ ESTÁ en fav => la elimino
       else {
@@ -40,7 +45,9 @@ const RoomDetail = () => {
         const keepID = IDs.filter(favID => favID !== id)
         localStorage.setItem('IDs', JSON.stringify(keepID));
         setIsFavorite(false)
-        alert(`${name} deleted from favorites.`)
+        toast.info(`${name} deleted from favorites.`, {
+          position: 'bottom-right'
+        })
       }
     }
   }
