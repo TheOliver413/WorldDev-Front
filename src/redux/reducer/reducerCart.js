@@ -2,8 +2,12 @@ import { ADD_ROOM_TO_CART } from "../action/action";
 import { toast } from "react-toastify";
 
 const initialState = {
-  cartTotalQuantity: 0,
-  cartRooms: []
+  cartTotalQuantity: localStorage.getItem('cartRooms')
+    ? JSON.parse(localStorage.getItem('cartRooms')).length
+    : 0,
+  cartRooms: localStorage.getItem('cartRooms')
+    ? JSON.parse(localStorage.getItem('cartRooms'))
+    : []
 };
 
 const cart_reducer = (state = initialState, action) => {
@@ -13,9 +17,8 @@ const cart_reducer = (state = initialState, action) => {
       //nota: cartQuantity es como el stock q quiero llevar(?)
       //si no tengo esta room agregada al carrito => la agrego, sino => aumento su cartQuantity
       if (indexOfroom < 0) {
-        toast.success(`${action.payload.name} added to cart`, {
-          position: "bottom-right",
-        });
+        toast.success(`${action.payload.name} added to cart`, { position: "bottom-right" });
+        localStorage.setItem('cartRooms', JSON.stringify([...state.cartRooms, {...action.payload, cartQuantity: 1}]))
         return {
           ...state,
           cartTotalQuantity: state.cartTotalQuantity += 1,
@@ -23,9 +26,8 @@ const cart_reducer = (state = initialState, action) => {
         }
       } else {
         state.cartRooms[indexOfroom].cartQuantity += 1
-        toast.info(`Number of room ${state.cartRooms[indexOfroom].name} updated to ${state.cartRooms[indexOfroom].cartQuantity}`, {
-          position: 'bottom-right'
-        });
+        toast.info(`Number of room ${state.cartRooms[indexOfroom].name} updated to ${state.cartRooms[indexOfroom].cartQuantity}`, { position: 'bottom-right' });
+        localStorage.setItem('cartRooms', JSON.stringify(state.cartRooms))
         return {
           ...state
         }
