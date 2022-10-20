@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotels, getHotels } from '../../redux/action/action';
+import { updateHotels, getHotels, getState, getDepartment, getCity } from '../../redux/action/action';
 import '../Create/Styles.css';
 
 export default function ModifyHotel() {
@@ -8,6 +8,10 @@ export default function ModifyHotel() {
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
 
+  const get_state = useSelector(state=>state.reducerHotel.location_state)
+  const get_department = useSelector(state=>state.reducerHotel.location_department)
+  const get_city = useSelector(state=>state.reducerHotel.location_city)
+//---------------------------------------------------//
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
@@ -15,37 +19,64 @@ export default function ModifyHotel() {
     qualification: 1,
     description: "",
     address:"",
-    city: "",
-    country: "",
-    department: "",
 
   })
-
+//---------------------------------------------------//
+  const [location, setlocation] = useState({
+    state: "",
+    department: "",
+    city: "",
+  })
+//---------------------------------------------------//
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
   }, [dispatch, hotels])
 
+//----------------------------------------------------//
+  function handleChangeLocation(e) {
+    e.preventDefault();
+    setlocation({
+      ...location,
+      [e.target.name]: e.target.value
+    })
+    if( e.target.name === "state" ){
+      dispatch(getState(e.target.value))
+    }
+    if( e.target.name === "department" ){
+      dispatch(getDepartment(e.target.value))
+    }
+    if( e.target.name === "city" ){
+      dispatch(getCity(e.target.value))
+    }
+    // setErrors(
+    //   validate({
+    //     ...input,
+    //     [e.target.name]: e.target.value,
+    //   })
+    // )
+  }
+
   //------------------------VALIDATIONS-----------------------------//
   // let validateName = /^[a-zA-Z\s]+$/;
 
-  /* const validate = (input_hotels) => {
-    // let errors = {}
+  //  const validate = (input_hotels) => {
+  //   let errors = {}
 
-    // if (!input.title.length) {
-    //   errors.title = 'Title cannot be empty'
-    // }
+  //   if (!input.name.length) {
+  //     errors.name = 'Title cannot be empty'
+  //   }
 
-    // if (!validateTitle.test(input.title)) {
-    //   errors.title = 'Special characters or numbers are not allowed'
-    // }
+  //   if (!validateName.test(input.name)) {
+  //     errors.name = 'Special characters or numbers are not allowed'
+  //   }
 
-    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
-    //   alert(`The title ${input.title} already exist, please choose another one!`)
-    // }
+  //   if (recipes.find((e) => e.name.toLowerCase() === input.name.toLowerCase())) {
+  //     alert(`The name ${input.name} already exist, please choose another one!`)
+  //   }
 
-    // return errors;
+  //   return errors;
 
-  } */
+  // } 
   
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
@@ -76,17 +107,14 @@ export default function ModifyHotel() {
         qualification: 1,
         description: "",
         address:"",
-        city: "",
-        country: "",
-        department: "",
       })
 
-      alert('Hotel created successfully')
+      alert('Hotel modify successfully')
     } else {
       alert("Check the fields")
     }
   }
-  
+
   return (
     <div className="cardHotels-container">
       <form onSubmit={(e) => handleSubmit(e)} >
@@ -96,7 +124,7 @@ export default function ModifyHotel() {
           {/*-----------------------NAME------------------------ */}
           <div className="form-row" >
           <select
-          className="form-control" name="id" value={input_hotels.id} onChange={(e) => handleChange(e)}>
+          className="form-control" name = "id" value= {input_hotels.id} onChange={(e) => handleChange(e)}>
           <option disabled selected >Hotels...</option>
           {data_hotels?.map((ele, i) => {
             return (
@@ -160,30 +188,38 @@ export default function ModifyHotel() {
 
               {/*--------------------------STATE----------------------- */}          
                
-             <select onChange={(e) => handleChange(e)} >
-               <option disabled selected >State...</option>
-              {
-
-               }
+             <select  name="state" value={ location.state }  onChange={(e) => handleChangeLocation(e)} >
+               <option   disabled selected >State...</option>
+              { get_state?.map((ele,i)=>{
+                return(
+                  <option  value= { ele } key={i} > { ele } </option>
+                )
+              })
+                }
              </select>
 
              {/*--------------------------DEPARTMENT----------------------- */}          
               
-             <select onChange={(e) => handleChange(e)} >
+             <select  name="department" value={ location.department } onChange={(e) => handleChangeLocation(e)} >
                <option disabled selected >Department...</option>
-              {
-
-               }      
+               { get_department?.map((ele,i)=>{
+                return(
+                  <option  value= { ele } key= {i} > { ele } </option>
+                )
+              })
+                }      
              </select>
                      
-
              {/*--------------------------CITY----------------------- */}          
               
-             <select onChange={(e) => handleChange(e)} >
+             <select  name="city" value={ location.city } onChange={(e) => handleChangeLocation(e)} >
                <option disabled selected >City...</option>
-              {
-
-               }
+               { get_city?.map((ele,i)=>{
+                return(
+                  <option  value= { ele } key={i} > { ele } </option>
+                )
+              })
+                }
              </select>
               
             {/*----------------------------BUTTON------------------------ */}
