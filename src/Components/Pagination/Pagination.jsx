@@ -10,7 +10,8 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
   const dispatch = useDispatch()
 
   const arrPageNumbers = [];
-  const nOfPages = Math.ceil(hotels.length / hotelsPerPage);
+  //pregunto si es un array para tener una sola pág cuando tenga el string de hotel not found
+  const nOfPages = Math.ceil((Array.isArray(hotels) ? hotels.length : 1) / hotelsPerPage);
   for (let i = 1; i <= nOfPages; i++) arrPageNumbers.push(i);
 
   //condicion para q no rompa al querer volver a una pag q no existe

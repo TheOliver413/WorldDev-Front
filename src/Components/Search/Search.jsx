@@ -1,12 +1,9 @@
-
-//---------------IMPORTS---------------//
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { hotelByName, setActualPage } from '../../redux/action/action';
 
 export default function Search() {
   const dispatch = useDispatch()
-  const [errors] = useState({});
   const [name, setName] = useState("");
 
   function handleInputChange(e) {
@@ -16,12 +13,9 @@ export default function Search() {
     dispatch(setActualPage(1))
   }
 
-
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(hotelByName(name));
-    if(errors)alert('Hotel not Found!')
-
     setName('')
   }
 
