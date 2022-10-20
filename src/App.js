@@ -18,9 +18,8 @@ import CreateServHotels from "./Components/CreateServHotels/CreateServHotels";
 import ModifyServHotels from "./Components/CreateServHotels/ModifiyServHotels";
 import ModifyHotel from "./Components/CreateHotel/ModifyHotel";
 import ModifyRooms from "./Components/CreateRooms/ModifyRooms";
-
-
-
+import ModifyServRooms from "./Components/CreateServRooms/ModifyServiceRooms";
+import ModifyEvents from "./Components/CreateEvents/ModifyEvents";
 
 function App() {
   return (
@@ -31,9 +30,11 @@ function App() {
           <Route exact path="/home/ModifyHotel" element={< ModifyHotel />}/>
           <Route exact path="/home/ModifyRooms" element={<ModifyRooms/>}/>
           <Route exact path="/home/createServRooms" element={<CreateServRooms/>}/>
+          <Route exact path="/home/modifyServRooms" element={<ModifyServRooms/>}/>
           <Route exact path="/home/createServHotels" element={<CreateServHotels/>}/>
           <Route exact path="/home/modifyServHotels" element={<ModifyServHotels/>}/>
           <Route exact path="/home/createEvents" element={<CreateEvents/>}/>
+          <Route exact path="/home/modifyEvents" element={<ModifyEvents/>}/>
           <Route exact path="/home/createRooms" element={<CreateRooms/>}/>
           <Route exact path="/home/createHotels" element={<CreateHotel/>}/>
           <Route exact path="/home/dashboard" element={<Create/>}/>
