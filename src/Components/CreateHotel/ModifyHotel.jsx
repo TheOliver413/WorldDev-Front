@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createHotels, getHotels } from '../../redux/action/action';
-import { getCity, getDepartment, getState } from "../../redux/action/action";
+import { updateHotels, getHotels } from '../../redux/action/action';
 import '../Create/Styles.css';
 
-export default function Create() {
+export default function ModifyHotel() {
   const dispatch = useDispatch();
-  //const data_hotels = useSelector(state => state.reducerHotel.hotels)
+  const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
-
-  const get_state = useSelector(state=>state.reducerHotel.location_state)
-  const get_city = useSelector(state=>state.reducerHotel.location_city)
-  const get_department = useSelector(state=>state.reducerHotel.location_department)
-
-  // console.log("info de estados: ", get_state)
-  console.log("info en componente city: ", get_city)
-  console.log("info en componente department: ", get_department)
 
   const [input_hotels, input_sethotels] = useState({
     id: "",
@@ -24,43 +15,14 @@ export default function Create() {
     qualification: 1,
     description: "",
     address:"",
-
-  })
-  const [location, setlocation] = useState({
-    state: "",
-    department: "",
     city: "",
+    country: "",
+    department: "",
+
   })
 
-  //------------------ HANDLE CHANGE HOTELS -------------------//
-  function handleChangeLocation(e) {
-    e.preventDefault();
-    setlocation({
-      ...location,
-      [e.target.name]: e.target.value
-    })
-    if( e.target.name === "state" ){
-      dispatch(getDepartment(e.target.value))
-    }
-    if( e.target.name === "department" ){
-      dispatch(getDepartment(e.target.value))
-    }
-    // if( e.target.name === "city" ){
-    //   dispatch(getCity(e.target.value))
-    // }
-    // setErrors(
-    //   validate({
-    //     ...input,
-    //     [e.target.name]: e.target.value,
-    //   })
-    // )
-  }
-//------------------------------------------------------//
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
-    dispatch(getState());
-    dispatch(getDepartment());
-    dispatch(getCity());
   }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
@@ -79,9 +41,6 @@ export default function Create() {
 
     // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
     //   alert(`The title ${input.title} already exist, please choose another one!`)
-    // }
-    // if (input.image && !validateUrl.test(input.image)) {
-    //   errors.image = 'This is not a valid URL'
     // }
 
     // return errors;
@@ -103,12 +62,12 @@ export default function Create() {
     //   })
     // )
   }
-
+ 
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
     e.preventDefault()
     if (input_hotels) {
-      dispatch(createHotels(input_hotels))
+      dispatch(updateHotels(input_hotels))
 
       input_sethotels({
         id: "",
@@ -117,7 +76,9 @@ export default function Create() {
         qualification: 1,
         description: "",
         address:"",
-
+        city: "",
+        country: "",
+        department: "",
       })
 
       alert('Hotel created successfully')
@@ -134,15 +95,15 @@ export default function Create() {
 
           {/*-----------------------NAME------------------------ */}
           <div className="form-row" >
-              <div>
-              <input
-                className="form-control"
-                autoFocus
-                placeholder="Name..."
-                type="text" value={input_hotels.name}
-                name="name"
-                onChange={(e) => handleChange(e)} />
-              </div>
+          <select
+          className="form-control" name="id" value={input_hotels.id} onChange={(e) => handleChange(e)}>
+          <option disabled selected >Hotels...</option>
+          {data_hotels?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })}
+        </select>
 
             {/*--------------------------IMAGE------------------- */}
             <div className=''>
@@ -199,38 +160,30 @@ export default function Create() {
 
               {/*--------------------------STATE----------------------- */}          
                
-             <select  name="state" value={ location.state }  onChange={(e) => handleChangeLocation(e)} >
-               <option   disabled selected >State...</option>
-              { get_state?.map((ele,i)=>{
-                return(
-                  <option  value= { ele } key={i} > { ele } </option>
-                )
-              })
-                }
+             <select onChange={(e) => handleChange(e)} >
+               <option disabled selected >State...</option>
+              {
+
+               }
              </select>
 
              {/*--------------------------DEPARTMENT----------------------- */}          
               
-             <select  name="department" value={ location.department } onChange={(e) => handleChangeLocation(e)} >
+             <select onChange={(e) => handleChange(e)} >
                <option disabled selected >Department...</option>
-               { get_department?.map((ele,i)=>{
-                return(
-                  <option  value= { ele } key= {i} > { ele } </option>
-                )
-              })
-                }      
+              {
+
+               }      
              </select>
                      
+
              {/*--------------------------CITY----------------------- */}          
               
-             <select  name="city" value={ location.city } onChange={(e) => handleChangeLocation(e)} >
+             <select onChange={(e) => handleChange(e)} >
                <option disabled selected >City...</option>
-               { get_city?.map((ele,i)=>{
-                return(
-                  <option  value= { ele } key={i} > { ele } </option>
-                )
-              })
-                }
+              {
+
+               }
              </select>
               
             {/*----------------------------BUTTON------------------------ */}
@@ -246,4 +199,7 @@ export default function Create() {
     </div>
   )
 }
+
+
+
 

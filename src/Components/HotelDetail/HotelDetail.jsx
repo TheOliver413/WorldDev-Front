@@ -63,7 +63,7 @@ const HotelDetail = () => {
 
           <div className="hotelDetail-body">
             <h1 className="hotelDetail-title">{name}</h1>
-            <h6>{Locations[0].city}, {Locations[0].department}, {Locations[0].state}</h6>
+            <h6>{Locations[0]?.city}, {Locations[0]?.department}, {Locations[0]?.state}</h6>
             <p>Score: {qualification} ✫</p>
             <p>{description}</p>
             <h2 className="mt-5">Available rooms</h2>

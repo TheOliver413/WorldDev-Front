@@ -16,12 +16,20 @@ import Favorite from "./Components/Favorite/Favorite";
 import CreateServRooms from "./Components/CreateServRooms/CreateServRooms";
 import CreateServHotels from "./Components/CreateServHotels/CreateServHotels";
 import ModifyServHotels from "./Components/CreateServHotels/ModifiyServHotels";
+import ModifyHotel from "./Components/CreateHotel/ModifyHotel";
+import ModifyRooms from "./Components/CreateRooms/ModifyRooms";
+
+
+
 
 function App() {
   return (
     <div>
         <Nav />
         <Routes>
+
+          <Route exact path="/home/ModifyHotel" element={< ModifyHotel />}/>
+          <Route exact path="/home/ModifyRooms" element={<ModifyRooms/>}/>
           <Route exact path="/home/createServRooms" element={<CreateServRooms/>}/>
           <Route exact path="/home/createServHotels" element={<CreateServHotels/>}/>
           <Route exact path="/home/modifyServHotels" element={<ModifyServHotels/>}/>

@@ -1,31 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createRooms, getHotels, getAllServicesRoom } from '../../redux/action/action';
-import { getCity, getDepartment, getState } from "../../redux/action/action";
+import { modifyRooms, getHotels } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 
-export default function CreateRooms() {
+
+export default function ModifyRooms() {
   //--------------------------------------------------//
   const dispatch = useDispatch();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
-  const hotels1 = useSelector(state=>state.servicesRoom)
 
-
-  //console.log("info de services : ", hotels1)
-  //const serv = hotels?.map(ele=>ele.ServicesHotels)
-  //const servi = serv[7]?.map(e=>e.name)
-  //console.log("info de services : ", hotels)
-  //const services = useSelector(state=>state.servicesRoom)
-  
-  // console.log("info de services : ",services)
+  //console.log("info de hoteles: ",data_hotels)
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
-    dispatch(getState())
-    // dispatch(getDepartment())
-    // dispatch(getCity())
-
-    // !hotels.length && dispatch(getAllServicesRoom());
   }, [dispatch, hotels])
 
   //----------------------------------------//
@@ -39,7 +26,11 @@ export default function CreateRooms() {
     services:[""],
     stock: 0,
   })
+  //console.log("aca name: ",input_rooms.name)
 
+  // const [input_create, setInput_create] = useState({
+  //   option: ''
+  // })
   //------------------------VALIDATIONS-----------------------------//
   // let validateName = /^[a-zA-Z\s]+$/;
 
@@ -60,7 +51,6 @@ export default function CreateRooms() {
     // if (input.image && !validateUrl.test(input.image)) {
     //   errors.image = 'This is not a valid URL'
     // }
-
     // return errors;
 
   } */
@@ -68,7 +58,7 @@ export default function CreateRooms() {
   //------------------ HANDLE CHANGE ROOMS-------------------//
   function handleChange(e) {
     e.preventDefault();
-    // console.log(e.target.name, e.target.value)
+    //console.log(e.target.name, e.target.value)
     input_setrooms({
       ...input_rooms,
       [e.target.name]: e.target.value
@@ -85,7 +75,7 @@ export default function CreateRooms() {
     e.preventDefault()
 
     if ( input_rooms ) {
-      dispatch(createRooms(input_rooms))
+      dispatch(modifyRooms(input_rooms))
       input_setrooms({
         id: "",
         name: "",
@@ -97,7 +87,7 @@ export default function CreateRooms() {
         stock: 0,
       })
 
-      alert('Rooms created successfully')
+      alert('Rooms modify successfully')
     } else {
       alert("Check the fields")
     }
@@ -109,10 +99,11 @@ export default function CreateRooms() {
       <form onSubmit={(e) => handleSubmit(e)} >
         <h1>✯ Rooms ✯</h1>
 
+
         {/*-------------------SELECT HOTELS---------------- */}
-        
+        <p></p>
         <select
-          className="form-control" name="id" value={input_rooms.id} onChange={(e) => handleChange(e)}>
+          className="form-control" name="idHotel" value={input_rooms.idHotel} onChange={(e) => handleChange(e)}>
           <option disabled selected >Hotels...</option>
           {data_hotels?.map((ele, i) => {
             return (
@@ -128,6 +119,14 @@ export default function CreateRooms() {
           <option value="single" >single</option>
           <option value="family" >family</option>
         </select>
+
+        {/* <input
+          className="form-control"
+          placeholder="name"
+          type="text"
+          value={input_rooms.name}
+          name="name"
+          onChange={(e) => handleChange(e)} /> */}
 
         {/*-----------------------IMAGE------------------------ */}
         <input
@@ -154,14 +153,15 @@ export default function CreateRooms() {
           onChange={(e) => handleChange(e)} />
         {<p >Available : {input_rooms.stock}</p>}
 
+
         {/*-------------------SERVICES---------------- */}
         <p></p>
         <select
           className="form-control" name="services" value={input_rooms.services} onChange={(e) => handleChange(e)}>
           <option disabled selected >Services...</option>
-          {/* {servi?.map((ele, i) => {
+          {/* {data_hotels?.map((ele, i) => {
             return (
-              <option value={ele.id} key={i} >{ele}</option>
+              <option value={ele.id} key={i} >{ele.name}</option>
             )
           })} */}
         </select>
@@ -187,7 +187,8 @@ export default function CreateRooms() {
           onChange={(e) => handleChange(e)}>
         </textarea>
 
-        {/*----------------------------BUTTON------------------------ */}
+        {/*----------------------------BUTTONS------------------------ */}
+
         <div>
           <button className='btn btn-primary mb-2'
             type="submit"
