@@ -110,7 +110,7 @@ return (
                     if(a.name < b.name) return -1;
                     return 0;
                 }).map(e => 
-                    <option key= {e.id} value= {e.id} >{e.name}</option>)} {/*mapeo el nombre de los hoteles*/}
+                    <option key= {e.id} value= {e.id} >{`${e.name}, ${(e.Locations).map(e=> `${e.city}, ${e.state},${e.department}`)}`}</option>)} {/*mapeo el nombre de los hoteles*/}
                 </select>
                 </label>
             </div>
@@ -138,7 +138,7 @@ return (
             <label>Image</label>
             <input
             placeholder= "Load URL Image..." 
-            type="url" 
+            type="file" 
             value={input_serv_hotel.image} 
             name="image" 
             onChange={(e) => handleChange(e)}/>

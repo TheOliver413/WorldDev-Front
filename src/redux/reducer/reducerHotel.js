@@ -174,7 +174,7 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         onlyServicesHotel: action.payload
       } 
     
-    case GET_EVENTS_HOTEL:
+    case GET_ALL_EVENTS:
       return {
         ...state,
         onlyEventsHotel: action.payload
@@ -199,6 +199,7 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return { ...state }
   }
 }
+
 
 
 export default hotels_reducer;
