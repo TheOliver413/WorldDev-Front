@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createRooms, getHotels } from '../../redux/action/action';
+import { toast } from "react-toastify";
 import '../CreateRooms/Styles.css';
 
 
@@ -159,9 +160,9 @@ export default function CreateRooms() {
         stock: 0,
       })
 
-      alert('Rooms created successfully')
+      toast.success('Rooms created successfully', { position: 'bottom-right' })
     } else {
-      alert("Check the fields")
+      toast.error("Check the fields", { position: 'bottom-right' })
     }
   }
 
