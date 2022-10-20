@@ -48,6 +48,10 @@ export const SET_MAX_PAGE_NUMBER = "SET_MAX_PAGE_NUMBER";
 
 //-------------------LOCATIONS----------------//
 export const GET_ALL_LOCATIONS = 'GET_ALL_LOCATIONS'
+export const GET_STATES = "GET_STATES";
+export const GET_CITY = "GET_CITY";
+export const GET_DEPARTMENT = "GET_DEPARTMENT";
+
 
 //------------------CART-------------------//
 export const ADD_ROOM_TO_CART = 'ADD_ROOM_TO_CART'
@@ -56,6 +60,7 @@ export const ADD_ROOM_TO_CART = 'ADD_ROOM_TO_CART'
 const BACK_URL = "http://localhost:3001"
 const URL_POST_HOTEL = "http://localhost:3001/hotels";
 const URL_POST_ROOM = "http://localhost:3001/rooms";
+const URL_GET_STATE = "http://localhost:3001/locations";
 
 //------------------CART-------------------//
 export function addRoomToCart (payload) {
@@ -432,18 +437,74 @@ export function updateHotels(payload) {
 }
 
 export function modifyRooms(payload) {
-  return async function (dispatch) {
-    try {
-      const update_Room = await axios.put(URL_POST_ROOM, payload);
-      return dispatch({
-        type: UPDATE_ROOMS,
-        payload: update_Room.data
-      });
-    } catch (error) {
-      console.log(error.response.data);
-      toast.error("An error occurred while modifying the room.", {
-        position: "bottom-right"
-      })
-    }
-  };
+  return async function(dispatch) {
+
+      try {
+          const update_Room = await axios.put( URL_POST_ROOM , payload)
+          return dispatch({
+              type: UPDATE_ROOMS,
+              payload: update_Room
+          })
+      } catch (error) {
+          console.log(error && alert("Error, when modify Room!!"))
+
+      }
+  }
+}
+//-----------------------GET STATES------------------------//
+export function getState(payload) {
+
+  return async function(dispatch) {
+
+      try {
+          const states = await axios( URL_GET_STATE )
+          // console.log("info de states: ", states)
+
+          return dispatch({
+              type: GET_STATES,
+              payload: states.data
+          })
+      } catch (error) {
+          console.log(error && alert("Error"))
+
+      }
+  }
+}
+
+//-----------------------GET DEPARTMENT------------------------//
+export function getDepartment(payload) {
+
+  return async function(dispatch) {
+
+      try {
+          const departments = await axios( `${URL_GET_STATE}?name=${payload}` )
+          console.log("info de department: ", departments.data)
+          return dispatch({
+              type: GET_DEPARTMENT,
+              payload: departments.data
+          })
+      } catch (error) {
+          console.log(error && alert("Error"))
+
+      }
+  }
+}
+
+//-----------------------GET CITY------------------------//
+export function getCity(payload) {
+
+  return async function(dispatch) {
+
+      try {
+          const cities = await axios( `${URL_GET_STATE}/city?name=${payload}` )
+          console.log("info de cities: ", cities.data)
+          return dispatch({
+              type: GET_CITY,
+              payload: cities.data
+          })
+      } catch (error) {
+          console.log(error && alert("Error"))
+
+      }
+  }
 }
