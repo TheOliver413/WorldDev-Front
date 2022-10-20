@@ -154,7 +154,7 @@ const ModifyEvents = () => {
                     if(a.name < b.name) return -1;
                     return 0;
                 }).map(e =>
-          <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e=> `${e.city}, ${e.state},${e.department}`)}`}</option>)} {/*mapeo el nombre de los hoteles*/}
+          <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e=> `${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los hoteles*/}
       </select>
       <div>
       {errors.idHotel && (<p>{errors.idHotel}</p>)}

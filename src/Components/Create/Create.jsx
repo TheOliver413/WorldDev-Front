@@ -43,6 +43,12 @@ export default function Create() {
                   Create<i class="bi bi-plus-lg"></i>
                 </button>
               </Link>
+
+              <Link to="/home/modifyServHotels">
+                <button type="button" className="btn btn-primary btn-lg" disabled>
+                  Modify<i class="bi bi-plus-lg"></i>
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -56,6 +62,12 @@ export default function Create() {
                   Create<i class="bi bi-plus-lg"></i>
                 </button>
               </Link>
+
+              <Link to="/home/modifyServRooms">
+                <button type="button" className="btn btn-primary btn-lg" disabled>
+                  Modify<i class="bi bi-plus-lg"></i>
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -67,6 +79,12 @@ export default function Create() {
               <Link to="/home/createEvents">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
+                </button>
+              </Link>
+
+              <Link to="/home/modifyEvents">
+                <button type="button" className="btn btn-primary btn-lg " disabled>
+                  Modify<i class="bi bi-plus-lg"></i>
                 </button>
               </Link>
             </div>

@@ -97,81 +97,81 @@ const handleSubmit = (e) => {
 
 
 return (
-    <div className="cardHotels-container">
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <section class="d-flex justify-content-center align-items-center">
+        <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+            <div class="mb-4 d-flex justify-content-start align-items-center">
+                <h1>Services Hotels</h1>
+            </div>
 
-        {/*-----------------------NAME HOTEL----------------- */} 
-        <div>
-            <label>Hotel Name
-                <select value={input_serv_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
-                <option hidden selected >Select hotel</option>
-                {hotels?.sort((a,b)=>{
-                    if(a.name > b.name) return 1;
-                    if(a.name < b.name) return -1;
-                    return 0;
-                }).map(e => 
-                    <option key= {e.id} value= {e.id} >{`${e.name}, ${(e.Locations).map(e=> `${e.city}, ${e.state},${e.department}`)}`}</option>)} {/*mapeo el nombre de los hoteles*/}
-                </select>
-                </label>
-            </div>
-            <div>
-            {errors.idHotel && (<p>{errors.idHotel}</p>)}
-            </div>
-                     
-        
-        {/*-----------------------NAME SERVICE---------------- */} 
-                <div>
-                    <label>Service Name</label>
-                    <input 
-                    placeholder="Service name..."
-                    type="text" 
-                    value={input_serv_hotel.name} 
-                    name="name" 
-                    onChange={(e) => handleName(e)} />
-                </div>
-            <div>
-                {errors.name && (<p>{errors.name}</p>)}
-            </div>
-        
-        {/*-----------------------IMAGE------------------------ */} 
-        <div>
-            <label>Image</label>
-            <input
-            placeholder= "Load URL Image..." 
-            type="file" 
-            value={input_serv_hotel.image} 
-            name="image" 
-            onChange={(e) => handleChange(e)}/>
-            </div>
-        <div>
-            {errors.image && (<p>{errors.image}</p>)}
-        </div>
+            <div class="mb-4">
+                <form onSubmit={(e)=> handleSubmit(e)}>
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
+                            <select class="form-select" value={input_serv_hotel.idHotel} onChange={(e)=>
+                                handleChangeHotel(e)}>
+                                <option hidden selected>Select hotel</option>
+                                {hotels?.sort((a,b)=>{
+                                if(a.name > b.name) return 1;
+                                if(a.name < b.name) return -1; return 0; }).map(e=>
+                                    <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e=>
+                                        `${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                    hoteles*/}
+                            </select>
+                            <div class="nombre text-danger ">
+                                {errors.idHotel && (<p>{errors.idHotel}</p>)}
+                            </div>
+                        </div>
+                    </div>
 
-        {/*--------------------------DESCRIPTION----------------------- */}  
-        <div>
-            <label>Description</label>
-            <textarea
-            placeholder="Description..."
-            type="text" 
-            value={input_serv_hotel.description} 
-            name="description" 
-            maxLength="1000" 
-            onChange={(e) => handleChange(e)}>
-            </textarea>
-        </div>
-        <div>
-            {errors.description && (<p>{errors.description}</p>)}
-        </div>
-        
-        {/*----------------------------BUTTON CREATE------------------------ */}
-        <div>
-        {!input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length        
-            ? (<button disabled type="submit">Send</button>) 
-            : (<button type="submit">Send </button>)}
-        </div>
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-gear"></i> Service Name</label>
+                            <input type="text" class="form-control" placeholder="Service name..."
+                                value={input_serv_hotel.name} name="name" onChange={(e)=> handleName(e)} />
+                            <div class="nombre text-danger ">
+                                {errors.name && (<p>{errors.name}</p>)}
+                            </div>
+                        </div>
+                    </div>
 
-    </form>
-    </div>
+
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-images"></i> Image</label>
+                            <input type="file" class="form-control" placeholder="Load URL Image..."
+                                value={input_serv_hotel.image} name="image" onChange={(e)=> handleChange(e)} />
+                            <div class="nombre text-danger ">
+                                {errors.image && (<p>{errors.image}</p>)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
+                        <textarea id="mensaje" class="form-control" placeholder="Description..." type="text"
+                            value={input_serv_hotel.description} name="description" maxLength="1000"
+                            onChange={(e)=> handleChange(e)}></textarea>
+                        <div class="mensaje text-danger">
+                            {errors.description && (<p>{errors.description}</p>)}
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        {!input_serv_hotel.idHotel || !input_serv_hotel.name || !input_serv_hotel.image ||
+                        !input_serv_hotel.description || Object.keys(errors).length
+                        ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
+                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                        </button>
+                        : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
+                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                        </button>}
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
 )}
 
 export default CreateServHotels;
