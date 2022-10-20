@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-<<<<<<< HEAD
+
 import { createRooms, getHotels, getAllServicesRoom } from '../../redux/action/action';
 import { getCity, getDepartment, getState } from "../../redux/action/action";
-=======
-import { createRooms, getHotels } from '../../redux/action/action';
 import { toast } from "react-toastify";
->>>>>>> 24f4cb59aafcea2026e197fa82555d3d8f16c58b
+
 import '../CreateRooms/Styles.css';
 
 export default function CreateRooms() {
