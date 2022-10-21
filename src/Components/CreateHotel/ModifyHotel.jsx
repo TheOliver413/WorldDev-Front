@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateHotels, getHotels, getState, getDepartment, getCity } from '../../redux/action/action';
 import '../Create/Styles.css';
+import { toast } from "react-toastify";
+
 
 export default function ModifyHotel() {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ export default function ModifyHotel() {
     qualification: 1,
     description: "",
     address:"",
+    idLocation:"",
 
   })
 //---------------------------------------------------//
@@ -28,26 +31,24 @@ export default function ModifyHotel() {
     city: "",
   })
 //---------------------------------------------------//
-  useEffect(() => {
-    !hotels.length && dispatch(getHotels());
-  }, [dispatch, hotels])
+useEffect(() => {
+  !hotels.length && dispatch(getHotels());
+  dispatch(getState());
+}, [dispatch, hotels])
 
 //----------------------------------------------------//
-  function handleChangeLocation(e) {
-    e.preventDefault();
-    setlocation({
-      ...location,
-      [e.target.name]: e.target.value
-    })
-    if( e.target.name === "state" ){
-      dispatch(getState(e.target.value))
-    }
-    if( e.target.name === "department" ){
-      dispatch(getDepartment(e.target.value))
-    }
-    if( e.target.name === "city" ){
-      dispatch(getCity(e.target.value))
-    }
+function handleChangeLocation(e) {
+  e.preventDefault();
+  setlocation({
+    ...location,
+    [e.target.name]: e.target.value
+  })
+  if( e.target.name === "state" ){
+    dispatch(getDepartment(e.target.value))
+  }
+  if( e.target.name === "department" ){
+    dispatch(getCity(e.target.value))
+  }
     // setErrors(
     //   validate({
     //     ...input,
@@ -98,7 +99,13 @@ export default function ModifyHotel() {
   function handleSubmit(e) {
     e.preventDefault()
     if (input_hotels) {
-      dispatch(updateHotels(input_hotels))
+
+      // dispatch(createHotels(input_hotels))
+
+    if(input_hotels) {
+        dispatch(updateHotels(input_hotels))
+        toast.success('Hotel modified successfully', { position: 'bottom-right' })
+      }
 
       input_sethotels({
         id: "",
@@ -107,11 +114,11 @@ export default function ModifyHotel() {
         qualification: 1,
         description: "",
         address:"",
+        idLocation:"",
+    
       })
-
-      alert('Hotel modify successfully')
     } else {
-      alert("Check the fields")
+      toast.error('Check the fields', { position: 'bottom-right' })
     }
   }
 
@@ -132,6 +139,18 @@ export default function ModifyHotel() {
             )
           })}
         </select>
+
+              {/*--------------------------REMANE------------------- */}
+            <div className=''>
+              <input
+                className="form-control"
+                placeholder="Rename Hotel..."
+                type="text"
+                value={input_hotels.name}
+                name="name"
+                onChange={(e) => handleChange(e)} />
+            </div>
+
 
             {/*--------------------------IMAGE------------------- */}
             <div className=''>
@@ -212,11 +231,11 @@ export default function ModifyHotel() {
                      
              {/*--------------------------CITY----------------------- */}          
               
-             <select  name="city" value={ location.city } onChange={(e) => handleChangeLocation(e)} >
+             <select  name="idLocation" value={ input_hotels.idLocation } onChange={(e) => handleChange(e)} >
                <option disabled selected >City...</option>
                { get_city?.map((ele,i)=>{
                 return(
-                  <option  value= { ele } key={i} > { ele } </option>
+                  <option  value= { ele.id } key={i} > { ele.city } </option>
                 )
               })
                 }

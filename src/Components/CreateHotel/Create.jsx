@@ -28,6 +28,7 @@ export default function Create() {
     qualification: 1,
     description: "",
     address:"",
+    idLocation:"",
 
   })
   const [location, setlocation] = useState({
@@ -47,7 +48,7 @@ export default function Create() {
       dispatch(getDepartment(e.target.value))
     }
     if( e.target.name === "department" ){
-      dispatch(getDepartment(e.target.value))
+      dispatch(getCity(e.target.value))
     }
     // if( e.target.name === "city" ){
     //   dispatch(getCity(e.target.value))
@@ -63,8 +64,6 @@ export default function Create() {
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
     dispatch(getState());
-    dispatch(getDepartment());
-    dispatch(getCity());
   }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
@@ -113,7 +112,7 @@ export default function Create() {
     e.preventDefault()
     if (input_hotels) {
 
-      dispatch(createHotels(input_hotels))
+      // dispatch(createHotels(input_hotels))
 
       if (input_hotels) {
         dispatch(createHotels(input_hotels))
@@ -130,7 +129,8 @@ export default function Create() {
         qualification: 1,
         description: "",
         address:"",
-
+        idLocation:"",
+    
       })
 
       alert('Hotel created successfully')
@@ -236,11 +236,11 @@ export default function Create() {
                      
              {/*--------------------------CITY----------------------- */}          
               
-             <select  name="city" value={ location.city } onChange={(e) => handleChangeLocation(e)} >
+             <select  name="idLocation" value={ input_hotels.idLocation } onChange={(e) => handleChange(e)} >
                <option disabled selected >City...</option>
                { get_city?.map((ele,i)=>{
                 return(
-                  <option  value= { ele } key={i} > { ele } </option>
+                  <option  value= { ele.id } key={i} > { ele.city } </option>
                 )
               })
                 }
