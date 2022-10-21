@@ -52,24 +52,11 @@ export const GET_STATES = "GET_STATES";
 export const GET_CITY = "GET_CITY";
 export const GET_DEPARTMENT = "GET_DEPARTMENT";
 
-
-//------------------CART-------------------//
-export const ADD_ROOM_TO_CART = 'ADD_ROOM_TO_CART'
-
 //-----------------URLS----------------------//
 const BACK_URL = "http://localhost:3001"
 const URL_POST_HOTEL = "http://localhost:3001/hotels";
 const URL_POST_ROOM = "http://localhost:3001/rooms";
 const URL_GET_STATE = "http://localhost:3001/locations";
-
-//------------------CART-------------------//
-export function addRoomToCart (payload) {
-  console.log(payload);
-  return {
-    type: ADD_ROOM_TO_CART,
-    payload
-  }
-}
 
 //----------------PAGINATION--------------------//
 
