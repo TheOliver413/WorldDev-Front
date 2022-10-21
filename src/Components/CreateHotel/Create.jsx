@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
+
+import { createHotels,updateHotels, getHotels } from '../../redux/action/action';
+import { getCity, getDepartment, getState } from "../../redux/action/action";
+
 import { toast } from "react-toastify";
 import '../Create/Styles.css';
 
@@ -124,7 +127,10 @@ export default function Create() {
     e.preventDefault()
     //console.log(input_create)
     if (input_hotels) {
-      if (input_create.option === 'create') {
+
+      dispatch(createHotels(input_hotels))
+
+      if (input_hotels) {
         dispatch(createHotels(input_hotels))
         toast.success('Hotel created successfully', { position: 'bottom-right' })
       } else {
