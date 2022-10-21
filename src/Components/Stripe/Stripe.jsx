@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "bootswatch/dist/lux/bootstrap.min.css";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
