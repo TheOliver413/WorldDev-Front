@@ -25,6 +25,12 @@ import Stripe from "./Components/Stripe/Stripe";
 import Cart from "./Components/Cart/Cart";
 import { getTotals } from "./redux/action/cartAction";
 
+import AuthProvider from "./context/AuthContext";
+import ProtectedRoute from "./Components/Authentication/ProtectedRoute/ProtectedRoute";
+import Login from "./Components/Authentication/Login/Login";
+import Register from "./Components/Authentication/Register/Register";
+import Profile from "./Components/Authentication/ProfileUsers/ProfileUsers";
+
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -32,30 +38,34 @@ function App() {
   }, [dispatch])
   return (
     <div>
+      <AuthProvider>
         <Nav />
         <Routes>
-
-          <Route exact path="/home/ModifyHotel" element={< ModifyHotel />}/>
-          <Route exact path="/home/ModifyRooms" element={<ModifyRooms/>}/>
-          <Route exact path="/home/createServRooms" element={<CreateServRooms/>}/>
-          <Route exact path="/home/modifyServRooms" element={<ModifyServRooms/>}/>
-          <Route exact path="/home/createServHotels" element={<CreateServHotels/>}/>
-          <Route exact path="/home/modifyServHotels" element={<ModifyServHotels/>}/>
-          <Route exact path="/home/createEvents" element={<CreateEvents/>}/>
-          <Route exact path="/home/modifyEvents" element={<ModifyEvents/>}/>
-          <Route exact path="/home/createRooms" element={<CreateRooms/>}/>
-          <Route exact path="/home/createHotels" element={<CreateHotel/>}/>
-          <Route exact path="/home/dashboard" element={<Create/>}/>
-          <Route exact path="/home/loging" element={<Loging/>}/>
-          <Route path="/" element={<LandingPage/>}/>
-          <Route path="/home" element={<Home/>} />
-          <Route path='/hotel/room/:id' element={<RoomDetail/>} />
-          <Route path='/hotel/:id' element={<HotelDetail/>} />
-          <Route path='/favorite' element={<Favorite/>} />
-          <Route path='/cart' element={<Cart/>} />
-          <Route path='/home/stripe' element={<Stripe/>} />
+          <Route exact path="/home/ModifyHotel" element={< ModifyHotel />} />
+          <Route exact path="/home/ModifyRooms" element={<ModifyRooms />} />
+          <Route exact path="/home/createServRooms" element={<CreateServRooms />} />
+          <Route exact path="/home/modifyServRooms" element={<ModifyServRooms />} />
+          <Route exact path="/home/createServHotels" element={<CreateServHotels />} />
+          <Route exact path="/home/modifyServHotels" element={<ModifyServHotels />} />
+          <Route exact path="/home/createEvents" element={<CreateEvents />} />
+          <Route exact path="/home/modifyEvents" element={<ModifyEvents />} />
+          <Route exact path="/home/createRooms" element={<CreateRooms />} />
+          <Route exact path="/home/createHotels" element={<CreateHotel />} />
+          <Route exact path="/home/dashboard" element={<Create />} />
+          <Route exact path="/home/loging" element={<Loging />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path='/hotel/room/:id' element={<RoomDetail />} />
+          <Route path='/hotel/:id' element={<HotelDetail />} />
+          <Route path='/favorite' element={<Favorite />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/home/stripe' element={<Stripe />} />
+          <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/register" element={<Register/>}/>
+          <Route path="/profileusers" element={<Profile/>}/>
         </Routes>
         <Footer />
+      </AuthProvider>
     </div>
   );
 }
