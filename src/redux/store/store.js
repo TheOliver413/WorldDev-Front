@@ -2,6 +2,7 @@ import reducerHotel from "../reducer/reducerHotel.js";
 import reducerRoom from "../reducer/reducerRoom.js";
 import reducerPagination from "../reducer/reducerPagination.js";
 import reducerCart from "../reducer/reducerCart.js";
+import reducerStripe from "../reducer/reducerStripe.js";
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
@@ -13,6 +14,7 @@ const rootReducers = combineReducers({
   reducerRoom,
   reducerPagination,
   reducerCart,
+  reducerStripe,
 });
 
 const store = createStore(

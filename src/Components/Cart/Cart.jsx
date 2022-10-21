@@ -47,7 +47,7 @@ function Cart() {
           </tbody>
         </table>
         <h3 className="mt-5">Total: ${cartTotalAmount}</h3>
-        <button type="button" className="btn btn-primary my-4">
+        <button type="button" onClick={()=>navigate('/home/stripe')} className="btn btn-primary my-4">
           Book now
         </button>
         <Link to='/home'>
