@@ -21,6 +21,7 @@ import ModifyHotel from "./Components/CreateHotel/ModifyHotel";
 import ModifyRooms from "./Components/CreateRooms/ModifyRooms";
 import ModifyServRooms from "./Components/CreateServRooms/ModifyServiceRooms";
 import ModifyEvents from "./Components/CreateEvents/ModifyEvents";
+import Stripe from "./Components/Stripe/Stripe";
 import Cart from "./Components/Cart/Cart";
 import { getTotals } from "./redux/action/cartAction";
 
@@ -52,6 +53,7 @@ function App() {
           <Route path='/hotel/:id' element={<HotelDetail/>} />
           <Route path='/favorite' element={<Favorite/>} />
           <Route path='/cart' element={<Cart/>} />
+          <Route path='/home/stripe' element={<Stripe/>} />
         </Routes>
         <Footer />
     </div>
