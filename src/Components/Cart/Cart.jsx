@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from 'date-fns'
-import { getTotals, removeRoomFromCart } from "../../redux/action/cartAction";
+import { addRoomToCart, clearCart, decreaseCart, getTotals, removeRoomFromCart } from "../../redux/action/cartAction";
 
 function Cart() {
   const navigate = useNavigate();
@@ -14,6 +14,9 @@ function Cart() {
   }, [dispatch, cartTotalAmount])
 
   const handleRemoveFromCart = (room) => dispatch(removeRoomFromCart(room))
+  const handleDecreaseCart = (room) => dispatch(decreaseCart(room))
+  const handleIncreaseCart = (room) => dispatch(addRoomToCart(room))
+  const handleClearCart = () => dispatch(clearCart())
 
   return (
     cartRooms.length ? (
@@ -35,9 +38,9 @@ function Cart() {
                 <td>{format(new Date(r.checkIn), 'dd/MM/yy')}</td>
                 <td>{format(new Date(r.checkOut), 'dd/MM/yy')}</td>
                 <td>
-                  <button className="p-1 btn" type="button">-</button>
+                  <button onClick={() => handleDecreaseCart(r)} className="p-1 btn" type="button">-</button>
                   {r.cartQuantity}
-                  <button className="p-1 btn" type="button">+</button>
+                  <button onClick={() => handleIncreaseCart(r)} className="p-1 btn" type="button">+</button>
                   <br />
                   <button onClick={() => handleRemoveFromCart(r)} className="p-0 btn" type="button">Remove</button>
                 </td>
@@ -47,11 +50,15 @@ function Cart() {
           </tbody>
         </table>
         <h3 className="mt-5">Total: ${cartTotalAmount}</h3>
-        <button type="button" onClick={()=>navigate('/home/stripe')} className="btn btn-primary my-4">
+        <button type="button" onClick={()=>navigate('/home/stripe')} className="btn btn-primary mt-4">
           Book now
         </button>
+        <br />
+        <button onClick={handleClearCart} type="button" className="btn">
+          Clear cart
+        </button>
         <Link to='/home'>
-          <p>&laquo; Continue shopping</p>
+          <p className="my-4">&laquo; Continue shopping</p>
         </Link>
       </>
     ) : (
