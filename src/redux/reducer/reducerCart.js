@@ -1,4 +1,4 @@
-import { ADD_ROOM_TO_CART, REMOVE_ROOM_FROM_CART, GET_TOTALS } from "../action/cartAction";
+import { ADD_ROOM_TO_CART, REMOVE_ROOM_FROM_CART, GET_TOTALS, DECREASE_CART, CLEAR_CART } from "../action/cartAction";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -25,11 +25,12 @@ const cart_reducer = (state = initialState, action) => {
         }
       } else {
         state.cartRooms[indexOfroom].cartQuantity += 1
-        toast.info(`Number of room ${state.cartRooms[indexOfroom].name} updated to ${state.cartRooms[indexOfroom].cartQuantity}`, { position: 'bottom-right' });
+        toast.info(`Increased ${state.cartRooms[indexOfroom].name} cart quantity to ${state.cartRooms[indexOfroom].cartQuantity}`, { position: 'bottom-right' });
         localStorage.setItem('cartRooms', JSON.stringify(state.cartRooms))
         return {
           ...state,
-          cartTotalQuantity: state.cartTotalQuantity += 1
+          cartTotalQuantity: state.cartTotalQuantity += 1,
+          cartTotalAmount: state.cartTotalAmount += action.payload.price
         }
       };
 
@@ -64,6 +65,38 @@ const cart_reducer = (state = initialState, action) => {
         ...state,
         cartTotalQuantity: quantity,
         cartTotalAmount: total
+      };
+
+    case DECREASE_CART: 
+      const indexDecreaseRoom = state.cartRooms.findIndex(r => r.id === action.payload.id)
+      if (state.cartRooms[indexDecreaseRoom].cartQuantity > 1) {
+        state.cartRooms[indexDecreaseRoom].cartQuantity -= 1
+        toast.info(`Decreased ${state.cartRooms[indexDecreaseRoom].name} cart quantity`, { position: 'bottom-right' });
+        localStorage.setItem('cartRooms', JSON.stringify(state.cartRooms))
+        return {
+          ...state,
+          cartTotalQuantity: state.cartTotalQuantity -= 1,
+          cartTotalAmount: state.cartTotalAmount -= action.payload.price
+        }
+      } else {
+        const filteredCartRooms = state.cartRooms.filter(r => r.id !== action.payload.id)
+        toast.error(`Room ${action.payload.name} removed from cart`, { position: 'bottom-right' });  
+        localStorage.setItem('cartRooms', JSON.stringify(filteredCartRooms))
+        return {
+          ...state,
+          cartRooms: filteredCartRooms,
+          cartTotalQuantity: state.cartTotalQuantity -= action.payload.cartQuantity,
+          cartTotalAmount: state.cartTotalAmount -= action.payload.totalPrice
+        }
+      };
+
+    case CLEAR_CART:
+      localStorage.setItem('cartRooms', JSON.stringify([]))
+      toast.error(`Cart cleared`, { position: 'bottom-right' });
+      return {
+        cartRooms: [],
+        cartTotalQuantity: 0,
+        cartTotalAmount: 0
       };
 
     default:
