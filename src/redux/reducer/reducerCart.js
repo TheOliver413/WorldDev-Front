@@ -1,9 +1,12 @@
-import { ADD_ROOM_TO_CART } from "../action/action";
+import { ADD_ROOM_TO_CART, REMOVE_ROOM_FROM_CART, GET_TOTALS } from "../action/cartAction";
 import { toast } from "react-toastify";
 
 const initialState = {
+  cartRooms: localStorage.getItem('cartRooms')
+    ? JSON.parse(localStorage.getItem('cartRooms'))
+    : [],
   cartTotalQuantity: 0,
-  cartRooms: []
+  cartTotalAmount: 0
 };
 
 const cart_reducer = (state = initialState, action) => {
@@ -13,9 +16,8 @@ const cart_reducer = (state = initialState, action) => {
       //nota: cartQuantity es como el stock q quiero llevar(?)
       //si no tengo esta room agregada al carrito => la agrego, sino => aumento su cartQuantity
       if (indexOfroom < 0) {
-        toast.success(`${action.payload.name} added to cart`, {
-          position: "bottom-right",
-        });
+        toast.success(`${action.payload.name} added to cart`, { position: "bottom-right" });
+        localStorage.setItem('cartRooms', JSON.stringify([...state.cartRooms, {...action.payload, cartQuantity: 1}]))
         return {
           ...state,
           cartTotalQuantity: state.cartTotalQuantity += 1,
@@ -23,13 +25,46 @@ const cart_reducer = (state = initialState, action) => {
         }
       } else {
         state.cartRooms[indexOfroom].cartQuantity += 1
-        toast.info(`Number of room ${state.cartRooms[indexOfroom].name} updated to ${state.cartRooms[indexOfroom].cartQuantity}`, {
-          position: 'bottom-right'
-        });
+        toast.info(`Number of room ${state.cartRooms[indexOfroom].name} updated to ${state.cartRooms[indexOfroom].cartQuantity}`, { position: 'bottom-right' });
+        localStorage.setItem('cartRooms', JSON.stringify(state.cartRooms))
         return {
-          ...state
+          ...state,
+          cartTotalQuantity: state.cartTotalQuantity += 1
         }
-      }
+      };
+
+    case REMOVE_ROOM_FROM_CART:
+      const filteredCartRooms = state.cartRooms.filter(r => r.id !== action.payload.id)
+      localStorage.setItem('cartRooms', JSON.stringify(filteredCartRooms))
+      toast.error(`Room ${action.payload.name} removed from cart`, { position: 'bottom-right' });
+      return {
+        ...state,
+        cartRooms: filteredCartRooms,
+        cartTotalQuantity: state.cartTotalQuantity -= action.payload.cartQuantity,
+        cartTotalAmount: state.cartTotalAmount -= action.payload.totalPrice
+      };
+
+    case GET_TOTALS:
+      const {total, quantity} = state.cartRooms.reduce(
+        (cartTotal, cartRoom) => {
+          const { totalPrice, cartQuantity } = cartRoom
+          const itemTotal = totalPrice * cartQuantity
+
+          cartTotal.total += itemTotal
+          cartTotal.quantity += cartQuantity
+
+          return cartTotal
+      },
+      {
+        total: 0,
+        quantity: 0
+      })
+
+      return {
+        ...state,
+        cartTotalQuantity: quantity,
+        cartTotalAmount: total
+      };
 
     default:
       return { ...state };

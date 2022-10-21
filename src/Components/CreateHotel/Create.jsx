@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-import { createHotels,updateHotels, getHotels } from '../../redux/action/action';
-import { getCity, getDepartment, getState } from "../../redux/action/action";
-
+import { updateHotels, getHotels, getState, getDepartment, getCity } from '../../redux/action/action';
+import '../Create/Styles.css';
 import { toast } from "react-toastify";
 
-import '../Create/Styles.css';
 
-export default function Create() {
+export default function ModifyHotel() {
   const dispatch = useDispatch();
-  //const data_hotels = useSelector(state => state.reducerHotel.hotels)
+  const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
 
   const get_state = useSelector(state=>state.reducerHotel.location_state)
-  const get_city = useSelector(state=>state.reducerHotel.location_city)
   const get_department = useSelector(state=>state.reducerHotel.location_department)
-
-  // console.log("info de estados: ", get_state)
-  console.log("info en componente city: ", get_city)
-  console.log("info en componente department: ", get_department)
-
+  const get_city = useSelector(state=>state.reducerHotel.location_city)
+//---------------------------------------------------//
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
@@ -31,28 +24,31 @@ export default function Create() {
     idLocation:"",
 
   })
+//---------------------------------------------------//
   const [location, setlocation] = useState({
     state: "",
     department: "",
     city: "",
   })
+//---------------------------------------------------//
+useEffect(() => {
+  !hotels.length && dispatch(getHotels());
+  dispatch(getState());
+}, [dispatch, hotels])
 
-  //------------------ HANDLE CHANGE HOTELS -------------------//
-  function handleChangeLocation(e) {
-    e.preventDefault();
-    setlocation({
-      ...location,
-      [e.target.name]: e.target.value
-    })
-    if( e.target.name === "state" ){
-      dispatch(getDepartment(e.target.value))
-    }
-    if( e.target.name === "department" ){
-      dispatch(getCity(e.target.value))
-    }
-    // if( e.target.name === "city" ){
-    //   dispatch(getCity(e.target.value))
-    // }
+//----------------------------------------------------//
+function handleChangeLocation(e) {
+  e.preventDefault();
+  setlocation({
+    ...location,
+    [e.target.name]: e.target.value
+  })
+  if( e.target.name === "state" ){
+    dispatch(getDepartment(e.target.value))
+  }
+  if( e.target.name === "department" ){
+    dispatch(getCity(e.target.value))
+  }
     // setErrors(
     //   validate({
     //     ...input,
@@ -60,36 +56,28 @@ export default function Create() {
     //   })
     // )
   }
-//------------------------------------------------------//
-  useEffect(() => {
-    !hotels.length && dispatch(getHotels());
-    dispatch(getState());
-  }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
   // let validateName = /^[a-zA-Z\s]+$/;
 
-  /* const validate = (input_hotels) => {
-    // let errors = {}
+  //  const validate = (input_hotels) => {
+  //   let errors = {}
 
-    // if (!input.title.length) {
-    //   errors.title = 'Title cannot be empty'
-    // }
+  //   if (!input.name.length) {
+  //     errors.name = 'Title cannot be empty'
+  //   }
 
-    // if (!validateTitle.test(input.title)) {
-    //   errors.title = 'Special characters or numbers are not allowed'
-    // }
+  //   if (!validateName.test(input.name)) {
+  //     errors.name = 'Special characters or numbers are not allowed'
+  //   }
 
-    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
-    //   alert(`The title ${input.title} already exist, please choose another one!`)
-    // }
-    // if (input.image && !validateUrl.test(input.image)) {
-    //   errors.image = 'This is not a valid URL'
-    // }
+  //   if (recipes.find((e) => e.name.toLowerCase() === input.name.toLowerCase())) {
+  //     alert(`The name ${input.name} already exist, please choose another one!`)
+  //   }
 
-    // return errors;
+  //   return errors;
 
-  } */
+  // } 
   
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
@@ -106,7 +94,7 @@ export default function Create() {
     //   })
     // )
   }
-
+ 
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
     e.preventDefault()
@@ -114,10 +102,7 @@ export default function Create() {
 
       // dispatch(createHotels(input_hotels))
 
-      if (input_hotels) {
-        dispatch(createHotels(input_hotels))
-        toast.success('Hotel created successfully', { position: 'bottom-right' })
-      } else {
+    if(input_hotels) {
         dispatch(updateHotels(input_hotels))
         toast.success('Hotel modified successfully', { position: 'bottom-right' })
       }
@@ -132,13 +117,11 @@ export default function Create() {
         idLocation:"",
     
       })
-
-      alert('Hotel created successfully')
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
   }
-  
+
   return (
     <div className="cardHotels-container">
       <form onSubmit={(e) => handleSubmit(e)} >
@@ -147,15 +130,27 @@ export default function Create() {
 
           {/*-----------------------NAME------------------------ */}
           <div className="form-row" >
-              <div>
+          <select
+          className="form-control" name = "id" value= {input_hotels.id} onChange={(e) => handleChange(e)}>
+          <option disabled selected >Hotels...</option>
+          {data_hotels?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })}
+        </select>
+
+              {/*--------------------------REMANE------------------- */}
+            <div className=''>
               <input
                 className="form-control"
-                autoFocus
-                placeholder="Name..."
-                type="text" value={input_hotels.name}
+                placeholder="Rename Hotel..."
+                type="text"
+                value={input_hotels.name}
                 name="name"
                 onChange={(e) => handleChange(e)} />
-              </div>
+            </div>
+
 
             {/*--------------------------IMAGE------------------- */}
             <div className=''>
@@ -259,4 +254,3 @@ export default function Create() {
     </div>
   )
 }
-

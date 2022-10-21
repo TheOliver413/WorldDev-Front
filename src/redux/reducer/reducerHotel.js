@@ -15,7 +15,7 @@ import {
   POST_EVENT,
   PUT_EVENT,
   GET_SERVICES_HOTEL,
-  GET_EVENTS_HOTEL,
+  GET_ALL_EVENTS,
   GET_STATES,
   GET_CITY,
   GET_DEPARTMENT,
@@ -30,7 +30,7 @@ const initialStateHotel = {
   location: [],
   filterCategory: [],
   onlyServicesHotel: [],
-  onlyEventsHotel: [],
+  allEvents: [],
   location_state:[],
   location_city:[],
   location_department:[],
@@ -174,10 +174,10 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         onlyServicesHotel: action.payload
       } 
     
-    case GET_EVENTS_HOTEL:
+    case GET_ALL_EVENTS:
       return {
         ...state,
-        onlyEventsHotel: action.payload
+        allEvents: action.payload
       } 
     case GET_STATES:
         return {
@@ -199,6 +199,7 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return { ...state }
   }
 }
+
 
 
 export default hotels_reducer;

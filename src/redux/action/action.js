@@ -31,7 +31,7 @@ export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
 export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
 
 //-------------------EVENTS----------------//
-export const GET_EVENTS_HOTEL = 'GET_EVENTS_HOTEL';
+export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';
 export const GET_CATEGORY = "GET_CATEGORY"
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
@@ -52,24 +52,11 @@ export const GET_STATES = "GET_STATES";
 export const GET_CITY = "GET_CITY";
 export const GET_DEPARTMENT = "GET_DEPARTMENT";
 
-
-//------------------CART-------------------//
-export const ADD_ROOM_TO_CART = 'ADD_ROOM_TO_CART'
-
 //-----------------URLS----------------------//
 const BACK_URL = "http://localhost:3001"
 const URL_POST_HOTEL = "http://localhost:3001/hotels";
 const URL_POST_ROOM = "http://localhost:3001/rooms";
 const URL_GET_STATE = "http://localhost:3001/locations";
-
-//------------------CART-------------------//
-export function addRoomToCart (payload) {
-  console.log(payload);
-  return {
-    type: ADD_ROOM_TO_CART,
-    payload
-  }
-}
 
 //----------------PAGINATION--------------------//
 
@@ -349,7 +336,7 @@ export function createServicesHotels(payload) {
     export function createEvents(payload) {
       return async function (dispatch) {
         try {
-          const servicesRoom = await axios.post(`${BACK_URL}/events`,payload)
+          const event = await axios.post(`${BACK_URL}/events`,payload)
           dispatch ({
             type: POST_EVENT, 
             payload    
@@ -362,7 +349,7 @@ export function createServicesHotels(payload) {
       export function modifyEvents(payload) {
         return async function (dispatch) {
           try {
-            const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`)
+            const event = await axios.put(`${BACK_URL}/events`)
             dispatch ({
               type: PUT_EVENT, 
               payload    
@@ -402,14 +389,14 @@ export function getServicesHotel(id) {
   }
 }
 
-//------------------------GET EVENTS HOTEL --------------------//
-export function getEventsHotel(id) {
+//------------------------GET EVENTS --------------------//
+export function getAllEvents() {
   return async function (dispatch) {
     try {
-      const eventsHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
+      const events = await axios.get(`${BACK_URL}/events`)
       dispatch ({
-        type: GET_EVENTS_HOTEL,
-        payload: eventsHotel.data    
+        type: GET_ALL_EVENTS,
+        payload: events.data    
       })        
     } catch (error) {
       console.log(error)
