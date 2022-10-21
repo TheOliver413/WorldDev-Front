@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-import { createHotels,updateHotels, getHotels } from '../../redux/action/action';
-import { getCity, getDepartment, getState } from "../../redux/action/action";
-
-import { toast } from "react-toastify";
+import { updateHotels, getHotels, getState, getDepartment, getCity } from '../../redux/action/action';
 import '../Create/Styles.css';
+import { toast } from "react-toastify";
 
-export default function Create() {
+
+export default function ModifyHotel() {
   const dispatch = useDispatch();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
 
+  const get_state = useSelector(state=>state.reducerHotel.location_state)
+  const get_department = useSelector(state=>state.reducerHotel.location_department)
+  const get_city = useSelector(state=>state.reducerHotel.location_city)
+//---------------------------------------------------//
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
@@ -19,68 +21,68 @@ export default function Create() {
     qualification: 1,
     description: "",
     address:"",
-    city: "",
-    country: "",
+    idLocation:"",
+
+  })
+//---------------------------------------------------//
+  const [location, setlocation] = useState({
+    state: "",
     department: "",
-
+    city: "",
   })
-  const [input_create, setInput_create] = useState({
-    option: ''
-  })
+//---------------------------------------------------//
+useEffect(() => {
+  !hotels.length && dispatch(getHotels());
+  dispatch(getState());
+}, [dispatch, hotels])
 
-  useEffect(() => {
-    !hotels.length && dispatch(getHotels());
-  }, [dispatch, hotels])
+//----------------------------------------------------//
+function handleChangeLocation(e) {
+  e.preventDefault();
+  setlocation({
+    ...location,
+    [e.target.name]: e.target.value
+  })
+  if( e.target.name === "state" ){
+    dispatch(getDepartment(e.target.value))
+  }
+  if( e.target.name === "department" ){
+    dispatch(getCity(e.target.value))
+  }
+    // setErrors(
+    //   validate({
+    //     ...input,
+    //     [e.target.name]: e.target.value,
+    //   })
+    // )
+  }
 
   //------------------------VALIDATIONS-----------------------------//
   // let validateName = /^[a-zA-Z\s]+$/;
 
-  /* const validate = (input_hotels) => {
-    // let errors = {}
+  //  const validate = (input_hotels) => {
+  //   let errors = {}
 
-    // if (!input.title.length) {
-    //   errors.title = 'Title cannot be empty'
-    // }
+  //   if (!input.name.length) {
+  //     errors.name = 'Title cannot be empty'
+  //   }
 
-    // if (!validateTitle.test(input.title)) {
-    //   errors.title = 'Special characters or numbers are not allowed'
-    // }
+  //   if (!validateName.test(input.name)) {
+  //     errors.name = 'Special characters or numbers are not allowed'
+  //   }
 
-    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
-    //   alert(`The title ${input.title} already exist, please choose another one!`)
-    // }
-    // if (input.image && !validateUrl.test(input.image)) {
-    //   errors.image = 'This is not a valid URL'
-    // }
+  //   if (recipes.find((e) => e.name.toLowerCase() === input.name.toLowerCase())) {
+  //     alert(`The name ${input.name} already exist, please choose another one!`)
+  //   }
 
-    // if (!input.summary.length) {
-    //   errors.summary = 'Summary cannot be empty'
-    // }
+  //   return errors;
 
-    // if (input.summary.length < 40) {
-    //   errors.summary = 'Summary must be at least 40 characters'
-    // }
-
-    // if (input.healthScore < 1 || input.healthScore > 100) {
-    //   errors.healthScore = 'The healt score must be a number between 1 - 100'
-    // }
-
-    // if (!input.steps.length) {
-    //   errors.steps = 'Your recipe must have steps to follow'
-    // }
-
-    // if (input.steps.length < 40) {
-    //   errors.steps = 'Your recipe must have more details'
-    // }
-
-    // return errors;
-
-  } */
+  // } 
   
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
-    console.log("estado actual:", input_create)
+    //console.log("estado actual:", input_create)
     input_sethotels({
       ...input_hotels,
       [e.target.name]: e.target.value
@@ -92,51 +94,19 @@ export default function Create() {
     //   })
     // )
   }
-
-  const handleChangeCreate = (e) => {
-    e.preventDefault();
-    setInput_create({
-      ...input_create,
-      [e.target.name]: e.target.value
-    })
-  }
-
+ 
   //---------------- HANDLE SUBMIT HOTELS------------------//
-  // function handleSubmit(e) {
-  //   e.preventDefault()
-  //   if (input_hotels) {
-  //     dispatch(createHotels(input_hotels))
-
-  //     input_sethotels({
-  //       name: "",
-  //       image: [""],
-  //       qualification: 1,
-  //       description: "",
-  //       city: "",
-  //       country: "",
-  //       continent: "",
-  //     })
-
-  //     alert('Hotel created successfully')
-  //   } else {
-  //     alert("Check the fields")
-  //   }
-  // }
-  
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault()
-    //console.log(input_create)
     if (input_hotels) {
 
-      dispatch(createHotels(input_hotels))
+      // dispatch(createHotels(input_hotels))
 
-      if (input_hotels) {
-        dispatch(createHotels(input_hotels))
-        toast.success('Hotel created successfully', { position: 'bottom-right' })
-      } else {
+    if(input_hotels) {
         dispatch(updateHotels(input_hotels))
         toast.success('Hotel modified successfully', { position: 'bottom-right' })
       }
+
       input_sethotels({
         id: "",
         name: "",
@@ -144,9 +114,8 @@ export default function Create() {
         qualification: 1,
         description: "",
         address:"",
-        city: "",
-        country: "",
-        department: "",
+        idLocation:"",
+    
       })
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
@@ -158,74 +127,36 @@ export default function Create() {
       <form onSubmit={(e) => handleSubmit(e)} >
         <div className="form-group">
           <h1>✯ Hotel ✯</h1>
+
           {/*-----------------------NAME------------------------ */}
-
-          {/*----------------CREATE OR MODIFY------------------------ */}
-          <div>
-            <label>-Select an option-
-              <br></br>
-              <label> Create
-                <input
-                  type='radio'
-                  id='create'
-                  name='option'
-                  value='create'
-
-                  onChange={(e) => handleChangeCreate(e)} />
-              </label>
-              <label> Modify
-                <input
-                  type='radio'
-                  id='modify'
-                  name='option'
-                  value='modify'
-                  onChange={(e) => handleChangeCreate(e)} />
-              </label>
-            </label>
-          </div>
-
-          {/*-----------------------SELECT HOTELS------------------------ */}
           <div className="form-row" >
-            {input_create.option === 'create' ?
-              (<input
-                className="form-control"
-                autoFocus
-                placeholder="Name..."
-                type="text" value={input_hotels.name}
-                name="name"
-                onChange={(e) => handleChange(e)} />)
-              : (<div>
+          <select
+          className="form-control" name = "id" value= {input_hotels.id} onChange={(e) => handleChange(e)}>
+          <option disabled selected >Hotels...</option>
+          {data_hotels?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })}
+        </select>
 
-                <select value={input_create.id} name="id" onChange={(e) => handleChange(e)}>
-                  <option hidden selected >Hotels...</option>
-                  {data_hotels?.sort((a, b) => {
-                    if (a.name > b.name) return 1;
-                    if (a.name < b.name) return -1;
-                    return 0;
-                  }).map(e =>
-                    <option key={e.name} value={e.id} >{e.name}</option>)}
-                </select>
-
-              </div>)}
-
-              {/*--------------------------NAME------------------- */}
-
+              {/*--------------------------REMANE------------------- */}
             <div className=''>
               <input
                 className="form-control"
-                placeholder="Name..."
+                placeholder="Rename Hotel..."
                 type="text"
                 value={input_hotels.name}
                 name="name"
                 onChange={(e) => handleChange(e)} />
             </div>
 
+
             {/*--------------------------IMAGE------------------- */}
             <div className=''>
               <input
                 className="form-control"
-                placeholder="Load URL Image..."
-                type="url"
+                type="file"
                 value={input_hotels.image}
                 name="image"
                 onChange={(e) => handleChange(e)} />
@@ -237,7 +168,6 @@ export default function Create() {
                 className="form-control"
                 placeholder="Description..."
                 type="text"
-
                 value={input_hotels.description}
                 name="description"
                 maxLength="1000"
@@ -270,61 +200,47 @@ export default function Create() {
                 placeholder="Address..."
                 type="text"
                 value={input_hotels.address}
-                name="adress"
+                name="address"
                 onChange={(e) => handleChange(e)}>
               </input>
             </div>
-             {/*--------------------------DEPARTMENT----------------------- */}          
-              
-             <select>
-              { 
-                <option>departamento</option>
-               }      
-             </select>
-                     
 
-             {/*--------------------------CITY----------------------- */}          
-              
-             <select>
-              { 
-                <option>Moreno</option>
-               }
-             </select>
-              
-            
               {/*--------------------------STATE----------------------- */}          
                
-             <select>
-              { 
-                <option>Buenos aires</option>
-               }
+             <select  name="state" value={ location.state }  onChange={(e) => handleChangeLocation(e)} >
+               <option   disabled selected >State...</option>
+              { get_state?.map((ele,i)=>{
+                return(
+                  <option  value= { ele } key={i} > { ele } </option>
+                )
+              })
+                }
+             </select>
+
+             {/*--------------------------DEPARTMENT----------------------- */}          
+              
+             <select  name="department" value={ location.department } onChange={(e) => handleChangeLocation(e)} >
+               <option disabled selected >Department...</option>
+               { get_department?.map((ele,i)=>{
+                return(
+                  <option  value= { ele } key= {i} > { ele } </option>
+                )
+              })
+                }      
+             </select>
+                     
+             {/*--------------------------CITY----------------------- */}          
+              
+             <select  name="idLocation" value={ input_hotels.idLocation } onChange={(e) => handleChange(e)} >
+               <option disabled selected >City...</option>
+               { get_city?.map((ele,i)=>{
+                return(
+                  <option  value= { ele.id } key={i} > { ele.city } </option>
+                )
+              })
+                }
              </select>
               
-              
-            {/*--------------------------COUNTRY----------------------- */}
-            {/* <div >
-              <input
-                className="form-control"
-                placeholder="Country..."
-                type="text"
-                value={input_hotels.country}
-                name="country"
-                onChange={(e) => handleChange(e)}>
-              </input>
-            </div> */}
-
-            {/*--------------------------CONTINENT----------------------- */}
-            {/* <div >
-              <input
-                className="form-control"
-                placeholder="Continent..."
-                type="text"
-                value={input_hotels.continent}
-                name="continent"
-                onChange={(e) => handleChange(e)}>
-              </input>
-            </div> */}
-
             {/*----------------------------BUTTON------------------------ */}
             <div>
               <button className='btn btn-primary mb-2'
@@ -338,4 +254,3 @@ export default function Create() {
     </div>
   )
 }
-
