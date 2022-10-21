@@ -64,10 +64,11 @@ export default function Nav() {
               </Link>
             </li>
             <li className="nav-cart-container nav-item">
-              <img className="mx-3" src={suitcase} alt='Shopping Cart' />
-              <span className="nav-cart-itemsSelected">{cartTotalQuantity}</span>
+              <Link to="/cart">
+                <img className="mx-3" src={suitcase} alt='Shopping Cart' />
+                <span className="nav-cart-itemsSelected">{cartTotalQuantity}</span>
+              </Link>
             </li>
-
             <button type="button" className="btn btn-outline-primary ms-4" disabled>
               LOG IN
             </button>

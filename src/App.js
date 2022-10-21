@@ -1,6 +1,7 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useDispatch } from 'react-redux'
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Home from "./Components/Home/Home.jsx";
 import Create from "./Components/Create/Create";
@@ -20,8 +21,14 @@ import ModifyHotel from "./Components/CreateHotel/ModifyHotel";
 import ModifyRooms from "./Components/CreateRooms/ModifyRooms";
 import ModifyServRooms from "./Components/CreateServRooms/ModifyServiceRooms";
 import ModifyEvents from "./Components/CreateEvents/ModifyEvents";
+import Cart from "./Components/Cart/Cart";
+import { getTotals } from "./redux/action/cartAction";
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getTotals())
+  }, [dispatch])
   return (
     <div>
         <Nav />
@@ -44,6 +51,7 @@ function App() {
           <Route path='/hotel/room/:id' element={<RoomDetail/>} />
           <Route path='/hotel/:id' element={<HotelDetail/>} />
           <Route path='/favorite' element={<Favorite/>} />
+          <Route path='/cart' element={<Cart/>} />
         </Routes>
         <Footer />
     </div>
