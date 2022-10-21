@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { createServicesRooms } from "../../redux/action/action";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
 import { toast } from "react-toastify";
 
 const validate = (input_serv_room) => {
     let errors = {};
+    if (!input_serv_room.id) errors.id = 'Select service name'
     if (!input_serv_room.name) errors.name = 'Service name is required'
     if (!input_serv_room.image) errors.image = 'Upload at least one image'
+
     return errors;
 }
 
-const CreateServRooms = () => {
+const ModifyServRooms = () => {
     const dispatch = useDispatch();
+    const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
 
     const [input_serv_room, setInput_serv_room] = useState({
+        id: '',
         name: '',
         image: '',
     })
 
     const [errors, setErrors] = useState({})
+
+    useEffect(() => {
+        dispatch(getAllServicesRoom())
+    }, [dispatch])
+
 
     //------------ HANDLE CHANGE NAME SERVICES ROOM--------------//
     const handleName = (e) => {
@@ -39,11 +48,11 @@ const CreateServRooms = () => {
         e.preventDefault();
         setInput_serv_room({
             ...input_serv_room,
-            image: e.target.value
+            [e.target.name]: e.target.value
         })
         setErrors(validate({
             ...input_serv_room,
-            image: e.target.value
+            [e.target.name]: e.target.value
         }))
     }
 
@@ -51,9 +60,10 @@ const CreateServRooms = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (input_serv_room && !Object.keys(errors).length) {
-            dispatch(createServicesRooms(input_serv_room))
-            toast.success('Service created successfully', { position: 'bottom-right' })
+            dispatch(modifyServicesRooms(input_serv_room))
+            toast.success('Service modified successfully', { position: 'bottom-right' })
             setInput_serv_room({
+                id: "",
                 name: "",
                 image: "",
             })
@@ -67,15 +77,33 @@ const CreateServRooms = () => {
         <section class="d-flex justify-content-center align-items-center">
             <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
                 <div class="mb-4 d-flex justify-content-start align-items-center">
-                    <h1>Services Rooms</h1>
+                    <h1>Modify Services Rooms</h1>
                 </div>
 
                 <div class="mb-4">
                     <form onSubmit={(e) => handleSubmit(e)}>
                         <div class="mb-4">
                             <div>
-                                <label for="nombre"> <i class="bi bi-gear"></i> Service Name</label>
-                                <input type="text" class="form-control" placeholder="Service name..."
+                                <label for="nombre"> <i class="bi bi-gear"></i> Current Service Name</label>
+                                <select class="form-select" value={input_serv_room.id} name="id" onChange={(e) =>
+                                    handleChange(e)}>
+                                    <option hidden selected>Select Service Name</option>
+                                    {servicesRoom?.sort((a, b) => {
+                                        if (a.name > b.name) return 1;
+                                        if (a.name < b.name) return -1; return 0;
+                                    }).map(e =>
+                                        <option key={e.id} value={e.id}>{e.name}</option>)}
+                                </select>
+                                <div class="nombre text-danger ">
+                                    {errors.id && (<p>{errors.id}</p>)}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div>
+                                <label for="nombre"> <i class="bi bi-plus-circle"></i> New Service Name</label>
+                                <input type="text" class="form-control" placeholder="New Service name..."
                                     value={input_serv_room.name} name="name" onChange={(e) => handleName(e)} />
                                 <div class="nombre text-danger ">
                                     {errors.name && (<p>{errors.name}</p>)}
@@ -95,7 +123,8 @@ const CreateServRooms = () => {
                         </div>
 
                         <div class="mb-4">
-                            {!input_serv_room.name || !input_serv_room.image || Object.keys(errors).length
+                            {!input_serv_room.id || !input_serv_room.name || !input_serv_room.image ||
+                                Object.keys(errors).length
                                 ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
                                     <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>
@@ -111,4 +140,4 @@ const CreateServRooms = () => {
     )
 }
 
-export default CreateServRooms;
+export default ModifyServRooms;
