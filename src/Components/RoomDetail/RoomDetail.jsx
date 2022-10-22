@@ -78,7 +78,7 @@ const RoomDetail = () => {
       if (checkIn >= checkinfind.checkIn && checkIn <= checkinfind.checkOut) {
         console.log("Input" + checkIn)
         console.log("Carro" + checkinfind.checkIn)
-        alert("La fecha seleccionada no esta disponible");
+        toast.error('The selected date is not available', { position: 'bottom-right' })
       }
       else {
         dispatch(addRoomToCart({
@@ -136,7 +136,7 @@ const RoomDetail = () => {
             <p className="mt-4">
               It is what you are looking for?&nbsp;
               {
-                checkIn > checkOut ? alert("La fecha del checkIn no puede ser mayo a la del checkOut") &&
+                checkIn > checkOut ? toast.error('The check-in date cannot be greater than the check-out date', { position: 'bottom-right' }) &&
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2' disabled>ADD TO CART</button>
                   :
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2'>ADD TO CART</button>

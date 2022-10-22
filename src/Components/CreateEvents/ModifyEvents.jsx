@@ -112,119 +112,118 @@ const ModifyEvents = () => {
       
 
   return (
-    <div>
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <section class="d-flex justify-content-center align-items-center">
+        <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+            <div class="mb-4 d-flex justify-content-start align-items-center">
 
-  {/* {-----------------CURRENT EVENT NAME-----------} */}   
-  <div>
-        <label>Current Event Name</label>
-        <select value={input_event.id} onChange={(e) => handleChangeEvent(e)}>
-          <option hidden selected>Select Event</option>
-          {allEvents?.sort((a,b)=>{
-                    if(a.name > b.name) return 1;
-                    if(a.name < b.name) return -1;
-                    return 0;
-                }).map(e =>
-            <option key={e.id} value={e.id}>{`${e.name}, ${e.date}, ${e.time}`}</option>)} {/*mapeo el nombre de los hoteles*/}
-        </select>
-      </div>
-      <div>
-        {errors.id && (<p>{errors.id}</p>)}
-      </div>
+                <h1>Modify Events</h1>
+            </div>
+            <div class="mb-4">
+                <form onSubmit={(e)=> handleSubmit(e)}>
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-building"></i> Current event name</label>
+                            <select class="form-select" value={input_event.id} onChange={(e)=> handleChangeEvent(e)}>
+                                <option hidden selected>Select Event</option>
+                                {allEvents?.sort((a,b)=>{
+                                if(a.name > b.name) return 1;
+                                if(a.name < b.name) return -1; return 0; }).map(e=>
+                                    <option key={e.id} value={e.id}>{`${e.name}, ${e.date}, ${e.time}`}</option>)}
+                                    {/*mapeo el nombre de los hoteles*/}
+                            </select>
+                            <div class="nombre text-danger ">
+                                {errors.id && (<p>{errors.id}</p>)}
+                            </div>
+                        </div>
+                    </div>
 
-{/* {-----------------EVENT NAME-----------} */}
-      <label>Event Name</label>
-      <input 
-        placeholder="Event Name..."
-        type="text" 
-        value={input_event.name} 
-        name="name"  
-        onChange={(e) => handleName(e)} 
-      />
-      <div>
-      {errors.name && (<p>{errors.name}</p>)}
-      </div>
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-calendar-event"></i> Event Name</label>
+                            <input type="text" class="form-control" value={input_event.name} name="name" onChange={(e)=>
+                            handleName(e)}/>
+                            <div class="nombre text-danger ">
+                                {errors.name && (<p>{errors.name}</p>)}
+                            </div>
+                        </div>
+                    </div>
 
-        {/* {-----------------HOTEL NAME (idHotel)-----------} */}
-        <label>Hotel Name</label>
-      <select value={input_event.idHotel} onChange={(e) => handleChangeHotel(e)}>
-        <option hidden selected>Select hotel</option>
-        {hotels?.sort((a,b)=>{
-                    if(a.name > b.name) return 1;
-                    if(a.name < b.name) return -1;
-                    return 0;
-                }).map(e =>
-          <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e=> `${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los hoteles*/}
-      </select>
-      <div>
-      {errors.idHotel && (<p>{errors.idHotel}</p>)}
-      </div>
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
+                            <select class="form-select" value={input_event.idHotel} onChange={(e)=>
+                                handleChangeHotel(e)}>
+                                <option hidden selected>Select hotel</option>
+                                {hotels?.sort((a,b)=>{
+                                if(a.name > b.name) return 1;
+                                if(a.name < b.name) return -1; return 0; }).map(e=>
+                                    <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e=>
+                                        `${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                    hoteles*/}
+                            </select>
+                            <div class="nombre text-danger ">
+                                {errors.idHotel && (<p>{errors.idHotel}</p>)}
+                            </div>
+                        </div>
+                    </div>
 
-{/* {-----------------DATE-----------} */}
-      <div>
-        <label>Date</label>
-        <input
-          type="date"
-          value={input_event.date}
-          name="date"
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        {errors.date && (<p>{errors.date}</p>)}
+                    <div class="mb-4 d-flex justify-content-between">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
+                            <input type="date" class="form-control" value={input_event.date} name="date" onChange={(e)=>
+                            handleChange(e)}/>
+                            <div class="nombre text-danger ">
+                                {errors.date && (<p>{errors.date}</p>)}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="nombre"> <i class="bi bi-clock"></i> Time</label>
+                            <input type="time" class="form-control" value={input_event.time} name="time" onChange={(e)=>
+                            handleChange(e)}/>
+                            <div class="nombre text-danger ">
+                                {errors.time && (<p>{errors.time}</p>)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div>
+                            <label for="nombre"> <i class="bi bi-images"></i> Image</label>
+                            <input type="file" class="form-control" placeholder="Load URL Image..."
+                                value={input_event.image} name="image" onChange={(e)=> handleChange(e)} />
+                            <div class="nombre text-danger ">
+                                {errors.image && (<p>{errors.image}</p>)}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
+                        <textarea class="form-control" placeholder="Description..."
+                            value={input_event.description} name="description" maxLength="1000"
+                            onChange={(e)=> handleChange(e)}></textarea>
+                        <div class="mensaje text-danger">
+                            {errors.description && (<p>{errors.description}</p>)}
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        {!input_event.id ||!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.time || !input_event.idHotel || Object.keys(errors).length 
+                        ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
+                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                        </button>
+                        : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
+                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                        </button>}
+                    </div>
+
+                </form>
+            </div>
         </div>
-
-         {/* {-----------------TIME-----------} */}
-      <div>
-        <label>Time</label>
-        <input
-          type="time"
-          value={input_event.time}
-          name="time"
-          onChange={(e) => handleChange(e)}
-        />
-        <div>
-        {errors.time && (<p>{errors.time}</p>)}
-        </div>
-      </div>
-
-    {/* {-----------------IMAGE-----------} */}    
-        <div>
-            <label>Image</label>
-            <input
-            placeholder="Load URL Image..."
-            type="file"
-            value={input_event.image}
-            name="image"
-            onChange={(e) => handleChange(e)}
-            />
-        </div>
-        <div>
-            {errors.image && (<p>{errors.image}</p>)}
-        </div>
-
-  {/* {-----------------DESCRIPTION-----------} */}     
-        <div>
-            <label>Description</label>
-            <textarea
-            placeholder="Description..."
-            type="text"
-            value={input_event.description}
-            name="description"
-            maxLength="1000"
-            onChange={(e) => handleChange(e)}
-            />
-        </div>
-        <div>
-            {errors.description && (<p>{errors.description}</p>)}
-        </div>
-      
-{/* {-----------------BUTTON-----------} */}  
-      {!input_event.id ||!input_event.name || !input_event.image || !input_event.description || !input_event.date || !input_event.time || !input_event.idHotel || Object.keys(errors).length 
-        ? (<button disabled type="submit">Send</button>) 
-        : (<button type="submit">Send</button>)}
-    </form>
-    </div>
+    </section>
   )
 }
 
