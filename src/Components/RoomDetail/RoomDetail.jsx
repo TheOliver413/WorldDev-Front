@@ -68,6 +68,9 @@ const RoomDetail = () => {
   }
   const handleCheckOutChange = (e) => { setCheckOut(e.target.value) }
 
+  const finalPrice = price * differenceInDays(new Date(checkOut), new Date(checkIn)) > 0 ? price * differenceInDays(new Date(checkOut), new Date(checkIn)) : price;
+  const difDays = differenceInDays(new Date(checkOut), new Date(checkIn)) < 0 ? 1 : differenceInDays(new Date(checkOut), new Date(checkIn))
+
   const handleAddToCart = () => {
     const checkinfind = check.find(e => e.id == id)//objeto carro
     if (checkinfind) {
@@ -80,7 +83,7 @@ const RoomDetail = () => {
       else {
         dispatch(addRoomToCart({
           ...roomDetail,
-          totalPrice: price * differenceInDays(new Date(checkOut), new Date(checkIn)),
+          totalPrice: finalPrice,
           checkIn,
           checkOut
         }))
@@ -89,7 +92,7 @@ const RoomDetail = () => {
     else {
       dispatch(addRoomToCart({
         ...roomDetail,
-        totalPrice: price * differenceInDays(new Date(checkOut), new Date(checkIn)),
+        totalPrice: finalPrice,
         checkIn,
         checkOut
       }))
@@ -125,18 +128,25 @@ const RoomDetail = () => {
                 />
               </div>
             </div>
-            <p className="mt-4">The price for {differenceInDays(new Date(checkOut), new Date(checkIn))} night/s is&nbsp;
-              <strong>${price * differenceInDays(new Date(checkOut), new Date(checkIn))}</strong>
+            <p className="mt-4">The price for {difDays} night/s is&nbsp;
+              <strong>$ {finalPrice}</strong>
             </p>
             {/* FALTA SERVICIOS CON ICONOS */}
 
             <p className="mt-4">
               It is what you are looking for?&nbsp;
-              <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2'>ADD TO CART</button>
+              {
+                checkIn > checkOut ? alert("La fecha del checkIn no puede ser mayo a la del checkOut") &&
+                  <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2' disabled>ADD TO CART</button>
+                  :
+                  <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2'>ADD TO CART</button>
+              }
             </p>
+
             <button className='btn btn-primary my-3' onClick={handleFavorite}>
               <svg fill={isFavorite ? '#E53A27' : 'grey'} height={20} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" /></svg>
             </button>
+
             {/* falta agregar logica al boton para que lo agregue al carrito */}
           </div>
         </div>
