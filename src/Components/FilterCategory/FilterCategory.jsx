@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+/* import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux"; 
 import { getCategory } from "../../redux/action/action";
 import { setActualPage, setMinPageNumber, setMaxPageNumber } from "../../redux/action/action";
@@ -30,3 +30,4 @@ export default function FilterCategory() {
     )
 }
 
+ */
