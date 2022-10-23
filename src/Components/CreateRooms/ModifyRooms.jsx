@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyRooms, getHotels } from '../../redux/action/action';
+import { modifyRooms, getHotels, getAllRoomsOfHotel } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
-
+import { toast } from "react-toastify";
 
 export default function ModifyRooms() {
   //--------------------------------------------------//
   const dispatch = useDispatch();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
+  const rooms = useSelector(state=>state.reducerRoom.allRooms)
+  const servicios = useSelector(state=>state.reducerRoom.servicesRoom)
 
+  console.log("servicios que me llegan: ", servicios)
+  console.log("habitaciones para select: ",rooms)
   //console.log("info de hoteles: ",data_hotels)
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
+
   }, [dispatch, hotels])
 
   //----------------------------------------//
   const [input_rooms, input_setrooms] = useState({
     id: "",
     name: "",
-    image: [""],
+    image: [],
     price: 10,
     description: "",
     category: "",
@@ -38,7 +43,7 @@ export default function ModifyRooms() {
     // let errors = {}
 
     // if (!input.title.length) {
-    //   errors.title = 'Title cannot be empty'
+    //   errors.title = 'Name cannot be empty'
     // }
 
     // if (!validateTitle.test(input.title)) {
@@ -70,28 +75,58 @@ export default function ModifyRooms() {
     //   })
     // )
   }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-
-    if ( input_rooms ) {
-      dispatch(modifyRooms(input_rooms))
-      input_setrooms({
-        id: "",
-        name: "",
-        image: [""],
-        price: 10,
-        description: "",
-        category: "",
-        services:[""],
-        stock: 0,
-      })
-
-      alert('Rooms modify successfully')
-    } else {
-      alert("Check the fields")
-    }
+//------------------------------------------//
+  function handleChangeRooms(e) {
+    e.preventDefault();
+   dispatch(getAllRoomsOfHotel(e.target.value))
+    // setErrors(
+    //   validate({
+    //     ...input,
+    //     [e.target.name]: e.target.value,
+    //   })
+    // )
   }
+
+   //-----------------------CLOUDINARY--------------------------//
+   async function handleOpenWidget(){
+    var myWidget = await window.cloudinary.createUploadWidget({
+      cloudName: 'dyyoavgq5', 
+      uploadPreset: 'wwtvto96'}, (error, result) => { 
+        if (!error && result && result.event === "success") { 
+          // console.log('Done! Here is the image info: ', result.info); 
+          //setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+          input_setrooms( {
+            ...input_rooms,
+            image:[...input_rooms.image, {url: result.info.url,public_id: result.info.public_id}]
+          })
+          // console.log(input_rooms)
+        }
+      })
+      myWidget.open()
+  }
+  //--------------------------------------------//
+    function handleSubmit(e) {
+      e.preventDefault()
+  
+      if ( input_rooms ) {
+        dispatch(modifyRooms(input_rooms))
+        console.log("despacho modify room: ",input_rooms)
+        input_setrooms({
+          id: "",
+          name: "",
+          image: [],
+          price: 10,
+          description: "",
+          category: "",
+          services:[""],
+          stock: 0,
+        })
+  
+        toast.success('Rooms modify successfully', { position: 'bottom-right' })
+      } else {
+        toast.error("Check the fields", { position: 'bottom-right' })
+      }
+    }
 
   return (
 
@@ -103,7 +138,7 @@ export default function ModifyRooms() {
         {/*-------------------SELECT HOTELS---------------- */}
         <p></p>
         <select
-          className="form-control" name="idHotel" value={input_rooms.idHotel} onChange={(e) => handleChange(e)}>
+          className="form-control" name="id" value={input_rooms.id} onChange={(e) => handleChangeRooms(e)}>
           <option disabled selected >Hotels...</option>
           {data_hotels?.map((ele, i) => {
             return (
@@ -113,11 +148,12 @@ export default function ModifyRooms() {
         </select>
 
         {/*-----------------------NAME------------------------ */}
-        <select value={input_rooms.name} name="name" className="form-control" onChange={(e) => handleChange(e)} >
-          <option value="suite" >suite</option>
-          <option value="double" >double</option>
-          <option value="single" >single</option>
-          <option value="family" >family</option>
+        <select value={input_rooms.id} name="id" className="form-control" onChange={(e) => handleChange(e)} >
+        {rooms?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })}
         </select>
 
         {/* <input
@@ -128,13 +164,16 @@ export default function ModifyRooms() {
           name="name"
           onChange={(e) => handleChange(e)} /> */}
 
-        {/*-----------------------IMAGE------------------------ */}
-        <input
-          className="form-control"
-          type="file"
-          value={input_rooms.image}
-          name="image"
-          onChange={(e) => handleChange(e)} />
+          {/*--------------------------UPLOAD FILES------------------- */}
+          <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+            <div>
+                {input_rooms.image.map((imag) =>(
+                  <div>
+                  <img src={imag.url}/>
+                </div>
+              ))}
+
+          </div>
 
         {/*-----------------------PRICE------------------------ */}
         {/* <label className=''>Price:</label> */}
@@ -159,19 +198,19 @@ export default function ModifyRooms() {
         <select
           className="form-control" name="services" value={input_rooms.services} onChange={(e) => handleChange(e)}>
           <option disabled selected >Services...</option>
-          {/* {data_hotels?.map((ele, i) => {
+          {servicios?.map((ele, i) => {
             return (
-              <option value={ele.id} key={i} >{ele.name}</option>
+              <option value={ele} key={i} >{ele}</option>
             )
-          })} */}
+          })}
         </select>
 
         {/*--------------------------CATEGORY----------------------- */}
         <select name="category" value={input_rooms.category}
           className="form-control"
           onChange={(e) => handleChange(e)} >
-          <option disabled selected >Categories...</option>
-          <option value="presidential" >presidential</option>
+          <option disabled selected >Categories... </option>
+          <option value="presidential">presidential</option>
           <option value="premium" >premium</option>
           <option value="standard" >standard</option>
         </select>

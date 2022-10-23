@@ -13,8 +13,9 @@ export default function CreateRooms() {
   const dispatch = useDispatch();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
-  const hotels1 = useSelector(state=>state.servicesRoom)
+  const servicios = useSelector(state=>state.reducerRoom.servicesRoom)
 
+  console.log("servicios que me llegan: ", servicios)
 
   //console.log("info de services : ", hotels1)
   //const serv = hotels?.map(ele=>ele.ServicesHotels)
@@ -26,9 +27,7 @@ export default function CreateRooms() {
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
     dispatch(getState())
-    // dispatch(getDepartment())
-    // dispatch(getCity())
-
+    dispatch(getAllServicesRoom())
     // !hotels.length && dispatch(getAllServicesRoom());
   }, [dispatch, hotels])
 
@@ -36,7 +35,7 @@ export default function CreateRooms() {
   const [input_rooms, input_setrooms] = useState({
     id: "",
     name: "",
-    image: [""],
+    image: [],
     price: 10,
     description: "",
     category: "",
@@ -85,15 +84,34 @@ export default function CreateRooms() {
     // )
   }
 
+   //-----------------------CLOUDINARY--------------------------//
+ async function handleOpenWidget(){
+  var myWidget = await window.cloudinary.createUploadWidget({
+    cloudName: 'dyyoavgq5', 
+    uploadPreset: 'wwtvto96'}, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        // console.log('Done! Here is the image info: ', result.info); 
+        //setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+        input_setrooms( {
+          ...input_rooms,
+          image:[...input_rooms.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        console.log(input_rooms)
+      }
+    })
+    myWidget.open()
+}
+//--------------------------------------------//
   function handleSubmit(e) {
     e.preventDefault()
 
     if ( input_rooms ) {
+      //console.log("info que se despacha:",input_rooms)
       dispatch(createRooms(input_rooms))
       input_setrooms({
         id: "",
         name: "",
-        image: [""],
+        image: [],
         price: 10,
         description: "",
         category: "",
@@ -133,13 +151,16 @@ export default function CreateRooms() {
           <option value="family" >family</option>
         </select>
 
-        {/*-----------------------IMAGE------------------------ */}
-        <input
-          className="form-control"
-          type="file"
-          value={input_rooms.image}
-          name="image"
-          onChange={(e) => handleChange(e)} />
+          {/*--------------------------UPLOAD FILES------------------- */}
+          <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+            <div>
+                {input_rooms.image.map((imag) =>(
+                  <div>
+                  <img src={imag.url}/>
+                </div>
+              ))}
+
+          </div>
 
         {/*-----------------------PRICE------------------------ */}
         {/* <label className=''>Price:</label> */}
@@ -163,11 +184,11 @@ export default function CreateRooms() {
         <select
           className="form-control" name="services" value={input_rooms.services} onChange={(e) => handleChange(e)}>
           <option disabled selected >Services...</option>
-          {/* {servi?.map((ele, i) => {
+          {servicios?.map((ele, i) => {
             return (
-              <option value={ele.id} key={i} >{ele}</option>
+              <option value={ele.id} key={i} >{ele.name}</option>
             )
-          })} */}
+          })}
         </select>
 
         {/*--------------------------CATEGORY----------------------- */}

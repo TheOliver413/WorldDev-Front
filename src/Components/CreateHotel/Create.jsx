@@ -1,54 +1,59 @@
+//------------------------------------------------------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotels, getHotels, getState, getDepartment, getCity } from '../../redux/action/action';
-import '../Create/Styles.css';
+
+import { createHotels,updateHotels, getHotels } from '../../redux/action/action';
+import { getCity, getDepartment, getState } from "../../redux/action/action";
+
 import { toast } from "react-toastify";
 
+import '../Create/Styles.css';
 
-export default function ModifyHotel() {
+export default function Create() {
   const dispatch = useDispatch();
-  const data_hotels = useSelector(state => state.reducerHotel.hotels)
+  //const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state=>state.reducerHotel.hotels)
 
   const get_state = useSelector(state=>state.reducerHotel.location_state)
-  const get_department = useSelector(state=>state.reducerHotel.location_department)
   const get_city = useSelector(state=>state.reducerHotel.location_city)
-//---------------------------------------------------//
+  const get_department = useSelector(state=>state.reducerHotel.location_department)
+
+  // console.log("info de estados: ", get_state)
+  // console.log("info en componente city: ", get_city)
+  // console.log("info en componente department: ", get_department)
+
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
-    image: [""],
+    image: [],
     qualification: 1,
     description: "",
     address:"",
     idLocation:"",
 
   })
-//---------------------------------------------------//
   const [location, setlocation] = useState({
     state: "",
     department: "",
     city: "",
   })
-//---------------------------------------------------//
-useEffect(() => {
-  !hotels.length && dispatch(getHotels());
-  dispatch(getState());
-}, [dispatch, hotels])
 
-//----------------------------------------------------//
-function handleChangeLocation(e) {
-  e.preventDefault();
-  setlocation({
-    ...location,
-    [e.target.name]: e.target.value
-  })
-  if( e.target.name === "state" ){
-    dispatch(getDepartment(e.target.value))
-  }
-  if( e.target.name === "department" ){
-    dispatch(getCity(e.target.value))
-  }
+  //------------------ HANDLE CHANGE HOTELS -------------------//
+  function handleChangeLocation(e) {
+    e.preventDefault();
+    setlocation({
+      ...location,
+      [e.target.name]: e.target.value
+    })
+    if( e.target.name === "state" ){
+      dispatch(getDepartment(e.target.value))
+    }
+    if( e.target.name === "department" ){
+      dispatch(getCity(e.target.value))
+    }
+    // if( e.target.name === "city" ){
+    //   dispatch(getCity(e.target.value))
+    // }
     // setErrors(
     //   validate({
     //     ...input,
@@ -56,28 +61,35 @@ function handleChangeLocation(e) {
     //   })
     // )
   }
+//------------------------------------------------------//
+  useEffect(() => {
+    !hotels.length && dispatch(getState());
+  }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
   // let validateName = /^[a-zA-Z\s]+$/;
 
-  //  const validate = (input_hotels) => {
-  //   let errors = {}
+  /* const validate = (input_hotels) => {
+    // let errors = {}
 
-  //   if (!input.name.length) {
-  //     errors.name = 'Title cannot be empty'
-  //   }
+    // if (!input.title.length) {
+    //   errors.title = 'Title cannot be empty'
+    // }
 
-  //   if (!validateName.test(input.name)) {
-  //     errors.name = 'Special characters or numbers are not allowed'
-  //   }
+    // if (!validateTitle.test(input.title)) {
+    //   errors.title = 'Special characters or numbers are not allowed'
+    // }
 
-  //   if (recipes.find((e) => e.name.toLowerCase() === input.name.toLowerCase())) {
-  //     alert(`The name ${input.name} already exist, please choose another one!`)
-  //   }
+    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
+    //   alert(`The title ${input.title} already exist, please choose another one!`)
+    // }
+    // if (input.image && !validateUrl.test(input.image)) {
+    //   errors.image = 'This is not a valid URL'
+    // }
 
-  //   return errors;
+    // return errors;
 
-  // } 
+  } */
   
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
@@ -94,7 +106,26 @@ function handleChangeLocation(e) {
     //   })
     // )
   }
- 
+
+ //-----------------------CLOUDINARY--------------------------//
+ async function handleOpenWidget(){
+  var myWidget = await window.cloudinary.createUploadWidget({
+    cloudName: 'dyyoavgq5', 
+    uploadPreset: 'wwtvto96'}, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        // console.log('Done! Here is the image info: ', result.info); 
+        //setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+        input_sethotels( {
+          ...input_hotels,
+          image:[...input_hotels.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        console.log(input_hotels)
+      }
+    })
+    myWidget.open()
+}
+
+
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
     e.preventDefault()
@@ -102,26 +133,27 @@ function handleChangeLocation(e) {
 
       // dispatch(createHotels(input_hotels))
 
-    if(input_hotels) {
-        dispatch(updateHotels(input_hotels))
-        toast.success('Hotel modified successfully', { position: 'bottom-right' })
+      if (input_hotels) {
+        dispatch(createHotels(input_hotels))
+        toast.success('Hotel created successfully', { position: 'bottom-right' })
       }
 
       input_sethotels({
         id: "",
         name: "",
-        image: [""],
+        image: [],
         qualification: 1,
         description: "",
         address:"",
         idLocation:"",
     
       })
+
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
   }
-
+  
   return (
     <div className="cardHotels-container">
       <form onSubmit={(e) => handleSubmit(e)} >
@@ -130,37 +162,26 @@ function handleChangeLocation(e) {
 
           {/*-----------------------NAME------------------------ */}
           <div className="form-row" >
-          <select
-          className="form-control" name = "id" value= {input_hotels.id} onChange={(e) => handleChange(e)}>
-          <option disabled selected >Hotels...</option>
-          {data_hotels?.map((ele, i) => {
-            return (
-              <option value={ele.id} key={i} >{ele.name}</option>
-            )
-          })}
-        </select>
-
-              {/*--------------------------REMANE------------------- */}
-            <div className=''>
+              <div>
               <input
                 className="form-control"
-                placeholder="Rename Hotel..."
-                type="text"
-                value={input_hotels.name}
+                autoFocus
+                placeholder="Name..."
+                type="text" value={input_hotels.name}
                 name="name"
                 onChange={(e) => handleChange(e)} />
-            </div>
+              </div>
 
+            {/*--------------------------UPLOAD FILES------------------- */}
+            <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                <div>
+                  {input_hotels.image.map((imag) =>(
+                    <div>
+                      <img src={imag.url}/>
+                    </div>
+                  ))}
 
-            {/*--------------------------IMAGE------------------- */}
-            <div className=''>
-              <input
-                className="form-control"
-                type="file"
-                value={input_hotels.image}
-                name="image"
-                onChange={(e) => handleChange(e)} />
-            </div>
+                </div>
 
             {/*--------------------------DESCRIPTION----------------------- */}
             <div >
@@ -170,7 +191,7 @@ function handleChangeLocation(e) {
                 type="text"
                 value={input_hotels.description}
                 name="description"
-                maxLength="1000"
+                maxLength="500"
                 onChange={(e) => handleChange(e)}>
               </textarea>
             </div>
