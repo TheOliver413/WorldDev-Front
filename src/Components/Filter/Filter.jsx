@@ -9,7 +9,7 @@ function Filter() {
   // const servicesHotel = useSelector(state => state.reducerHotel.servicesHotel)
   const location = useSelector(state => state.reducerHotel.location)
   const [filterWindowVisibility, setFilterWindowVisibility] = useState(false)
-  
+
   const handleFilterClick = (e) => {
     if (!filterWindowVisibility) {
       setFilterWindowVisibility(!filterWindowVisibility)
@@ -20,7 +20,7 @@ function Filter() {
     }
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     // dispatch(getRooms())
     // dispatch(getAllServicesHotel())
     dispatch(getLocations())
@@ -28,7 +28,7 @@ function Filter() {
 
   // const [selectedInput, setSelectedInput] = useState([])
   const [estadolocal, setEstadolocal] = useState("")
-  
+
   /* const handleFilterByRoom = (e) => {
     setSelectedInput({...selectedInput, [e.target.value]: e.target.checked})
   } */
@@ -47,16 +47,15 @@ function Filter() {
   return (
     <>
       {/* FILTER BUTTON */}
-      <div className='container'>
-        <button onClick={handleFilterClick} style={{'width':'5.5em'}} className='btn btn-outline-primary btn-lg'>
+      <div class="btn-group mr-2" role="group" aria-label="Second group">
+        <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
           <div className='d-flex align-items-center justify-content-between'>
             Filter
             <i className="bi bi-sliders"></i>
           </div>
         </button>
-        <button onClick={handleClearFilter} className='btn' type='button'>Clear filters</button>
+        <button onClick={handleClearFilter} className='btn btn-outline-primary btn-lg' type='button'>Clear filters</button>
       </div>
-
 
       {/* WINDOW */}
       {filterWindowVisibility && <div id='background' onClick={handleFilterClick} className='filter-window-background'>
