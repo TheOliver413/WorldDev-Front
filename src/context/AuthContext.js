@@ -18,8 +18,8 @@ export default function AuthProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const login = (email, password) => {
-    const objeect = signInWithEmailAndPassword(auth, email, password);
+  const login = async (email, password) => {
+    const objeect = await signInWithEmailAndPassword(auth, email, password);
     console.log(objeect)
   };
 
