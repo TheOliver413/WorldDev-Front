@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import loginico from "./login-icon.svg";
 import userico from "./username-icon.svg"
 import passwordico from "./password-icon.svg"
-import googleico from "./google-icon.svg"
 
 export default function Register() {
   const { signup } = useAuth();
@@ -35,10 +34,10 @@ export default function Register() {
       navigate("/home");
     } catch (error) {
       if(error.code === 'auth/invalid-email') {
-        setError('Email invalid')
+        toast.error("Email invalid", { position: 'bottom-right' })
       }
       if(error.code === 'auth/weak-password') {
-        setError('Weak password')
+        toast.info("Weak password", { position: 'bottom-right' })
       }
     }
   };

@@ -16,7 +16,7 @@ const CheckoutForm = () => {
     const navigate = useNavigate()
     const stripe = useStripe();
     const elements = useElements();
-    const dispatch = useDispatch();    
+    const dispatch = useDispatch();
 
     const { cartRooms, cartTotalAmount, cartTotalQuantity } = useSelector(state => state.reducerCart)
     const allBookings = useSelector(state => state.reducerStripe.allBooking)
@@ -58,7 +58,7 @@ const CheckoutForm = () => {
         idRoom: idRooms
     }
 
-    console.log('booking',booking)
+    console.log('booking', booking)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -75,7 +75,7 @@ const CheckoutForm = () => {
             setLoading(false)
             setTimeout(() => {
                 navigate('/home')
-            }, 8000); 
+            }, 8000);
         } else {
             toast.error('Unprocessed Payment', { position: 'bottom-right' })
         }
@@ -84,16 +84,19 @@ const CheckoutForm = () => {
 
 
     return (
-        <form className="card card-body" onSubmit={handleSubmit}>
+        <form className="card card-body " onSubmit={handleSubmit}>
             {/* Product Information */}
-            <img src={cartRooms[0].image} alt="hotel image" className="img-fluid" />
+            {/* <img src={cartRooms[0].image} alt="hotel image" className="img-fluid" /> */}
 
             <br />
             <h5>Reservation detail: </h5>
-            <p>{cartRooms.map(e => `${e.name}, ${e.category} - quantity ${e.cartQuantity}`)}</p>
+            <ul>
+                {cartRooms.map(e => <li><img src={e.image} />  {`${e.name}, ${e.category}, 💲${e.price} - quantity ${e.cartQuantity}`}</li>)}
+            </ul>
+            <p></p>
             <h6>Total quantity of rooms booked : {cartTotalQuantity}</h6>
             <br />
-            <h5 className="text-center">Total to pay: USD {cartTotalAmount}</h5>
+            <h5 className="text-center">Total to pay: 💲 {cartTotalAmount}</h5>
             <br />
             <p className="text-center">Enter your credit or debit card details</p>
 
@@ -111,9 +114,9 @@ const CheckoutForm = () => {
                     "Pay"
                 )}
             </button>
-            <br/>
+            <br />
             <div>
-            <p><i className="bi bi-info-circle icon-success"></i> Once the payment has been processed, you will receive a reservation confirmation email.</p>
+                <p><i className="bi bi-info-circle icon-success"></i> Once the payment has been processed, you will receive a reservation confirmation email.</p>
             </div>
         </form>
     );
