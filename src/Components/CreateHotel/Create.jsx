@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
+import { createHotels,updateHotels, getHotels } from '../../redux/action/action';
 import { getCity, getDepartment, getState } from "../../redux/action/action";
 
 import { toast } from "react-toastify";
@@ -12,20 +12,21 @@ import '../Create/Styles.css';
 export default function Create() {
   const dispatch = useDispatch();
   //const data_hotels = useSelector(state => state.reducerHotel.hotels)
-  const hotels = useSelector(state => state.reducerHotel.hotels)
 
-  const get_state = useSelector(state => state.reducerHotel.location_state)
-  const get_city = useSelector(state => state.reducerHotel.location_city)
-  const get_department = useSelector(state => state.reducerHotel.location_department)
+  const hotels = useSelector(state=>state.reducerHotel.hotels)
+
+  const get_state = useSelector(state=>state.reducerHotel.location_state)
+  const get_city = useSelector(state=>state.reducerHotel.location_city)
+  const get_department = useSelector(state=>state.reducerHotel.location_department)
 
   // console.log("info de estados: ", get_state)
-  console.log("info en componente city: ", get_city)
-  console.log("info en componente department: ", get_department)
+  // console.log("info en componente city: ", get_city)
+  // console.log("info en componente department: ", get_department)
 
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
-    image: [""],
+    image: [],
     qualification: 1,
     description: "",
     address: "",
@@ -45,10 +46,12 @@ export default function Create() {
       ...location,
       [e.target.name]: e.target.value
     })
-    if (e.target.name === "state") {
+
+    if( e.target.name === "state" ){
       dispatch(getDepartment(e.target.value))
     }
-    if (e.target.name === "department") {
+    if( e.target.name === "department" ){
+    
       dispatch(getCity(e.target.value))
     }
     // if( e.target.name === "city" ){
@@ -61,10 +64,11 @@ export default function Create() {
     //   })
     // )
   }
-  //------------------------------------------------------//
+
+//------------------------------------------------------//
   useEffect(() => {
-    !hotels.length && dispatch(getHotels());
-    dispatch(getState());
+    !hotels.length && dispatch(getState());
+
   }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
@@ -91,7 +95,7 @@ export default function Create() {
     // return errors;
 
   } */
-
+  
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
@@ -108,6 +112,24 @@ export default function Create() {
     // )
   }
 
+ async function handleOpenWidget(){
+  var myWidget = await window.cloudinary.createUploadWidget({
+    cloudName: 'dyyoavgq5', 
+    uploadPreset: 'wwtvto96'}, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        // console.log('Done! Here is the image info: ', result.info); 
+        //setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+        input_sethotels( {
+          ...input_hotels,
+          image:[...input_hotels.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        console.log(input_hotels)
+      }
+    })
+    myWidget.open()
+}
+
+
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
     e.preventDefault()
@@ -118,15 +140,12 @@ export default function Create() {
       if (input_hotels) {
         dispatch(createHotels(input_hotels))
         toast.success('Hotel created successfully', { position: 'bottom-right' })
-      } else {
-        dispatch(updateHotels(input_hotels))
-        toast.success('Hotel modified successfully', { position: 'bottom-right' })
       }
 
       input_sethotels({
         id: "",
         name: "",
-        image: [""],
+        image: [],
         qualification: 1,
         description: "",
         address: "",
@@ -134,18 +153,53 @@ export default function Create() {
 
       })
 
-      alert('Hotel created successfully')
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
   }
-
+  
   return (
-    <section class="d-flex justify-content-center align-items-center">
-      <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-        <div class="mb-4 d-flex justify-content-start align-items-center">
-          <h1>Hotel</h1>
-        </div>
+  
+    <div className="cardHotels-container">
+      <form onSubmit={(e) => handleSubmit(e)} >
+        <div className="form-group">
+          <h1>✯ Hotel ✯</h1>
+
+          {/*-----------------------NAME------------------------ */}
+          <div className="form-row" >
+              <div>
+              <input
+                className="form-control"
+                autoFocus
+                placeholder="Name..."
+                type="text" value={input_hotels.name}
+                name="name"
+                onChange={(e) => handleChange(e)} />
+              </div>
+
+            {/*--------------------------UPLOAD FILES------------------- */}
+            <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                <div>
+                  {input_hotels.image.map((imag) =>(
+                    <div>
+                      <img src={imag.url}/>
+                    </div>
+                  ))}
+
+                </div>
+
+            {/*--------------------------DESCRIPTION----------------------- */}
+            <div >
+              <textarea
+                className="form-control"
+                placeholder="Description..."
+                type="text"
+                value={input_hotels.description}
+                name="description"
+                maxLength="500"
+                onChange={(e) => handleChange(e)}>
+              </textarea>
+            </div>
 
         <div class="mb-1">
           <form onSubmit={(e) => handleSubmit(e)}>

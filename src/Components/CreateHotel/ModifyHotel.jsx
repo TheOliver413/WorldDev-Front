@@ -8,47 +8,72 @@ import { toast } from "react-toastify";
 export default function ModifyHotel() {
   const dispatch = useDispatch();
   const data_hotels = useSelector(state => state.reducerHotel.hotels)
-  const hotels = useSelector(state => state.reducerHotel.hotels)
 
-  const get_state = useSelector(state => state.reducerHotel.location_state)
-  const get_department = useSelector(state => state.reducerHotel.location_department)
-  const get_city = useSelector(state => state.reducerHotel.location_city)
-  //---------------------------------------------------//
+  const hotels = useSelector(state=>state.reducerHotel.hotels)
+
+  const get_state = useSelector(state=>state.reducerHotel.location_state)
+  const get_department = useSelector(state=>state.reducerHotel.location_department)
+  const get_city = useSelector(state=>state.reducerHotel.location_city)
+
+
+//---------------------------------------------------//
+  
   const [input_hotels, input_sethotels] = useState({
     id: "",
     name: "",
-    image: [""],
+    image: [],
     qualification: 1,
     description: "",
     address: "",
     idLocation: "",
 
   })
-  //---------------------------------------------------//
+
+//-----------------PRECARGA DE FORMULARIO------------------//
+console.log("Hoteles cargados: ",hotels)  
+
+
+    //  const id_hotel = hotels.filter(ele=>ele.id == "1a9a0077-b2bf-43c9-8709-803a84771670")
+    //  const pre_description = id_hotel.map(ele=>ele.description)
+    //  const pre_qualification = id_hotel.map(ele=>ele.qualification)
+    //  const pre_address = id_hotel.map(ele=>ele.address)
+
+    //  console.log("description a precargar: ",id_hotel.map(ele=>ele.description))
+    //  console.log("qualification a precargar: ",id_hotel.map(ele=>ele.qualification))
+    //  console.log("address a precargar: ",id_hotel.map(ele=>ele.address))
+     
+
+
+
+
+
+//---------------------------------------------------//
+
   const [location, setlocation] = useState({
     state: "",
     department: "",
     city: "",
   })
-  //---------------------------------------------------//
-  useEffect(() => {
-    !hotels.length && dispatch(getHotels());
-    dispatch(getState());
-  }, [dispatch, hotels])
 
-  //----------------------------------------------------//
-  function handleChangeLocation(e) {
-    e.preventDefault();
-    setlocation({
-      ...location,
-      [e.target.name]: e.target.value
-    })
-    if (e.target.name === "state") {
-      dispatch(getDepartment(e.target.value))
-    }
-    if (e.target.name === "department") {
-      dispatch(getCity(e.target.value))
-    }
+//---------------------------------------------------//
+useEffect(() => {
+  !hotels.length && dispatch(getHotels());
+  dispatch(getState());
+}, [dispatch, hotels])
+
+//----------------------------------------------------//
+function handleChangeLocation(e) {
+  e.preventDefault();
+  setlocation({
+    ...location,
+    [e.target.name]: e.target.value
+  })
+  if( e.target.name === "state" ){
+    dispatch(getDepartment(e.target.value))
+  }
+  if( e.target.name === "department" ){
+    dispatch(getCity(e.target.value))
+  }
     // setErrors(
     //   validate({
     //     ...input,
@@ -78,6 +103,7 @@ export default function ModifyHotel() {
   //   return errors;
 
   // } 
+  
 
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
@@ -94,6 +120,25 @@ export default function ModifyHotel() {
     //   })
     // )
   }
+ //-----------------------CLOUDINARY--------------------------//
+ async function handleOpenWidget(){
+  var myWidget = await window.cloudinary.createUploadWidget({
+    cloudName: 'dyyoavgq5', 
+    uploadPreset: 'wwtvto96'}, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        // console.log('Done! Here is the image info: ', result.info); 
+        //setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+        input_sethotels( {
+          ...input_hotels,
+          image:[...input_hotels.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        console.log(input_hotels)
+      }
+    })
+    myWidget.open()
+}
+
+
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
@@ -102,7 +147,8 @@ export default function ModifyHotel() {
 
       // dispatch(createHotels(input_hotels))
 
-      if (input_hotels) {
+    if(input_hotels) {
+      console.log("info despachada modify hotel:",input_hotels)
         dispatch(updateHotels(input_hotels))
         toast.success('Hotel modified successfully', { position: 'bottom-right' })
       }
@@ -110,13 +156,14 @@ export default function ModifyHotel() {
       input_sethotels({
         id: "",
         name: "",
-        image: [""],
+        image: [],
         qualification: 1,
         description: "",
-        address: "",
-        idLocation: "",
-
+        address:"",
+        idLocation:"",
+  
       })
+      
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
@@ -129,60 +176,54 @@ export default function ModifyHotel() {
           <h1>Modify Hotels</h1>
         </div>
 
-        <div class="mb-1">
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <div class="mb-4">
-              <div>
-                <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                <select class="form-select" name="id" value={input_hotels.id} onChange={(e) => handleChange(e)}>
-                  <option hidden selected>Hotels...</option>
-                  {data_hotels?.map((ele, i) => {
-                    return (
-                      <option value={ele.id} key={i}>{ele.name}</option>
-                    )
-                  })}
-                </select>
-                <div class="nombre text-danger "></div>
-              </div>
-            </div>
+          {/*-----------------------NAME------------------------ */}
+          <div className="form-row" >
+          <select
+          className="form-control" name = "id" value= {input_hotels.id} onChange={(e) => handleChange(e)}>
+          <option disabled selected >Hotels...</option>
+          {data_hotels?.map((ele, i) => {
+            return (
+              <option value={ele.id} key={i} >{ele.name}</option>
+            )
+          })}
+        </select>
 
-            <div class="mb-4">
-              <div>
-                <label for="nombre"> <i class="bi bi-plus-circle"></i> Name</label>
-                <input type="text" class="form-control" placeholder="Rename Hotel..." value={input_hotels.name} name="name"
-                  onChange={(e) => handleChange(e)} />
-                <div class="nombre text-danger "></div>
-              </div>
-            </div>
+              {/*--------------------------REMANE------------------- */}
+            <div className=''>
+              <input
+                className="form-control"
+                placeholder="Rename Hotel..."
+                type="text"
+                value={input_hotels.name}
+                name="name"
 
-            <div class="mb-4">
-              <div>
-                <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                <input type="file" class="form-control" value={input_hotels.image} name="image" onChange={(e) =>
-                  handleChange(e)} />
-                <div class="nombre text-danger "></div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="nombre"><i class="bi bi-geo-alt"></i> Adress</label>
-              <input type="text" className="form-control" placeholder="Address..." value={input_hotels.address} name="address"
                 onChange={(e) => handleChange(e)} />
               <div class="nombre text-danger "></div>
             </div>
 
-            <div>
-              <label for="nombre"><i class="bi bi-house"></i> State</label>
-              <select class="form-select" name="state" value={location.state} onChange={(e) => handleChangeLocation(e)}>
-                <option disabled selected >State...</option>
-                {get_state?.map((ele, i) => {
-                  return (
-                    <option value={ele} key={i} > {ele} </option>
-                  )
-                })
-                }
-              </select>
-              <div class="nombre text-danger "></div>
+            {/*--------------------------UPLOAD FILES------------------- */}
+          
+             <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                <div>
+                  {input_hotels.image.map((imag) =>(
+                    <div>
+                      <img src={imag.url}/>
+                    </div>
+                  ))}
+
+                </div>
+
+            {/*--------------------------DESCRIPTION----------------------- */}
+            <div >
+              <textarea
+                className="form-control"
+                placeholder="Description..."
+                type="text"
+                value={input_hotels.description}
+                name="description"
+                maxLength="1000"
+                onChange={(e) => handleChange(e)}>
+              </textarea>
             </div>
 
             <div class="mb-4 d-flex justify-content-between">

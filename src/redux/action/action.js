@@ -18,6 +18,7 @@ export const CLEAR_ROOM_DETAIL = "CLEAR_ROOM_DETAIL";
 export const POST_ROOM = "POST_ROOM";
 export const UPDATE_ROOMS = "UPDATE_ROOMS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
+export const ALL_ROOMS = "ALL_ROOMS";
 
 //-------------------SERVICES ROOM----------------//
 export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
@@ -199,6 +200,17 @@ export function getRooms() {
   }
 }
 
+export function getAllRoomsOfHotel(id) {
+  return async function (dispatch) {
+    let rooms = await axios.get(`${BACK_URL}/rooms/allRooms/${id}`)
+    console.log("rooms desde el back: ",rooms)
+    dispatch({
+      type: ALL_ROOMS,
+      payload: rooms.data
+    })
+  }
+}
+
 export function roomByName(name) {
   return async function (dispatch) {
     try {
@@ -263,6 +275,7 @@ export function createRooms(payload) {
 
     try {
       const newRoom = await axios.post(URL_POST_ROOM, payload)
+      console.log("info que se despacha hacia back: ",payload)
       return dispatch({
         type: CREATE_ROOMS,
         payload: newRoom
@@ -313,7 +326,7 @@ export function createServicesHotels(payload) {
         const servicesRoom = await axios.post(`${BACK_URL}/serviceRooms`,payload)
         dispatch ({
           type: POST_SERVICES_ROOM,  
-          payload   
+          payload  
         })        
       } catch (error) {
         console.log(error)
@@ -410,6 +423,7 @@ export function updateHotels(payload) {
 
     try {
       const upDate_Hotel = await axios.put(URL_POST_HOTEL, payload)
+      console.log("modify hotel hacia el back:",upDate_Hotel)
       return dispatch({
         type: UPDATE_HOTELS,
         payload: upDate_Hotel
@@ -428,9 +442,10 @@ export function modifyRooms(payload) {
 
       try {
           const update_Room = await axios.put( URL_POST_ROOM , payload)
+          console.log("modify de rooms hacia el back:",update_Room)
           return dispatch({
               type: UPDATE_ROOMS,
-              payload: update_Room
+              payload
           })
       } catch (error) {
           console.log(error && alert("Error, when modify Room!!"))
