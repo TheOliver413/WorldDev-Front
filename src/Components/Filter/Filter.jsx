@@ -1,58 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByCity, getAllServicesHotel, getLocations, getRooms } from '../../redux/action/action';
+import { filterByCity, getHotels, /* getAllServicesHotel, */ getLocations/* , getRooms */ } from '../../redux/action/action';
 import './Filter.css'
 
 function Filter() {
   const dispatch = useDispatch()
-  const rooms = useSelector(state => state.reducerRoom.rooms)
-  const servicesHotel = useSelector(state => state.reducerHotel.servicesHotel)
+  // const rooms = useSelector(state => state.reducerRoom.rooms)
+  // const servicesHotel = useSelector(state => state.reducerHotel.servicesHotel)
   const location = useSelector(state => state.reducerHotel.location)
   const [filterWindowVisibility, setFilterWindowVisibility] = useState(false)
   
-  const handleFilterClick = () => setFilterWindowVisibility(filterWindowVisibility ? false : true)
+  const handleFilterClick = (e) => {
+    if (!filterWindowVisibility) {
+      setFilterWindowVisibility(!filterWindowVisibility)
+    }
+    //si tocas fuera de la ventana o tocas el apply btn se cierra
+    else if (e.target.id === 'background' || e.target.id === 'applyBtn') {
+      setFilterWindowVisibility(!filterWindowVisibility)
+    }
+  }
 
   useEffect(()=> {
-    dispatch(getRooms())
-    dispatch(getAllServicesHotel())
+    // dispatch(getRooms())
+    // dispatch(getAllServicesHotel())
     dispatch(getLocations())
   }, [dispatch])
 
-  /* ================ */
-  const [selectedInput, setSelectedInput] = useState([])
+  // const [selectedInput, setSelectedInput] = useState([])
   const [estadolocal, setEstadolocal] = useState("")
   
-  const handleFilterByRoom = (e) => {
+  /* const handleFilterByRoom = (e) => {
     setSelectedInput({...selectedInput, [e.target.value]: e.target.checked})
-  }
+  } */
 
   const handleFilterByCity = (e) => {
     setEstadolocal(e.target.value)
   }
 
   const handleApply = (e) => {
-    handleFilterClick()
+    handleFilterClick(e)
     dispatch(filterByCity(estadolocal))
   }
 
+  const handleClearFilter = () => dispatch(getHotels())
+
   return (
     <>
-    {/* BUTTON */}
+      {/* FILTER BUTTON */}
       <div className='container'>
         <button onClick={handleFilterClick} style={{'width':'5.5em'}} className='btn btn-outline-primary btn-lg'>
           <div className='d-flex align-items-center justify-content-between'>
             Filter
-            <i class="bi bi-sliders"></i>
+            <i className="bi bi-sliders"></i>
           </div>
         </button>
+        <button onClick={handleClearFilter} className='btn' type='button'>Clear filters</button>
       </div>
 
 
       {/* WINDOW */}
-      {filterWindowVisibility && <div className='filter-window-background'>
-        <div className='filter-window d-flex flex-column align-items-start p-4 '>
-          <button onClick={handleFilterClick} type="button" className="btn align-self-end">x</button>
-          <p>Filter by...</p>
+      {filterWindowVisibility && <div id='background' onClick={handleFilterClick} className='filter-window-background'>
+        <div className='filter-window d-flex flex-column align-items-start p-5'>
+          {/* <button onClick={handleFilterClick} type="button" className="btn align-self-end">x</button> */}
+          <p className='fs-5'>Filter by...</p>
 
           {/* <p>Type of room</p>
           {rooms?.map(r => (
@@ -96,10 +106,9 @@ function Filter() {
             ))}
           </select>
 
-          <button onClick={handleApply} type="button" className="btn btn-primary mt-4">Apply</button>
+          <button id='applyBtn' onClick={handleApply} type="button" className="btn btn-primary mt-4">Apply</button>
         </div>
       </div>}
-
     </>
   );
 }
