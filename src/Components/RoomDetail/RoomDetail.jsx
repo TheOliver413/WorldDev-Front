@@ -6,6 +6,7 @@ import { addRoomToCart } from "../../redux/action/cartAction.js";
 import { addDays, format, differenceInDays } from 'date-fns'
 import { toast } from "react-toastify";
 import './RoomDetail.css'
+import { getAllBooking } from "../../redux/action/actionStripe.js";
 
 const RoomDetail = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,13 @@ const RoomDetail = () => {
   const roomDetail = useSelector((state) => state.reducerRoom.detailRoom);
   const { name, image, price, description } = roomDetail;
   const [isFavorite, setIsFavorite] = useState(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
-  const check = useSelector((state) => state.reducerCart.cartRooms);
+  const allBookings = useSelector(state => state.reducerStripe.allBooking);//todas las reservas
+  const check = useSelector((state) => state.reducerCart.cartRooms);//estado del carrito
+
+
+  useEffect(() => {
+    dispatch(getAllBooking())
+  }, [dispatch])
 
   const handleFavorite = () => {
     const hasSomething = JSON.parse(localStorage.getItem('favorites'))
@@ -63,40 +70,37 @@ const RoomDetail = () => {
   const [checkIn, setCheckIn] = useState(format(new Date(), 'yyyy-MM-dd'))
   const [checkOut, setCheckOut] = useState(format(addDays(new Date(), 1), 'yyyy-MM-dd'))
 
-  const handleCheckInChange = (e) => {
-    setCheckIn(e.target.value)
-  }
+  const handleCheckInChange = (e) => { setCheckIn(e.target.value) }
   const handleCheckOutChange = (e) => { setCheckOut(e.target.value) }
 
   const finalPrice = price * differenceInDays(new Date(checkOut), new Date(checkIn)) > 0 ? price * differenceInDays(new Date(checkOut), new Date(checkIn)) : price;
   const difDays = differenceInDays(new Date(checkOut), new Date(checkIn)) <= 0 ? 1 : differenceInDays(new Date(checkOut), new Date(checkIn))
 
-  const handleAddToCart = () => {
-    /* const checkinfind = check.find(e => e.id == id)//objeto carro
-    if (checkinfind) {
-      //  2022-10-26  >=   2022-10-25      2022-10-26   <=     2022-10-29
-      if (checkIn >= checkinfind.checkIn && checkIn <= checkinfind.checkOut) {
-        console.log("Input" + checkIn)
-        console.log("Carro" + checkinfind.checkIn)
-        toast.error('The selected date is not available', { position: 'bottom-right' })
-      }
-      else {
-        dispatch(addRoomToCart({
-          ...roomDetail,
-          totalPrice: finalPrice,
-          checkIn,
-          checkOut
-        }))
-      }
+  //control de stock---------------------------------------------------------------
+  const stockControl = () => {
+    const checkinfind = allBookings.filter(r => r.Rooms.find(e => e.id === id))// encuentra el id de room
+    const quantity = (check.find((e => e.id === id)))?.cartQuantity +1
+
+    console.log('quantity', quantity)
+
+
+    if (checkinfind.length) {
+      checkinfind.forEach(e => {
+        console.log('e.stock', e.stock)
+        if (checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd')) {
+          if (e.stock === 0) {
+            return toast.error('The selected date is not available', { position: 'bottom-right' });
+          } else if (e.stock > 0 && e.stock < quantity) {
+            return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
+          }
+        }
+      })
     }
-    else {
-      dispatch(addRoomToCart({
-        ...roomDetail,
-        totalPrice: finalPrice,
-        checkIn,
-        checkOut
-      }))
-    } */
+  }
+//-----------------------------------------------------------------------------
+
+  const handleAddToCart = () => {
+    stockControl()
     dispatch(addRoomToCart({
       ...roomDetail,
       totalPrice: finalPrice,
@@ -104,7 +108,6 @@ const RoomDetail = () => {
       checkOut
     }))
   }
-
 
   return (
     <>
@@ -142,7 +145,8 @@ const RoomDetail = () => {
             <p className="mt-4">
               It is what you are looking for?&nbsp;
               {
-                checkIn >= checkOut ? toast.error('The check-out date should be greater than the check-in date', { position: 'bottom-right' }) &&
+                checkIn > checkOut ?
+                  toast.error('The check-in date cannot be greater than the check-out date', { position: 'bottom-right' }) &&
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2' disabled>ADD TO CART</button>
                   :
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2'>ADD TO CART</button>
@@ -161,4 +165,4 @@ const RoomDetail = () => {
   );
 };
 
-export default RoomDetail;
+export default RoomDetail
