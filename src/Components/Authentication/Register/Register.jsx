@@ -74,16 +74,16 @@ export default function Register() {
           </Link>
         </div>
 
-        <div class="p-3">
+        {/* <div class="p-3">
           <div class="border-bottom text-center" style={{ height: "0.9rem" }}>
             <span class="bg-white px-3">or</span>
           </div>
         </div>
 
-        <div class="btn d-flex gap-2 justify-content-center border mt-3 shadow-sm">
+        <div className="btn d-flex gap-2 justify-content-center border mt-3 shadow-sm">
           <img src={googleico} alt="google-icon" style={{ height: "1.6rem" }} />
-          <div class="fw-semibold text-secondary">Continue with Google</div>
-        </div>
+          <div className="fw-semibold text-secondary" onClick={handleGoogleSignin}>Continue with Google</div>
+        </div> */}
 
       </form>
     </div>
