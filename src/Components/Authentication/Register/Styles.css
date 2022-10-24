@@ -1,0 +1,11 @@
+.loging {
+    background-color: var(--clr-dark-main);
+}
+
+.login-text {
+    color: var(--clr-dark-main);
+}
+
+.login{
+    background-color: var(--clr-dark-main) !important;
+}

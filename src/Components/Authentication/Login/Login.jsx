@@ -3,21 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { Alert } from "../Alert/Alert";
 
+import "./Styles.css"
+import { toast } from "react-toastify";
+
+import loginico from "./login-icon.svg";
+import userico from "./username-icon.svg"
+import passwordico from "./password-icon.svg"
+import googleico from "./google-icon.svg"
+
 export default function Login() {
-  
+
   const [user, setUser] = useState({
     email: "",
     password: ""
   });
-  
+
   const { login, loginWithGoogle, resetPassword } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  
+
   const handleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value })
   }
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -29,7 +37,7 @@ export default function Login() {
       setError(error.message);
     }
   };
-  
+
   const handleGoogleSignin = async () => {
     try {
       await loginWithGoogle();
@@ -38,54 +46,85 @@ export default function Login() {
       setError(error.message);
     }
   };
-  
+
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    if (!user.email) return setError("Write an email to reset password");
+    if (!user.email) return toast.error('Write an email to reset password', { position: 'bottom-right' })
+
     try {
       await resetPassword(user.email);
-      setError('We sent you an email. Check your inbox')
+      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
     } catch (error) {
       setError(error.message);
     }
   };
-  
+
   return (
-    <div className="w-full max-w-xs m-auto">
+
+    <div className="d-flex justify-content-center align-items-center vh-100">
       {error && <Alert message={error} />}
 
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-          <input type="email" name="email" id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="youremail@company.tld" onChange={handleChange} />
+      <form onSubmit={handleSubmit} className="bg-white p-5 rounded-5 text-secondary shadow" style={{ width: "25rem" }}>
+        <div className="d-flex justify-content-center">
+          <img src={loginico} alt="login-icon" style={{ height: "7rem" }} />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
-          <input type="password" name="password" id="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="*************" onChange={handleChange} />
+        <div className="text-center fs-1 fw-bold">Login</div>
+
+        <div className="input-group mt-4">
+          <div className="input-group-text loging">
+            <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
+          </div>
+          <input className="form-control bg-light" type="email" name="email" id="email" placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="input-group mt-1">
+          <div className="input-group-text loging">
+            <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
+          </div>
+          <input className="form-control bg-light" type="password" name="password" id="password" placeholder="*************" onChange={handleChange} />
+        </div>
 
+        <div className="d-flex justify-content-around mt-1">
+          {/* <div className="d-flex align-items-center gap-1">
+            <input className="form-check-input" type="checkbox" />
+            <div className="pt-1" style={{ "font-size": "0.9rem" }}>Remember me</div>
+          </div> */}
+
+          <div className="pt-1">
+            <a href="#" className="login-text text-decoration-none fw-semibold fst-italic" style={{ "font-size": "0.9rem" }} onClick={handleResetPassword}>Forgot
+              your password?</a>
+          </div>
+        </div>
+
+        <div>
           {
-            !user.email || !user.password || user.password.length<6 ?
-              <button className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" disabled>Sign In</button>
+            !user.email || !user.password || user.password.length < 6 ?
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit" disabled>Login</button>
               :
-              <button className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Sign In</button> 
-            }
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Login</button>
+          }
+        </div>
 
+        <div className="d-flex gap-1 justify-content-center mt-1">
+          <div>Don't have an account?</div>
+          <Link to="/register">
+            <a href="#" className="login-text text-decoration-none fw-semibold">Register</a>
+          </Link>
+        </div>
 
-          <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#!" onClick={handleResetPassword}>Forgot Password?</a>
+        <div className="p-3">
+          <div className="border-bottom text-center" style={{ height: "0.9rem" }}>
+            <span className="bg-white px-3">or</span>
+          </div>
+        </div>
+
+        <div className="btn d-flex gap-2 justify-content-center border mt-3 shadow-sm">
+          <img src={googleico} alt="google-icon" style={{ height: "1.6rem" }} />
+          <div className="fw-semibold text-secondary" onClick={handleGoogleSignin}>Continue with Google</div>
         </div>
 
       </form>
-      <button onClick={handleGoogleSignin} className="bg-slate-50 hover:bg-slate-200 text-black  shadow rounded border-2 border-gray-300 py-2 px-4 w-full">Google login</button>
-
-      <p className="my-4 text-sm flex justify-between px-3">Don't have an account?
-        <Link to="/register" className="text-blue-700 hover:text-blue-900"> Register </Link>
-      </p>
-
     </div>
   );
 }
