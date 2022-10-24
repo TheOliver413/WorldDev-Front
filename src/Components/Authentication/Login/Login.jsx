@@ -31,10 +31,15 @@ export default function Login() {
     setError("");
     try {
       await login(user.email, user.password);
-      // !user.uid? alert('email/password invalid'): navigate('/home')
       navigate('/home')
     } catch (error) {
-      setError(error.message);
+      console.log(error.code)
+      if(error.code === 'auth/wrong-password'){
+        setError('Wrong password')
+      }
+      if(error.code === 'auth/user-not-found'){
+        setError('User not found')
+      }
     }
   };
 

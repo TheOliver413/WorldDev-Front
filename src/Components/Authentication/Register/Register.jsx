@@ -34,7 +34,12 @@ export default function Register() {
       await signup(user.email, user.password);
       navigate("/home");
     } catch (error) {
-      setError(error.message);
+      if(error.code === 'auth/invalid-email') {
+        setError('Email invalid')
+      }
+      if(error.code === 'auth/weak-password') {
+        setError('Weak password')
+      }
     }
   };
 
