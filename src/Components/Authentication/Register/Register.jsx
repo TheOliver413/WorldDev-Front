@@ -60,7 +60,7 @@ export default function Register() {
           <div class="input-group-text loging">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="password" placeholder="Password" />
+          <input class="form-control bg-light" type="password"  name='password' id="password" placeholder="*************" onChange={handleChange} />
         </div>
 
         <div>
