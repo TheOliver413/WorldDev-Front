@@ -31,6 +31,11 @@ export default function ModifyRooms() {
     services:[""],
     stock: 0,
   })
+
+  const [nameRooms, setnameRooms] = useState([
+      "single","double","family","siute"
+  ])
+
   //console.log("aca name: ",input_rooms.name)
 
   // const [input_create, setInput_create] = useState({
@@ -138,7 +143,7 @@ export default function ModifyRooms() {
         {/*-------------------SELECT HOTELS---------------- */}
         <p></p>
         <select
-          className="form-control" name="id" value={input_rooms.id} onChange={(e) => handleChangeRooms(e)}>
+          className="form-control"  onChange={(e) => handleChangeRooms(e)}>
           <option disabled selected >Hotels...</option>
           {data_hotels?.map((ele, i) => {
             return (
@@ -147,7 +152,7 @@ export default function ModifyRooms() {
           })}
         </select>
 
-        {/*-----------------------NAME------------------------ */}
+        {/*-----------------------ID------------------------ */}
         <select value={input_rooms.id} name="id" className="form-control" onChange={(e) => handleChange(e)} >
         {rooms?.map((ele, i) => {
             return (
@@ -155,14 +160,14 @@ export default function ModifyRooms() {
             )
           })}
         </select>
-
-        {/* <input
-          className="form-control"
-          placeholder="name"
-          type="text"
-          value={input_rooms.name}
-          name="name"
-          onChange={(e) => handleChange(e)} /> */}
+            {/*-----------------------NAME------------------------ */}
+        <select value={input_rooms.name} name="name" className="form-control" onChange={(e) => handleChange(e)} >
+        {nameRooms?.map((ele, i) => {
+            return (
+              <option value={ele} key={i} >{ele}</option>
+            )
+          })}
+        </select>
 
           {/*--------------------------UPLOAD FILES------------------- */}
           <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
