@@ -362,7 +362,7 @@ export function createServicesHotels(payload) {
       export function modifyEvents(payload) {
         return async function (dispatch) {
           try {
-            const event = await axios.put(`${BACK_URL}/events`)
+            const event = await axios.put(`${BACK_URL}/events`, payload)
             dispatch ({
               type: PUT_EVENT, 
               payload    

@@ -26,7 +26,7 @@ const CreateServHotels = () => {
 const [input_serv_hotel, setInput_serv_hotel] = useState({
     idHotel: '',
     name: '',
-    image: '',
+    image: [],
     description: '',
 })
 
@@ -50,7 +50,23 @@ const handleName = (e) => {
         [e.target.name] : e.target.value
     }))
 }
-
+//------------------Cloudinary-----------------//
+async function handleOpenWidget(){
+    var myWidget = await window.cloudinary.createUploadWidget({
+      cloudName: 'dyyoavgq5', 
+      uploadPreset: 'wwtvto96'}, (error, result) => { 
+        if (!error && result && result.event === "success") { 
+          // console.log('Done! Here is the image info: ', result.info); 
+          // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+          setInput_serv_hotel( {
+            ...input_serv_hotel,
+            image:[...input_serv_hotel.image, {url: result.info.url,public_id: result.info.public_id}]
+          })
+         
+        }
+      })
+      myWidget.open()
+  }
 //------------ HANDLE CHANGE DEMAS INPUT SERVICES HOTEL----------//
 const handleChange = (e) => {
     e.preventDefault();        
@@ -87,7 +103,7 @@ const handleSubmit = (e) => {
         setInput_serv_hotel({
             idHotel:'',
             name: '',
-            image: '',
+            image: [],
             description: '',
         })
     } else {
@@ -137,16 +153,31 @@ return (
 
 
                     <div class="mb-4">
-                        <div>
+                        {/* <div>
                             <label for="nombre"> <i class="bi bi-images"></i> Image</label>
                             <input type="file" class="form-control" placeholder="Load URL Image..."
                                 value={input_serv_hotel.image} name="image" onChange={(e)=> handleChange(e)} />
                             <div class="nombre text-danger ">
                                 {errors.image && (<p>{errors.image}</p>)}
                             </div>
-                        </div>
+                        </div> */}
+                       <div>
+                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                <div>
+                <div>
+                  {input_serv_hotel.image?.map((imag) =>(
+                    <div>
+                      <img src={imag.url}/>
                     </div>
-
+                  ))}
+                </div>
+                    <div>
+                        {errors.image && (<p>{errors.image}</p>)}
+                    </div>
+                    </div>
+                    </div>
+                    </div>
                     <div class="mb-4">
                         <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
                         <textarea id="mensaje" class="form-control" placeholder="Description..." type="text"
