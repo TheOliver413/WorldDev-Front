@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllEvents, getHotels, modifyEvents } from "../../redux/action/action";
+import { toast } from "react-toastify";
 
 const validate = (input_event) => {
   let errors = {};
@@ -111,7 +112,7 @@ const ModifyEvents = () => {
     e.preventDefault()
     if (input_event && !Object.keys(errors).length) {
        dispatch(modifyEvents(input_event)) 
-       alert('Event modified successfully')
+       toast.success('Event modified successfully', { position: 'bottom-right' })
         setInput_event({
             id: '',
             name: '',
@@ -122,7 +123,7 @@ const ModifyEvents = () => {
             description: '',
         })
     } else {
-      alert("Check the fields")
+      toast.error("Check the fields", { position: 'bottom-right' })
     }
   }   
       
