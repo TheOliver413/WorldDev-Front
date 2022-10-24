@@ -24,4 +24,12 @@
   border-radius: 8px;
   width: 75%;
   max-width: 650px;
+  animation: start .25s;
+}
+
+@keyframes start {
+  0% {
+    transform: translate(-50%, -45%);
+    opacity: .4;
+  }
 }
