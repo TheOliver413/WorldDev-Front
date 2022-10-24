@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/exports";
+import { useDispatch, useSelector } from "react-redux/es/exports";
 import logo from "./world-developers.png";
 import suitcase from "./suitcase.svg";
 import "./Styles.css";
 import { useAuth } from "../../context/AuthContext";
+import { clearCart } from "../../redux/action/cartAction";
 
 export default function Nav() {
   const cartTotalQuantity = useSelector(
@@ -14,10 +15,12 @@ export default function Nav() {
   const { logout, user, loading } = useAuth();
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleLogout = async () => {
     try {
       await logout();
+      dispatch(clearCart())
       setUserMenuVisibility(!userMenuVisibility)
       navigate('/')
     } catch (error) {
