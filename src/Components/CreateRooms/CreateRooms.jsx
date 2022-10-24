@@ -22,7 +22,7 @@ export default function CreateRooms() {
   //const servi = serv[7]?.map(e=>e.name)
   //console.log("info de services : ", hotels)
   //const services = useSelector(state=>state.servicesRoom)
-  
+
   // console.log("info de services : ",services)
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
@@ -39,7 +39,7 @@ export default function CreateRooms() {
     price: 10,
     description: "",
     category: "",
-    services:[""],
+    services: [""],
     stock: 0,
   })
 
@@ -115,7 +115,7 @@ export default function CreateRooms() {
         price: 10,
         description: "",
         category: "",
-        services:[""],
+        services: [""],
         stock: 0,
       })
 
@@ -126,6 +126,9 @@ export default function CreateRooms() {
   }
 
   return (
+    <section class="d-flex justify-content-center align-items-center">
+      <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+        <div class="mb-4 d-flex justify-content-start align-items-center">
 
     <div className="cardHotels-container" >
       <form onSubmit={(e) => handleSubmit(e)} >
@@ -217,10 +220,9 @@ export default function CreateRooms() {
           <button className='btn btn-primary mb-2'
             type="submit"
             onClick={(e) => handleSubmit(e)}>Send</button>
-        </div>
 
-      </form>
-    </div>
+        </div>
+      </div>
   )
 
 }

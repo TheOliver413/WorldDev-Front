@@ -134,7 +134,6 @@ export default function ModifyRooms() {
     }
 
   return (
-
     <div className="cardHotels-container" >
       <form onSubmit={(e) => handleSubmit(e)} >
         <h1>✯ Rooms ✯</h1>
@@ -238,9 +237,7 @@ export default function ModifyRooms() {
             type="submit"
             onClick={(e) => handleSubmit(e)}>Send</button>
         </div>
-
-      </form>
-    </div>
+    </section>
   )
 
 }

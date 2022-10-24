@@ -35,12 +35,12 @@ function Cart() {
             {cartRooms.map((r) => (
               <tr key={r.id}>
                 <td><Link to={`/hotel/room/${r.id}`}>{r.name}</Link></td>
-                <td>{format(new Date(r.checkIn), 'dd/MM/yy')}</td>
-                <td>{format(new Date(r.checkOut), 'dd/MM/yy')}</td>
+                <td>{format(new Date(`${r.checkIn}T03:00:00`), 'dd/MM/yy')}</td>
+                <td>{format(new Date(`${r.checkOut}T03:00:00`), 'dd/MM/yy')}</td>
                 <td>
-                  <button onClick={() => handleDecreaseCart(r)} className="p-1 btn" type="button">-</button>
+                  {/* <button onClick={() => handleDecreaseCart(r)} className="p-1 btn" type="button">-</button> */}
                   {r.cartQuantity}
-                  <button onClick={() => handleIncreaseCart(r)} className="p-1 btn" type="button">+</button>
+                  {/* <button onClick={() => handleIncreaseCart(r)} className="p-1 btn" type="button">+</button> */}
                   <br />
                   <button onClick={() => handleRemoveFromCart(r)} className="p-0 btn" type="button">Remove</button>
                 </td>

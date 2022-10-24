@@ -2,7 +2,7 @@ import React from "react";
 import Search from "../Search/Search";
 import Order from "../Order/Order";
 import Filter from "../Filter/Filter";
-import FilterCategory from "../FilterCategory/FilterCategory";
+/* import FilterCategory from "../FilterCategory/FilterCategory"; */
 
 export default function Nav() {
   return (
@@ -21,9 +21,9 @@ export default function Nav() {
               <li className="nav-item">
                 <Order />
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <FilterCategory />
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Search />
               </li>

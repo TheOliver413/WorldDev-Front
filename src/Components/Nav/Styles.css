@@ -8,6 +8,7 @@
 
 .container-nav{
   max-width: 1200px;
+  position: relative;
 } 
 
 .navbar-logo {
@@ -31,4 +32,42 @@
   border-radius: 4px;
   font-size: 14px;
   line-height: 1;
+}
+
+.nav-log-btn {
+  background-color: var(--clr-main);
+  border: none;
+  border-radius: 4px;
+  padding: .25rem 1rem;
+  text-transform: uppercase;
+}
+
+.nav-user-container {
+  cursor: pointer;
+  padding-right: 1rem;
+}
+
+.nav-user-container img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.nav-usermenu-bg {
+  background-color: var(--clr-very-light-main);
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  border-radius: 0 0 4px 4px;
+  padding: 1rem;
+  text-align: right;
+  color: inherit;
+}
+
+.nav-usermenu-bg a {
+  color: inherit;
+}
+.nav-usermenu-bg a:hover {
+  text-decoration: underline;
 }

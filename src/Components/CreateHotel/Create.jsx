@@ -12,6 +12,7 @@ import '../Create/Styles.css';
 export default function Create() {
   const dispatch = useDispatch();
   //const data_hotels = useSelector(state => state.reducerHotel.hotels)
+
   const hotels = useSelector(state=>state.reducerHotel.hotels)
 
   const get_state = useSelector(state=>state.reducerHotel.location_state)
@@ -28,8 +29,8 @@ export default function Create() {
     image: [],
     qualification: 1,
     description: "",
-    address:"",
-    idLocation:"",
+    address: "",
+    idLocation: "",
 
   })
   const [location, setlocation] = useState({
@@ -45,10 +46,12 @@ export default function Create() {
       ...location,
       [e.target.name]: e.target.value
     })
+
     if( e.target.name === "state" ){
       dispatch(getDepartment(e.target.value))
     }
     if( e.target.name === "department" ){
+    
       dispatch(getCity(e.target.value))
     }
     // if( e.target.name === "city" ){
@@ -61,9 +64,11 @@ export default function Create() {
     //   })
     // )
   }
+
 //------------------------------------------------------//
   useEffect(() => {
     !hotels.length && dispatch(getState());
+
   }, [dispatch, hotels])
 
   //------------------------VALIDATIONS-----------------------------//
@@ -107,7 +112,6 @@ export default function Create() {
     // )
   }
 
- //-----------------------CLOUDINARY--------------------------//
  async function handleOpenWidget(){
   var myWidget = await window.cloudinary.createUploadWidget({
     cloudName: 'dyyoavgq5', 
@@ -144,9 +148,9 @@ export default function Create() {
         image: [],
         qualification: 1,
         description: "",
-        address:"",
-        idLocation:"",
-    
+        address: "",
+        idLocation: "",
+
       })
 
     } else {
@@ -155,6 +159,7 @@ export default function Create() {
   }
   
   return (
+  
     <div className="cardHotels-container">
       <form onSubmit={(e) => handleSubmit(e)} >
         <div className="form-group">
@@ -196,82 +201,108 @@ export default function Create() {
               </textarea>
             </div>
 
-            {/*--------------------------QUALIFICATION----------------------- */}
-
-            <div >
-              <h4>Category</h4>
-              <input
-                className="form-control"
-                type="range"
-                min="1"
-                max="5"
-                value={input_hotels.qualification}
-                name="qualification"
-                maxLength="1000"
-                onChange={(e) => handleChange(e)}>
-              </input>
-              {<p className="" > Value : {input_hotels.qualification}</p>}
+        <div class="mb-1">
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <div class="mb-4">
+              <div>
+                <label for="nombre"> <i class="bi bi-building"></i> Name</label>
+                <input type="text" class="form-control" placeholder="Name..." value={input_hotels.name}
+                  name="name" onChange={(e) => handleChange(e)} />
+                <div class="nombre text-danger "></div>
+              </div>
             </div>
 
-            {/*--------------------------ADRESS----------------------- */}
-            <h4>Location</h4>
-            <div >
-              <input
-                className="form-control"
-                placeholder="Address..."
-                type="text"
-                value={input_hotels.address}
-                name="address"
-                onChange={(e) => handleChange(e)}>
-              </input>
+            <div class="mb-4">
+              <div>
+                <label for="nombre"> <i class="bi bi-building"></i> Image</label>
+                <input type="file" class=" form-control" value={input_hotels.image} name="image"
+                  onChange={(e) => handleChange(e)} />
+                <div class="nombre text-danger "></div>
+              </div>
             </div>
 
-              {/*--------------------------STATE----------------------- */}          
-               
-             <select  name="state" value={ location.state }  onChange={(e) => handleChangeLocation(e)} >
-               <option   disabled selected >State...</option>
-              { get_state?.map((ele,i)=>{
-                return(
-                  <option  value= { ele } key={i} > { ele } </option>
-                )
-              })
-                }
-             </select>
+            <div class="mb-4">
+              <div>
+                <label for="nombre"><i class="bi bi-star"></i> Qualification</label>
+                <input type="range" class="form-range" min="1" max="5" value={input_hotels.qualification}
+                  name="qualification" maxLength="1000" onChange={(e) =>
+                    handleChange(e)} />
+                <div class="nombre text-danger "></div>
+              </div>
 
-             {/*--------------------------DEPARTMENT----------------------- */}          
-              
-             <select  name="department" value={ location.department } onChange={(e) => handleChangeLocation(e)} >
-               <option disabled selected >Department...</option>
-               { get_department?.map((ele,i)=>{
-                return(
-                  <option  value= { ele } key= {i} > { ele } </option>
-                )
-              })
-                }      
-             </select>
-                     
-             {/*--------------------------CITY----------------------- */}          
-              
-             <select  name="idLocation" value={ input_hotels.idLocation } onChange={(e) => handleChange(e)} >
-               <option disabled selected >City...</option>
-               { get_city?.map((ele,i)=>{
-                return(
-                  <option  value= { ele.id } key={i} > { ele.city } </option>
-                )
-              })
-                }
-             </select>
-              
-            {/*----------------------------BUTTON------------------------ */}
-            <div>
-              <button className='btn btn-primary mb-2'
-                type="submit"
-                onClick={(e) => handleSubmit(e)}>Send</button>
+              <div class="mb-4">
+                <label for="nombre"><i class="bi bi-geo-alt"></i> Adress</label>
+                <input type="text" className="form-control" placeholder="Address..."
+                  value={input_hotels.address} name="address" onChange={(e) => handleChange(e)} />
+                <div class="nombre text-danger "></div>
+              </div>
+
+              <div class="mb-4">
+                <label for="nombre"><i class="bi bi-house"></i> State</label>
+                <select class="form-select" name="state" value={location.state} onChange={(e) =>
+                  handleChangeLocation(e)}>
+                  <option disabled selected>State...</option>
+                  {get_state?.map((ele, i) => {
+                    return (
+                      <option value={ele} key={i}> {ele} </option>
+                    )
+                  })
+                  }
+                </select>
+                <div class="nombre text-danger "></div>
+              </div>
+
+              <div class="mb-4 d-flex justify-content-between">
+                <div>
+                  <label for="apellido"><i class="bi bi-pin"></i> Department</label>
+                  <select class="form-select " name="department" value={location.department}
+                    onChange={(e) =>
+                      handleChangeLocation(e)}>
+                    <option disabled selected>Department...</option>
+                    {get_department?.map((ele, i) => {
+                      return (
+                        <option value={ele} key={i}> {ele} </option>
+                      )
+                    })
+                    }
+                  </select>
+                  <div class="apellido text-danger"></div>
+                </div>
+
+                <div>
+                  <label for="nombre"><i class="bi bi-pin-map"></i> City</label>
+                  <select class="form-select" value={input_hotels.idLocation} onChange={(e) =>
+                    handleChange(e)}>
+                    <option disabled selected>City...</option>
+                    {get_city?.map((ele, i) => {
+                      return (
+                        <option value={ele.id} key={i}> {ele.city} </option>
+                      )
+                    })
+                    }
+                  </select>
+                  <div class="nombre text-danger "></div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
+                <textarea class="form-control" placeholder="Description..." value={input_hotels.description}
+                  name="description" maxLength="1000" onChange={(e) => handleChange(e)}></textarea>
+                <div class="mensaje text-danger"></div>
+              </div>
+
+              <div class="mb-2">
+                <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between"
+                  onClick={(e) =>
+                    handleSubmit(e)}>
+                  <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                </button>
+              </div>
             </div>
-
-          </div>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
+    </section>
   )
 }

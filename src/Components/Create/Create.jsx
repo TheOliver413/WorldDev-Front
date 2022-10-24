@@ -17,6 +17,12 @@ export default function Create() {
                   Create<i class="bi bi-plus-lg"></i>
                 </button>
               </Link>
+
+              <Link to="/home/modifyHotel">
+                <button type="button" className="btn btn-primary btn-lg" disabled>
+                  Modify<i class="bi bi-plus-lg"></i>
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -28,6 +34,12 @@ export default function Create() {
               <Link to="/home/createRooms">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
+                </button>
+              </Link>
+
+              <Link to="/home/modifyRooms">
+                <button type="button" className="btn btn-primary btn-lg" disabled>
+                  Modify<i class="bi bi-plus-lg"></i>
                 </button>
               </Link>
             </div>
