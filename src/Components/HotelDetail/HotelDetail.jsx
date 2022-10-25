@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
 import CardRoom from "../CardRoom/CardRoom.jsx";
-import { addDays, format, differenceInDays } from 'date-fns'
 import './HotelDetail.css'
 
 const HotelDetail = () => {
@@ -23,12 +22,6 @@ const HotelDetail = () => {
     return () => dispatch(clearDetail())
   }, [dispatch])
 
-  //manejo del date input  
-  const [checkInInput, setCheckInInput] = useState(format(new Date(), 'yyyy-MM-dd'))
-  const [checkOutInput, setCheckOutInput] = useState(format(addDays(new Date(), 1), 'yyyy-MM-dd'))
-  const handleCheckInChange = (e) => setCheckInInput(e.target.value)
-  const handleCheckOutChange = (e) => setCheckOutInput(e.target.value)
-
   return (
     <div className="text-start">
       {hotelDetail.name ? (
@@ -40,14 +33,13 @@ const HotelDetail = () => {
               <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div className="carousel-inner">
-              <div className="carousel-item active">
+              <div className="carousel-item active" data-bs-interval="4000">
                 <img src={ image[0] } className="hotelDetail-img" alt={name} />
-                {/* <image src={image} className="d-block " alt={name}></image> */}
               </div>
-              <div className="carousel-item">
+              <div className="carousel-item" data-bs-interval="4000">
                 <img src= { image[1] } className="hotelDetail-img" alt={name}></img>
               </div>
-              <div className="carousel-item">
+              <div className="carousel-item" data-bs-interval="4000">
                 <img src= { image[2] } className="hotelDetail-img"  alt={name}></img>
               </div>
             </div>
@@ -67,28 +59,9 @@ const HotelDetail = () => {
             <p>Score: {qualification} ✫</p>
             <p>{description}</p>
             <h2 className="mt-5">Available rooms</h2>
-            <div className="d-flex flex-column flex-sm-row gap-3 mt-3">
-              <div className="d-flex flex-column align-items-start">
-                <label>Check-in</label>
-                <input
-                  type="date"
-                  value={checkInInput}
-                  min={format(new Date(), 'yyyy-MM-dd')}
-                  onChange={handleCheckInChange}
-                />
-              </div>
-              <div className="d-flex flex-column align-items-start">
-                <label>Check-out</label>
-                <input
-                  type="date"
-                  value={checkOutInput}
-                  min={format(addDays(new Date(checkInInput || null), 2), 'yyyy-MM-dd')}
-                  onChange={handleCheckOutChange}
-                />
-              </div>
-            </div>
+            <small>Note: the prices shown below are for one night. For more information, please read the room detail.</small>
             {Rooms.map((r) => (
-              <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)*differenceInDays(new Date(checkOutInput), new Date(checkInInput))} description={r.description} />
+              <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)} description={r.description} />
             ))}
 
             {/* <h2>What this place offers</h2> */}
