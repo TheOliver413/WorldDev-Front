@@ -58,7 +58,8 @@ export default function Login() {
 
     try {
       await resetPassword(user.email);
-      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
+      setError('We sent you an email. Check your inbox')
+      navigate("/login");
     } catch (error) {
       setError(error.message);
     }
