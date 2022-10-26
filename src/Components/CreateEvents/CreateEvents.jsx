@@ -58,10 +58,10 @@ const CreateEvents = () => {
           ...input_event,
           image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
         })
-        setErrors( {
+        setErrors(validate({
           ...input_event,
           image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
-        })
+        }))
        
       }
     })
@@ -72,7 +72,7 @@ const CreateEvents = () => {
     e.preventDefault();
     setInput_event({
       ...input_event,
-      name: e.target.value.toLowerCase().trim()
+      name: e.target.value.toLowerCase()
     })
     setErrors(validate({
       ...input_event,

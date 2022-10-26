@@ -26,7 +26,7 @@ const CreateServRooms = () => {
         e.preventDefault();
         setInput_serv_room({
             ...input_serv_room,
-            name: e.target.value.toLowerCase().trim()
+            name: e.target.value.toLowerCase()
         })
         setErrors(validate({
             ...input_serv_room,
@@ -45,11 +45,10 @@ async function handleOpenWidget(){
             ...input_serv_room,
             image:[...input_serv_room.image, {url: result.info.url,public_id: result.info.public_id}]
           })
-          setErrors( {
+          setErrors(validate({
             ...input_serv_room,
             image:[...input_serv_room.image, {url: result.info.url,public_id: result.info.public_id}]
-          })
-         
+          }))         
         }
       })
       myWidget.open()
