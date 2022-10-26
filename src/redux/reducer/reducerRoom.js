@@ -11,7 +11,7 @@ import {
 const initialStateRooms = {
   rooms: [],
   detailRoom: {},
-  servicesRoom: ["wifi","tv","free events"],
+  servicesRoom: [],
   allRooms:[],
 };
 

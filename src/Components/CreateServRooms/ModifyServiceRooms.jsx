@@ -8,7 +8,7 @@ const validate = (input_serv_room) => {
     let errors = {};
     if (!input_serv_room.id) errors.id = 'Select service name'
     if (!input_serv_room.name) errors.name = 'Service name is required'
-    if (!input_serv_room.image) errors.image = 'Upload at least one image'
+    if (!input_serv_room.image.length) errors.image = 'Upload at least one image'
 
     return errors;
 }
@@ -42,23 +42,28 @@ const ModifyServRooms = () => {
             name: e.target.value
         }))
     }
-//------------------Cloudinary-----------------//
-async function handleOpenWidget(){
-    var myWidget = await window.cloudinary.createUploadWidget({
-      cloudName: 'dyyoavgq5', 
-      uploadPreset: 'wwtvto96'}, (error, result) => { 
-        if (!error && result && result.event === "success") { 
-          // console.log('Done! Here is the image info: ', result.info); 
-          // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
-          setInput_serv_room( {
-            ...input_serv_room,
-            image:[...input_serv_room.image, {url: result.info.url,public_id: result.info.public_id}]
-          })
-         
-        }
-      })
-      myWidget.open()
-  }
+    //------------------Cloudinary-----------------//
+    async function handleOpenWidget() {
+        var myWidget = await window.cloudinary.createUploadWidget({
+            cloudName: 'dyyoavgq5',
+            uploadPreset: 'wwtvto96'
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                // console.log('Done! Here is the image info: ', result.info); 
+                // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+                setInput_serv_room({
+                    ...input_serv_room,
+                    image: [...input_serv_room.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+                setErrors({
+                    ...input_serv_room,
+                    image: [...input_serv_room.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+
+            }
+        })
+        myWidget.open()
+    }
     //------------ HANDLE CHANGE --------------//
     const handleChange = (e) => {
         e.preventDefault();
@@ -108,7 +113,7 @@ async function handleOpenWidget(){
                                         if (a.name > b.name) return 1;
                                         if (a.name < b.name) return -1; return 0;
                                     }).map(e =>
-                                        <option key={e.id} value={e.id}>{e.name}</option>)}
+                                        <option key={e.id} value={e.id}>{e.name.toLowerCase()}</option>)}
                                 </select>
                                 <div class="nombre text-danger ">
                                     {errors.id && (<p>{errors.id}</p>)}
@@ -128,41 +133,33 @@ async function handleOpenWidget(){
                         </div>
 
                         <div class="mb-4">
-                            {/* <div>
-                                <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                                <input type="file" class="form-control" placeholder="Load URL Image..."
-                                    value={input_serv_room.image} name="image" onChange={(e) => handleChange(e)} />
-                                <div class="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
+                            <div>
+                                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                                <div>
+                                    <div>
+                                        {input_serv_room.image?.map((imag) => (
+                                            <div>
+                                                <img src={imag.url} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div class="nombre text-danger ">
+                                        {errors.image && (<p>{errors.image}</p>)}
+                                    </div>
                                 </div>
-                            </div> */}
-                           <div>
-                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
-                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
-                <div>
-                <div>
-                  {input_serv_room.image?.map((imag) =>(
-                    <div>
-                      <img src={imag.url}/>
-                    </div>
-                  ))}
-                </div>
-                <div class="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
-                                </div>
-                        </div>
-                        </div>
+                            </div>
                         </div>
 
-                        
+
                         <div class="mb-4">
-                            {!input_serv_room.id || !input_serv_room.name || !input_serv_room.image ||
+                            {!input_serv_room.id || !input_serv_room.name || !input_serv_room.image.length ||
                                 Object.keys(errors).length
                                 ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify </span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>
                                 : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify </span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>}
                         </div>
 
