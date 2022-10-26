@@ -15,3 +15,7 @@ width: 300px;
 .btn btn-primary mb-2{
     width: 300px;
 } */
+
+.punto-list{
+  list-style-type:none;
+}

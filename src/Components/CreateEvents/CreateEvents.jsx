@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const validate = (input_event) => {
   let errors = {};
   if (!input_event.name) errors.name = 'Name is required'
-  if (!input_event.image) errors.image = 'Upload at least one image'
+  if (!input_event.image.length) errors.image = 'Upload at least one image'
   if (!input_event.description) errors.description = 'Description is required.. '
   if (!input_event.date) errors.date = 'Date is required'
   if (!input_event.time) errors.time = 'Time is required'
@@ -55,6 +55,10 @@ const CreateEvents = () => {
         // console.log('Done! Here is the image info: ', result.info); 
         // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
         setInput_event( {
+          ...input_event,
+          image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        setErrors( {
           ...input_event,
           image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
         })
@@ -139,7 +143,7 @@ const CreateEvents = () => {
                                 if (a.name > b.name) return 1;
                                 if (a.name < b.name) return -1; return 0; }).map(e=>
                                     <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e => `
-                                        ${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                        ${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                             </select>
                             <div class="nombre text-danger ">
@@ -169,14 +173,6 @@ const CreateEvents = () => {
                     </div>
 
                     <div class="mb-4">
-                        {/* <div>
-                            <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                            <input type="file" class="form-control" placeholder="Load URL Image..."
-                                value={input_event.image} name="image" onChange={(e)=> handleChange(e)} />
-                            <div class="nombre text-danger ">
-                                {errors.image && (<p>{errors.image}</p>)}
-                            </div>
-                        </div> */}
                         <div>
                           <label for="nombre"> <i className="bi bi-image"></i> Image</label>
                             <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
@@ -206,13 +202,13 @@ const CreateEvents = () => {
 
 
                     <div class="mb-4">
-                        {!input_event.name || !input_event.image || !input_event.description ||
+                        {!input_event.name || !input_event.image.length || !input_event.description ||
                         !input_event.date || !input_event.time || !input_event.idHotel || Object.keys(errors).length
                         ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                            <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
                         </button>
                         : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                            <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
                         </button>}
                     </div>
 

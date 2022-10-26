@@ -13,7 +13,7 @@ const validateTwo = (input_serv_hotel) => {
     let errors = {}
     if (!input_serv_hotel.id) errors.id = 'Select Service Name'
     if (!input_serv_hotel.name) errors.name = 'Service Name is required'
-    if (!input_serv_hotel.image) errors.image = 'Upload at least one image'
+    if (!input_serv_hotel.image.length) errors.image = 'Upload at least one image'
     if (!input_serv_hotel.description) errors.description = 'Description is required'
     return errors;
 }
@@ -58,23 +58,28 @@ const ModifyServHotels = () => {
         }))
         dispatch(getServicesHotel(e.target.value))
     }
-//------------------Cloudinary-----------------//
-async function handleOpenWidget(){
-    var myWidget = await window.cloudinary.createUploadWidget({
-      cloudName: 'dyyoavgq5', 
-      uploadPreset: 'wwtvto96'}, (error, result) => { 
-        if (!error && result && result.event === "success") { 
-          // console.log('Done! Here is the image info: ', result.info); 
-          // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
-          setInput_serv_hotel( {
-            ...input_serv_hotel,
-            image:[...input_serv_hotel.image, {url: result.info.url,public_id: result.info.public_id}]
-          })
-         
-        }
-      })
-      myWidget.open()
-  }
+    //------------------Cloudinary-----------------//
+    async function handleOpenWidget() {
+        var myWidget = await window.cloudinary.createUploadWidget({
+            cloudName: 'dyyoavgq5',
+            uploadPreset: 'wwtvto96'
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                // console.log('Done! Here is the image info: ', result.info); 
+                // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+                setInput_serv_hotel({
+                    ...input_serv_hotel,
+                    image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+                setErrors({
+                    ...input_serv_hotel,
+                    image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+
+            }
+        })
+        myWidget.open()
+    }
     //------------ HANDLE CHANGE ID SERVICES HOTEL(select) --------------//
     const handleChangeId = (e) => {
         e.preventDefault();
@@ -149,7 +154,7 @@ async function handleOpenWidget(){
                         <div class="mb-4">
                             <div>
                                 <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                                <select class="form-select" value={input_hotel.idHotel} onChange={(e) =>
+                                <select class="form-select" name='idHotel'value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
                                     {hotels?.sort((a, b) => {
@@ -157,11 +162,13 @@ async function handleOpenWidget(){
                                         if (a.name < b.name) return -1; return 0;
                                     }).map(e =>
                                         <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
-                                            `${e.state},${e.department},${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                            `${e.state},${e.department},${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                                 </select>
                                 <div class="nombre text-danger ">
-                                    {errors.idHotel && (<p>{error.idHotel}</p>)}
+                                    <div>
+                                    {error.idHotel && (<p>{error.idHotel}</p>)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -196,30 +203,22 @@ async function handleOpenWidget(){
 
 
                         <div class="mb-4">
-                            {/* <div>
-                                <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                                <input type="file" class="form-control" placeholder="Load URL Image..."
-                                    value={input_serv_hotel.image} name="image" onChange={(e) => handleChange(e)} />
-                                <div class="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
+                            <div>
+                                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                                <div>
+                                    <div>
+                                        {input_serv_hotel.image?.map((imag) => (
+                                            <div>
+                                                <img src={imag.url} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div class="nombre text-danger ">
+                                        {errors.image && (<p>{errors.image}</p>)}
+                                    </div>
                                 </div>
-                            </div> */}
-                             <div>
-                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
-                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
-                <div>
-                <div>
-                  {input_serv_hotel.image?.map((imag) =>(
-                    <div>
-                      <img src={imag.url}/>
-                    </div>
-                  ))}
-                </div>
-                        <div class="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
-                                </div>
-                        </div>
-                        </div>
+                            </div>
                         </div>
                         <div class="mb-4">
                             <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
@@ -233,13 +232,13 @@ async function handleOpenWidget(){
 
                         <div class="mb-4">
                             {!input_hotel.idHotel || !input_serv_hotel.id || !input_serv_hotel.name ||
-                                !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length ||
+                                !input_serv_hotel.image.length || !input_serv_hotel.description || Object.keys(errors).length ||
                                 Object.keys(error).length
                                 ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>
                                 : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>}
                         </div>
 

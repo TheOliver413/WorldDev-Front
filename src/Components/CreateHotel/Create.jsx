@@ -1,110 +1,101 @@
-//------------------------------------------------------------//
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
 import { getCity, getDepartment, getState } from "../../redux/action/action";
-
 import { toast } from "react-toastify";
-
 import '../Create/Styles.css';
+
+
+const validate = (input_hotels) => {
+  let errors = {};
+  if(!input_hotels.name) errors.name = 'Hotel name is required'
+  if(!input_hotels.image.length) errors.image = 'Upload at least one image'
+  if(!input_hotels.qualification) errors.qualification = 'The qualification is required'
+  if(/^\d+$^\d+$/.test(input_hotels.qualification)) errors.qualification = 'The qualification must be in integers'  
+  if(!input_hotels.description) errors.description = 'Description is required'
+  if(!input_hotels.address) errors.address = 'Address is required'  
+  if(!input_hotels.idLocation) errors.idLocation = 'City is required'
+  return errors;
+}
+
+const validateTwo = (input_location) => {
+  let error = {};
+  if (!input_location.state) error.state = 'State is required'
+  if(!input_location.department) error.department = 'Department is required'
+  return error;
+}
+
 
 export default function Create() {
   const dispatch = useDispatch();
-  //const data_hotels = useSelector(state => state.reducerHotel.hotels)
   const hotels = useSelector(state => state.reducerHotel.hotels)
-
   const get_state = useSelector(state => state.reducerHotel.location_state)
   const get_city = useSelector(state => state.reducerHotel.location_city)
   const get_department = useSelector(state => state.reducerHotel.location_department)
 
-  // console.log("info de estados: ", get_state)
-  // console.log("info en componente city: ", get_city)
-  // console.log("info en componente department: ", get_department)
-
   const [input_hotels, input_sethotels] = useState({
-    id: "",
     name: "",
     image: [],
-    qualification: 1,
+    qualification: 0,
     description: "",
     address: "",
-    idLocation: "",
-
   })
-  const [location, setlocation] = useState({
+
+  const [input_location, setInputLocation] = useState({
     state: "",
     department: "",
     city: "",
   })
 
+  const [error, setError] = useState({})
+  const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    dispatch(getState());
+  }, [dispatch, hotels])
+
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChangeLocation(e) {
     e.preventDefault();
-    setlocation({
-      ...location,
+    setInputLocation({
+      ...input_location,
       [e.target.name]: e.target.value
     })
+    setError(validateTwo({
+      ...input_location,
+      [e.target.name]: e.target.value
+  })) 
     if (e.target.name === "state") {
       dispatch(getDepartment(e.target.value))
     }
     if (e.target.name === "department") {
       dispatch(getCity(e.target.value))
     }
-    // if( e.target.name === "city" ){
-    //   dispatch(getCity(e.target.value))
-    // }
-    // setErrors(
-    //   validate({
-    //     ...input,
-    //     [e.target.name]: e.target.value,
-    //   })
-    // )
   }
-  //------------------------------------------------------//
-  useEffect(() => {
-    !hotels.length && dispatch(getState());
-  }, [dispatch, hotels])
-
-  //------------------------VALIDATIONS-----------------------------//
-  // let validateName = /^[a-zA-Z\s]+$/;
-
-  /* const validate = (input_hotels) => {
-    // let errors = {}
-
-    // if (!input.title.length) {
-    //   errors.title = 'Title cannot be empty'
-    // }
-
-    // if (!validateTitle.test(input.title)) {
-    //   errors.title = 'Special characters or numbers are not allowed'
-    // }
-
-    // if (recipes.find((e) => e.title.toLowerCase() === input.title.toLowerCase())) {
-    //   alert(`The title ${input.title} already exist, please choose another one!`)
-    // }
-    // if (input.image && !validateUrl.test(input.image)) {
-    //   errors.image = 'This is not a valid URL'
-    // }
-
-    // return errors;
-
-  } */
-
+    
   //------------------ HANDLE CHANGE HOTELS -------------------//
   function handleChange(e) {
     e.preventDefault();
-    //console.log("estado actual:", input_create)
     input_sethotels({
       ...input_hotels,
       [e.target.name]: e.target.value
     })
-    // setErrors(
-    //   validate({
-    //     ...input,
-    //     [e.target.name]: e.target.value,
-    //   })
-    // )
+    setErrors(validate({
+      ...input_hotels,
+      [e.target.name]: e.target.value
+  }))
+  }
+
+  function handleName(e) {
+    e.preventDefault();
+    input_sethotels({
+      ...input_hotels,
+     name: e.target.value.toLowerCase().trim()
+    })
+    setErrors(validate({
+      ...input_hotels,
+      name: e.target.value
+  }))
   }
 
   //-----------------------CLOUDINARY--------------------------//
@@ -120,7 +111,10 @@ export default function Create() {
           ...input_hotels,
           image: [...input_hotels.image, { url: result.info.url, public_id: result.info.public_id }]
         })
-        console.log(input_hotels)
+        setErrors(validate({
+          ...input_hotels,
+          image: [...input_hotels.image, { url: result.info.url, public_id: result.info.public_id }]
+      }))
       }
     })
     myWidget.open()
@@ -130,26 +124,21 @@ export default function Create() {
   //---------------- HANDLE SUBMIT HOTELS------------------//
   function handleSubmit(e) {
     e.preventDefault()
-    if (input_hotels) {
-
-      // dispatch(createHotels(input_hotels))
-
-      if (input_hotels) {
+    if (input_hotels && !Object.keys(errors).length) {    
         dispatch(createHotels(input_hotels))
-        toast.success('Hotel created successfully', { position: 'bottom-right' })
-      }
-
-      input_sethotels({
-        id: "",
-        name: "",
-        image: [],
-        qualification: 1,
-        description: "",
-        address: "",
-        idLocation: "",
-
-      })
-
+        setInputLocation({
+          state: "",
+          department: "",
+        })
+        input_sethotels({
+          name: "",
+          image: [],
+          qualification: 0,
+          description: "",
+          address: "",
+          idLocation: "",  
+        })
+        toast.success('Hotel created successfully', { position: 'bottom-right' }) 
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
@@ -168,9 +157,12 @@ export default function Create() {
               <div>
                 <label for="nombre"> <i className="bi bi-building"></i> Name</label>
                 <input type="text" className="form-control" placeholder="Name..." value={input_hotels.name}
-                  name="name" onChange={(e) => handleChange(e)} />
+                  name="name" onChange={(e) => handleName(e)} />
                 <div className="nombre text-danger "></div>
               </div>
+              <div>
+                {errors.name && (<p>{errors.name}</p>)}
+            </div>
             </div>
 
             <div className="mb-4">
@@ -187,6 +179,9 @@ export default function Create() {
                 </div>
                 <div className="nombre text-danger "></div>
               </div>
+              <div>
+                {errors.image && (<p>{errors.image}</p>)}
+            </div>
             </div>
 
             <div className="mb-4">
@@ -197,6 +192,9 @@ export default function Create() {
                     handleChange(e)} />
                 {<p className="" > <i className="bi bi-star"></i> : {input_hotels.qualification}</p>}
                 <div className="nombre text-danger "></div>
+                <div>
+                {errors.qualification && (<p>{errors.qualification}</p>)}
+            </div>
               </div>
 
               <div className="mb-4">
@@ -204,13 +202,18 @@ export default function Create() {
                 <input type="text" className="form-control" placeholder="Address..."
                   value={input_hotels.address} name="address" onChange={(e) => handleChange(e)} />
                 <div className="nombre text-danger "></div>
+                <div>
+                {errors.address && (<p>{errors.address}</p>)}
+            </div>
               </div>
 
               <div className="mb-4">
                 <label for="nombre"><i className="bi bi-house"></i> State</label>
-                <select className="form-select" name="state" value={location.state} onChange={(e) => handleChangeLocation(e)}>
-                  <option disabled selected >State...</option>
-                  {get_state?.map((ele, i) => {
+                <select className="form-select" name="state" value={input_location.state} onChange={(e) => handleChangeLocation(e)}>
+                  <option hidden selected >State...</option>
+                  {get_state?.sort((a,b)=>{
+                                if(a > b) return 1;
+                                if(a < b) return -1; return 0; }).map((ele, i) => {
                     return (
                       <option value={ele} key={i} > {ele} </option>
                     )
@@ -218,14 +221,19 @@ export default function Create() {
                   }
                 </select>
                 <div className="nombre text-danger "></div>
+                <div>
+                {error.state && (<p>{error.state}</p>)}
+            </div>
               </div>
 
               <div className="mb-4 d-flex justify-content-between">
               <div>
                   <label for="apellido"><i className="bi bi-pin"></i> Department</label>
-                  <select className="form-select " name="department" value={location.department} onChange={(e) => handleChangeLocation(e)}>
-                    <option disabled selected>Department...</option>
-                    {get_department?.map((ele, i) => {
+                  <select className="form-select " name="department" value={input_location.department} onChange={(e) => handleChangeLocation(e)}>
+                    <option hidden selected>Department...</option>
+                    {get_department?.sort((a,b)=>{
+                                if(a > b) return 1;
+                                if(a < b) return -1; return 0; }).map((ele, i) => {
                       return (
                         <option value={ele} key={i} > {ele} </option>
                       )
@@ -233,20 +241,28 @@ export default function Create() {
                     }
                   </select>
                   <div className="apellido text-danger"></div>
+                  <div>
+                {error.department && (<p>{error.department}</p>)}
+            </div>
                 </div>
 
                 <div>
                   <label for="nombre"><i className="bi bi-pin-map"></i> City</label>
                   <select className="form-select" name="idLocation" value={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
-                    <option disabled selected>City...</option>
-                    {get_city?.map((ele, i) => {
+                    <option hidden selected>City...</option>
+                    {get_city?.sort((a,b)=>{
+                                if(a > b) return 1;
+                                if(a < b) return -1; return 0; }).map((ele, i) => {
                       return (
-                        <option value={ele.id} key={i} > {ele.city} </option>
+                        <option value={ele.id} key={i} > {ele.city.toLowerCase()} </option>
                       )
                     })
                     }
                   </select>
                   <div className="nombre text-danger "></div>
+                  <div>
+                {errors.idLocation && (<p>{errors.idLocation}</p>)}
+            </div>
                 </div>
               </div>
 
@@ -255,139 +271,23 @@ export default function Create() {
                 <textarea className="form-control" placeholder="Description..." value={input_hotels.description}
                   name="description" maxLength="1000" onChange={(e) => handleChange(e)}></textarea>
                 <div className="mensaje text-danger"></div>
+                <div>
+                {errors.description && (<p>{errors.description}</p>)}
+            </div>
               </div>
 
               <div className="mb-2">
-                <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between"
-                  onClick={(e) =>
-                    handleSubmit(e)}>
-                  <span>Creat </span><i id="icono" className="bi bi-cursor-fill "></i>
-                </button>
+              {!input_hotels.name || !input_hotels.image.length || !input_hotels.qualification || !input_hotels.description || !input_hotels.address ||!input_hotels.idLocation || !input_location.state || !input_location.department || Object.keys(errors).length?
+              <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
+                <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
+              </button> 
+                : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                  <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
+                </button>}
               </div>
             </div>
           </form>
         </div>
       </div>
     </section>
-
-
-    // <div className="cardHotels-container">
-    //   <form onSubmit={(e) => handleSubmit(e)} >
-    //     <div className="form-group">
-    //       <h1>✯ Hotel ✯</h1>
-
-    //       {/*-----------------------NAME------------------------ */}
-    //       <div className="form-row" >
-    //           <div>
-    //           <input
-    //             className="form-control"
-    //             autoFocus
-    //             placeholder="Name..."
-    //             type="text" value={input_hotels.name}
-    //             name="name"
-    //             onChange={(e) => handleChange(e)} />
-    //           </div>
-
-    //         {/*--------------------------UPLOAD FILES------------------- */}
-    //         <button type="button" onClick={() => handleOpenWidget()}>Upload files . . .</button>
-    //             <div>
-    //               {input_hotels.image.map((imag) =>(
-    //                 <div>
-    //                   <img src={imag.url}/>
-    //                 </div>
-    //               ))}
-
-    //             </div>
-
-    //         {/*--------------------------DESCRIPTION----------------------- */}
-    //         <div >
-    //           <textarea
-    //             className="form-control"
-    //             placeholder="Description..."
-    //             type="text"
-    //             value={input_hotels.description}
-    //             name="description"
-    //             maxLength="500"
-    //             onChange={(e) => handleChange(e)}>
-    //           </textarea>
-    //         </div>
-
-    //         {/*--------------------------QUALIFICATION----------------------- */}
-
-    //         <div >
-    //           <h4>Category</h4>
-    //           <input
-    //             className="form-control"
-    //             type="range"
-    //             min="1"
-    //             max="5"
-    //             value={input_hotels.qualification}
-    //             name="qualification"
-    //             maxLength="1000"
-    //             onChange={(e) => handleChange(e)}>
-    //           </input>
-    //           {<p className="" > Value : {input_hotels.qualification}</p>}
-    //         </div>
-
-    //         {/*--------------------------ADRESS----------------------- */}
-    //         <h4>Location</h4>
-    //         <div >
-    //           <input
-    //             className="form-control"
-    //             placeholder="Address..."
-    //             type="text"
-    //             value={input_hotels.address}
-    //             name="address"
-    //             onChange={(e) => handleChange(e)}>
-    //           </input>
-    //         </div>
-
-    //           {/*--------------------------STATE----------------------- */}          
-
-    //          <select  name="state" value={ location.state }  onChange={(e) => handleChangeLocation(e)} >
-    //            <option   disabled selected >State...</option>
-    //           { get_state?.map((ele,i)=>{
-    //             return(
-    //               <option  value= { ele } key={i} > { ele } </option>
-    //             )
-    //           })
-    //             }
-    //          </select>
-
-    //          {/*--------------------------DEPARTMENT----------------------- */}          
-
-    //          <select  name="department" value={ location.department } onChange={(e) => handleChangeLocation(e)} >
-    //            <option disabled selected >Department...</option>
-              //  { get_department?.map((ele,i)=>{
-              //   return(
-              //     <option  value= { ele } key= {i} > { ele } </option>
-              //   )
-              // })
-              //   }      
-    //          </select>
-
-    //          {/*--------------------------CITY----------------------- */}          
-
-    //          <select  name="idLocation" value={ input_hotels.idLocation } onChange={(e) => handleChange(e)} >
-    //            <option disabled selected >City...</option>
-              //  { get_city?.map((ele,i)=>{
-              //   return(
-              //     <option  value= { ele.id } key={i} > { ele.city } </option>
-              //   )
-              // })
-              //   }
-    //          </select>
-
-    //         {/*----------------------------BUTTON------------------------ */}
-    //         <div>
-    //           <button className='btn btn-primary mb-2'
-    //             type="submit"
-    //             onClick={(e) => handleSubmit(e)}>Send</button>
-    //         </div>
-
-    //       </div>
-    //     </div>
-    //   </form>
-    // </div>
-  )
-}
+    )}

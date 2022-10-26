@@ -12,7 +12,7 @@ const RoomDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const roomDetail = useSelector((state) => state.reducerRoom.detailRoom);
-  const { name, image, price, description } = roomDetail;
+  const { name, image, price, description, ServicesRooms } = roomDetail;
   const [isFavorite, setIsFavorite] = useState(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
   const allBookings = useSelector(state => state.reducerStripe.allBooking);//todas las reservas
   const check = useSelector((state) => state.reducerCart.cartRooms);//estado del carrito
@@ -79,7 +79,7 @@ const RoomDetail = () => {
   //control de stock---------------------------------------------------------------
   const stockControl = () => {
     const checkinfind = allBookings.filter(r => r.Rooms.find(e => e.id === id))// encuentra el id de room
-    const quantity = (check.find((e => e.id === id)))?.cartQuantity +1
+    const quantity = (check.find((e => e.id === id)))?.cartQuantity + 1
 
     console.log('quantity', quantity)
 
@@ -97,7 +97,7 @@ const RoomDetail = () => {
       })
     }
   }
-//-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
 
   const handleAddToCart = () => {
     stockControl()
@@ -116,6 +116,12 @@ const RoomDetail = () => {
           <img width='100%' src={image} alt={name} />
           <div className="roomDetail-body">
             <h1 className="roomDetail-title mt-2">{name}</h1>
+            
+            {/*  SERVICIOS CON ICONOS */}
+            <div>
+              {ServicesRooms.map(e => (<p><img src={e.image} alt='image service' /> <span>{e.name}</span></p>))}
+            </div>
+
             <p>{description}</p>
             <div className="d-flex flex-column flex-sm-row gap-3 mt-3">
               <div className="d-flex flex-column align-items-start">
@@ -140,7 +146,6 @@ const RoomDetail = () => {
             <p className="mt-4">The price for {difDays} night/s is&nbsp;
               <strong>${finalPrice}</strong>
             </p>
-            {/* FALTA SERVICIOS CON ICONOS */}
 
             <p className="mt-4">
               It is what you are looking for?&nbsp;
