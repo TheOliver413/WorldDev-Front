@@ -90,7 +90,7 @@ export default function Create() {
     e.preventDefault();
     input_sethotels({
       ...input_hotels,
-     name: e.target.value.toLowerCase().trim()
+     name: e.target.value.toLowerCase()
     })
     setErrors(validate({
       ...input_hotels,

@@ -10,7 +10,7 @@ import Nav from "./Components/Nav/Nav"
 import HotelDetail from './Components/HotelDetail/HotelDetail.jsx'
 import Footer from './Components/Footer/Footer'
 import CreateRooms from "./Components/CreateRooms/CreateRooms";
-import CreateHotel from "./Components/CreateHotel/Create";
+import CreateHotel from "./Components/CreateHotel/CreateHotel";
 import CreateEvents from "./Components/CreateEvents/CreateEvents";
 import RoomDetail from "./Components/RoomDetail/RoomDetail";
 import Favorite from "./Components/Favorite/Favorite";

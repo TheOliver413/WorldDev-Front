@@ -84,11 +84,10 @@ export default function CreateRooms() {
           ...input_rooms,
           image: [...input_rooms.image, { url: result.info.url, public_id: result.info.public_id }]
         })
-        setErrors({
+        setErrors(validate({
           ...input_rooms,
           image: [...input_rooms.image, { url: result.info.url, public_id: result.info.public_id }]
-        })
-
+        }))
       }
     })
     myWidget.open()

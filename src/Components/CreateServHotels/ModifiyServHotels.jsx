@@ -71,11 +71,10 @@ const ModifyServHotels = () => {
                     ...input_serv_hotel,
                     image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
                 })
-                setErrors({
+                setErrors(validate({
                     ...input_serv_hotel,
                     image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
-                })
-
+                }))
             }
         })
         myWidget.open()
@@ -99,7 +98,7 @@ const ModifyServHotels = () => {
         e.preventDefault();
         setInput_serv_hotel({
             ...input_serv_hotel,
-            name: e.target.value.toLowerCase().trim()
+            name: e.target.value.toLowerCase()
         })
         setErrors(validateTwo({
             ...input_serv_hotel,
@@ -154,7 +153,7 @@ const ModifyServHotels = () => {
                         <div class="mb-4">
                             <div>
                                 <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                                <select class="form-select" name='idHotel'value={input_hotel.idHotel} onChange={(e) =>
+                                <select class="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
                                     {hotels?.sort((a, b) => {
@@ -167,7 +166,7 @@ const ModifyServHotels = () => {
                                 </select>
                                 <div class="nombre text-danger ">
                                     <div>
-                                    {error.idHotel && (<p>{error.idHotel}</p>)}
+                                        {error.idHotel && (<p>{error.idHotel}</p>)}
                                     </div>
                                 </div>
                             </div>

@@ -36,7 +36,7 @@ const CreateServHotels = () => {
         e.preventDefault();
         setInput_serv_hotel({
             ...input_serv_hotel,
-            [e.target.name]: e.target.value.toLowerCase().trim()
+            [e.target.name]: e.target.value.toLowerCase()
         })
         setErrors(validate({
             ...input_serv_hotel,
