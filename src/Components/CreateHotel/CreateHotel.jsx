@@ -198,7 +198,7 @@ export default function Create() {
               </div>
 
               <div className="mb-4">
-                <label for="nombre"><i className="bi bi-geo-alt"></i> Adress</label>
+                <label for="nombre"><i className="bi bi-geo-alt"></i> Address</label>
                 <input type="text" className="form-control" placeholder="Address..."
                   value={input_hotels.address} name="address" onChange={(e) => handleChange(e)} />
                 <div className="nombre text-danger "></div>

@@ -230,7 +230,7 @@ const ModifyServHotels = () => {
                             <textarea 
                             id="mensaje" 
                             class="form-control" 
-                            placeholder="Description..." 
+                            placeholder="Description" 
                             type="text"
                             defaultValue={input_serv_hotel.description || serviceId.description} name="description" maxLength="1000"
                             onChange={(e) => handleChange(e)}></textarea>

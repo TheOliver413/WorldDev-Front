@@ -240,8 +240,8 @@ export default function ModifyHotel() {
 
             <div className="mb-4">
               <label for="nombre"><i className="bi bi-house"></i> State</label>
-              <select className="form-select" name="state" defaultValue={input_location.state } onChange={(e) => handleChangeLocation(e)}>
-                <option defaultValue={input_location.state} hidden selected >Select state</option>
+              <select className="form-select" name="state" value={input_location.state} onChange={(e) => handleChangeLocation(e)}>
+                <option hidden selected >Select state</option>
                 {get_state?.sort((a,b)=>{
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -261,8 +261,8 @@ export default function ModifyHotel() {
             <div className="mb-4 d-flex justify-content-between">
               <div>
                 <label for="apellido"><i className="bi bi-pin"></i> Department</label>
-                <select className="form-select " name="department" defaultValue={input_location.department} onChange={(e) => handleChangeLocation(e)}>
-                  <option defaultValue={input_location.department} hidden selected>Select department</option>
+                <select className="form-select " name="department" dvalue={input_location.department} onChange={(e) => handleChangeLocation(e)}>
+                  <option hidden selected>Select department</option>
                   {get_department?.sort((a,b)=>{
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -281,8 +281,8 @@ export default function ModifyHotel() {
 
               <div>
                 <label for="nombre"><i className="bi bi-pin-map"></i> City</label>
-                <select className="form-select" name="idLocation" defaultValue={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
-                  <option  defaultValue={input_hotels.idLocation} hidden selected>Select city</option>
+                <select className="form-select" name="idLocation" value={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
+                  <option hidden selected>Select city</option>
                   {get_city?.sort((a,b)=>{
                                 if(a.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
