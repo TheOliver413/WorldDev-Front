@@ -86,7 +86,6 @@ select {
 
 body {
   font-family: var(--ff-body);
-  text-align: center;
   color: var(--clr-black);
 }
 

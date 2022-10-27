@@ -1,15 +1,15 @@
 import { db } from './firebase'
 import { collection, addDoc } from 'firebase/firestore';
 
-export default async function sendEmail(email, subject, body) {
+export default async function sendEmail(email) {
     const collectionReft = collection(db, 'mail');
 
     const emailContent = {
         to: email,
         message: {
-            subject: subject,
-            text: body,
-            html: `<p>${body}</p>`,
+            subject: 'Hotel Deals',
+            text: 'Here you have the current offers of our hotels',
+            html: `<h1>Hotel Deals</h1> <p>Here you have the current offers of our hotels</p>`,
         }
     }
     console.log('listo para ser enviado');

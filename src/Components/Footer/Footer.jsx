@@ -5,13 +5,11 @@ import './Footer.css';
 import sendEmail from '../../sendEmail';
 function Footer() {
 
-  function submitHandler(e){
+  function submitHandler(e) {
     e.preventDefault();
     let correo = e.target.correo.value;
-    let asunto = e.target.asunto.value;
-    let texto = e.target.texto.value;
-    sendEmail(correo, asunto, texto);
-    correo = asunto = texto = "";
+    sendEmail(correo);
+    document.getElementById("correo").value = "";
   }
 
   return (
@@ -70,36 +68,29 @@ function Footer() {
               <h6 class="fw-bold text-uppercase text-heading mb-3">Daily Offers & Discon</h6>
               <p class="mb-3">Receive Our Offers In Your Email</p>
               <form onSubmit={submitHandler}>
-                {/* <div class="input-group mb-3"> */}
-                  <input type="email" name='correo' id='correo' class="form-control bg-transparent border-dark" placeholder="Your Email"
-                    aria-label="Your Email"/>
-
-                    <input type="text" name='asunto' id='asunto' class="form-control bg-transparent border-dark" placeholder="Your Affair"
-                      aria-label="Your Affair"/>
-
-                      <input type="text" name='texto' id='texto' class="form-control bg-transparent border-dark" placeholder="Your doubt"
-                        aria-label="Your doubt"/>
-
-                        <div class="d-grid gap-2">
-                          <button class="btn btn-outline-dark border-dark  " type="submit"><i
-                            class="bi bi-cursor-fill text-lg"></i></button>
-                        </div>
-                      {/* </div> */}
-                    </form>
+                <div class="input-group mb-3">
+                  <input type="email" name='correo' id='correo' class="form-control bg-transparent border-dark border-end-0s" placeholder="Your Email"
+                    aria-label="Your Email" />
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-outline-dark border-dark border-start-0" type="submit"><i
+                      class="bi bi-cursor-fill text-lg"></i></button>
+                  </div>
                 </div>
+              </form>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="py-4 bg-dark-gray text-gray-300">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-md-6 text-center text-md-start">
-                <p class="text-sm mb-md-0">&copy; - World Developers, Work & Relax. All rights reserved.</p>
-              </div>
+      <div class="py-4 bg-dark-gray text-gray-300">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+              <p class="text-sm mb-md-0">&copy; - World Developers, Work & Relax. All rights reserved.</p>
             </div>
           </div>
         </div>
+      </div>
     </footer>
   )
 }
