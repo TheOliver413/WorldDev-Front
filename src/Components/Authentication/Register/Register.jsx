@@ -2,6 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth,  } from "../../../context/AuthContext";
 import { Alert } from "../Alert/Alert";
+
+import { toast } from "react-toastify";
+
+import loginico from "./login-icon.svg";
+import userico from "./username-icon.svg"
+import passwordico from "./password-icon.svg"
+import googleico from "./google-icon.svg"
 /* import {actionCodeSettings, auth} from "../../../firebase";
 import {isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth"; */
 
