@@ -53,19 +53,7 @@ async function handleOpenWidget(){
       })
       myWidget.open()
   }
-    //------------ HANDLE CHANGE --------------//
-    const handleChange = (e) => {
-        e.preventDefault();
-        setInput_serv_room({
-            ...input_serv_room,
-            image: e.target.value
-        })
-        setErrors(validate({
-            ...input_serv_room,
-            image: e.target.value
-        }))
-    }
-
+  
     //----------------HANDLE SUBMIT SERVICES ROOM------------------//
     const handleSubmit = (e) => {
         e.preventDefault()
