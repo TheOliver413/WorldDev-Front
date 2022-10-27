@@ -1,23 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth,  } from "../../../context/AuthContext";
 import { Alert } from "../Alert/Alert";
-
-import "./Styles.css"
-import { toast } from "react-toastify";
-
-import loginico from "./login-icon.svg";
-import userico from "./username-icon.svg"
-import passwordico from "./password-icon.svg"
+/* import {actionCodeSettings, auth} from "../../../firebase";
+import {isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth"; */
 
 export default function Register() {
-  const { signup } = useAuth();
+  const { signup, sendE} = useAuth();
 
   const [user, setUser] = useState({
     email: "",
     password: ""
   });
-
 
   const handleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value })
@@ -30,8 +24,11 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
+      
       await signup(user.email, user.password);
-      navigate("/home");
+      await sendE(user.email);
+      setError('We sent you an email. Check your inbox')
+      navigate("/register");
     } catch (error) {
       if(error.code === 'auth/invalid-email') {
         toast.error("Email invalid", { position: 'bottom-right' })

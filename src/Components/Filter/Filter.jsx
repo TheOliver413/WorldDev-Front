@@ -47,19 +47,19 @@ function Filter() {
   return (
     <>
       {/* FILTER BUTTON */}
-      <div class="btn-group mr-2" role="group" aria-label="Second group">
+      <div className="d-flex flex-column">
         <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
           <div className='d-flex align-items-center justify-content-between'>
             Filter
             <i className="bi bi-sliders"></i>
           </div>
         </button>
-        <button onClick={handleClearFilter} className='btn btn-outline-primary btn-lg' type='button'>Clear filters</button>
+        <small onClick={handleClearFilter} className='p-0' type='button'>Clear filters</small>
       </div>
 
       {/* WINDOW */}
       {filterWindowVisibility && <div id='background' onClick={handleFilterClick} className='filter-window-background'>
-        <div className='filter-window d-flex flex-column align-items-start p-5'>
+        <div className='filter-window d-flex flex-column align-items-start p-4 p-sm-5'>
           {/* <button onClick={handleFilterClick} type="button" className="btn align-self-end">x</button> */}
           <p className='fs-5'>Filter by...</p>
 

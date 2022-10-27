@@ -50,7 +50,7 @@ export default function ModifyRooms() {
 
   
   const [nameRooms, setnameRooms] = useState([
-    "single", "double", "family", "suite"
+    "Single", "Double", "Family", "Suite"
   ])
 
   const [errors, setErrors] = useState({})
@@ -113,10 +113,10 @@ export default function ModifyRooms() {
           ...input_rooms,
           image: [...input_rooms.image, { url: result.info.url, public_id: result.info.public_id }]
         })
-        setErrors({
+        setErrors(validate({
           ...input_rooms,
           image: [...input_rooms.image, { url: result.info.url, public_id: result.info.public_id }]
-        })
+        }))
        
       }
     })
@@ -169,7 +169,10 @@ export default function ModifyRooms() {
                 <label for="nombre"> <i class="bi bi-building"></i> Hotels</label>
                 <select class="form-select " onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected >Hotels...</option>
-                  {hotels?.map((ele, i) => (
+                  {hotels?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => (
                       <option value={ele.id} key={i}>{`${ele.name}, ${(ele.Locations).map(ele=>
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     ))}
@@ -187,8 +190,9 @@ export default function ModifyRooms() {
                 <select class="form-select " value={input_rooms.id} name="id" onChange={(e) => handleChange(e)}>
                   <option hidden selected >Rooms...</option>
                   {rooms?.sort((a,b)=>{
-                                if(a.name > b.name) return 1;
-                                if(a.name < b.name) return -1; return 0; }).map((ele, i) => {
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => {
                     return (
                       <option value={ele.id} key={i} >{ele.name}</option>
                     )
@@ -207,8 +211,9 @@ export default function ModifyRooms() {
                 <select class="form-select" value={input_rooms.name} name="name" onChange={(e) => handleChange(e)}>
                   <option hidden selected >Name...</option>
                   {nameRooms?.sort((a,b)=>{
-                                if(a > b) return 1;
-                                if(a < b) return -1; return 0; }).map((ele, i) => (
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => (
                       <option value={ele} key={i} >{ele}</option>
                     )
                   )}
@@ -223,9 +228,9 @@ export default function ModifyRooms() {
                 <label for="nombre"> <i class="bi bi-tag"></i> Categories</label>
                 <select class="form-select" name="category" value={input_rooms.category} className="form-control" onChange={(e) => handleChange(e)}>
                   <option hidden selected >Categories... </option>
-                  <option value="presidential">presidential</option>
-                  <option value="premium" >premium</option>
-                  <option value="standard" >standard</option>
+                  <option value="premium">Premium</option>
+                  <option value="presidential" >Presidential</option>
+                  <option value="standard" >Standard</option>
                 </select>
                 <div class="nombre text-danger "></div>
             <div>
@@ -258,11 +263,10 @@ export default function ModifyRooms() {
                 <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
                 <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
                   <option hidden selected >Services...</option>
-                  {servicios?.sort((a, b) => {
-                    if (a.name > b.name) return 1;
-                    if (a.name < b.name) return -1;
-                    return 0;
-                  }).map(e => <option key={e.id} value={e.name}>{e.name}</option>)}
+                  {servicios?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e => <option key={e.id} value={e.name}>{e.name.toLowerCase()}</option>)}
                 </select>
                 <div>
                 {errors.services && (<p>{errors.services}</p>)}

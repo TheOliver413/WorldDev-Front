@@ -57,7 +57,7 @@ const ModifyEvents = () => {
     e.preventDefault();
     setInput_event({
       ...input_event,
-      name: e.target.value.toLowerCase().trim()
+      name: e.target.value.toLowerCase()
     })
     setErrors(validate({
       ...input_event,
@@ -77,10 +77,10 @@ const ModifyEvents = () => {
           ...input_event,
           image: [...input_event.image, { url: result.info.url, public_id: result.info.public_id }]
         })
-        setErrors({
+        setErrors(validate({
           ...input_event,
           image: [...input_event.image, { url: result.info.url, public_id: result.info.public_id }]
-        })
+        }))
       }
     })
     myWidget.open()
@@ -146,10 +146,10 @@ const ModifyEvents = () => {
                 <label for="nombre"> <i class="bi bi-building"></i> Current event name</label>
                 <select class="form-select" value={input_event.id} onChange={(e) => handleChangeEvent(e)}>
                   <option hidden selected>Select Event</option>
-                  {allEvents?.sort((a, b) => {
-                    if (a.name > b.name) return 1;
-                    if (a.name < b.name) return -1; return 0;
-                  }).map(e =>
+                  {allEvents?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e =>
                     <option key={e.id} value={e.id}>{`${e.name}, ${e.date}, ${e.time}`}</option>)}
                   {/*mapeo el nombre de los hoteles*/}
                 </select>
@@ -176,10 +176,10 @@ const ModifyEvents = () => {
                 <select class="form-select" value={input_event.idHotel} onChange={(e) =>
                   handleChangeHotel(e)}>
                   <option hidden selected>Select hotel</option>
-                  {hotels?.sort((a, b) => {
-                    if (a.name > b.name) return 1;
-                    if (a.name < b.name) return -1; return 0;
-                  }).map(e =>
+                  {hotels?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e =>
                     <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
                       `${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}

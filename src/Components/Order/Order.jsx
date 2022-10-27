@@ -1,46 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { getHotels, orderBy } from '../../redux/action/action';
-import { getCategory } from "../../redux/action/action";
-import { setActualPage, setMinPageNumber, setMaxPageNumber } from "../../redux/action/action";
+import { orderBy, getCategory, setActualPage, setMinPageNumber, setMaxPageNumber } from "../../redux/action/action";
+import './Order.css'
 
 export default function Order() {
-    const dispatch = useDispatch()
-    const [order, setOrder] = useState('')
-    const [orderCategory, setOrderCategory] = useState('')
+  const dispatch = useDispatch()
+  const [, setOrder] = useState('')
+  const [, setOrderCategory] = useState('')
 
-    useEffect(() => {
-        dispatch(getHotels())
-    }, [dispatch])
+  function handleSort(e) {
+    dispatch(getCategory(e.target.value))
+    dispatch(setActualPage(1))
+    dispatch(setMinPageNumber(0))
+    dispatch(setMaxPageNumber(5))
+    setOrderCategory(`${e.target.value}`)
+    dispatch(orderBy(e.target.value))
+    setOrder(`Ordenado ${e.target.value}`)
+  }
 
-    function handleSort(e) {
-        e.preventDefault()
-        dispatch(getCategory(e.target.value))
-        dispatch(setActualPage(1))
-        dispatch(setMinPageNumber(0))
-        dispatch(setMaxPageNumber(5))
-        setOrderCategory(`${e.target.value}`)
-        if (e.target.value === 'all') {
-            dispatch(getHotels())
-        } else {
-            dispatch(orderBy(e.target.value))
-            setOrder(`Ordenado ${e.target.value}`)
-        }
-    }
-
-    return (
-        <div class="input-group ps-5" id="navbarSupportedContent">
-            <select class="form-select form-select-lg mb-3" onChange={e => handleSort(e)}>
-
-                <option value="" disabled>Order By... </option>
-                <option value='all'>All Hotels</option>
-                <option value="A-Z">A-Z</option>
-                <option value="Z-A">Z-A</option>
-
-                <option value="" disabled>    🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊</option>
-                <option value="qualification asc">Category Ascending</option>
-                <option value="qualification desc">Category Descending</option>
-            </select>
-        </div>
-    )
+  return (
+    <div className="order-container">
+      <span>Sort by:</span>
+      <select className="" onChange={handleSort} defaultValue='DEFAULT'>
+        <option value="DEFAULT" disabled>-select-</option>
+        <option value="A-Z">Name (A-Z)</option>
+        <option value="Z-A">Name (Z-A)</option>
+        <option value="qualification asc">Lowest score</option>
+        <option value="qualification desc">Highest score</option>
+      </select>
+    </div>
+  )
 }
