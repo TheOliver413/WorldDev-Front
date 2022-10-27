@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom } from '../../redux/action/action';
+import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 import { toast } from "react-toastify";
 
@@ -33,6 +33,7 @@ export default function ModifyRooms() {
   const hotels = useSelector(state => state.reducerHotel.hotels)
   const rooms = useSelector(state => state.reducerRoom.allRooms)
   const servicios = useSelector(state => state.reducerRoom.servicesRoom)
+  const detailRoom = useSelector(state => state.reducerRoom.detailRoom)
   
   const [input_hotel, setInput_hotel] = useState({
     idHotel: "",
@@ -74,6 +75,19 @@ export default function ModifyRooms() {
       idHotel: e.target.value
   }))
    dispatch(getAllRoomsOfHotel(e.target.value))
+  }
+  
+  function handleChangeRoom(e) {
+    e.preventDefault();
+    input_setrooms({
+      ...input_rooms,
+      [e.target.name]: e.target.value
+    })
+    setErrors(validate({
+      ...input_rooms,
+      [e.target.name] : e.target.value
+  }))
+  dispatch(getDetailRoom(e.target.value))
   }
 
   function handleChange(e) {
@@ -168,7 +182,7 @@ export default function ModifyRooms() {
               <div>
                 <label for="nombre"> <i class="bi bi-building"></i> Hotels</label>
                 <select class="form-select " onChange={(e) => handleChangeHotel(e)}>
-                  <option hidden selected >Hotels...</option>
+                  <option hidden selected >Select hotel</option>
                   {hotels?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -187,8 +201,8 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"> <i class="bi bi-house"></i> Rooms</label>
-                <select class="form-select " value={input_rooms.id} name="id" onChange={(e) => handleChange(e)}>
-                  <option hidden selected >Rooms...</option>
+                <select class="form-select " value={input_rooms.id} name="id" onChange={(e) => handleChangeRoom(e)}>
+                  <option hidden selected >Select room</option>
                   {rooms?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -208,8 +222,8 @@ export default function ModifyRooms() {
             <div class="mb-4 d-flex justify-content-between">
               <div>
                 <label for="nombre"><i class="bi bi-house"></i> Name</label>
-                <select class="form-select" value={input_rooms.name} name="name" onChange={(e) => handleChange(e)}>
-                  <option hidden selected >Name...</option>
+                <select class="form-select" defaultValue={input_rooms.name || detailRoom?.name} name="name" onChange={(e) => handleChange(e)}>
+                  <option defaultValue={input_rooms.name || detailRoom?.name} hidden selected >{ detailRoom?.name || 'Select name '}</option>
                   {nameRooms?.sort((a,b)=>{
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -225,9 +239,9 @@ export default function ModifyRooms() {
               </div>
 
               <div>
-                <label for="nombre"> <i class="bi bi-tag"></i> Categories</label>
-                <select class="form-select" name="category" value={input_rooms.category} className="form-control" onChange={(e) => handleChange(e)}>
-                  <option hidden selected >Categories... </option>
+                <label for="nombre"> <i class="bi bi-tag"></i> Category</label>
+                <select class="form-select" name="category" defaultValue={input_rooms.category || detailRoom?.category} className="form-control" onChange={(e) => handleChange(e)}>
+                  <option defaultValue={input_rooms.category || detailRoom?.category} hidden selected >{detailRoom?.category || 'Select category'} </option>
                   <option value="premium">Premium</option>
                   <option value="presidential" >Presidential</option>
                   <option value="standard" >Standard</option>
@@ -261,8 +275,8 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
-                <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
-                  <option hidden selected >Services...</option>
+                <select class="form-select " defaultValue={input_rooms.services || detailRoom?.ServicesRoom} onChange={(e) => handleServices(e)}>
+                  <option defaultValue={input_rooms.services || detailRoom?.ServicesRoom} hidden selected >{'Select services' || detailRoom?.ServicesRoom}</option>
                   {servicios?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -283,8 +297,14 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"><i class="bi bi-currency-dollar"></i> Stock</label>
-                <input class="form-range" type="range" min="1" max="50" value={input_rooms.stock} name="stock" onChange={(e) => handleChange(e)} />
-                {<p >Available : {input_rooms.stock}</p>}
+                <input class="form-range" 
+                type="range" 
+                min="1" 
+                max="50" 
+                defaultValue={input_rooms.stock || detailRoom?.stock} 
+                name="stock" 
+                onChange={(e) => handleChange(e)} />
+                {<p >Available : {input_rooms.stock || detailRoom?.stock }</p>}
                 <div class="nombre text-danger "></div>
               </div>
             <div>
@@ -295,8 +315,14 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"><i class="bi bi-currency-dollar"></i> Price</label>
-                <input class="form-range" type="range" min="10" max="1000" value={input_rooms.price} name="price" onChange={(e) => handleChange(e)} />
-                {<p>Value USD {input_rooms.price}</p>}
+                <input class="form-range" 
+                type="range" 
+                min="10" 
+                max="1000" 
+                defaultValue={detailRoom?.price || input_rooms.price} 
+                name="price" 
+                onChange={(e) => handleChange(e)} />
+                {<p>Value USD {input_rooms.price || detailRoom?.price}</p>}
 
                 <div class="nombre text-danger "></div>
             <div>
@@ -307,9 +333,12 @@ export default function ModifyRooms() {
 
             <div class="mb-4">
               <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-              <textarea class="form-control" placeholder="Description..." type="text"
-                value={input_rooms.description} name="description" maxLength="500"
-                onChange={(e) => handleChange(e)}></textarea>
+              <textarea class="form-control" placeholder="Description..." 
+              type="text"
+              defaultValue={input_rooms.description || detailRoom?.description}
+              name="description" 
+              maxLength="500"
+              onChange={(e) => handleChange(e)}></textarea>
               <div class="mensaje text-danger"></div>
             <div>
                 {errors.description && (<p>{errors.description}</p>)}

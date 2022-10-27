@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllEvents, getHotels, modifyEvents } from "../../redux/action/action";
+import { getAllEvents, getEventById, getHotels, modifyEvents } from "../../redux/action/action";
 import { toast } from "react-toastify";
+import { format } from 'date-fns';
 
 const validate = (input_event) => {
   let errors = {};
@@ -21,6 +22,7 @@ const ModifyEvents = () => {
 
   const hotels = useSelector(state => state.reducerHotel.hotels)
   const allEvents = useSelector(state => state.reducerHotel.allEvents)
+  const eventId = useSelector(state => state.reducerHotel.eventId)
 
   const [input_event, setInput_event] = useState({
     id: '',
@@ -50,6 +52,7 @@ const ModifyEvents = () => {
       ...input_event,
       id: e.target.value
     }))
+    dispatch(getEventById(e.target.value))
   }
 
   //------------ HANDLE CHANGE NAME EVENTO--------------//
@@ -150,7 +153,7 @@ const ModifyEvents = () => {
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
                                 return 0; }).map(e =>
-                    <option key={e.id} value={e.id}>{`${e.name}, ${e.date}, ${e.time}`}</option>)}
+                    <option key={e.id} value={e.id}>{e.name} - {format(new Date(e.date), 'dd/MM/yy')} - {e.time}hrs</option>)}
                   {/*mapeo el nombre de los hoteles*/}
                 </select>
                 <div class="nombre text-danger ">
@@ -162,8 +165,12 @@ const ModifyEvents = () => {
             <div class="mb-4">
               <div>
                 <label for="nombre"> <i class="bi bi-calendar-event"></i> Event Name</label>
-                <input type="text" class="form-control" value={input_event.name} name="name" onChange={(e) =>
-                  handleName(e)} />
+                <input 
+                type="text" 
+                class="form-control" 
+                defaultValue={input_event.name || eventId?.name} 
+                name="name" 
+                onChange={(e)=> handleName(e)} />
                 <div class="nombre text-danger ">
                   {errors.name && (<p>{errors.name}</p>)}
                 </div>
@@ -193,8 +200,12 @@ const ModifyEvents = () => {
             <div class="mb-4 d-flex justify-content-between">
               <div>
                 <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
-                <input type="date" class="form-control" value={input_event.date} name="date" onChange={(e) =>
-                  handleChange(e)} />
+                <input 
+                type="date" 
+                class="form-control" 
+                defaultValue={input_event.date || eventId?.date} 
+                name="date" 
+                onChange={(e) =>handleChange(e)} />
                 <div class="nombre text-danger ">
                   {errors.date && (<p>{errors.date}</p>)}
                 </div>
@@ -202,8 +213,12 @@ const ModifyEvents = () => {
 
               <div>
                 <label for="nombre"> <i class="bi bi-clock"></i> Time</label>
-                <input type="time" class="form-control" value={input_event.time} name="time" onChange={(e) =>
-                  handleChange(e)} />
+                <input 
+                type="time" 
+                class="form-control" 
+                defaultValue={input_event.time || eventId?.time} 
+                name="time" 
+                onChange={(e) => handleChange(e)} />
                 <div class="nombre text-danger ">
                   {errors.time && (<p>{errors.time}</p>)}
                 </div>
@@ -231,9 +246,13 @@ const ModifyEvents = () => {
 
             <div class="mb-4">
               <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-              <textarea class="form-control" placeholder="Description..."
-                value={input_event.description} name="description" maxLength="1000"
-                onChange={(e) => handleChange(e)}></textarea>
+              <textarea 
+              class="form-control" 
+              placeholder="Description..."
+              defaultValue={input_event.description || eventId?.description} 
+              name="description" maxLength="1000"
+              onChange={(e) => handleChange(e)}>
+              </textarea>
               <div class="mensaje text-danger">
                 {errors.description && (<p>{errors.description}</p>)}
               </div>

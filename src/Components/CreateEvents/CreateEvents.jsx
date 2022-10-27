@@ -81,6 +81,18 @@ const CreateEvents = () => {
   }
 
   //------------ HANDLE CHANGE --------------//
+  const handleChangeDate = (e) => {
+    e.preventDefault();
+    setInput_event({
+      ...input_event,
+      [e.target.name]: e.target.value
+    })
+    setErrors(validate({
+      ...input_event,
+      [e.target.name]: e.target.value
+    }))
+  }
+
   const handleChange = (e) => {
     e.preventDefault();
     setInput_event({
@@ -157,7 +169,7 @@ const CreateEvents = () => {
                         <div>
                             <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
                             <input type="date" class="form-control" value={input_event.date} name="date" onChange={(e)=>
-                            handleChange(e)} />
+                            handleChangeDate(e)} />
                             <div class="nombre text-danger ">
                                 {errors.date && (<p>{errors.date}</p>)}
                             </div>

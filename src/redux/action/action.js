@@ -24,18 +24,21 @@ export const ALL_ROOMS = "ALL_ROOMS";
 export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
 export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
+export const SERVICE_ROOM_BY_ID = 'SERVICE_ROOM_BY_ID'
 
 //-------------------SERVICES HOTEL----------------//
 export const GET_ALL_SERVICES_HOTEL = "GET_ALL_SERVICES_HOTEL";
 export const PUT_SERVICES_HOTEL = 'PUT_SERVICES_HOTEL';
 export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
 export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
+export const GET_SERVICE_BY_ID = 'GET_SERVICE_BY_ID';
 
 //-------------------EVENTS----------------//
 export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';
 export const GET_CATEGORY = "GET_CATEGORY"
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
+export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
 
 //--------------ORDER/FILTER/CLEAN------------//
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
@@ -345,6 +348,20 @@ export function createServicesHotels(payload) {
           console.log(error)
         }
       }}
+
+      export function getServiceRoomById(id) {
+        return async function (dispatch) {
+          try {
+            const serviceRoom = await axios.get(`${BACK_URL}/serviceRooms/${id}`)
+            dispatch ({
+              type: SERVICE_ROOM_BY_ID,  
+              payload: serviceRoom.data
+            })        
+          } catch (error) {
+            console.log(error)
+          }
+        }}
+      
 //------------------------CREATE/MODIFY EVENTS --------------------//
     export function createEvents(payload) {
       return async function (dispatch) {
@@ -402,6 +419,20 @@ export function getServicesHotel(id) {
   }
 }
 
+export function getServicesHotelById(id) {
+  return async function (dispatch) {
+    try {
+      const servicesById = await axios.get(`${BACK_URL}/serviceHotels/${id}`)
+      dispatch({
+        type: GET_SERVICE_BY_ID,
+        payload: servicesById.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 //------------------------GET EVENTS --------------------//
 export function getAllEvents() {
   return async function (dispatch) {
@@ -410,6 +441,20 @@ export function getAllEvents() {
       dispatch ({
         type: GET_ALL_EVENTS,
         payload: events.data    
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function getEventById(id) {
+  return async function (dispatch) {
+    try {
+      const event = await axios.get(`${BACK_URL}/events/${id}`)
+      dispatch ({
+        type: GET_EVENT_BY_ID,
+        payload: event.data    
       })        
     } catch (error) {
       console.log(error)
