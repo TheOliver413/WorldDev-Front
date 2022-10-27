@@ -137,8 +137,9 @@ export default function CreateRooms() {
                   handleChange(e)}>
                   <option hidden selected>Hotels...</option>
                   {hotels?.sort((a,b)=>{
-                                if(a.name > b.name) return 1;
-                                if(a.name < b.name) return -1; return 0; }).map((ele, i) => (
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => (
                       <option value={ele.id} key={i}>{`${ele.name}, ${(ele.Locations).map(ele=>
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     )
@@ -207,11 +208,10 @@ export default function CreateRooms() {
                 <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
                 <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
                   <option hidden selected >Services...</option>
-                  {servicios?.sort((a, b) => {
-                    if (a.name > b.name) return 1;
-                    if (a.name < b.name) return -1;
-                    return 0;
-                  }).map(e => <option key={e.id} value={e.name}>{e.name}</option>)}
+                  {servicios?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e => <option key={e.id} value={e.name}>{e.name.toLowerCase()}</option>)}
                 </select>
                 <div class="nombre text-danger "></div>
               </div>

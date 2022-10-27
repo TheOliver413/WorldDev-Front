@@ -108,10 +108,10 @@ const ModifyServRooms = () => {
                                 <select class="form-select" value={input_serv_room.id} name="id" onChange={(e) =>
                                     handleChange(e)}>
                                     <option hidden selected>Select Service Name</option>
-                                    {servicesRoom?.sort((a, b) => {
-                                        if (a.name > b.name) return 1;
-                                        if (a.name < b.name) return -1; return 0;
-                                    }).map(e =>
+                                    {servicesRoom?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e =>
                                         <option key={e.id} value={e.id}>{e.name.toLowerCase()}</option>)}
                                 </select>
                                 <div class="nombre text-danger ">
