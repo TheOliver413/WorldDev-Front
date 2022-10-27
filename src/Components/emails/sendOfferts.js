@@ -1,4 +1,4 @@
-import { db } from './firebase'
+import { db } from '../../firebase'
 import { collection, addDoc } from 'firebase/firestore';
 
 export default async function sendEmail(email) {

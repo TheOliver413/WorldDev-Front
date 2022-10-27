@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './Footer.css';
 
-import sendEmail from '../../sendEmail';
+import sendEmail from '../emails/sendOfferts';
 function Footer() {
 
   function submitHandler(e) {
