@@ -30,7 +30,7 @@ const CheckoutForm = () => {
         dispatch(getDetailRoom(idRooms[0]))
     }, [dispatch])
 
-    const quantity = cartRooms[0].cartQuantity
+    const quantity = cartRooms[0]?.cartQuantity
     const checkinfind = []// son todas las reservas de la DB que coinciden con los id de idRooms   
 
     for (let i = 0; i < allBookings.length; i++) {
@@ -42,7 +42,7 @@ const CheckoutForm = () => {
         }
     }
 
-    const checkInFinded = checkinfind.length ? (checkinfind.filter(e => cartRooms[0].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[0].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))).sort((a, b) => a.stock - b.stock) : []
+    const checkInFinded = checkinfind.length ? (checkinfind.filter(e => cartRooms[0]?.checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[0]?.checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))).sort((a, b) => a.stock - b.stock) : []
     // checkFinded son todas las reservas de la DB que coinciden con la fecha del carrito   
 
     const stockRoom = detailRooms.stock
@@ -52,13 +52,13 @@ const CheckoutForm = () => {
     const booking = {
         cartTotalQuantity: cartTotalQuantity,
         cartTotalAmount: cartTotalAmount,
-        checkIn: cartRooms[0].checkIn,
-        checkOut: cartRooms[0].checkOut,
+        checkIn: cartRooms[0]?.checkIn,
+        checkOut: cartRooms[0]?.checkOut,
         stock: currentStock,
         idRoom: idRooms
     }
 
-    console.log('booking', booking)
+    // console.log('booking', booking)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -84,27 +84,20 @@ const CheckoutForm = () => {
 
 
     return (
-        <form className="card card-body " onSubmit={handleSubmit}>
+        <form className="card card-body gap-1" onSubmit={handleSubmit}>
             {/* Product Information */}
-            {/* <img src={cartRooms[0].image} alt="hotel image" className="img-fluid" /> */}
+            {/* <img src={cartRooms[0]?.image} alt="hotel image" className="img-fluid" /> */}
 
-            <br />
-            <h5>Reservation detail: </h5>
-            <ul>
-                {cartRooms.map(e => <li><img src={e.image} />  {`${e.name}, ${e.category}, 💲${e.price} - quantity ${e.cartQuantity}`}</li>)}
-            </ul>
-            <p></p>
-            <h6>Total quantity of rooms booked : {cartTotalQuantity}</h6>
-            <br />
-            <h5 className="text-center">Total to pay: 💲 {cartTotalAmount}</h5>
-            <br />
+            <h3>Reservation detail</h3>
+            {cartRooms.map(e => <><img src={e.image} alt={e.name} /><p>{`${e.name}, ${e.category}. $${e.price} - quantity ${e.cartQuantity}`}</p></>)}
+            <p>Total quantity of rooms booked : {cartTotalQuantity}</p>
+            <h5 className="text-center">Total to pay: ${cartTotalAmount}</h5>
             <p className="text-center">Enter your credit or debit card details</p>
 
             {/* User Card Input */}
             <div className="form-group">
                 <CardElement />
             </div>
-            <br />
             <button disabled={!stripe} className="btn btn-success">
                 {loading ? (
                     <div className="spinner-border text-light" role="status">
@@ -114,10 +107,7 @@ const CheckoutForm = () => {
                     "Pay"
                 )}
             </button>
-            <br />
-            <div>
-                <p><i className="bi bi-info-circle icon-success"></i> Once the payment has been processed, you will receive a reservation confirmation email.</p>
-            </div>
+            <p><i className="bi bi-info-circle icon-success"></i> Once the payment has been processed, you will receive a reservation confirmation email.</p>
         </form>
     );
 };
