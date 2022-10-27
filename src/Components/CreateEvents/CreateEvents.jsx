@@ -137,8 +137,13 @@ const CreateEvents = () => {
                     <div class="mb-4">
                         <div>
                             <label for="nombre"> <i class="bi bi-calendar-event"></i> Event Name</label>
-                            <input type="text" class="form-control" placeholder="Event Name..." value={input_event.name}
-                                name="name" onChange={(e)=> handleName(e)} />
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Event Name" 
+                            value={input_event.name}
+                            name="name"
+                            onChange={(e)=> handleName(e)} />
                             <div class="nombre text-danger ">
                                 {errors.name && (<p>{errors.name}</p>)}
                             </div>
@@ -168,7 +173,11 @@ const CreateEvents = () => {
                     <div class="mb-4 d-flex justify-content-between">
                         <div>
                             <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
-                            <input type="date" class="form-control" value={input_event.date} name="date" onChange={(e)=>
+                            <input type="date" 
+                            class="form-control"
+                            value={input_event.date} 
+                            name="date" 
+                            onChange={(e)=>
                             handleChangeDate(e)} />
                             <div class="nombre text-danger ">
                                 {errors.date && (<p>{errors.date}</p>)}
