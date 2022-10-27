@@ -2,24 +2,25 @@ import {
   GET_ALL_HOTELS,
   SEARCH_NAME_HOTEL,
   GET_HOTEL_DETAIL,
-  GET_ALL_SERVICES_HOTEL,
   CREATE_HOTELS,
   CREATE_ROOMS,
-  GET_ALL_LOCATIONS,
   FILTER_BY_CITY,
   ORDER_BY,
   CLEAR_DETAIL,
   GET_CATEGORY,
   POST_SERVICES_HOTEL,
   PUT_SERVICES_HOTEL,
+  GET_ALL_SERVICES_HOTEL,
+  GET_SERVICES_HOTEL,
+  GET_SERVICE_BY_ID,
   POST_EVENT,
   PUT_EVENT,
-  GET_SERVICES_HOTEL,
   GET_ALL_EVENTS,
+  GET_EVENT_BY_ID,
+  GET_ALL_LOCATIONS,
   GET_STATES,
   GET_CITY,
   GET_DEPARTMENT,
-
 } from '../action/action';
 
 const initialStateHotel = {
@@ -27,10 +28,12 @@ const initialStateHotel = {
   allHotels: [],
   detailHotel: {},
   servicesHotel: [],
+  onlyServicesHotel: [],
+  serviceId:{},
   location: [],
   filterCategory: [],
-  onlyServicesHotel: [],
   allEvents: [],
+  eventId:{},
   location_state:[],
   location_city:[],
   location_department:[],
@@ -194,6 +197,16 @@ const hotels_reducer = (state = initialStateHotel, action) => {
               ...state,
               location_department: action.payload
             }
+    case GET_SERVICE_BY_ID:
+      return {
+        ...state,
+        serviceId: action.payload
+      }
+    case GET_EVENT_BY_ID:
+      return {
+        ...state,
+        eventId: action.payload
+      }
 
     default:
       return { ...state }

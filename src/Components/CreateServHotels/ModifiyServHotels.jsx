@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyServicesHotels, getHotels, getServicesHotel } from "../../redux/action/action";
+import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById } from "../../redux/action/action";
 import { toast } from "react-toastify";
 
 const validate = (input_hotel) => {
@@ -21,10 +21,10 @@ const validateTwo = (input_serv_hotel) => {
 
 const ModifyServHotels = () => {
     const dispatch = useDispatch();
-
     const hotels = useSelector(state => state.reducerHotel.hotels)
-    const servicesHotelID = useSelector(state => state.reducerHotel.onlyServicesHotel)
-
+    const servicesHotelID = useSelector(state => state.reducerHotel.onlyServicesHotel)//todos los servicios de ese hotel
+    const serviceId = useSelector(state => state.reducerHotel.serviceId)//solo ese servicio
+    
     const [input_hotel, setInput_hotel] = useState({
         idHotel: ''
     })
@@ -90,6 +90,7 @@ const ModifyServHotels = () => {
             ...input_serv_hotel,
             id: e.target.value
         }))
+        dispatch(getServicesHotelById(e.target.value))
     }
 
 
@@ -192,8 +193,13 @@ const ModifyServHotels = () => {
                         <div class="mb-4">
                             <div>
                                 <label for="nombre"> <i class="bi bi-plus-circle"></i> Service Name</label>
-                                <input type="text" class="form-control" placeholder="New service name..."
-                                    value={input_serv_hotel.name} name="name" onChange={(e) => handleName(e)} />
+                                <input 
+                                type="text" 
+                                class="form-control" 
+                                placeholder="New service name..."
+                                defaultValue= {input_serv_hotel.name || serviceId.name} 
+                                name="name" 
+                                onChange={(e) => handleName(e)} />
                                 <div class="nombre text-danger ">
                                     {errors.name && (<p>{errors.name}</p>)}
                                 </div>
@@ -221,9 +227,13 @@ const ModifyServHotels = () => {
                         </div>
                         <div class="mb-4">
                             <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-                            <textarea id="mensaje" class="form-control" placeholder="Description..." type="text"
-                                value={input_serv_hotel.description} name="description" maxLength="1000"
-                                onChange={(e) => handleChange(e)}></textarea>
+                            <textarea 
+                            id="mensaje" 
+                            class="form-control" 
+                            placeholder="Description..." 
+                            type="text"
+                            defaultValue={input_serv_hotel.description || serviceId.description} name="description" maxLength="1000"
+                            onChange={(e) => handleChange(e)}></textarea>
                             <div class="mensaje text-danger">
                                 {errors.description && (<p>{errors.description}</p>)}
                             </div>

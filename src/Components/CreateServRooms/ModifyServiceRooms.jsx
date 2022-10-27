@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllServicesRoom, modifyServicesRooms } from "../../redux/action/action";
+import { getAllServicesRoom, getServiceRoomById, modifyServicesRooms } from "../../redux/action/action";
 import { toast } from "react-toastify";
 
 const validate = (input_serv_room) => {
@@ -16,6 +16,7 @@ const validate = (input_serv_room) => {
 const ModifyServRooms = () => {
     const dispatch = useDispatch();
     const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
+    const serviceById = useSelector(state => state.reducerRoom.serviceRoomId)
 
     const [input_serv_room, setInput_serv_room] = useState({
         id: '',
@@ -74,6 +75,7 @@ const ModifyServRooms = () => {
             ...input_serv_room,
             [e.target.name]: e.target.value
         }))
+        dispatch(getServiceRoomById(e.target.value))
     }
 
     //----------------HANDLE SUBMIT SERVICES ROOM------------------//
@@ -108,10 +110,11 @@ const ModifyServRooms = () => {
                                 <select class="form-select" value={input_serv_room.id} name="id" onChange={(e) =>
                                     handleChange(e)}>
                                     <option hidden selected>Select Service Name</option>
-                                    {servicesRoom?.sort((a,b)=>{
-                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
-                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
-                                return 0; }).map(e =>
+                                    {servicesRoom?.sort((a, b) => {
+                                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                                        return 0;
+                                    }).map(e =>
                                         <option key={e.id} value={e.id}>{e.name.toLowerCase()}</option>)}
                                 </select>
                                 <div class="nombre text-danger ">
@@ -124,7 +127,7 @@ const ModifyServRooms = () => {
                             <div>
                                 <label for="nombre"> <i class="bi bi-plus-circle"></i> New Service Name</label>
                                 <input type="text" class="form-control" placeholder="New Service name..."
-                                    value={input_serv_room.name} name="name" onChange={(e) => handleName(e)} />
+                                defaultValue={input_serv_room.name || serviceById?.name } name="name" onChange={(e) => handleName(e)} />
                                 <div class="nombre text-danger ">
                                     {errors.name && (<p>{errors.name}</p>)}
                                 </div>
