@@ -19,3 +19,9 @@
 .roomDetail-loading {
   margin: 3.75rem 3rem;
 }
+
+.roomDetail-img {
+  height: 87vh;
+  width: 100%;
+  object-fit: cover;
+}
