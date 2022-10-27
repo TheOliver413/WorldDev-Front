@@ -30,6 +30,7 @@ import ProtectedRoute from "./Components/Authentication/ProtectedRoute/Protected
 import Login from "./Components/Authentication/Login/Login";
 import Register from "./Components/Authentication/Register/Register";
 import Profile from "./Components/Authentication/ProfileUsers/ProfileUsers";
+import Events from "./Components/Events/Events";
 
 function App() {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ function App() {
       <AuthProvider>
         <Nav />
         <Routes>
+          <Route exact path="/home/Events" element={< Events />} />
           <Route exact path="/home/ModifyHotel" element={< ModifyHotel />} />
           <Route exact path="/home/ModifyRooms" element={<ModifyRooms />} />
           <Route exact path="/home/createServRooms" element={<CreateServRooms />} />

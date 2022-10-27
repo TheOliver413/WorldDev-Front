@@ -72,7 +72,7 @@ export default function Nav() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-dark" to="#">
+              <Link className="nav-link text-dark" to="/home/Events">
                 EVENTS
               </Link>
             </li>
