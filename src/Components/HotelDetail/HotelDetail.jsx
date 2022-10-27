@@ -33,13 +33,13 @@ const HotelDetail = () => {
               <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div className="carousel-inner">
-              <div className="carousel-item active" data-bs-interval="4000">
+              <div className="carousel-item active" data-bs-interval="3000">
                 <img src={ image[0] } className="hotelDetail-img" alt={name} />
               </div>
-              <div className="carousel-item" data-bs-interval="4000">
+              <div className="carousel-item" data-bs-interval="3000">
                 <img src= { image[1] } className="hotelDetail-img" alt={name}></img>
               </div>
-              <div className="carousel-item" data-bs-interval="4000">
+              <div className="carousel-item" data-bs-interval="3000">
                 <img src= { image[2] } className="hotelDetail-img"  alt={name}></img>
               </div>
             </div>

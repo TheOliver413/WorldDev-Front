@@ -11,10 +11,10 @@ import passwordico from "./password-icon.svg"
 import googleico from "./google-icon.svg"
 /* import {actionCodeSettings, auth} from "../../../firebase";
 import {isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth"; */
-import { toast } from "react-toastify";
-import loginico from "./login-icon.svg";
-import userico from "./username-icon.svg"
-import passwordico from "./password-icon.svg"
+// import { toast } from "react-toastify";
+// import loginico from "./login-icon.svg";
+// import userico from "./username-icon.svg"
+// import passwordico from "./password-icon.svg"
 
 export default function Register() {
   const { signup, sendE} = useAuth();
