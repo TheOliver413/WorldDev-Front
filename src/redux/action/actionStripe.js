@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { CLEAR_CART } from './cartAction';
 export const POST_STRIPE = "POST_STRIPE";
 export const POST_BOOKING = "POST_BOOKING";
 export const GET_ALL_BOOKINGS = 'GET_ALL_BOOKINGS';
@@ -24,6 +25,9 @@ export default function postStripe(payload, booking) {
       dispatch({
         type: POST_BOOKING,
         payload
+      })
+      dispatch({
+        type: CLEAR_CART
       })
     } catch (error) {
       console.log(error)
