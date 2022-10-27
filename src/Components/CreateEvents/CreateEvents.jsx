@@ -139,9 +139,10 @@ const CreateEvents = () => {
                             <select class="form-select" value={input_event.idHotel} onChange={(e)=>
                                 handleChangeHotel(e)}>
                                 <option hidden selected>Select hotel</option>
-                                {hotels?.sort((a, b) => {
-                                if (a.name > b.name) return 1;
-                                if (a.name < b.name) return -1; return 0; }).map(e=>
+                                {hotels?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e=>
                                     <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e => `
                                         ${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}

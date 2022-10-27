@@ -212,8 +212,9 @@ export default function Create() {
                 <select className="form-select" name="state" value={input_location.state} onChange={(e) => handleChangeLocation(e)}>
                   <option hidden selected >State...</option>
                   {get_state?.sort((a,b)=>{
-                                if(a > b) return 1;
-                                if(a < b) return -1; return 0; }).map((ele, i) => {
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => {
                     return (
                       <option value={ele} key={i} > {ele} </option>
                     )
@@ -232,8 +233,9 @@ export default function Create() {
                   <select className="form-select " name="department" value={input_location.department} onChange={(e) => handleChangeLocation(e)}>
                     <option hidden selected>Department...</option>
                     {get_department?.sort((a,b)=>{
-                                if(a > b) return 1;
-                                if(a < b) return -1; return 0; }).map((ele, i) => {
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => {
                       return (
                         <option value={ele} key={i} > {ele} </option>
                       )
@@ -251,8 +253,9 @@ export default function Create() {
                   <select className="form-select" name="idLocation" value={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
                     <option hidden selected>City...</option>
                     {get_city?.sort((a,b)=>{
-                                if(a > b) return 1;
-                                if(a < b) return -1; return 0; }).map((ele, i) => {
+                                if(a.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.city.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map((ele, i) => {
                       return (
                         <option value={ele.id} key={i} > {ele.city.toLowerCase()} </option>
                       )
