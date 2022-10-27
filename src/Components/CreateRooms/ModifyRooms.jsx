@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom } from '../../redux/action/action';
+import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, clearDetail } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 import { toast } from "react-toastify";
 
@@ -59,7 +59,8 @@ export default function ModifyRooms() {
   
   useEffect(() => {
     !hotels.length && dispatch(getHotels()); 
-    dispatch(getAllServicesRoom());    
+    dispatch(getAllServicesRoom()); 
+    return () =>clearDetail()  
   }, [dispatch, hotels])
   
   //------------------ HANDLE CHANGE ROOMS-------------------//
@@ -181,7 +182,7 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"> <i class="bi bi-building"></i> Hotels</label>
-                <select class="form-select " onChange={(e) => handleChangeHotel(e)}>
+                <select class="form-select " value= {input_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected >Select hotel</option>
                   {hotels?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -222,8 +223,8 @@ export default function ModifyRooms() {
             <div class="mb-4 d-flex justify-content-between">
               <div>
                 <label for="nombre"><i class="bi bi-house"></i> Name</label>
-                <select class="form-select" defaultValue={input_rooms.name || detailRoom?.name} name="name" onChange={(e) => handleChange(e)}>
-                  <option defaultValue={input_rooms.name || detailRoom?.name} hidden selected >{ detailRoom?.name || 'Select name '}</option>
+                <select class="form-select" value={input_rooms.name} name="name" onChange={(e) => handleChange(e)}>
+                  <option hidden selected >Select name</option>
                   {nameRooms?.sort((a,b)=>{
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
@@ -240,8 +241,8 @@ export default function ModifyRooms() {
 
               <div>
                 <label for="nombre"> <i class="bi bi-tag"></i> Category</label>
-                <select class="form-select" name="category" defaultValue={input_rooms.category || detailRoom?.category} className="form-control" onChange={(e) => handleChange(e)}>
-                  <option defaultValue={input_rooms.category || detailRoom?.category} hidden selected >{detailRoom?.category || 'Select category'} </option>
+                <select class="form-select" name="category" value={input_rooms.category} className="form-control" onChange={(e) => handleChange(e)}>
+                  <option hidden selected >Select category </option>
                   <option value="premium">Premium</option>
                   <option value="presidential" >Presidential</option>
                   <option value="standard" >Standard</option>
@@ -275,8 +276,8 @@ export default function ModifyRooms() {
             <div class="mb-4">
               <div>
                 <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
-                <select class="form-select " defaultValue={input_rooms.services || detailRoom?.ServicesRoom} onChange={(e) => handleServices(e)}>
-                  <option defaultValue={input_rooms.services || detailRoom?.ServicesRoom} hidden selected >{'Select services' || detailRoom?.ServicesRoom}</option>
+                <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
+                  <option hidden selected >Select services</option>
                   {servicios?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 

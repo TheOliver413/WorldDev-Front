@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getDetailRoom } from "../../redux/action/action.js";
+import { clearDetail, getDetailRoom } from "../../redux/action/action.js";
 import { addRoomToCart } from "../../redux/action/cartAction.js";
 import { addDays, format, differenceInDays } from 'date-fns'
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ const RoomDetail = () => {
 
   useEffect(() => {
     dispatch(getAllBooking())
+    return () =>clearDetail()
   }, [dispatch])
 
   const handleFavorite = () => {
@@ -64,6 +65,7 @@ const RoomDetail = () => {
   useEffect(() => {
     dispatch(getDetailRoom(id));
     setIsFavorite(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
+    
   }, [dispatch, id]);
 
   //manejo del date input  

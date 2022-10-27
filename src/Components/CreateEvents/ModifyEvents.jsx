@@ -153,7 +153,7 @@ const ModifyEvents = () => {
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
                                 return 0; }).map(e =>
-                    <option key={e.id} value={e.id}>{e.name} - {format(new Date(e.date), 'dd/MM/yy')} - {e.time}hrs</option>)}
+                    <option key={e.id} value={e.id}>{e.name} - {format(new Date(e.date), 'dd/MM/yyyy')} - {e.time}hrs</option>)}
                   {/*mapeo el nombre de los hoteles*/}
                 </select>
                 <div class="nombre text-danger ">
