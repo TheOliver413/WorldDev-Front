@@ -6,6 +6,7 @@ import { filterEventByDate, getAllEvents} from '../../redux/action/action';
 function FilterEvent() {
   const dispatch = useDispatch()
   const eventos = useSelector(state=>state.reducerHotel.allEvents)
+  const cop_event = useSelector(state=>state.reducerHotel.copy_allEvents)
   const [filterWindowVisibility, setFilterWindowVisibility] = useState(false)
 
   const handleFilterClick = (e) => {
@@ -62,11 +63,10 @@ function FilterEvent() {
           
           <select onChange={handleFilterByDate} defaultValue='DEFAULT' className="form-select">
             <option value='DEFAULT' disabled>--select date--</option>
-            {eventos.length && eventos.map(l => (
-              <option value={l.date} key={l}>{l.date.substr(-30,10)}</option>
+            {cop_event.length && cop_event.map(l => (
+              <option value={l.date} key={l}>{l.date.substr(-30,10)}   {l.time.substr(-30,5)}hs</option>
             ))}
           </select>
-
           <button id='applyBtn' onClick={handleApply} type="button" className="btn btn-primary mt-4">Apply</button>
         </div>
       </div>}
