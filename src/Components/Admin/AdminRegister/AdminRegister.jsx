@@ -1,7 +1,7 @@
 export default function AdminRegister(){
     return (
         <div>
-            <h1>User Table</h1>
+            <h1>Admin Register</h1>
         </div>
     )
 }

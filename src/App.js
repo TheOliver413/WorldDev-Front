@@ -69,10 +69,11 @@ function App() {
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/register" element={<Register/>}/>
           <Route path="/profileusers" element={<Profile/>}/>
-          <Route path="/admin/usertable" element={<Profile/>}/>
-          <Route path="/admin/admintable" element={<Profile/>}/>
-          <Route path="/admin/adminregister" element={<Profile/>}/>
-          <Route path="/admin/admindata" element={<Profile/>}/>
+          <Route path="/" element={<Profile/>}/>
+          <Route exact path="/admin/admintable" element={<AdminTable/>}/>
+          <Route exact path="/admin/adminregister" element={<AdminRegister/>}/>
+          <Route exact path="/admin/admindata" element={<AdminData/>}/>
+          <Route exact path="/admin/usertable" element={<UserTable/>}/>
         </Routes>
         <Footer />
       </AuthProvider>

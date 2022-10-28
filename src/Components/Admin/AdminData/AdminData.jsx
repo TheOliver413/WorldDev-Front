@@ -1,7 +1,7 @@
 export default function AdminData(){
     return (
         <div>
-            <h1>User Table</h1>
+            <h1>Admin Data</h1>
         </div>
     )
 }
