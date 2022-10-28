@@ -93,7 +93,7 @@ export default function Nav() {
             )}
 
             <li className="nav-item">
-              <Link className="nav-link text-dark" to="#">
+              <Link className="nav-link text-dark" to="/about">
                 ABOUT US
               </Link>
             </li>
