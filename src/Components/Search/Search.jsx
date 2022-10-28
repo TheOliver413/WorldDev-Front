@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { hotelByName, setActualPage } from '../../redux/action/action';
+import './Search.css'
 
 export default function Search() {
   const dispatch = useDispatch()
@@ -15,23 +16,15 @@ export default function Search() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(hotelByName(name));
+    if (!name.trim()) return
+    dispatch(hotelByName(name.trim()));
     setName('')
   }
 
   return (
-    <div class="input-group ps-5" id="navbarSupportedContent">
-      <div id="navbar-search-autocomplete" class="form-outline">
-        <div class="input-group mb-3">
-
-          <input  type="text" class="form-control-lg" placeholder='Search hotel ...' onChange={handleInputChange} value={name} />
-          {/* {errors.name && (
-                        <p className="error">{errors.name}</p>
-                    )} */}
-          {name.length?
-          <button class="btn btn-outline-primary" onClick={handleSubmit} type="submit"><i class="bi bi-search"></i></button>:<button disabled  type="submit" class="btn btn-outline-primary" onClick={handleSubmit}><i class="bi bi-search"></i></button>}
-        </div>
-      </div>
-    </div >
+    <form className='search'>
+      <input className='search-input' value={name} onChange={handleInputChange} type='search' placeholder='Search hotel...' />
+      <button className='search-btn' onClick={handleSubmit} type='submit' aria-label="search"></button>
+    </form>
   )
 }

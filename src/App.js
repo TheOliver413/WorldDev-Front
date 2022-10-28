@@ -10,7 +10,7 @@ import Nav from "./Components/Nav/Nav"
 import HotelDetail from './Components/HotelDetail/HotelDetail.jsx'
 import Footer from './Components/Footer/Footer'
 import CreateRooms from "./Components/CreateRooms/CreateRooms";
-import CreateHotel from "./Components/CreateHotel/Create";
+import CreateHotel from "./Components/CreateHotel/CreateHotel";
 import CreateEvents from "./Components/CreateEvents/CreateEvents";
 import RoomDetail from "./Components/RoomDetail/RoomDetail";
 import Favorite from "./Components/Favorite/Favorite";
@@ -30,6 +30,7 @@ import ProtectedRoute from "./Components/Authentication/ProtectedRoute/Protected
 import Login from "./Components/Authentication/Login/Login";
 import Register from "./Components/Authentication/Register/Register";
 import Profile from "./Components/Authentication/ProfileUsers/ProfileUsers";
+import Events from "./Components/Events/Events";
 
 function App() {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ function App() {
       <AuthProvider>
         <Nav />
         <Routes>
+          <Route exact path="/home/Events" element={< Events />} />
           <Route exact path="/home/ModifyHotel" element={< ModifyHotel />} />
           <Route exact path="/home/ModifyRooms" element={<ModifyRooms />} />
           <Route exact path="/home/createServRooms" element={<CreateServRooms />} />

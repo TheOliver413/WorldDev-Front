@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyServicesHotels, getHotels, getServicesHotel } from "../../redux/action/action";
+import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById } from "../../redux/action/action";
 import { toast } from "react-toastify";
 
 const validate = (input_hotel) => {
@@ -13,7 +13,7 @@ const validateTwo = (input_serv_hotel) => {
     let errors = {}
     if (!input_serv_hotel.id) errors.id = 'Select Service Name'
     if (!input_serv_hotel.name) errors.name = 'Service Name is required'
-    if (!input_serv_hotel.image) errors.image = 'Upload at least one image'
+    if (!input_serv_hotel.image.length) errors.image = 'Upload at least one image'
     if (!input_serv_hotel.description) errors.description = 'Description is required'
     return errors;
 }
@@ -21,10 +21,10 @@ const validateTwo = (input_serv_hotel) => {
 
 const ModifyServHotels = () => {
     const dispatch = useDispatch();
-
     const hotels = useSelector(state => state.reducerHotel.hotels)
-    const servicesHotelID = useSelector(state => state.reducerHotel.onlyServicesHotel)
-
+    const servicesHotelID = useSelector(state => state.reducerHotel.onlyServicesHotel)//todos los servicios de ese hotel
+    const serviceId = useSelector(state => state.reducerHotel.serviceId)//solo ese servicio
+    
     const [input_hotel, setInput_hotel] = useState({
         idHotel: ''
     })
@@ -32,7 +32,7 @@ const ModifyServHotels = () => {
     const [input_serv_hotel, setInput_serv_hotel] = useState({
         id: '',
         name: '',
-        image: '',
+        image: [],
         description: '',
     })
 
@@ -58,7 +58,27 @@ const ModifyServHotels = () => {
         }))
         dispatch(getServicesHotel(e.target.value))
     }
-
+    //------------------Cloudinary-----------------//
+    async function handleOpenWidget() {
+        var myWidget = await window.cloudinary.createUploadWidget({
+            cloudName: 'dyyoavgq5',
+            uploadPreset: 'wwtvto96'
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                // console.log('Done! Here is the image info: ', result.info); 
+                // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+                setInput_serv_hotel({
+                    ...input_serv_hotel,
+                    image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+                setErrors(validate({
+                    ...input_serv_hotel,
+                    image: [...input_serv_hotel.image, { url: result.info.url, public_id: result.info.public_id }]
+                }))
+            }
+        })
+        myWidget.open()
+    }
     //------------ HANDLE CHANGE ID SERVICES HOTEL(select) --------------//
     const handleChangeId = (e) => {
         e.preventDefault();
@@ -70,6 +90,7 @@ const ModifyServHotels = () => {
             ...input_serv_hotel,
             id: e.target.value
         }))
+        dispatch(getServicesHotelById(e.target.value))
     }
 
 
@@ -78,7 +99,7 @@ const ModifyServHotels = () => {
         e.preventDefault();
         setInput_serv_hotel({
             ...input_serv_hotel,
-            name: e.target.value.toLowerCase().trim()
+            name: e.target.value.toLowerCase()
         })
         setErrors(validateTwo({
             ...input_serv_hotel,
@@ -112,7 +133,7 @@ const ModifyServHotels = () => {
             setInput_serv_hotel({
                 id: '',
                 name: '',
-                image: '',
+                image: [],
                 description: '',
             })
         } else {
@@ -133,19 +154,21 @@ const ModifyServHotels = () => {
                         <div class="mb-4">
                             <div>
                                 <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                                <select class="form-select" value={input_hotel.idHotel} onChange={(e) =>
+                                <select class="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
-                                    {hotels?.sort((a, b) => {
-                                        if (a.name > b.name) return 1;
-                                        if (a.name < b.name) return -1; return 0;
-                                    }).map(e =>
+                                    {hotels?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e =>
                                         <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
-                                            `${e.state},${e.department},${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                            `${e.state},${e.department},${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                                 </select>
                                 <div class="nombre text-danger ">
-                                    {errors.idHotel && (<p>{error.idHotel}</p>)}
+                                    <div>
+                                        {error.idHotel && (<p>{error.idHotel}</p>)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -155,11 +178,11 @@ const ModifyServHotels = () => {
                                 <label for="nombre"> <i class="bi bi-gear"></i> Current Service Name</label>
                                 <select class="form-select" value={input_serv_hotel.id} onChange={(e) => handleChangeId(e)}>
                                     <option hidden selected>Select Service Name</option>
-                                    {servicesHotelID?.sort((a, b) => {
-                                        if (a.name > b.name) return 1;
-                                        if (a.name < b.name) return -1; return 0;
-                                    }).map(e =>
-                                        <option key={e.name} value={e.id}>{e.name}</option>)}
+                                    {servicesHotelID?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0;}).map(e =>
+                                        <option key={e.name} value={e.id}>{e.name.toLowerCase()}</option>)}
                                 </select>
                                 <div class="nombre text-danger ">
                                     {errors.id && (<p>{errors.id}</p>)}
@@ -170,8 +193,13 @@ const ModifyServHotels = () => {
                         <div class="mb-4">
                             <div>
                                 <label for="nombre"> <i class="bi bi-plus-circle"></i> Service Name</label>
-                                <input type="text" class="form-control" placeholder="New service name..."
-                                    value={input_serv_hotel.name} name="name" onChange={(e) => handleName(e)} />
+                                <input 
+                                type="text" 
+                                class="form-control" 
+                                placeholder="New service name..."
+                                defaultValue= {input_serv_hotel.name || serviceId.name} 
+                                name="name" 
+                                onChange={(e) => handleName(e)} />
                                 <div class="nombre text-danger ">
                                     {errors.name && (<p>{errors.name}</p>)}
                                 </div>
@@ -181,20 +209,31 @@ const ModifyServHotels = () => {
 
                         <div class="mb-4">
                             <div>
-                                <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                                <input type="file" class="form-control" placeholder="Load URL Image..."
-                                    value={input_serv_hotel.image} name="image" onChange={(e) => handleChange(e)} />
-                                <div class="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
+                                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                                <div>
+                                    <div>
+                                        {input_serv_hotel.image?.map((imag) => (
+                                            <div>
+                                                <img src={imag.url} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div class="nombre text-danger ">
+                                        {errors.image && (<p>{errors.image}</p>)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="mb-4">
                             <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-                            <textarea id="mensaje" class="form-control" placeholder="Description..." type="text"
-                                value={input_serv_hotel.description} name="description" maxLength="1000"
-                                onChange={(e) => handleChange(e)}></textarea>
+                            <textarea 
+                            id="mensaje" 
+                            class="form-control" 
+                            placeholder="Description" 
+                            type="text"
+                            defaultValue={input_serv_hotel.description || serviceId.description} name="description" maxLength="1000"
+                            onChange={(e) => handleChange(e)}></textarea>
                             <div class="mensaje text-danger">
                                 {errors.description && (<p>{errors.description}</p>)}
                             </div>
@@ -202,13 +241,13 @@ const ModifyServHotels = () => {
 
                         <div class="mb-4">
                             {!input_hotel.idHotel || !input_serv_hotel.id || !input_serv_hotel.name ||
-                                !input_serv_hotel.image || !input_serv_hotel.description || Object.keys(errors).length ||
+                                !input_serv_hotel.image.length || !input_serv_hotel.description || Object.keys(errors).length ||
                                 Object.keys(error).length
                                 ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>
                                 : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
                                 </button>}
                         </div>
 

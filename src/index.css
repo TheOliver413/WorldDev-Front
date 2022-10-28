@@ -78,6 +78,7 @@ select {
   --clr-main: #8EDCE6;
   --clr-dark-main: #56A5AF;  
   --clr-black: #201200;
+  --clr-black-50: #20120050;
 
   --ff-title: 'Rufina', serif;
   --ff-body: 'Average Sans', sans-serif;
@@ -85,7 +86,6 @@ select {
 
 body {
   font-family: var(--ff-body);
-  text-align: center;
   color: var(--clr-black);
 }
 

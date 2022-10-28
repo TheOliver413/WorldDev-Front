@@ -21,7 +21,7 @@ function Cart() {
   return (
     cartRooms.length ? (
       <>
-        <table className="table">
+        <table className="table" style={{'max-width':'1200px', 'margin-inline':'auto'}}>
           <thead>
             <tr>
               <th scope="col">Room</th>
@@ -33,10 +33,10 @@ function Cart() {
           </thead>
           <tbody className="table-group-divider">
             {cartRooms.map((r) => (
-              <tr key={r.id}>
+              <tr key={r.id + r.checkIn + r.checkOut}>
                 <td><Link to={`/hotel/room/${r.id}`}>{r.name}</Link></td>
-                <td>{format(new Date(r.checkIn), 'dd/MM/yy')}</td>
-                <td>{format(new Date(r.checkOut), 'dd/MM/yy')}</td>
+                <td>{format(new Date(`${r.checkIn}T03:00:00`), 'dd/MM/yy')}</td>
+                <td>{format(new Date(`${r.checkOut}T03:00:00`), 'dd/MM/yy')}</td>
                 <td>
                   <button onClick={() => handleDecreaseCart(r)} className="p-1 btn" type="button">-</button>
                   {r.cartQuantity}

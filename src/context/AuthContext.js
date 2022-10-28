@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, } from "firebase/auth";
-import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendSignInLinkToEmail } from "firebase/auth";
+import { auth, actionCodeSettings } from "../firebase";
+
 
 const authContext = createContext();
 
@@ -18,8 +19,8 @@ export default function AuthProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const login = (email, password) => {
-    const objeect = signInWithEmailAndPassword(auth, email, password);
+  const login = async (email, password) => {
+    const objeect = await signInWithEmailAndPassword(auth, email, password);
     console.log(objeect)
   };
 
@@ -28,9 +29,19 @@ export default function AuthProvider({ children }) {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const logout = () => signOut(auth);
+  const logout = async () => await signOut(auth)
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
+
+  const sendE = async (email) => sendSignInLinkToEmail(auth, email, actionCodeSettings)
+.then(() => {
+  window.localStorage.setItem('emailForSignIn', email);
+})
+.catch((error) => {
+  const errorCode = error.code;
+  const errorMessage = error.message;
+});
+ 
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -42,7 +53,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   return (
-    <authContext.Provider value={{ signup, login, user, logout, loading, loginWithGoogle, resetPassword,}}>
+    <authContext.Provider value={{ signup, login, user, logout, loading, loginWithGoogle, resetPassword, sendE}}>
       {children}
     </authContext.Provider>
   );

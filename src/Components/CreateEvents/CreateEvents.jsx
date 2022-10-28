@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const validate = (input_event) => {
   let errors = {};
   if (!input_event.name) errors.name = 'Name is required'
-  if (!input_event.image) errors.image = 'Upload at least one image'
+  if (!input_event.image.length) errors.image = 'Upload at least one image'
   if (!input_event.description) errors.description = 'Description is required.. '
   if (!input_event.date) errors.date = 'Date is required'
   if (!input_event.time) errors.time = 'Time is required'
@@ -25,7 +25,7 @@ const CreateEvents = () => {
     idHotel: '',
     date: '',
     time: '',
-    image: '',
+    image: [],
     description: '',
   })
   const [errors, setErrors] = useState({})
@@ -46,13 +46,33 @@ const CreateEvents = () => {
       idHotel: e.target.value
     }))
   }
-
+ //-----------------Cloudinary-----------------//
+ async function handleOpenWidget(){
+  var myWidget = await window.cloudinary.createUploadWidget({
+    cloudName: 'dyyoavgq5', 
+    uploadPreset: 'wwtvto96'}, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        // console.log('Done! Here is the image info: ', result.info); 
+        // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+        setInput_event( {
+          ...input_event,
+          image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
+        })
+        setErrors(validate({
+          ...input_event,
+          image:[...input_event.image, {url: result.info.url,public_id: result.info.public_id}]
+        }))
+       
+      }
+    })
+    myWidget.open()
+}
   //------------ HANDLE CHANGE NAME EVENTO--------------//
   const handleName = (e) => {
     e.preventDefault();
     setInput_event({
       ...input_event,
-      name: e.target.value.toLowerCase().trim()
+      name: e.target.value.toLowerCase()
     })
     setErrors(validate({
       ...input_event,
@@ -61,6 +81,18 @@ const CreateEvents = () => {
   }
 
   //------------ HANDLE CHANGE --------------//
+  const handleChangeDate = (e) => {
+    e.preventDefault();
+    setInput_event({
+      ...input_event,
+      [e.target.name]: e.target.value
+    })
+    setErrors(validate({
+      ...input_event,
+      [e.target.name]: e.target.value
+    }))
+  }
+
   const handleChange = (e) => {
     e.preventDefault();
     setInput_event({
@@ -83,7 +115,7 @@ const CreateEvents = () => {
         name: '',
         idHotel: '',
         date: '',
-        image: '',
+        image: [],
         time: '',
         description: '',
       })
@@ -105,8 +137,13 @@ const CreateEvents = () => {
                     <div class="mb-4">
                         <div>
                             <label for="nombre"> <i class="bi bi-calendar-event"></i> Event Name</label>
-                            <input type="text" class="form-control" placeholder="Event Name..." value={input_event.name}
-                                name="name" onChange={(e)=> handleName(e)} />
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Event Name" 
+                            value={input_event.name}
+                            name="name"
+                            onChange={(e)=> handleName(e)} />
                             <div class="nombre text-danger ">
                                 {errors.name && (<p>{errors.name}</p>)}
                             </div>
@@ -119,11 +156,12 @@ const CreateEvents = () => {
                             <select class="form-select" value={input_event.idHotel} onChange={(e)=>
                                 handleChangeHotel(e)}>
                                 <option hidden selected>Select hotel</option>
-                                {hotels?.sort((a, b) => {
-                                if (a.name > b.name) return 1;
-                                if (a.name < b.name) return -1; return 0; }).map(e=>
+                                {hotels?.sort((a,b)=>{
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(e=>
                                     <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e => `
-                                        ${e.state},${e.department}, ${e.city}`)}`}</option>)} {/*mapeo el nombre de los
+                                        ${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                             </select>
                             <div class="nombre text-danger ">
@@ -135,8 +173,12 @@ const CreateEvents = () => {
                     <div class="mb-4 d-flex justify-content-between">
                         <div>
                             <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
-                            <input type="date" class="form-control" value={input_event.date} name="date" onChange={(e)=>
-                            handleChange(e)} />
+                            <input type="date" 
+                            class="form-control"
+                            value={input_event.date} 
+                            name="date" 
+                            onChange={(e)=>
+                            handleChangeDate(e)} />
                             <div class="nombre text-danger ">
                                 {errors.date && (<p>{errors.date}</p>)}
                             </div>
@@ -154,16 +196,22 @@ const CreateEvents = () => {
 
                     <div class="mb-4">
                         <div>
-                            <label for="nombre"> <i class="bi bi-images"></i> Image</label>
-                            <input type="file" class="form-control" placeholder="Load URL Image..."
-                                value={input_event.image} name="image" onChange={(e)=> handleChange(e)} />
-                            <div class="nombre text-danger ">
-                                {errors.image && (<p>{errors.image}</p>)}
-                            </div>
+                          <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                            <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                          <div>
+                      <div>
+                        {input_event.image?.map((imag) =>(
+                        <div>
+                          <img src={imag.url}/>
                         </div>
+                       ))}
+                        </div>
+                            <div>
+                              {errors.image && (<p>{errors.image}</p>)}
+                            </div>
+                      </div>
                     </div>
-
-
+                    </div>
                     <div class="mb-4">
                         <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
                         <textarea class="form-control" placeholder="Description..." type="text"
@@ -176,13 +224,13 @@ const CreateEvents = () => {
 
 
                     <div class="mb-4">
-                        {!input_event.name || !input_event.image || !input_event.description ||
+                        {!input_event.name || !input_event.image.length || !input_event.description ||
                         !input_event.date || !input_event.time || !input_event.idHotel || Object.keys(errors).length
                         ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                            <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
                         </button>
                         : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                            <span>Creat </span><i id="icono" class="bi bi-cursor-fill "></i>
+                            <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
                         </button>}
                     </div>
 

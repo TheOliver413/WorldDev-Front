@@ -1,29 +1,33 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getHotels, orderBy } from "../../redux/action/action";
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { orderBy, getCategory, setActualPage, setMinPageNumber, setMaxPageNumber } from "../../redux/action/action";
+import './Order.css'
 
 export default function Order() {
-  const dispatch = useDispatch();
-  const [, setOrder] = useState("");
+  const dispatch = useDispatch()
+  const [, setOrder] = useState('')
+  const [, setOrderCategory] = useState('')
 
   function handleSort(e) {
-    e.preventDefault();
-    if (e.target.value === "all") {
-      dispatch(getHotels());
-    } else {
-      dispatch(orderBy(e.target.value));
-      setOrder(`Ordenado ${e.target.value}`);
-    }
+    dispatch(getCategory(e.target.value))
+    dispatch(setActualPage(1))
+    dispatch(setMinPageNumber(0))
+    dispatch(setMaxPageNumber(5))
+    setOrderCategory(`${e.target.value}`)
+    dispatch(orderBy(e.target.value))
+    setOrder(`Ordenado ${e.target.value}`)
   }
 
   return (
-    <div className="input-group ps-5" id="navbarSupportedContent">
-      <select className="form-select form-select-lg mb-3" onChange={(e) => handleSort(e)}>
-        <option value="">Order By... </option>
-        <option value="all">All Hotels</option>
-        <option value="A-Z">A-Z</option>
-        <option value="Z-A">Z-A</option>
+    <div className="order-container">
+      <span>Sort by:</span>
+      <select className="" onChange={handleSort} defaultValue='DEFAULT'>
+        <option value="DEFAULT" disabled>-select-</option>
+        <option value="A-Z">Name (A-Z)</option>
+        <option value="Z-A">Name (Z-A)</option>
+        <option value="qualification asc">Lowest score</option>
+        <option value="qualification desc">Highest score</option>
       </select>
     </div>
-  );
+  )
 }
