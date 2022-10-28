@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendSignInLinkToEmail } from "firebase/auth";
-import { auth, actionCodeSettings } from "../firebase";
-
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailLink, isSignInWithEmailLink, confirmPasswordReset } from "firebase/auth";
+import { auth } from "../firebase";
+import { actionCodeSettings } from "../firebase";
 
 const authContext = createContext();
 
@@ -33,15 +33,29 @@ export default function AuthProvider({ children }) {
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
 
-  const sendE = async (email) => sendSignInLinkToEmail(auth, email, actionCodeSettings)
-.then(() => {
-  window.localStorage.setItem('emailForSignIn', email);
-})
-.catch((error) => {
-  const errorCode = error.code;
-  const errorMessage = error.message;
-});
- 
+  const confirmPassword = async (oobCode, newPassword) => await confirmPasswordReset(auth,oobCode, newPassword)
+
+  const sendE = async (email) => sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
+    window.localStorage.setItem('emailForSignIn', email);
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+  const emailLink = async(email)=> signInWithEmailLink(auth, email, emailLink).then(user.credentials)
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+  let email = window.localStorage.getItem('emailForSignIn');
+  if (!email) {
+    email = window.prompt('Please provide your email for confirmation');
+  }
+  signInWithEmailLink(auth, email, window.location.href)
+    .then((result) => {
+      window.localStorage.removeItem('emailForSignIn');
+    })
+    .catch((error) => {
+    });
+}
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -53,7 +67,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   return (
-    <authContext.Provider value={{ signup, login, user, logout, loading, loginWithGoogle, resetPassword, sendE}}>
+    <authContext.Provider value={{ signup, login, user, logout, loading, loginWithGoogle, resetPassword, confirmPassword, sendE, emailLink}}>
       {children}
     </authContext.Provider>
   );
