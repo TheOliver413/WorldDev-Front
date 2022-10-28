@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createHotels, updateHotels, getHotels } from '../../redux/action/action';
+import { createHotels, /* updateHotels, getHotels */ } from '../../redux/action/action';
 import { getCity, getDepartment, getState } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import '../Create/Styles.css';
+import { useNavigate } from "react-router-dom";
 
 
 const validate = (input_hotels) => {
@@ -122,6 +123,7 @@ export default function Create() {
 
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
+  const navigate = useNavigate()
   function handleSubmit(e) {
     e.preventDefault()
     if (input_hotels && !Object.keys(errors).length) {    
@@ -139,6 +141,7 @@ export default function Create() {
           idLocation: "",  
         })
         toast.success('Hotel created successfully', { position: 'bottom-right' }) 
+        navigate('/home')
     } else {
       toast.error('Check the fields', { position: 'bottom-right' })
     }
@@ -172,7 +175,7 @@ export default function Create() {
                 <div>
                   {input_hotels.image.map((imag) => (
                     <div>
-                      <img src={imag.url} />
+                      <img src={imag.url} alt='' />
                     </div>
                   ))}
 
@@ -281,8 +284,8 @@ export default function Create() {
 
               <div className="mb-2">
               {!input_hotels.name || !input_hotels.image.length || !input_hotels.qualification || !input_hotels.description || !input_hotels.address ||!input_hotels.idLocation || !input_location.state || !input_location.department || Object.keys(errors).length?
-              <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
+              <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
               </button> 
                 : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
                   <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
