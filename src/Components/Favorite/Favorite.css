@@ -4,22 +4,17 @@
   align-items: center;
   padding-inline: .5rem;
   margin-inline: auto;
-  margin-block: 100px;
+  max-width: 1200px;
 }
 
 .favorite-noFavs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 2rem;
+  margin-block: 4.5rem;
 }
 
 @media (min-width: 600px) {
   .favorite-container {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
     align-items: stretch;
   }
 }
