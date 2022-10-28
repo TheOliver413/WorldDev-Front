@@ -31,6 +31,10 @@ import Login from "./Components/Authentication/Login/Login";
 import Register from "./Components/Authentication/Register/Register";
 import Profile from "./Components/Authentication/ProfileUsers/ProfileUsers";
 import Events from "./Components/Events/Events";
+import UserTable from "./Components/Admin/UserTable/UserTable";
+import AdminTable from "./Components/Admin/AdminTable/AdminTable";
+import AdminRegister from "./Components/Admin/AdminRegister/AdminRegister";
+import AdminData from "./Components/Admin/AdminData/AdminData"; 
 
 function App() {
   const dispatch = useDispatch()
@@ -65,6 +69,10 @@ function App() {
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/register" element={<Register/>}/>
           <Route path="/profileusers" element={<Profile/>}/>
+          <Route path="/admin/usertable" element={<Profile/>}/>
+          <Route path="/admin/admintable" element={<Profile/>}/>
+          <Route path="/admin/adminregister" element={<Profile/>}/>
+          <Route path="/admin/admindata" element={<Profile/>}/>
         </Routes>
         <Footer />
       </AuthProvider>
