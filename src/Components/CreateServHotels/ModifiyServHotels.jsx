@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById } from "../../redux/action/action";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const validate = (input_hotel) => {
     let error = {};
@@ -122,6 +123,7 @@ const ModifyServHotels = () => {
 
 
     //----------------HANDLE SUBMIT SERVICES HOTEL------------------//
+    const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault()
         if (input_serv_hotel && !Object.keys(errors).length && !Object.keys(error).length) {
@@ -136,6 +138,7 @@ const ModifyServHotels = () => {
                 image: [],
                 description: '',
             })
+            navigate('/home')
         } else {
             toast.error("Check the fields", { position: 'bottom-right' })
         }
@@ -143,18 +146,18 @@ const ModifyServHotels = () => {
 
 
     return (
-        <section class="d-flex justify-content-center align-items-center">
-            <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-                <div class="mb-4 d-flex justify-content-start align-items-center">
+        <section className="d-flex justify-content-center align-items-center">
+            <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+                <div className="mb-4 d-flex justify-content-start align-items-center">
                     <h1>Modify Hotel Services</h1>
                 </div>
 
-                <div class="mb-4">
+                <div className="mb-4">
                     <form onSubmit={(e) => handleSubmit(e)}>
-                        <div class="mb-4">
+                        <div className="mb-4">
                             <div>
-                                <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                                <select class="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
+                                <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                                <select className="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
                                     {hotels?.sort((a,b)=>{
@@ -165,7 +168,7 @@ const ModifyServHotels = () => {
                                             `${e.state},${e.department},${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                                 </select>
-                                <div class="nombre text-danger ">
+                                <div className="nombre text-danger ">
                                     <div>
                                         {error.idHotel && (<p>{error.idHotel}</p>)}
                                     </div>
@@ -173,10 +176,10 @@ const ModifyServHotels = () => {
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        <div className="mb-4">
                             <div>
-                                <label for="nombre"> <i class="bi bi-gear"></i> Current Service Name</label>
-                                <select class="form-select" value={input_serv_hotel.id} onChange={(e) => handleChangeId(e)}>
+                                <label for="nombre"> <i className="bi bi-gear"></i> Current Service Name</label>
+                                <select className="form-select" value={input_serv_hotel.id} onChange={(e) => handleChangeId(e)}>
                                     <option hidden selected>Select Service Name</option>
                                     {servicesHotelID?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -184,30 +187,30 @@ const ModifyServHotels = () => {
                                 return 0;}).map(e =>
                                         <option key={e.name} value={e.id}>{e.name.toLowerCase()}</option>)}
                                 </select>
-                                <div class="nombre text-danger ">
+                                <div className="nombre text-danger ">
                                     {errors.id && (<p>{errors.id}</p>)}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        <div className="mb-4">
                             <div>
-                                <label for="nombre"> <i class="bi bi-plus-circle"></i> Service Name</label>
+                                <label for="nombre"> <i className="bi bi-plus-circle"></i> Service Name</label>
                                 <input 
                                 type="text" 
-                                class="form-control" 
+                                className="form-control" 
                                 placeholder="New service name..."
                                 defaultValue= {input_serv_hotel.name || serviceId.name} 
                                 name="name" 
                                 onChange={(e) => handleName(e)} />
-                                <div class="nombre text-danger ">
+                                <div className="nombre text-danger ">
                                     {errors.name && (<p>{errors.name}</p>)}
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-4">
+                        <div className="mb-4">
                             <div>
                                 <label for="nombre"> <i className="bi bi-image"></i> Image</label>
                                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
@@ -215,39 +218,39 @@ const ModifyServHotels = () => {
                                     <div>
                                         {input_serv_hotel.image?.map((imag) => (
                                             <div>
-                                                <img src={imag.url} />
+                                                <img src={imag.url} alt='' />
                                             </div>
                                         ))}
                                     </div>
-                                    <div class="nombre text-danger ">
+                                    <div className="nombre text-danger ">
                                         {errors.image && (<p>{errors.image}</p>)}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
+                        <div className="mb-4">
+                            <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
                             <textarea 
                             id="mensaje" 
-                            class="form-control" 
+                            className="form-control" 
                             placeholder="Description" 
                             type="text"
                             defaultValue={input_serv_hotel.description || serviceId.description} name="description" maxLength="1000"
                             onChange={(e) => handleChange(e)}></textarea>
-                            <div class="mensaje text-danger">
+                            <div className="mensaje text-danger">
                                 {errors.description && (<p>{errors.description}</p>)}
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        <div className="mb-4">
                             {!input_hotel.idHotel || !input_serv_hotel.id || !input_serv_hotel.name ||
                                 !input_serv_hotel.image.length || !input_serv_hotel.description || Object.keys(errors).length ||
                                 Object.keys(error).length
-                                ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
+                                ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                    <span>Modify</span><i id="icono" className="bi bi-cursor-fill "></i>
                                 </button>
-                                : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
+                                : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                    <span>Modify</span><i id="icono" className="bi bi-cursor-fill "></i>
                                 </button>}
                         </div>
 
