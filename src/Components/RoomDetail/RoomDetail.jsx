@@ -7,66 +7,37 @@ import { addDays, format, differenceInDays } from 'date-fns'
 import { toast } from "react-toastify";
 import './RoomDetail.css'
 import { getAllBooking } from "../../redux/action/actionStripe.js";
+import { useAuth } from "../../context/AuthContext";
+import { addRoomToFavorites, getFavoritesID, removeRoomFromFavorites } from "../../redux/action/favoriteAction.js";
 
 const RoomDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const roomDetail = useSelector((state) => state.reducerRoom.detailRoom);
   const { name, image, price, description, ServicesRooms } = roomDetail;
-  const [isFavorite, setIsFavorite] = useState(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
+  const { user } = useAuth();
+  const { IDs } = useSelector(state => state.reducerFavorite)
+  const [isFavorite, setIsFavorite] = useState(IDs.includes(id))
   const allBookings = useSelector(state => state.reducerStripe.allBooking);//todas las reservas
   const check = useSelector((state) => state.reducerCart.cartRooms);//estado del carrito
 
-
-  useEffect(() => {
-    dispatch(getAllBooking())
-    return () =>clearDetail()
-  }, [dispatch])
-
   const handleFavorite = () => {
-    const hasSomething = JSON.parse(localStorage.getItem('favorites'))
-    const IDs = JSON.parse(localStorage.getItem('IDs'))
-
-    //si no tengo nada en fav => lo añado x 1ra vez
-    if (!hasSomething) {
-      localStorage.setItem('favorites', JSON.stringify([roomDetail]));
-      localStorage.setItem('IDs', JSON.stringify([id]));
-      setIsFavorite(true)
-      toast.success(`${name} added to favorites.`, {
-        position: 'bottom-right'
-      })
-    }
-    //si ya tengo algo en fav...
-    else {
-      const favExists = hasSomething.filter(fav => fav.id === id)
-      //si NO ESTÁ esta room en fav => la agrego
-      if (!favExists.length) {
-        localStorage.setItem('favorites', JSON.stringify([...hasSomething, roomDetail]));
-        localStorage.setItem('IDs', JSON.stringify([...IDs, id]));
-        setIsFavorite(true)
-        toast.success(`${name} added to favorites.`, {
-          position: 'bottom-right'
-        })
-      }
-      //si SÍ ESTÁ en fav => la elimino
-      else {
-        const keepFav = hasSomething.filter(fav => fav.id !== id)
-        localStorage.setItem('favorites', JSON.stringify(keepFav));
-        const keepID = IDs.filter(favID => favID !== id)
-        localStorage.setItem('IDs', JSON.stringify(keepID));
-        setIsFavorite(false)
-        toast.info(`${name} deleted from favorites.`, {
-          position: 'bottom-right'
-        })
-      }
-    }
+    setIsFavorite(!isFavorite)
+    isFavorite
+      ? dispatch(removeRoomFromFavorites(roomDetail, user.uid))
+      : dispatch(addRoomToFavorites(roomDetail, user.uid))
   }
 
   useEffect(() => {
-    dispatch(getDetailRoom(id));
-    setIsFavorite(JSON.parse(localStorage.getItem('IDs'))?.includes(id))
+    setIsFavorite(IDs.includes(id))
+  }, [id, IDs]) 
     
-  }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getAllBooking())
+    dispatch(getDetailRoom(id));
+    dispatch(getFavoritesID(user?.uid))
+    return () => clearDetail()
+  }, [dispatch, id, user?.uid]);
 
   //manejo del date input  
   const [checkIn, setCheckIn] = useState(format(new Date(), 'yyyy-MM-dd'))
