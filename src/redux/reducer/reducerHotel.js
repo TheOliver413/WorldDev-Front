@@ -214,7 +214,7 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       }
     case FILTER_EVENT_BY_DATE:
 
-      // state.allEvents = state.copy_allEvents;
+      state.allEvents = state.copy_allEvents;
       
       if( action.payload ){
         var b =  state.allEvents?.filter( e => e.date.includes( action.payload) )
