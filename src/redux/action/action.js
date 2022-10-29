@@ -14,7 +14,7 @@ export const POST_HOTEL = "POST_HOTEL";
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
 export const GET_ROOMS_DETAIL = "GET_ROOMS_DETAIL";
 export const SEARCH_NAME_ROOM = "SEARCH_NAME_ROOM";
-export const CLEAR_ROOM_DETAIL = "CLEAR_ROOM_DETAIL";
+export const CLEAN_ROOM_DETAIL = "CLEAN_ROOM_DETAIL";
 export const POST_ROOM = "POST_ROOM";
 export const UPDATE_ROOMS = "UPDATE_ROOMS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
@@ -229,6 +229,13 @@ export function roomByName(name) {
       console.log(error)
     }
   }
+}
+
+export function cleanRoomDetail () {
+  return ({
+    type: CLEAN_ROOM_DETAIL,
+    payload: {}
+  })
 }
 
 export function getAllServicesHotel() {

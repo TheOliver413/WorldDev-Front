@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { clearDetail, getDetailRoom } from "../../redux/action/action.js";
+import { cleanRoomDetail, getDetailRoom } from "../../redux/action/action.js";
 import { addRoomToCart } from "../../redux/action/cartAction.js";
 import { addDays, format, differenceInDays } from 'date-fns'
 import { toast } from "react-toastify";
@@ -9,6 +9,8 @@ import './RoomDetail.css'
 import { getAllBooking } from "../../redux/action/actionStripe.js";
 import { useAuth } from "../../context/AuthContext";
 import { addRoomToFavorites, getFavoritesID, removeRoomFromFavorites } from "../../redux/action/favoriteAction.js";
+import { el } from "date-fns/locale";
+
 
 const RoomDetail = () => {
   const dispatch = useDispatch();
@@ -18,8 +20,11 @@ const RoomDetail = () => {
   const { user } = useAuth();
   const { IDs } = useSelector(state => state.reducerFavorite)
   const [isFavorite, setIsFavorite] = useState(IDs.includes(id))
+
+  const { cartRooms } = useSelector(state => state.reducerCart)
   const allBookings = useSelector(state => state.reducerStripe.allBooking);//todas las reservas
-  const check = useSelector((state) => state.reducerCart.cartRooms);//estado del carrito
+
+  const [error, setError] = useState(false)
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite)
@@ -36,7 +41,7 @@ const RoomDetail = () => {
     dispatch(getAllBooking())
     dispatch(getDetailRoom(id));
     dispatch(getFavoritesID(user?.uid))
-    return () => clearDetail()
+return () => clearDetail()
   }, [dispatch, id, user?.uid]);
 
   //manejo del date input  
@@ -49,28 +54,62 @@ const RoomDetail = () => {
   const finalPrice = price * differenceInDays(new Date(checkOut), new Date(checkIn)) > 0 ? price * differenceInDays(new Date(checkOut), new Date(checkIn)) : price;
   const difDays = differenceInDays(new Date(checkOut), new Date(checkIn)) <= 0 ? 1 : differenceInDays(new Date(checkOut), new Date(checkIn))
 
-  //control de stock---------------------------------------------------------------
+
+
+  //CONTROL DE STOCK---------------------------------------------------------------------------
   const stockControl = () => {
-    const checkinfind = allBookings.filter(r => r.Rooms.find(e => e.id === id))// encuentra el id de room
-    const quantity = (check.find((e => e.id === id)))?.cartQuantity + 1
+    const checkinfind = allBookings?.filter(e => e.cartRoom.find(el => el.id === id))// encuentra el id de room
+    const quantity = (cartRooms.find(e => e.id === id)?.cartQuantity) + 1
 
-    console.log('quantity', quantity)
-
-
+    const bookRoom = [] //array de solo los objetos de cartRoom
     if (checkinfind.length) {
       checkinfind.forEach(e => {
-        console.log('e.stock', e.stock)
-        if (checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd')) {
-          if (e.stock === 0) {
-            return toast.error('The selected date is not available', { position: 'bottom-right' });
-          } else if (e.stock > 0 && e.stock < quantity) {
-            return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
-          }
-        }
+        const book = e.cartRoom.find(e => e.id === id)
+        bookRoom.push(book)
       })
     }
+
+    if (bookRoom.length) {
+      bookRoom.forEach(e => {
+        if (checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd')) {
+          if (e.newStock === 0) {
+            setError(true)
+            return toast.error('The selected date is not available', { position: 'bottom-right' });
+          } else if (e.newStock > 0 && e.newStock <= quantity) {
+            setError(true)
+            return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
+          }else{
+            setError(false)
+          }
+        }else{
+          if (roomDetail.stock === 0) {
+            setError(true)
+            return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
+          } else if (roomDetail.stock > 0 && roomDetail.stock < quantity) {
+            setError(true)            
+            return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' })
+          } else{
+            setError(false)
+          }
+          console.log('roomDetail.stock',roomDetail.stock )
+          console.log('quantity',quantity )
+        }
+      })
+    } else {// chequea con el stock original
+      if (roomDetail.stock === 0) {
+        setError(true)
+        return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
+      } else if (roomDetail.stock > 0 && roomDetail.stock < quantity) {
+        setError(true)
+        return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
+      } else{
+        setError(false)
+      }
+      console.log('roomDetail.stock',roomDetail.stock )
+          console.log('quantity',quantity )
+    }
   }
-  //-----------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------
 
   const handleAddToCart = () => {
     stockControl()
@@ -94,13 +133,13 @@ const RoomDetail = () => {
             </div>
             <div className="carousel-inner">
               <div className="carousel-item active" data-bs-interval="3000">
-                <img src={ image[0] } className="roomDetail-img" alt={name} />
+                <img src={image[0]} className="roomDetail-img" alt={name} />
               </div>
               <div className="carousel-item" data-bs-interval="3000">
-                <img src= { image[1] } className="roomDetail-img" alt={name}></img>
+                <img src={image[1]} className="roomDetail-img" alt={name}></img>
               </div>
               <div className="carousel-item" data-bs-interval="3000">
-                <img src= { image[2] } className="roomDetail-img"  alt={name}></img>
+                <img src={image[2]} className="roomDetail-img" alt={name}></img>
               </div>
             </div>
             <button className="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -111,10 +150,10 @@ const RoomDetail = () => {
               <span className="carousel-control-next-icon" aria-hidden="true"></span>
               <span className="visually-hidden">Next</span>
             </button>
-          </div>
+          </div>
           <div className="roomDetail-body">
             <h1 className="roomDetail-title mt-2">{name}</h1>
-            
+
             {/*  SERVICIOS CON ICONOS */}
             <div>
               {ServicesRooms.map(e => (<p><img src={e.image} alt='image service' /> <span>{e.name}</span></p>))}
@@ -148,7 +187,7 @@ const RoomDetail = () => {
             <p className="mt-4">
               It is what you are looking for?&nbsp;
               {
-                checkIn > checkOut ?
+                  checkIn > checkOut || error ?
                   toast.error('The check-in date cannot be greater than the check-out date', { position: 'bottom-right' }) &&
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2' disabled>ADD TO CART</button>
                   :

@@ -6,6 +6,7 @@ import {
   GET_ALL_SERVICES_ROOM,
   ALL_ROOMS,
   SERVICE_ROOM_BY_ID,
+  CLEAN_ROOM_DETAIL
 } from '../action/action';
 
 const initialStateRooms = {
@@ -17,7 +18,7 @@ const initialStateRooms = {
 };
 
 const rooms_reducer = (state = initialStateRooms, action) => {
-  console.log("servicios en initialState:", state.servicesRoom)
+ 
   switch (action.type) {
     case GET_ALL_ROOMS:
       return {
@@ -52,6 +53,11 @@ const rooms_reducer = (state = initialStateRooms, action) => {
       return {
         ...state,
         serviceRoomId: action.payload
+      }
+    case CLEAN_ROOM_DETAIL:
+      return {
+        ...state,
+        detailRoom: action.payload
       }
 
     default:
