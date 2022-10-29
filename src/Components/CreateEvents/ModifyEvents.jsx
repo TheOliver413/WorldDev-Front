@@ -18,13 +18,13 @@ const validate = (input_event) => {
   return errors;
 }
 
+
 const ModifyEvents = () => {
   const dispatch = useDispatch();
 
   const hotels = useSelector(state => state.reducerHotel.hotels)
   const allEvents = useSelector(state => state.reducerHotel.allEvents)
   const eventId = useSelector(state => state.reducerHotel.eventId)
-
   const [input_event, setInput_event] = useState({
     id: '',
     name: '',
@@ -156,7 +156,7 @@ const ModifyEvents = () => {
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
                                 return 0; }).map(e =>
-                    <option key={e.id} value={e.id}>{e.name} - {format(new Date(e.date), 'dd/MM/yyyy')} - {e.time}hrs</option>)}
+                    <option key={e.id} value={e.id}>{e.name} - {e.date.substr(-30,10)} - {e.time.substr(-30,5)}hrs</option>)}
                   {/*mapeo el nombre de los hoteles*/}
                 </select>
                 <div className="nombre text-danger ">
@@ -204,8 +204,10 @@ const ModifyEvents = () => {
               <div>
                 <label for="nombre"> <i className="bi bi-calendar-event"></i> Date</label>
                 <input 
-                type="date" 
-                className="form-control" 
+                type="date"
+                min={format(new Date(), 'yyyy-MM-dd')} 
+                max="2023-04-01"
+                class="form-control" 
                 defaultValue={input_event.date || eventId?.date} 
                 name="date" 
                 onChange={(e) =>handleChange(e)} />
@@ -271,7 +273,6 @@ const ModifyEvents = () => {
                   <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
                 </button>}
             </div>
-
           </form>
         </div>
       </div>
