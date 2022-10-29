@@ -7,6 +7,7 @@ import {
   ALL_ROOMS,
   SERVICE_ROOM_BY_ID,
   CLEAN_ROOM_DETAIL
+  CLEAR_SERVICE_ROOM_BY_ID
 } from '../action/action';
 
 const initialStateRooms = {
@@ -18,7 +19,7 @@ const initialStateRooms = {
 };
 
 const rooms_reducer = (state = initialStateRooms, action) => {
- 
+
   switch (action.type) {
     case GET_ALL_ROOMS:
       return {
@@ -54,10 +55,17 @@ const rooms_reducer = (state = initialStateRooms, action) => {
         ...state,
         serviceRoomId: action.payload
       }
+
     case CLEAN_ROOM_DETAIL:
       return {
         ...state,
         detailRoom: action.payload
+
+    case CLEAR_SERVICE_ROOM_BY_ID:
+      return {
+        ...state,
+        serviceRoomId: {}
+
       }
 
     default:

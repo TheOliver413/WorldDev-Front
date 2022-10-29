@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById } from "../../redux/action/action";
+import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById, clearServiceId } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,10 @@ const ModifyServHotels = () => {
         !hotels.length && dispatch(getHotels())
     }, [dispatch, hotels])
 
+    //component will unmount
+    useEffect(()=> {
+      return () => dispatch(clearServiceId())
+    }, [dispatch])
 
     //------------ HANDLE CHANGE HOTEL NAME----------//
     const handleChangeHotel = (e) => {
