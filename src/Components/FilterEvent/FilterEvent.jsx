@@ -19,6 +19,7 @@ function FilterEvent() {
     }
   }
 
+
   useEffect(() => {
     dispatch(getAllEvents())
   }, [dispatch])
@@ -63,7 +64,10 @@ function FilterEvent() {
           
           <select onChange={handleFilterByDate} defaultValue='DEFAULT' className="form-select">
             <option value='DEFAULT' disabled>--select date--</option>
-            {cop_event.length && cop_event.map(l => (
+            {cop_event.length && cop_event.sort((a,b)=>{
+                                if(a.date.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.date.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                if(a.date.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.date.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
+                                return 0; }).map(l => (
               <option value={l.date} key={l}>{l.date.substr(-30,10)}   {l.time.substr(-30,5)}hs</option>
             ))}
           </select>
