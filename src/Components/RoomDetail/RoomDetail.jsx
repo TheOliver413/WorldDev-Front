@@ -41,7 +41,7 @@ const RoomDetail = () => {
     dispatch(getAllBooking())
     dispatch(getDetailRoom(id));
     dispatch(getFavoritesID(user?.uid))
-return () => clearDetail()
+return () => cleanRoomDetail()
   }, [dispatch, id, user?.uid]);
 
   //manejo del date input  

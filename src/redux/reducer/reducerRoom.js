@@ -6,7 +6,7 @@ import {
   GET_ALL_SERVICES_ROOM,
   ALL_ROOMS,
   SERVICE_ROOM_BY_ID,
-  CLEAN_ROOM_DETAIL
+  CLEAN_ROOM_DETAIL,
   CLEAR_SERVICE_ROOM_BY_ID
 } from '../action/action';
 
@@ -60,7 +60,7 @@ const rooms_reducer = (state = initialStateRooms, action) => {
       return {
         ...state,
         detailRoom: action.payload
-
+      }
     case CLEAR_SERVICE_ROOM_BY_ID:
       return {
         ...state,
