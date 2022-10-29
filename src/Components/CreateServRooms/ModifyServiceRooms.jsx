@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllServicesRoom, getServiceRoomById, modifyServicesRooms } from "../../redux/action/action";
+import { clearServiceRoomById, getAllServicesRoom, getServiceRoomById, modifyServicesRooms } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +31,10 @@ const ModifyServRooms = () => {
         dispatch(getAllServicesRoom())
     }, [dispatch])
 
+    //component will unmount
+    useEffect(()=> {
+        return () => dispatch(clearServiceRoomById())
+    }, [dispatch])
 
     //------------ HANDLE CHANGE NAME SERVICES ROOM--------------//
     const handleName = (e) => {
