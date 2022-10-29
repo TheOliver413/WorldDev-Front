@@ -1,20 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth,  } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { Alert } from "../Alert/Alert";
-
+import "./Styles.css"
 import { toast } from "react-toastify";
-
 import loginico from "./login-icon.svg";
 import userico from "./username-icon.svg"
 import passwordico from "./password-icon.svg"
-import googleico from "./google-icon.svg"
-/* import {actionCodeSettings, auth} from "../../../firebase";
-import {isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth"; */
-
 
 export default function Register() {
-  const { signup, sendE} = useAuth();
+  const { signup, sendE, login, emailLink } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
@@ -32,20 +27,32 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      
       await signup(user.email, user.password);
-      await sendE(user.email);
-      setError('We sent you an email. Check your inbox')
-      navigate("/register");
+      navigate("/home");
     } catch (error) {
-      if(error.code === 'auth/invalid-email') {
+      if (error.code === 'auth/invalid-email') {
         toast.error("Email invalid", { position: 'bottom-right' })
       }
-      if(error.code === 'auth/weak-password') {
+      if (error.code === 'auth/weak-password') {
         toast.info("Weak password", { position: 'bottom-right' })
       }
     }
   };
+
+  const handleSendEmailVerification = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await sendE(user.email)
+      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
+      navigate("/");
+      await login(user.email, user.password)
+      await emailLink(user.email, user.password)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -69,11 +76,16 @@ export default function Register() {
           <div class="input-group-text loging">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="password"  name='password' id="password" placeholder="*************" onChange={handleChange} />
+          <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*************" onChange={handleChange} />
         </div>
 
         <div>
-          <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+          {
+            !user.email || !user.password || user.password.length < 6 ?
+            <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
+            :
+              <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+          }
         </div>
 
         <div class="d-flex gap-1 justify-content-center mt-1">
@@ -82,18 +94,6 @@ export default function Register() {
             <a href="#" class="login-text text-decoration-none fw-semibold">Login</a>
           </Link>
         </div>
-
-        {/* <div class="p-3">
-          <div class="border-bottom text-center" style={{ height: "0.9rem" }}>
-            <span class="bg-white px-3">or</span>
-          </div>
-        </div>
-
-        <div className="btn d-flex gap-2 justify-content-center border mt-3 shadow-sm">
-          <img src={googleico} alt="google-icon" style={{ height: "1.6rem" }} />
-          <div className="fw-semibold text-secondary" onClick={handleGoogleSignin}>Continue with Google</div>
-        </div> */}
-
       </form>
     </div>
   );

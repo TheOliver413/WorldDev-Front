@@ -13,9 +13,8 @@ const firebaseConfig = {
 };
 export const actionCodeSettings = {
   url: 'https://world-developer.firebaseapp.com/__/auth/action?mode=action&oobCode=code',
-  handleCodeInApp: true,
+  handleCodeInApp: true
 };
-//noreply@world-developer-f5a6e.firebaseapp.com
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createRooms, getHotels, getAllServicesRoom } from '../../redux/action/action';
-import { getCity, getDepartment, getState } from "../../redux/action/action";
+// import { getCity, getDepartment, getState } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import '../CreateRooms/Styles.css';
+import { useNavigate } from "react-router-dom";
 
 const validate = (input_rooms) => {
   let errors = {};
@@ -101,6 +102,8 @@ export default function CreateRooms() {
       services: input_rooms.services.filter(el => el !== e.target.value)
     })
   }
+  
+  const navigate = useNavigate()
   function handleSubmit(e) {
     e.preventDefault()  
     if (input_rooms && !Object.keys(errors).length) {
@@ -115,6 +118,7 @@ export default function CreateRooms() {
         services: [],
         stock: 0,
       })
+      navigate('/home')
       toast.success('Rooms created successfully', { position: 'bottom-right' })
     } else {
       toast.error("Check the fields", { position: 'bottom-right' })
@@ -122,18 +126,18 @@ export default function CreateRooms() {
   }
 
   return (
-    <section class="d-flex justify-content-center align-items-center">
-      <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-        <div class="mb-4 d-flex justify-content-start align-items-center">
+    <section className="d-flex justify-content-center align-items-center">
+      <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+        <div className="mb-4 d-flex justify-content-start align-items-center">
 
           <h1>Rooms</h1>
         </div>
-        <div class="mb-1">
+        <div className="mb-1">
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-building"></i> Hotels</label>
-                <select class="form-select " name="id" value={input_rooms.id} onChange={(e) =>
+                <label for="nombre"> <i className="bi bi-building"></i> Hotels</label>
+                <select className="form-select " name="id" value={input_rooms.id} onChange={(e) =>
                   handleChange(e)}>
                   <option hidden selected>Hotels...</option>
                   {hotels?.sort((a,b)=>{
@@ -145,16 +149,16 @@ export default function CreateRooms() {
                     )
                   )}
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             </div>
             <div>
                 {errors.id && (<p>{errors.id}</p>)}
             </div> 
 
-            <div class="mb-4 d-flex justify-content-between">
+            <div className="mb-4 d-flex justify-content-between">
               <div>
-                <label for="nombre"><i class="bi bi-house"></i> Name</label>
+                <label for="nombre"><i className="bi bi-house"></i> Name</label>
                 <select value={input_rooms.name} name="name" className="form-control" onChange={(e) => handleChange(e)}>
                   <option hidden selected>Name...</option>
                   <option value="double" >double</option>
@@ -162,35 +166,35 @@ export default function CreateRooms() {
                   <option value="single" >single</option>
                   <option value="suite" >suite</option>
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
               <div>
                 {errors.name && (<p>{errors.name}</p>)}
             </div> 
 
               <div>
-                <label for="nombre"> <i class="bi bi-tag"></i> Categories</label>
-                <select class="form-select" value={input_rooms.category} name='category' className="form-control" onChange={(e) => handleChange(e)}>
+                <label for="nombre"> <i className="bi bi-tag"></i> Categories</label>
+                <select className="form-select form-control" value={input_rooms.category} name='category' onChange={(e) => handleChange(e)}>
                   <option hidden selected>Categories...</option>
                   <option value="premium">Premium</option>
                   <option value="presidential">Presidential</option>
                   <option value="standard">Standard</option>
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             </div>
             <div>
                 {errors.category && (<p>{errors.category}</p>)}
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
                 <label for="nombre"> <i className="bi bi-image"></i> Image</label>
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_rooms.image.map((imag) => (
                     <div>
-                      <img src={imag.url} />
+                      <img src={imag.url} alt='' />
                     </div>
                   ))}
 
@@ -203,17 +207,17 @@ export default function CreateRooms() {
             </div> 
             
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
-                <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
+                <label for="nombre"> <i className="bi bi-gear"></i> Services</label>
+                <select className="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
                   <option hidden selected >Services...</option>
                   {servicios?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
                                 return 0; }).map(e => <option key={e.id} value={e.name}>{e.name.toLowerCase()}</option>)}
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
               <div>
                 {errors.services && (<p>{errors.services}</p>)}
@@ -225,51 +229,51 @@ export default function CreateRooms() {
             </div>
             
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"><i class="bi bi-currency-dollar"></i> Stock</label>
-                <input class="form-range" type="range" min="1" max="50"
+                <label for="nombre"><i className="bi bi-currency-dollar"></i> Stock</label>
+                <input className="form-range" type="range" min="1" max="50"
                   value={input_rooms.stock} name="stock" onChange={(e) => handleChange(e)} />
                 {<p>Available : {input_rooms.stock}</p>}
 
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             </div>
             <div>
                 {errors.stock && (<p>{errors.stock}</p>)}
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"><i class="bi bi-currency-dollar"></i> Price</label>
-                <input class="form-range" type="range" min="10" max="1000" value={input_rooms.price} name="price" onChange={(e) => handleChange(e)} />
+                <label for="nombre"><i className="bi bi-currency-dollar"></i> Price</label>
+                <input className="form-range" type="range" min="10" max="1000" value={input_rooms.price} name="price" onChange={(e) => handleChange(e)} />
                 {<p>Value USD {input_rooms.price}</p>}
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             </div>
             <div>
                 {errors.price && (<p>{errors.price}</p>)}
             </div>
 
-            <div class="mb-4">
-              <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-              <textarea class="form-control" placeholder="Description..." type="text"
+            <div className="mb-4">
+              <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
+              <textarea className="form-control" placeholder="Description..." type="text"
                 value={input_rooms.description} name="description" maxLength="500"
                 onChange={(e) => handleChange(e)}></textarea>
-              <div class="mensaje text-danger"></div>
+              <div className="mensaje text-danger"></div>
             </div>
             <div>
                 {errors.description && (<p>{errors.description}</p>)}
             </div>
 
 
-            <div class="mb-2">
+            <div className="mb-2">
               {!input_rooms.id || !input_rooms.name || !input_rooms.image.length || !input_rooms.price || !input_rooms.description || !input_rooms.category ||!input_rooms.services.length || !input_rooms.stock || Object.keys(errors).length?
-              <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
+              <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
               </button>
-              : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-              <span>Create </span><i id="icono" class="bi bi-cursor-fill "></i>
+              : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+              <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
           </button>}
             </div>
 

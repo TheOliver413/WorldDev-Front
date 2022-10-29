@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllEvents, getEventById, getHotels, modifyEvents } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { format } from 'date-fns';
+import { useNavigate } from "react-router-dom";
 
 const validate = (input_event) => {
   let errors = {};
@@ -17,13 +18,13 @@ const validate = (input_event) => {
   return errors;
 }
 
+
 const ModifyEvents = () => {
   const dispatch = useDispatch();
 
   const hotels = useSelector(state => state.reducerHotel.hotels)
   const allEvents = useSelector(state => state.reducerHotel.allEvents)
   const eventId = useSelector(state => state.reducerHotel.eventId)
-
   const [input_event, setInput_event] = useState({
     id: '',
     name: '',
@@ -115,6 +116,7 @@ const ModifyEvents = () => {
   }
 
   //----------------HANDLE SUBMIT EVENT------------------//
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
     if (input_event && !Object.keys(errors).length) {
@@ -129,6 +131,7 @@ const ModifyEvents = () => {
         image: [],
         description: '',
       })
+      navigate('/home/Events')
     } else {
       toast.error("Check the fields", { position: 'bottom-right' })
     }
@@ -136,51 +139,51 @@ const ModifyEvents = () => {
 
 
   return (
-    <section class="d-flex justify-content-center align-items-center">
-      <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-        <div class="mb-4 d-flex justify-content-start align-items-center">
+    <section className="d-flex justify-content-center align-items-center">
+      <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+        <div className="mb-4 d-flex justify-content-start align-items-center">
 
           <h1>Modify Events</h1>
         </div>
-        <div class="mb-4">
+        <div className="mb-4">
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-building"></i> Current event name</label>
-                <select class="form-select" value={input_event.id} onChange={(e) => handleChangeEvent(e)}>
+                <label for="nombre"> <i className="bi bi-building"></i> Current event name</label>
+                <select className="form-select" value={input_event.id} onChange={(e) => handleChangeEvent(e)}>
                   <option hidden selected>Select Event</option>
                   {allEvents?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1; 
                                 return 0; }).map(e =>
-                    <option key={e.id} value={e.id}>{e.name} - {format(new Date(e.date), 'dd/MM/yyyy')} - {e.time}hrs</option>)}
+                    <option key={e.id} value={e.id}>{e.name} - {e.date.substr(-30,10)} - {e.time.substr(-30,5)}hrs</option>)}
                   {/*mapeo el nombre de los hoteles*/}
                 </select>
-                <div class="nombre text-danger ">
+                <div className="nombre text-danger ">
                   {errors.id && (<p>{errors.id}</p>)}
                 </div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-calendar-event"></i> Event Name</label>
+                <label for="nombre"> <i className="bi bi-calendar-event"></i> Event Name</label>
                 <input 
                 type="text" 
-                class="form-control" 
+                className="form-control" 
                 defaultValue={input_event.name || eventId?.name} 
                 name="name" 
                 onChange={(e)=> handleName(e)} />
-                <div class="nombre text-danger ">
+                <div className="nombre text-danger ">
                   {errors.name && (<p>{errors.name}</p>)}
                 </div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-building"></i> Hotel Name</label>
-                <select class="form-select" value={input_event.idHotel} onChange={(e) =>
+                <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                <select className="form-select" value={input_event.idHotel} onChange={(e) =>
                   handleChangeHotel(e)}>
                   <option hidden selected>Select hotel</option>
                   {hotels?.sort((a,b)=>{
@@ -191,41 +194,43 @@ const ModifyEvents = () => {
                       `${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
                 </select>
-                <div class="nombre text-danger ">
+                <div className="nombre text-danger ">
                   {errors.idHotel && (<p>{errors.idHotel}</p>)}
                 </div>
               </div>
             </div>
 
-            <div class="mb-4 d-flex justify-content-between">
+            <div className="mb-4 d-flex justify-content-between">
               <div>
-                <label for="nombre"> <i class="bi bi-calendar-event"></i> Date</label>
+                <label for="nombre"> <i className="bi bi-calendar-event"></i> Date</label>
                 <input 
-                type="date" 
+                type="date"
+                min={format(new Date(), 'yyyy-MM-dd')} 
+                max="2023-04-01"
                 class="form-control" 
                 defaultValue={input_event.date || eventId?.date} 
                 name="date" 
                 onChange={(e) =>handleChange(e)} />
-                <div class="nombre text-danger ">
+                <div className="nombre text-danger ">
                   {errors.date && (<p>{errors.date}</p>)}
                 </div>
               </div>
 
               <div>
-                <label for="nombre"> <i class="bi bi-clock"></i> Time</label>
+                <label for="nombre"> <i className="bi bi-clock"></i> Time</label>
                 <input 
                 type="time" 
-                class="form-control" 
+                className="form-control" 
                 defaultValue={input_event.time || eventId?.time} 
                 name="time" 
                 onChange={(e) => handleChange(e)} />
-                <div class="nombre text-danger ">
+                <div className="nombre text-danger ">
                   {errors.time && (<p>{errors.time}</p>)}
                 </div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
                 <label for="nombre"> <i className="bi bi-image"></i> Image</label>
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
@@ -233,7 +238,7 @@ const ModifyEvents = () => {
                   <div>
                     {input_event.image?.map((imag) => (
                       <div>
-                        <img src={imag.url} />
+                        <img src={imag.url} alt='' />
                       </div>
                     ))}
                   </div>
@@ -244,31 +249,30 @@ const ModifyEvents = () => {
               </div>
             </div>
 
-            <div class="mb-4">
-              <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
+            <div className="mb-4">
+              <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
               <textarea 
-              class="form-control" 
+              className="form-control" 
               placeholder="Description..."
               defaultValue={input_event.description || eventId?.description} 
               name="description" maxLength="1000"
               onChange={(e) => handleChange(e)}>
               </textarea>
-              <div class="mensaje text-danger">
+              <div className="mensaje text-danger">
                 {errors.description && (<p>{errors.description}</p>)}
               </div>
             </div>
 
 
-            <div class="mb-4">
+            <div className="mb-4">
               {!input_event.id || !input_event.name || !input_event.image.length || !input_event.description || !input_event.date || !input_event.time || !input_event.idHotel || Object.keys(errors).length
-                ? <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                  <span>Modify </span><i id="icono" class="bi bi-cursor-fill "></i>
+                ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                  <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
                 </button>
-                : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                  <span>Modify </span><i id="icono" class="bi bi-cursor-fill "></i>
+                : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                  <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
                 </button>}
             </div>
-
           </form>
         </div>
       </div>

@@ -44,6 +44,7 @@ export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const FILTER_BY_CITY = 'FILTER_BY_CITY'
 export const ORDER_BY = "ORDER_BY";
+export const FILTER_EVENT_BY_DATE = "FILTER_EVENT_BY_DATE";
 
 //-------------------PAGINATION----------------//
 export const SET_ACTUAL_PAGE = "SET_ACTUAL_PAGE";
@@ -553,5 +554,13 @@ export function getCity(payload) {
           console.log(error && alert("Error"))
 
       }
+  }
+}
+//-----------------------FILTER EVENT BY DATE------------------------//
+export function filterEventByDate( payload ){
+  return {
+    type: FILTER_EVENT_BY_DATE,
+    payload
+
   }
 }

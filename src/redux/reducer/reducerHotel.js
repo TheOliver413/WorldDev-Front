@@ -21,6 +21,8 @@ import {
   GET_STATES,
   GET_CITY,
   GET_DEPARTMENT,
+  FILTER_EVENT_BY_DATE,
+
 } from '../action/action';
 
 const initialStateHotel = {
@@ -33,10 +35,12 @@ const initialStateHotel = {
   location: [],
   filterCategory: [],
   allEvents: [],
+  copy_allEvents:[],
   eventId:{},
   location_state:[],
   location_city:[],
   location_department:[],
+  filterEventBydate:[],
 };
 
 const hotels_reducer = (state = initialStateHotel, action) => {
@@ -180,7 +184,8 @@ const hotels_reducer = (state = initialStateHotel, action) => {
     case GET_ALL_EVENTS:
       return {
         ...state,
-        allEvents: action.payload
+        allEvents: action.payload,
+        copy_allEvents: action.payload
       } 
     case GET_STATES:
         return {
@@ -206,6 +211,19 @@ const hotels_reducer = (state = initialStateHotel, action) => {
       return {
         ...state,
         eventId: action.payload
+      }
+    case FILTER_EVENT_BY_DATE:
+
+      state.allEvents = state.copy_allEvents;
+      
+      if( action.payload ){
+        var b =  state.allEvents?.filter( e => e.date.includes( action.payload) )
+      }else{
+        var b = state.allEvents
+      }
+      return {
+        ...state,
+        allEvents: b
       }
 
     default:

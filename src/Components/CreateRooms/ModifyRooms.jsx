@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, clearDetail } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const validate = (input_rooms) => {
   let errors = {};
@@ -146,6 +147,7 @@ export default function ModifyRooms() {
     })
   }
   //--------------------------------------------//
+  const navigate = useNavigate()
   function handleSubmit(e) {
     e.preventDefault()
 
@@ -165,24 +167,25 @@ export default function ModifyRooms() {
         services: [""],
         stock: 0,
       })
+      navigate('/home')
     } else {
       toast.error("Check the fields", { position: 'bottom-right' })
     }
   }
 
   return (
-    <section class="d-flex justify-content-center align-items-center">
-      <div class="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-        <div class="mb-4 d-flex justify-content-start align-items-center">
+    <section className="d-flex justify-content-center align-items-center">
+      <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+        <div className="mb-4 d-flex justify-content-start align-items-center">
 
           <h1>Modify Rooms</h1>
         </div>
-        <div class="mb-1">
+        <div className="mb-1">
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-building"></i> Hotels</label>
-                <select class="form-select " value= {input_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
+                <label for="nombre"> <i className="bi bi-building"></i> Hotels</label>
+                <select className="form-select " value= {input_hotel.idHotel} onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected >Select hotel</option>
                   {hotels?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -192,17 +195,17 @@ export default function ModifyRooms() {
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     ))}
                 </select>
-                <div class="nombre text-danger "></div>
-            <div class="nombre text-danger ">
+                <div className="nombre text-danger "></div>
+            <div className="nombre text-danger ">
               {error.idHotel && (<p>{error.idHotel}</p>)}
             </div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-house"></i> Rooms</label>
-                <select class="form-select " value={input_rooms.id} name="id" onChange={(e) => handleChangeRoom(e)}>
+                <label for="nombre"> <i className="bi bi-house"></i> Rooms</label>
+                <select className="form-select " value={input_rooms.id} name="id" onChange={(e) => handleChangeRoom(e)}>
                   <option hidden selected >Select room</option>
                   {rooms?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -213,17 +216,17 @@ export default function ModifyRooms() {
                     )
                   })}
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
             <div>
                 {errors.id && (<p>{errors.id}</p>)}
             </div>
               </div>
             </div>
 
-            <div class="mb-4 d-flex justify-content-between">
+            <div className="mb-4 d-flex justify-content-between">
               <div>
-                <label for="nombre"><i class="bi bi-house"></i> Name</label>
-                <select class="form-select" value={input_rooms.name} name="name" onChange={(e) => handleChange(e)}>
+                <label for="nombre"><i className="bi bi-house"></i> Name</label>
+                <select className="form-select" value={input_rooms.name} name="name" onChange={(e) => handleChange(e)}>
                   <option hidden selected >Select name</option>
                   {nameRooms?.sort((a,b)=>{
                                 if(a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -236,25 +239,25 @@ export default function ModifyRooms() {
               <div>
                 {errors.name && (<p>{errors.name}</p>)}
             </div>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
 
               <div>
-                <label for="nombre"> <i class="bi bi-tag"></i> Category</label>
-                <select class="form-select" name="category" value={input_rooms.category} className="form-control" onChange={(e) => handleChange(e)}>
+                <label for="nombre"> <i className="bi bi-tag"></i> Category</label>
+                <select className="form-select form-control" name="category" value={input_rooms.category} onChange={(e) => handleChange(e)}>
                   <option hidden selected >Select category </option>
                   <option value="premium">Premium</option>
                   <option value="presidential" >Presidential</option>
                   <option value="standard" >Standard</option>
                 </select>
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
             <div>
                 {errors.category && (<p>{errors.category}</p>)}
             </div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
                 <label for="nombre"> <i className="bi bi-image"></i> Image</label>
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
@@ -273,10 +276,10 @@ export default function ModifyRooms() {
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"> <i class="bi bi-gear"></i> Services</label>
-                <select class="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
+                <label for="nombre"> <i className="bi bi-gear"></i> Services</label>
+                <select className="form-select " value={input_rooms.services} onChange={(e) => handleServices(e)}>
                   <option hidden selected >Select services</option>
                   {servicios?.sort((a,b)=>{
                                 if(a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -291,14 +294,14 @@ export default function ModifyRooms() {
                 <li className='punto-list' key={el}>{el}<button value={el} onClick={(e) => onHandleDelete(e)}>x</button> </li>)}
               </ul>
 
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"><i class="bi bi-currency-dollar"></i> Stock</label>
-                <input class="form-range" 
+                <label for="nombre"><i className="bi bi-currency-dollar"></i> Stock</label>
+                <input className="form-range" 
                 type="range" 
                 min="1" 
                 max="50" 
@@ -306,17 +309,17 @@ export default function ModifyRooms() {
                 name="stock" 
                 onChange={(e) => handleChange(e)} />
                 {<p >Available : {input_rooms.stock || detailRoom?.stock }</p>}
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
               </div>
             <div>
                 {errors.stock && (<p>{errors.stock}</p>)}
             </div>
             </div>
 
-            <div class="mb-4">
+            <div className="mb-4">
               <div>
-                <label for="nombre"><i class="bi bi-currency-dollar"></i> Price</label>
-                <input class="form-range" 
+                <label for="nombre"><i className="bi bi-currency-dollar"></i> Price</label>
+                <input className="form-range" 
                 type="range" 
                 min="10" 
                 max="1000" 
@@ -325,35 +328,35 @@ export default function ModifyRooms() {
                 onChange={(e) => handleChange(e)} />
                 {<p>Value USD {input_rooms.price || detailRoom?.price}</p>}
 
-                <div class="nombre text-danger "></div>
+                <div className="nombre text-danger "></div>
             <div>
                 {errors.price && (<p>{errors.price}</p>)}
             </div>
               </div>
             </div>
 
-            <div class="mb-4">
-              <label for="mensaje"> <i class="bi bi-chat-left-dots" required></i> Description</label>
-              <textarea class="form-control" placeholder="Description..." 
+            <div className="mb-4">
+              <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
+              <textarea className="form-control" placeholder="Description..." 
               type="text"
               defaultValue={input_rooms.description || detailRoom?.description}
               name="description" 
               maxLength="500"
               onChange={(e) => handleChange(e)}></textarea>
-              <div class="mensaje text-danger"></div>
+              <div className="mensaje text-danger"></div>
             <div>
                 {errors.description && (<p>{errors.description}</p>)}
             </div>
             </div>
 
 
-            <div class="mb-2">
+            <div className="mb-2">
             {!input_hotel.idHotel ||!input_rooms.id || !input_rooms.name || !input_rooms.image.length || !input_rooms.price || !input_rooms.description || !input_rooms.category ||!input_rooms.services.length || !input_rooms.stock || Object.keys(errors).length?
-              <button disabled type="submit" class="col-12 btn btn-primary d-flex justify-content-between">
-                <span>Modify </span><i id="icono" class="bi bi-cursor-fill "></i>
+              <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
               </button>
-              : <button type="submit" class="col-12 btn btn-primary d-flex justify-content-between" onClick={(e) => handleSubmit(e)}>
-                <span>Modify</span><i id="icono" class="bi bi-cursor-fill "></i>
+              : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between" onClick={(e) => handleSubmit(e)}>
+                <span>Modify</span><i id="icono" className="bi bi-cursor-fill "></i>
               </button>}
             </div>
 

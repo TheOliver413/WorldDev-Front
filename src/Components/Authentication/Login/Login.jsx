@@ -35,10 +35,10 @@ export default function Login() {
     } catch (error) {
       console.log(error.code)
       if(error.code === 'auth/wrong-password'){
-        setError('Wrong password')
+        toast.error('Wrong password', { position: 'bottom-right' })
       }
       if(error.code === 'auth/user-not-found'){
-        setError('User not found')
+        toast.error('User not found', { position: 'bottom-right' })
       }
     }
   };
@@ -58,7 +58,7 @@ export default function Login() {
 
     try {
       await resetPassword(user.email);
-      setError('We sent you an email. Check your inbox')
+      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
       navigate("/login");
     } catch (error) {
       setError(error.message);
