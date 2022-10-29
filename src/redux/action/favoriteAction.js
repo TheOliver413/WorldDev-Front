@@ -6,7 +6,7 @@ export const GET_FAVORITES = "GET_FAVORITES";
 export const GET_FAVORITES_ID = "GET_FAVORITES_ID";
 export const REMOVE_ROOM_FROM_FAVORITES = "REMOVE_ROOM_FROM_FAVORITES";
 
-const BACK_URL = "https://worlddev-back.onrender.com";
+const BACK_URL = "http://localhost:3001";
 
 export function addRoomToFavorites(payload, userId) {
   return async function (dispatch) {
