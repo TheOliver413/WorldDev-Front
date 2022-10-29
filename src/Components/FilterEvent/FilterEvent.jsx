@@ -45,7 +45,7 @@ function FilterEvent() {
 
   return (
     <>
-
+ 
       {/* FILTER BUTTON */}
       <div className="d-flex flex-column">
         <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
