@@ -7,7 +7,7 @@ export const GET_ALL_BOOKINGS = 'GET_ALL_BOOKINGS';
 export const GET_BOOKING = 'GET_BOOKING';
 
 
-const BACK_URL = "http://localhost:3001";
+const BACK_URL = "https://worlddev-back.onrender.com";
 
 
 //-----------------------POST A STRIPE-------------------

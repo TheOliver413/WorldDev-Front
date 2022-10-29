@@ -14,7 +14,7 @@ export const POST_HOTEL = "POST_HOTEL";
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
 export const GET_ROOMS_DETAIL = "GET_ROOMS_DETAIL";
 export const SEARCH_NAME_ROOM = "SEARCH_NAME_ROOM";
-export const CLEAR_ROOM_DETAIL = "CLEAR_ROOM_DETAIL";
+export const CLEAN_ROOM_DETAIL = "CLEAN_ROOM_DETAIL";
 export const POST_ROOM = "POST_ROOM";
 export const UPDATE_ROOMS = "UPDATE_ROOMS";
 export const CREATE_ROOMS = "CREATE_ROOMS";
@@ -25,6 +25,7 @@ export const GET_ALL_SERVICES_ROOM = 'GET_SERVICES_ROOM';
 export const POST_SERVICES_ROOM = 'POST_SERVICES_ROOM';
 export const PUT_SERVICES_ROOM = 'PUT_SERVICES_ROOM';
 export const SERVICE_ROOM_BY_ID = 'SERVICE_ROOM_BY_ID'
+export const CLEAR_SERVICE_ROOM_BY_ID = 'CLEAR_SERVICE_ROOM_BY_ID'
 
 //-------------------SERVICES HOTEL----------------//
 export const GET_ALL_SERVICES_HOTEL = "GET_ALL_SERVICES_HOTEL";
@@ -32,6 +33,7 @@ export const PUT_SERVICES_HOTEL = 'PUT_SERVICES_HOTEL';
 export const POST_SERVICES_HOTEL = 'POST_SERVICES_HOTEL';
 export const GET_SERVICES_HOTEL = 'GET_SERVICES_HOTEL';
 export const GET_SERVICE_BY_ID = 'GET_SERVICE_BY_ID';
+export const CLEAR_SERVICE_ID = 'CLEAR_SERVICE_ID'
 
 //-------------------EVENTS----------------//
 export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';
@@ -39,6 +41,7 @@ export const GET_CATEGORY = "GET_CATEGORY"
 export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
 export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
+export const CLEAR_EVENT_BY_ID = 'CLEAR_EVENT_BY_ID';
 
 //--------------ORDER/FILTER/CLEAN------------//
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
@@ -58,10 +61,10 @@ export const GET_CITY = "GET_CITY";
 export const GET_DEPARTMENT = "GET_DEPARTMENT";
 
 //-----------------URLS----------------------//
-const BACK_URL = "http://localhost:3001"
-const URL_POST_HOTEL = "http://localhost:3001/hotels";
-const URL_POST_ROOM = "http://localhost:3001/rooms";
-const URL_GET_STATE = "http://localhost:3001/locations";
+const BACK_URL = "https://worlddev-back.onrender.com"
+const URL_POST_HOTEL = `${BACK_URL}/hotels`;
+const URL_POST_ROOM = `${BACK_URL}/rooms`;
+const URL_GET_STATE = `${BACK_URL}/locations`;
 
 //----------------PAGINATION--------------------//
 
@@ -231,6 +234,13 @@ export function roomByName(name) {
   }
 }
 
+export function cleanRoomDetail () {
+  return ({
+    type: CLEAN_ROOM_DETAIL,
+    payload: {}
+  })
+}
+
 export function getAllServicesHotel() {
   return async function (dispatch) {
     try {
@@ -324,44 +334,53 @@ export function createServicesHotels(payload) {
     }}
 //------------------------CREATE/MODIFY SERVICES ROOM --------------------//
 
-  export function createServicesRooms(payload) {
-    return async function (dispatch) {
-      try {
-        const servicesRoom = await axios.post(`${BACK_URL}/serviceRooms`,payload)
-        dispatch ({
-          type: POST_SERVICES_ROOM,  
-          payload  
-        })        
-      } catch (error) {
-        console.log(error)
-      }
-    }}
+export function createServicesRooms(payload) {
+  return async function (dispatch) {
+    try {
+      const servicesRoom = await axios.post(`${BACK_URL}/serviceRooms`,payload)
+      dispatch ({
+        type: POST_SERVICES_ROOM,  
+        payload  
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
-    export function  modifyServicesRooms(payload) {
-      return async function (dispatch) {
-        try {
-          const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`,payload)
-          dispatch ({
-            type: PUT_SERVICES_ROOM,  
-            payload   
-          })        
-        } catch (error) {
-          console.log(error)
-        }
-      }}
+export function  modifyServicesRooms(payload) {
+  return async function (dispatch) {
+    try {
+      const servicesRoom = await axios.put(`${BACK_URL}/serviceRooms`,payload)
+      dispatch ({
+        type: PUT_SERVICES_ROOM,  
+        payload   
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
-      export function getServiceRoomById(id) {
-        return async function (dispatch) {
-          try {
-            const serviceRoom = await axios.get(`${BACK_URL}/serviceRooms/${id}`)
-            dispatch ({
-              type: SERVICE_ROOM_BY_ID,  
-              payload: serviceRoom.data
-            })        
-          } catch (error) {
-            console.log(error)
-          }
-        }}
+export function getServiceRoomById(id) {
+  return async function (dispatch) {
+    try {
+      const serviceRoom = await axios.get(`${BACK_URL}/serviceRooms/${id}`)
+      dispatch ({
+        type: SERVICE_ROOM_BY_ID,  
+        payload: serviceRoom.data
+      })        
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function clearServiceRoomById() {
+  return {
+    type: CLEAR_SERVICE_ROOM_BY_ID
+  }
+}
       
 //------------------------CREATE/MODIFY EVENTS --------------------//
     export function createEvents(payload) {
@@ -434,6 +453,12 @@ export function getServicesHotelById(id) {
   }
 }
 
+export function clearServiceId () {
+  return({
+    type: CLEAR_SERVICE_ID
+  })
+}
+
 //------------------------GET EVENTS --------------------//
 export function getAllEvents() {
   return async function (dispatch) {
@@ -460,6 +485,12 @@ export function getEventById(id) {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export function clearEventById() {
+  return {
+    type: CLEAR_EVENT_BY_ID
   }
 }
 
