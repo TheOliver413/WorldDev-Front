@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import postStripe, { getAllBooking } from "../../redux/action/actionStripe";
 import { toast } from "react-toastify";
 import { format } from 'date-fns';
-import { getDetailRoom } from "../../redux/action/action";
 import { useNavigate } from "react-router-dom";
 import "./Styles.css"
 
@@ -20,45 +19,76 @@ const CheckoutForm = () => {
 
     const { cartRooms, cartTotalAmount, cartTotalQuantity } = useSelector(state => state.reducerCart)
     const allBookings = useSelector(state => state.reducerStripe.allBooking)
-    const detailRooms = useSelector(state => state.reducerRoom.detailRoom)
+
+
     const [loading, setLoading] = useState(false);
 
-    const idRooms = cartRooms?.map(e => e.id) //id de room del carrito
 
     useEffect(() => {
         dispatch(getAllBooking())
-        dispatch(getDetailRoom(idRooms[0]))
     }, [dispatch])
 
-    const quantity = cartRooms[0]?.cartQuantity
-    const checkinfind = []// son todas las reservas de la DB que coinciden con los id de idRooms   
 
-    for (let i = 0; i < allBookings.length; i++) {
-        for (let j = 0; j < idRooms.length; j++) {
-            let book = (allBookings[i].Rooms).find(e => e.id === idRooms[j])
+    //CONTROL DE STOCK ------------------------------------------------------
+    const aux = []
+    const bookRoom = [] //array de solo los objetos de allbookin.cartRoom
+    if (allBookings.length && cartRooms.length) {
+        for (let i = 0; i < allBookings.length; i++) {
+            for (let j = 0; j < cartRooms.length; j++) {
+                let book = (allBookings[i].cartRoom?.filter(e => e.id === cartRooms[j].id))
+                if (book.length) {
+                    bookRoom.push(book)
+                }
+            }
+        }
+    } else {
+        cartRooms.forEach(e => {
+            let check = {
+                id: e.id,
+                checkIn: e.checkIn,
+                checkOut: e.checkOut,
+                cartQuantity: e.cartQuantity,
+                newStock: e.stock - e.cartQuantity
+            }
+            aux.push(check)
+        })
+    }
+
+    const orderBook = bookRoom.length ? bookRoom.flat().sort((a, b) => { return a.newStock - b.newStock }) : []//  array de todas las reservas con el mismo id que el carrito ordenadas de < a > por stock
+
+    if (orderBook.length) {
+        for (let i = 0; i < cartRooms.length; i++) {
+            let book = orderBook.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
             if (book) {
-                checkinfind.push(allBookings[i])  //pushea a checkingfind las rooms con mismo id
+                let check = {
+                    id: cartRooms[i].id,
+                    checkIn: cartRooms[i].checkIn,
+                    checkOut: cartRooms[i].checkOut,
+                    cartQuantity: cartRooms[i].cartQuantity,
+                    newStock: book.newStock - cartRooms[i].cartQuantity
+                }
+                aux.push(check)
+
+            } else {
+                let check = {
+                    id: cartRooms[i].id,
+                    checkIn: cartRooms[i].checkIn,
+                    checkOut: cartRooms[i].checkOut,
+                    cartQuantity: cartRooms[i].cartQuantity,
+                    newStock: cartRooms[i].stock - cartRooms[i].cartQuantity
+                }
+                aux.push(check)
             }
         }
     }
 
-    const checkInFinded = checkinfind.length ? (checkinfind.filter(e => cartRooms[0]?.checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[0]?.checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))).sort((a, b) => a.stock - b.stock) : []
-    // checkFinded son todas las reservas de la DB que coinciden con la fecha del carrito   
-
-    const stockRoom = detailRooms.stock
-
-    const currentStock = checkInFinded.length ? (checkInFinded[0].stock - quantity) : (stockRoom - quantity)
-
+    //-----------------------------------------------------------------------------
     const booking = {
         cartTotalQuantity: cartTotalQuantity,
         cartTotalAmount: cartTotalAmount,
-        checkIn: cartRooms[0]?.checkIn,
-        checkOut: cartRooms[0]?.checkOut,
-        stock: currentStock,
-        idRoom: idRooms
+        cartRoom: aux
     }
-
-    // console.log('booking', booking)
+    //---------------------------------------------------------------------------
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,7 +99,7 @@ const CheckoutForm = () => {
 
         if (!error) {
             const { id } = paymentMethod;
-            dispatch(postStripe({ id, amount: cartTotalAmount, description: cartRooms }, booking))
+            dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
             setLoading(true)
             elements.getElement(CardElement).clear();
             setLoading(false)
@@ -79,7 +109,7 @@ const CheckoutForm = () => {
         } else {
             toast.error('Unprocessed Payment', { position: 'bottom-right' })
         }
-    };
+    }
 
 
 
