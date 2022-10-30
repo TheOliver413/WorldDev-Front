@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createEvents, getHotels } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 const validate = (input_event) => {
   let errors = {};
@@ -179,6 +180,8 @@ const CreateEvents = () => {
                             <input type="date" 
                             className="form-control"
                             value={input_event.date} 
+                            min={format(new Date(), 'yyyy-MM-dd')} 
+                            max="2023-04-01"
                             name="date" 
                             onChange={(e)=>
                             handleChangeDate(e)} />
