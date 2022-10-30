@@ -115,7 +115,7 @@ function Cart() {
           <tbody className="table-group-divider">
             {cartRooms.map((r) => (
               <tr key={r.id + r.checkIn + r.checkOut}>
-                <td><Link to={`/hotel/room/${r.id}`}>{r.name}</Link></td>
+                <td><Link to={`/hotel/room/${r.id}`}>{r.Hotels[0].name}, {r.name}</Link></td>
                 <td>{format(new Date(`${r.checkIn}T03:00:00`), 'dd/MM/yy')}</td>
                 <td>{format(new Date(`${r.checkOut}T03:00:00`), 'dd/MM/yy')}</td>
                 <td>
