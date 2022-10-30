@@ -119,6 +119,7 @@ const ModifyEvents = () => {
     }))
   }
 
+  console.log("info hacia el back: ",input_event)
   //----------------HANDLE SUBMIT EVENT------------------//
   const navigate = useNavigate()
   const handleSubmit = (e) => {

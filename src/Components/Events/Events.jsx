@@ -1,12 +1,9 @@
 /*-------------IMPORTS----------- */
-//import { Icon } from '@mui/material';
+
 import {React, useEffect} from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents, getHotels } from '../../redux/action/action';
 import FilterEvent from '../FilterEvent/FilterEvent';
-
-
-//---------- mostrar nombre hotel asociado -------//
 
 
 export default function Events(){
@@ -14,8 +11,7 @@ export default function Events(){
     const dispatch = useDispatch();
     const eventos = useSelector(state=>state.reducerHotel.allEvents)
     const hoteles = useSelector((state)=>state.reducerHotel.allHotels)
-    console.log("eventos para mostrar: ",eventos)
-    console.log("hoteles para mostrar: ",hoteles)
+
 /*------------USEEFFECT--------- */    
     useEffect(() => {
       dispatch(getAllEvents())
@@ -35,22 +31,29 @@ export default function Events(){
                   <img src={ele.image} className="img-fluid rounded-start" alt={ele.image} />
                 </div>
                 <div className="col-sm-8 mt-1">
-                      {/* { hoteles&&hoteles?.map( ) } */}
+                    <h3>{ ele.Hotels.map(ele=>ele.name) }</h3>
+                    <span>{ ele.Hotels.map(ele=>ele.address) }</span>, 
+                    <span> { ele.Hotels.map(ele=>ele.Locations.map(e=>e.city)) }</span>.
+                    <div>
+                    <span> { ele.Hotels.map(ele=>ele.Locations.map(e=>e.department)) }</span>,
+                    <span>  { ele.Hotels.map(ele=>ele.Locations.map(e=>e.state)) }</span>.
+                    </div>
+
+
                   <div className="card-body">
                       <h2 className="card-title col-sm-10">{ele.name}</h2>
                     <div className="row mb1">
-                      <label>Date:</label>
+                      <p className="card-text col-sm-1">Date: </p>
                       <p className="card-text col-sm-2">{ele.date.substr(-30,10)}</p>
                       <p className="card-text col-sm-2">{ele.time.substr(-30,6)} Hs</p>
                     </div>
                     <p className="card-text">{ele.description}</p>
-                    <div className="d-grid gap-2 d-sm-block">
-                      {/* <button className="btn btn-primary mt-4" type="button">Suscribe now</button> */}
-                    </div>
+                    {/* <div className="d-grid gap-2 d-sm-block">
+                      <button className="btn btn-primary mt-4" type="button">Suscribe</button>
+                    </div> */}
                   </div>
                 </div>
               </div>  
-
             )
          })  
 
