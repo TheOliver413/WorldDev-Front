@@ -1,24 +1,26 @@
-import { POST_USERS, PUT_USERS } from '../action/actionAuth.js'
+import { POST_USERS, PUT_USERS, GET_DETAIL_USER } from '../action/actionAuth.js'
 
 const initialStateAuth = {
   users: {}
 }
 
 const reducer_auth = (state = initialStateAuth, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case POST_USERS:
       return {
         ...state
       }
-      break;
     case PUT_USERS:
       return {
         ...state
       }
-      break;
+    case GET_DETAIL_USER:
+        return{
+          ...state,
+          users: action.payload
+      } 
     default:
       return { ...state }
-      break;
   }
 };
 
