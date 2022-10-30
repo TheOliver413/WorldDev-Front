@@ -23,11 +23,12 @@ function Cart() {
   }
   const handleDecreaseCart = (room) => {
     setError(false)
-    dispatch(decreaseCart(room))
+    dispatch(decreaseCart(room))    
   }
   const handleIncreaseCart = (room) => {
-    stockControl()
+    setError(false)
     dispatch(addRoomToCart(room))
+    stockControl()
   }
   const handleClearCart = () => {
     setError(false)
@@ -51,10 +52,10 @@ function Cart() {
       }
     } else {// sino valido con el stock original
       cartRooms?.forEach(e => {
-        if (e.stock === 0) {
+        if (e.stock <= 0) {
           setError(true)
           return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
-        } else if (e.stock > 0 && e.stock <= ((e.cartQuantity) + 1)) {
+        } else if (e.stock > 0 && e.stock <= e.cartQuantity) {
           setError(true)
           return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
         } else {
@@ -82,11 +83,11 @@ function Cart() {
     
       for (let i = 0; i < cartRooms.length; i++) {
         let stockIdCheck = checkStock.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
-        if (stockIdCheck?.newStock === 0) {
+        if (stockIdCheck?.newStock <= 0) {
           setError(true)
           return toast.error('The selected date is not available', { position: 'bottom-right' })
         }
-        else if (stockIdCheck.newStock > 0 && stockIdCheck.newStock <= (cartRooms[i].cartQuantity) + 1) {
+        else if (stockIdCheck.newStock > 0 && stockIdCheck.newStock <= cartRooms[i].cartQuantity) {
           setError(true)
           return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' })
         } else {
