@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, clearDetail } from '../../redux/action/action';
+import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, cleanRoomDetail } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -61,8 +61,12 @@ export default function ModifyRooms() {
   useEffect(() => {
     !hotels.length && dispatch(getHotels()); 
     dispatch(getAllServicesRoom()); 
-    return () =>clearDetail()  
   }, [dispatch, hotels])
+
+  //component will unmount
+  useEffect(()=> {
+    return () => dispatch(cleanRoomDetail())
+  }, [dispatch])
   
   //------------------ HANDLE CHANGE ROOMS-------------------//
 

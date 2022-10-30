@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllEvents, getEventById, getHotels, modifyEvents } from "../../redux/action/action";
+import { clearEventById, getAllEvents, getEventById, getHotels, modifyEvents } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
@@ -41,6 +41,10 @@ const ModifyEvents = () => {
     !allEvents.length && dispatch(getAllEvents())
   }, [dispatch, hotels])
 
+  //component will unmount
+  useEffect(()=> {
+    return () => dispatch(clearEventById())
+  }, [dispatch])
 
   //------------ HANDLE CHANGE EVENT--------------//
   const handleChangeEvent = (e) => {

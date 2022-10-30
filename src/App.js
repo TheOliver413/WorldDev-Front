@@ -28,12 +28,14 @@ import AuthProvider from "./context/AuthContext";
 import ProtectedRoute from "./Components/Authentication/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Authentication/Login/Login";
 import Register from "./Components/Authentication/Register/Register";
-import Profile from "./Components/Authentication/ProfileUsers/ProfileUsers";
+import ProfileUsers from "./Components/Authentication/ProfileUsers/ProfileUsers";
+import EditUser from "./Components/Authentication/EditUser/EditUser"
 import Events from "./Components/Events/Events";
 import UserTable from "./Components/Admin/UserTable/UserTable";
 import AdminTable from "./Components/Admin/AdminTable/AdminTable";
-import AdminRegister from "./Components/Admin/AdminRegister/AdminRegister";
-import AdminData from "./Components/Admin/AdminData/AdminData";
+import RegisterAdmin from './Components/Admin/RegisterAdmin/RegisterAdmin';
+import EditAdmin from './Components/Admin/EditAdm/EditAdmin';
+import ProfileAdmin from './Components/Admin/ProfileAdmin/ProfileAdmin';
 
 import AboutUs from "./Components/AboutUs/About"
 
@@ -69,11 +71,12 @@ function App() {
           <Route path='/home/stripe' element={<Stripe />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
-          <Route path="/profileusers" element={<Profile />} />
-          <Route path="/" element={<Profile />} />
+          <Route path="/profileusers" element={<ProfileUsers />} />
+          <Route path="/profileusers/EditUser" element={<EditUser/>}/>
           <Route exact path="/admin/admintable" element={<AdminTable />} />
-          <Route exact path="/admin/adminregister" element={<AdminRegister />} />
-          <Route exact path="/admin/admindata" element={<AdminData />} />
+          <Route exact path="/home/dashboard/RegisterAdmin" element={<RegisterAdmin/>} />
+          <Route exact path="/profileAdmin" element={<ProfileAdmin/>}/>
+          <Route exact path="/profileAdmin/editAdmin" element={<EditAdmin/>} />
           <Route exact path="/admin/usertable" element={<UserTable />} />
         </Routes>
         <Footer />

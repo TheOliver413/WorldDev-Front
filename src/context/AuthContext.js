@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailLink, isSignInWithEmailLink, confirmPasswordReset } from "firebase/auth";
 import { auth } from "../firebase";
+import app from '../firebase'
 import { actionCodeSettings } from "../firebase";
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const authContext = createContext();
 
@@ -12,21 +14,32 @@ export const useAuth = () => {
 };
 
 export default function AuthProvider({ children }) {
+  const firestore = getFirestore(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
- const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+ const signup = async (email, password, rol, displayName) => {
+  const infoUser= await createUserWithEmailAndPassword(auth, email, password)
+    
+  .then((currentUser)=>{
+    return currentUser;
+  })
+  const docuRefU=doc(firestore, `users/${infoUser.user.uid}`);
+  setDoc(docuRefU, {email: email, rol: rol, displayName: displayName});
   };
 
   const login = async (email, password) => {
     const objeect = await signInWithEmailAndPassword(auth, email, password);
-    console.log(objeect)
   };
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = async () => {
     const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider);
+    const infoGoo= await signInWithPopup(auth, googleProvider)
+      .then((currentUser)=>{
+        return currentUser;
+      })
+    const docuRefU=doc(firestore, `users/${infoGoo.user.uid}`);
+    setDoc(docuRefU, {email: infoGoo.user.email, rol: 'user'});
   };
 
   const logout = async () => await signOut(auth)

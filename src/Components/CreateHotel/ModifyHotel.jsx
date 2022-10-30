@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHotel } from '../../redux/action/action';
+import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHotel, clearDetail } from '../../redux/action/action';
 import '../Create/Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +57,11 @@ export default function ModifyHotel() {
     dispatch(getState());
   }, [dispatch, hotels])
 
+  //component will unmount
+  useEffect(()=> {
+    return () => dispatch(clearDetail())
+  }, [dispatch])
+  
   //----------------------------------------------------//
   function handleChangeLocation(e) {
     e.preventDefault();
@@ -90,7 +95,6 @@ export default function ModifyHotel() {
   }))
   dispatch(getDetailHotel(e.target.value))
   }
-  console.log('locatiooooon', detailHotel?.Locations)
 
   function handleChange(e) {
     e.preventDefault();
@@ -175,7 +179,7 @@ export default function ModifyHotel() {
           <form onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-4">
               <div>
-                <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                <label htmlFor="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
                 <select className="form-select" name="id" value={input_hotels.id} onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected>Select hotel name</option>
                   {hotels?.sort((a,b)=>{
@@ -195,7 +199,7 @@ export default function ModifyHotel() {
 
             <div className="mb-4">
               <div>
-                <label for="nombre"> <i className="bi bi-plus-circle"></i> Name</label>
+                <label htmlFor="nombre"> <i className="bi bi-plus-circle"></i> Name</label>
                 <input 
                 type="text" 
                 className="form-control" 
@@ -212,7 +216,7 @@ export default function ModifyHotel() {
 
             <div className="mb-4">
               <div>
-                <label for="nombre"> <i className="bi bi-building"></i> Image</label>
+                <label htmlFor="nombre"> <i className="bi bi-building"></i> Image</label>
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_hotels.image.map((imag) => (
@@ -229,7 +233,7 @@ export default function ModifyHotel() {
             </div>
 
             <div className="mb-4">
-              <label for="nombre"><i className="bi bi-geo-alt"></i> Address</label>
+              <label htmlFor="nombre"><i className="bi bi-geo-alt"></i> Address</label>
               <input 
               type="text" 
               className="form-control" 
@@ -242,7 +246,7 @@ export default function ModifyHotel() {
             </div>
 
             <div className="mb-4">
-              <label for="nombre"><i className="bi bi-house"></i> State</label>
+              <label htmlFor="nombre"><i className="bi bi-house"></i> State</label>
               <select className="form-select" name="state" value={input_location.state} onChange={(e) => handleChangeLocation(e)}>
                 <option hidden selected >Select state</option>
                 {get_state?.sort((a,b)=>{
@@ -263,7 +267,7 @@ export default function ModifyHotel() {
 
             <div className="mb-4 d-flex justify-content-between">
               <div>
-                <label for="apellido"><i className="bi bi-pin"></i> Department</label>
+                <label htmlFor="apellido"><i className="bi bi-pin"></i> Department</label>
                 <select className="form-select " name="department" dvalue={input_location.department} onChange={(e) => handleChangeLocation(e)}>
                   <option hidden selected>Select department</option>
                   {get_department?.sort((a,b)=>{
@@ -283,7 +287,7 @@ export default function ModifyHotel() {
               </div>
 
               <div>
-                <label for="nombre"><i className="bi bi-pin-map"></i> City</label>
+                <label htmlFor="nombre"><i className="bi bi-pin-map"></i> City</label>
                 <select className="form-select" name="idLocation" value={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
                   <option hidden selected>Select city</option>
                   {get_city?.sort((a,b)=>{
@@ -302,7 +306,7 @@ export default function ModifyHotel() {
 
             <div className="mb-4">
               <div>
-                <label for="nombre"><i className="bi bi-star"></i> Qualification</label>
+                <label htmlFor="nombre"><i className="bi bi-star"></i> Qualification</label>
                 <input 
                 className="form-range" 
                 type="range" 
@@ -320,7 +324,7 @@ export default function ModifyHotel() {
             </div>
 
             <div className="mb-4">
-              <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
+              <label htmlFor="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
               <textarea 
               id="mensaje" 
               className="form-control" 

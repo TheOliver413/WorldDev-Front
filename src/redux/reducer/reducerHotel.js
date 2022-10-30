@@ -22,7 +22,8 @@ import {
   GET_CITY,
   GET_DEPARTMENT,
   FILTER_EVENT_BY_DATE,
-
+  CLEAR_SERVICE_ID,
+  CLEAR_EVENT_BY_ID
 } from '../action/action';
 
 const initialStateHotel = {
@@ -225,6 +226,18 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         ...state,
         allEvents: b
       }
+    
+    case CLEAR_SERVICE_ID: 
+      return {
+        ...state,
+        serviceId: {}
+      };
+
+    case CLEAR_EVENT_BY_ID: 
+      return {
+        ...state,
+        eventId: {}
+      };
 
     default:
       return { ...state }
