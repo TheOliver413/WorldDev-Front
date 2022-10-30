@@ -72,7 +72,7 @@ return () => cleanRoomDetail()
     if (bookRoom.length) {
       bookRoom.forEach(e => {
         if (checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd')) {
-          if (e.newStock === 0) {
+          if (e.newStock <= 0) {
             setError(true)
             return toast.error('The selected date is not available', { position: 'bottom-right' });
           } else if (e.newStock > 0 && e.newStock <= quantity) {
@@ -82,10 +82,10 @@ return () => cleanRoomDetail()
             setError(false)
           }
         }else{
-          if (roomDetail.stock === 0) {
+          if (roomDetail.stock <= 0) {
             setError(true)
             return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
-          } else if (roomDetail.stock > 0 && roomDetail.stock < quantity) {
+          } else if (roomDetail.stock > 0 && roomDetail.stock <= quantity) {
             setError(true)            
             return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' })
           } else{
@@ -96,7 +96,7 @@ return () => cleanRoomDetail()
         }
       })
     } else {// chequea con el stock original
-      if (roomDetail.stock === 0) {
+      if (roomDetail.stock <= 0) {
         setError(true)
         return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
       } else if (roomDetail.stock > 0 && roomDetail.stock < quantity) {
