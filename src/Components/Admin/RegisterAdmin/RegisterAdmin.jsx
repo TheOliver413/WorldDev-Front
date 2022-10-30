@@ -14,7 +14,9 @@ export default function RegisterAdmin() {
   const [user, setAdmin] = useState({
     email: "",
     password: "",
-    rol: "admin"
+    rol: "admin",
+    displayName:"",
+    photoURL:""
   });
 
 
@@ -29,9 +31,10 @@ export default function RegisterAdmin() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password, user.rol, user.displayName);
+      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL);
       let credential= {
         displayName: user.displayName,
+        photoURL: user.photoURL,
         email: user.email,
         id: user.uid,
       }
@@ -69,7 +72,7 @@ export default function RegisterAdmin() {
           <div class="input-group-text loging">
             <img  alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="password"  name='password' id="password" placeholder="*****" onChange={handleChange} />
+          <input class="form-control bg-light" type="password"  name='password' id="password" placeholder="***" onChange={handleChange} />
         </div>
 
         <div>
