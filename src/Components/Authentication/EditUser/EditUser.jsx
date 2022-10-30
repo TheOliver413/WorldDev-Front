@@ -25,6 +25,7 @@ const EditUser = (id) => {
     country: '',
     city: '',
     address: '',
+    favorite:[],
     create: true,
   });
   
@@ -38,7 +39,8 @@ const EditUser = (id) => {
         id: user.uid,
         displayName: user.displayName,
         photoURL: user.photoURL, 
-        email: user.email
+        email: user.email, 
+        favorite: user.favorite
       })
     }
   },[user])
@@ -122,7 +124,6 @@ const EditUser = (id) => {
       </div>
       <button type="submit" class="btn btn-primary">Update</button>
       <p></p>
-      <Link to='/carrito'><button type="button" class="btn btn-primary">Reservation</button></Link>
     </form>
   )
 }

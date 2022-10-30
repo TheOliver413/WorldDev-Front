@@ -16,7 +16,8 @@ export default function RegisterAdmin() {
     password: "",
     rol: "admin",
     displayName:"",
-    photoURL:""
+    photoURL:"",
+    favorites: []
   });
 
 
@@ -31,7 +32,7 @@ export default function RegisterAdmin() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL);
+      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL, user.favorites);
       let credential= {
         displayName: user.displayName,
         photoURL: user.photoURL,

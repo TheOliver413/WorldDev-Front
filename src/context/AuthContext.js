@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailLink, isSignInWithEmailLink, confirmPasswordReset } from "firebase/auth";
 import { auth } from "../firebase";
+import { useSelector } from 'react-redux'
 import app from '../firebase'
 import { actionCodeSettings } from "../firebase";
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
@@ -18,14 +19,14 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
- const signup = async (email, password, rol, displayName, photoURL) => {
+ const signup = async (email, password, rol, displayName, photoURL, favorites) => {
   const infoUser= await createUserWithEmailAndPassword(auth, email, password)
     
   .then((currentUser)=>{
     return currentUser;
   })
   const docuRefU=doc(firestore, `users/${infoUser.user.uid}`);
-  setDoc(docuRefU, {email: email, rol: rol, displayName: displayName, photoURL: photoURL});
+  setDoc(docuRefU, {email: email, rol: rol, displayName: displayName, photoURL: photoURL, favorites: favorites});
   };
 
   const login = async (email, password) => {
@@ -39,8 +40,9 @@ export default function AuthProvider({ children }) {
         return currentUser;
       })
     const docuRefU=doc(firestore, `users/${infoGoo.user.uid}`);
-    setDoc(docuRefU, {email: infoGoo.user.email, rol: 'user'});
+    setDoc(docuRefU, {email: infoGoo.user.email, rol: 'user', favorites: []});
   };
+
 
   const logout = async () => await signOut(auth)
 
