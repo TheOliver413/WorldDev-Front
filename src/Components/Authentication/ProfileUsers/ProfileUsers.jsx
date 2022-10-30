@@ -1,77 +1,48 @@
-import React, { useEffect } from 'react'
-import { useAuth } from '../../../context/AuthContext';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-const ProfileUser = () => {
-  // const dispatch= useDispatch()
-  // const data_users= useSelector( state=> state.reducerAuth.users)
+import React, { useEffect} from "react";
+import { useState } from "react";
+import { useSelector, useDispatch} from "react-redux";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { getDetailUser} from '../../../redux/action/actionAuth'
 
 
-  const { user } = useAuth();
-  // const [inputU, setInputU] = useState({
-  //   id: '',
-  //   name: '',
-  //   lastname: '',
-  //   verificated: boolean,
-  //   photoURL:'',
-  //   superadmin: boolean,
-  //   country: '',
-  //   city: '',
-  //   adress: ''
-  // });
 
-  // useEffect(() => {
-  //   dispatch()
-  // })
-
-  // function handleChangeData(e) {
-  //   e.preventDefault();
-  //   setInputU({
-  //     ...inputU,
-  //     [e.target.name]: e.target.value
-  //   })
-  // }
+const ProfileUsers = () => {
+  const dispatch= useDispatch()
+  const datos= useSelector(state => state.reducerAuth.users)
+  const {user} = useAuth()
 
 
+  useEffect(()=>{
+    if(user && user.hasOwnProperty('uid')){
+      dispatch(getDetailUser(user.uid))
+    }
+   }, [user])
 
   return (
-    <form>
-      <div class="conteiner-users">
-        <div class="form-group col-md-6">
-          <img src={user.photoURL? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputEmail4"><h2>Welcome {user.displayName? user.displayName : user.email}!</h2></label>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Name</label>
-          <input type="text" class="form-control" id="inputName" placeholder="Name" /*onChange= {handleChangeData}*/></input>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Lastname</label>
-          <input type="text" class="form-control" id="inputLastname" placeholder="Lastname" /*onChange= {handleChangeData}*/></input>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputAddress">Address</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" /*onChange= {handleChangeData}*//>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity" /*onChange= {handleChangeData}*//>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCity">Country</label>
-            <input type="text" class="form-control" id="inputCity" /*onChange= {handleChangeData}*//>
-          </div>
-        </div>
+    <div>
+      <div>
+        <img src={datos.photoURL ? datos.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
-      <p></p>
-      <Link to='/carrito'><button type="button" class="btn btn-primary">Reservation</button></Link>
-    </form>
-  )
-}
+      <div class="form-group col-md-6">
+        <h1>Welcome {datos.name? datos.name : datos.email}!</h1>
+      </div>
+      <div>
+        <h2>{datos.name} {datos.lastname}</h2>
+      </div>
+      <div>
+        <h3>Mis datos</h3>
+        <h4>Address: {datos.address}</h4>
+        <h4>City: {datos.city}</h4>
+        <h4>Country: {datos.country}</h4>
+      </div>
+      <div>
+        <Link to='/profileusers/EditUser'>
+          <button>Edit</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
-export default ProfileUser;
+export default ProfileUsers;

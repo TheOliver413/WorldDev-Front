@@ -7,13 +7,19 @@ import { toast } from "react-toastify";
 import loginico from "./login-icon.svg";
 import userico from "./username-icon.svg"
 import passwordico from "./password-icon.svg"
+import { createUsers } from "../../../redux/action/actionAuth";
+import { useDispatch } from "react-redux";
+
+
 
 export default function Register() {
+  const dispatch= useDispatch();
   const { signup, sendE, login, emailLink } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
+    rol:"user"
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -27,8 +33,15 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password);
-      navigate("/home");
+      await signup(user.email, user.password, user.rol, user.diplayName, user.photoURL);
+      let credential= {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        id: user.uid,
+      }
+      dispatch(createUsers(credential))
+      navigate("/home")
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         toast.error("Email invalid", { position: 'bottom-right' })
