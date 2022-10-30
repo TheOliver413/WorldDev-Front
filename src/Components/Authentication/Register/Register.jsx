@@ -19,7 +19,9 @@ export default function Register() {
   const [user, setUser] = useState({
     email: "",
     password: "",
-    rol:"user"
+    rol:"user",
+    displayName: "",
+    photoURL: ""
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -33,7 +35,7 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password, user.rol, user.diplayName, user.photoURL);
+      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL);
       let credential= {
         displayName: user.displayName,
         photoURL: user.photoURL,
@@ -52,20 +54,20 @@ export default function Register() {
     }
   };
 
-  const handleSendEmailVerification = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      await sendE(user.email)
-      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
-      navigate("/");
-      await login(user.email, user.password)
-      await emailLink(user.email, user.password)
+  // const handleSendEmailVerification = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   try {
+  //     await sendE(user.email)
+  //     toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
+  //     navigate("/");
+  //     await login(user.email, user.password)
+  //     await emailLink(user.email, user.password)
 
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -89,17 +91,19 @@ export default function Register() {
           <div class="input-group-text loging">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*************" onChange={handleChange} />
+          <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*****" onChange={handleChange} />
         </div>
 
-        <div>
+        {/* <div>
           {
             !user.email || !user.password || user.password.length < 6 ?
             <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
             :
               <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
           }
-        </div>
+        </div> */}
+
+        <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
 
         <div class="d-flex gap-1 justify-content-center mt-1">
           <div>Do you already have an account</div>
