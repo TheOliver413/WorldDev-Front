@@ -11,8 +11,8 @@ export default function Create() {
           <div>
               <Link to="../Admin/UserTable/"><button>User Table</button></Link>
               <Link to="../Admin/AdminTable"><button>Admin Table</button></Link>
-              <Link to="../Admin/AdminData"><button>Admin Data</button></Link>
-              <Link to="../Admin/AdminRegister"><button>Admin Register</button></Link>
+              <Link to="/home/dashboard/ProfileAdmin"><button>Profile Administrator</button></Link>
+              <Link to="/home/dashboard/RegisterAdmin"><button>Register Administrator</button></Link>
           </div>
           <div class="card">
             <div class="card-body">
