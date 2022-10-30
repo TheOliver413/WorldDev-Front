@@ -141,6 +141,13 @@ export default function ModifyHotel() {
     myWidget.open()
   }
 
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    input_sethotels({
+      ...input_hotels,
+      image: input_hotels.image.filter(el => el.public_id !== e.target.value)
+  })
+}
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
   const navigate = useNavigate()
@@ -220,8 +227,8 @@ export default function ModifyHotel() {
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_hotels.image.map((imag) => (
-                    <div>
-                      <img src={imag.url} alt='' />
+                    <div key={imag.public_id}>
+                      <img src={imag.url} alt='images hotel'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
                 </div>

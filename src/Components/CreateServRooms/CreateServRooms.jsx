@@ -55,6 +55,14 @@ async function handleOpenWidget(){
       myWidget.open()
   }
   
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    setInput_serv_room({
+      ...input_serv_room,
+      image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
+  })
+}
+
     //----------------HANDLE SUBMIT SERVICES ROOM------------------//
     const navigate = useNavigate()
     const handleSubmit = (e) => {
@@ -100,8 +108,8 @@ async function handleOpenWidget(){
                 <div>
                 <div>
                   {input_serv_room.image?.map((imag) =>(
-                    <div>
-                      <img src={imag.url} alt='' />
+                    <div key={imag.public_id}>
+                      <img src={imag.url} alt='images servRoom'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
                 </div>

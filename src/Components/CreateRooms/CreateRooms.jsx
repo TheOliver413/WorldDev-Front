@@ -95,6 +95,14 @@ export default function CreateRooms() {
   }
   //--------------------------------------------//
 
+const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    input_setrooms({
+      ...input_rooms,
+      image: input_rooms.image.filter(el => el.public_id !== e.target.value)
+  })
+}
+
   const onHandleDelete = (e) => {
     e.preventDefault();
     input_setrooms({
@@ -193,11 +201,10 @@ export default function CreateRooms() {
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_rooms.image.map((imag) => (
-                    <div>
-                      <img src={imag.url} alt='' />
+                    <div key={imag.public_id}>
+                      <img src={imag.url} alt='images room'></img><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
-
                 </div>
                 <div className="nombre text-danger "></div>
               </div>
