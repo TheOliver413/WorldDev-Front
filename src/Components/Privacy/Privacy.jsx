@@ -696,8 +696,11 @@ Esta Política de cookies puede modificarse cada cierto tiempo. Si estos cambios
 
             <div>
             <Link to='/login'>
-                <button>Go Login</button>
-                </Link> 
+            <div className="d-grid gap-2 d-sm-block">
+            <button className="btn btn-primary mt-4" type="button">Go Login</button>
+            </div>
+                
+            </Link>
             </div>
 
         </div>

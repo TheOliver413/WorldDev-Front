@@ -25,10 +25,15 @@ export default function Terms(){
             <p>World Developers</p>
             </div>
             <div>
-                <Link to='/login'>
-                <button>Go Login</button>
-                </Link>
+            <Link to='/login'>
+            <div className="d-grid gap-2 d-sm-block">
+            <button className="btn btn-primary mt-4" type="button">Go Login</button>
+            </div>
+                
+            </Link>
             </div>
         </div>
     )
 }
+
+ 
