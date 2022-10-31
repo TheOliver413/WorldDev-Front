@@ -8,6 +8,9 @@ import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import "./Styles.css"
 
+import SendRecibo from '../emails/sendReceipt';
+import { useAuth } from "../../context/AuthContext";
+
 
 const stripePromise = loadStripe("pk_test_51Lv6iyAgVz7gSSKmM3Nn4gPDG0b2m1ao5epp7hU2zrhEiq9BXLQMX4Vp6Sqqq1VQbqgNtEny7WdAWO5zSnjPjn0i00AkkxU0oH");
 
@@ -16,6 +19,7 @@ const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const dispatch = useDispatch();
+    const { user } = useAuth()
 
     const { cartRooms, cartTotalAmount, cartTotalQuantity } = useSelector(state => state.reducerCart)
     const allBookings = useSelector(state => state.reducerStripe.allBooking)
@@ -98,14 +102,17 @@ const CheckoutForm = () => {
         });
 
         if (!error) {
-            const { id } = paymentMethod;
-            dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
+            const { id } = paymentMethod; 
+            const data = dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
             setLoading(true)
             elements.getElement(CardElement).clear();
             setLoading(false)
             setTimeout(() => {
                 navigate('/home')
             }, 8000);
+            console.log("EMAIL "+user.email)
+           
+            SendRecibo(user.email)
         } else {
             toast.error('Unprocessed Payment', { position: 'bottom-right' })
         }

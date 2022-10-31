@@ -35,13 +35,13 @@ const RoomDetail = () => {
 
   useEffect(() => {
     setIsFavorite(IDs.includes(id))
-  }, [id, IDs]) 
-    
+  }, [id, IDs])
+
   useEffect(() => {
     dispatch(getAllBooking())
     dispatch(getDetailRoom(id));
     dispatch(getFavoritesID(user?.uid))
-return () => cleanRoomDetail()
+    return () => cleanRoomDetail()
   }, [dispatch, id, user?.uid]);
 
   //manejo del date input  
@@ -78,21 +78,21 @@ return () => cleanRoomDetail()
           } else if (e.newStock > 0 && e.newStock <= quantity) {
             setError(true)
             return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
-          }else{
+          } else {
             setError(false)
           }
-        }else{
+        } else {
           if (roomDetail.stock <= 0) {
             setError(true)
             return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
           } else if (roomDetail.stock > 0 && roomDetail.stock <= quantity) {
-            setError(true)            
+            setError(true)
             return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' })
-          } else{
+          } else {
             setError(false)
           }
-          console.log('roomDetail.stock',roomDetail.stock )
-          console.log('quantity',quantity )
+          console.log('roomDetail.stock', roomDetail.stock)
+          console.log('quantity', quantity)
         }
       })
     } else {// chequea con el stock original
@@ -102,11 +102,11 @@ return () => cleanRoomDetail()
       } else if (roomDetail.stock > 0 && roomDetail.stock < quantity) {
         setError(true)
         return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
-      } else{
+      } else {
         setError(false)
       }
-      console.log('roomDetail.stock',roomDetail.stock )
-          console.log('quantity',quantity )
+      console.log('roomDetail.stock', roomDetail.stock)
+      console.log('quantity', quantity)
     }
   }
   //-------------------------------------------------------------------------------------------
@@ -155,8 +155,13 @@ return () => cleanRoomDetail()
             <h1 className="roomDetail-title mt-2">{name}</h1>
 
             {/*  SERVICIOS CON ICONOS */}
-            <div>
-              {ServicesRooms.map(e => (<p><img src={e.image} alt='image service' /> <span>{e.name}</span></p>))}
+            <div className="list-group list-group-horizontal">
+              {ServicesRooms.map(e => (
+                <li className="list-group-item">
+                  <img style={{width: "50px", height: "50px", margin: "auto"}} src={e.image} alt='image service' />
+                  <span>{e.name}</span>
+                </li>
+              ))}
             </div>
 
             <p>{description}</p>
@@ -187,7 +192,7 @@ return () => cleanRoomDetail()
             <p className="mt-4">
               It is what you are looking for?&nbsp;
               {
-                  checkIn > checkOut || error ?
+                checkIn > checkOut || error ?
                   toast.error('The check-in date cannot be greater than the check-out date', { position: 'bottom-right' }) &&
                   <button onClick={handleAddToCart} className='btn btn-primary mx-sm-2' disabled>ADD TO CART</button>
                   :
