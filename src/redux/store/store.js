@@ -4,7 +4,8 @@ import reducerPagination from "../reducer/reducerPagination.js";
 import reducerCart from "../reducer/reducerCart.js";
 import reducerStripe from "../reducer/reducerStripe.js";
 import reducerFavorite from "../reducer/reducerFavorite.js";
-import reducerAuth from '../reducer/reducerAuth'
+import reducerAuth from "../reducer/reducerAuth";
+import reducerReview from "../reducer/reducerReview";
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
@@ -18,7 +19,8 @@ const rootReducers = combineReducers({
   reducerCart,
   reducerStripe,
   reducerFavorite,
-  reducerAuth
+  reducerAuth,
+  reducerReview,
 });
 
 const store = createStore(
