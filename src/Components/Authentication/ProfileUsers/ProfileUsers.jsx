@@ -41,6 +41,16 @@ const ProfileUsers = () => {
           <button>Edit</button>
         </Link>
       </div>
+
+      <div>
+      <Link to='/cart'><button type="button" class="btn btn-primary">Reservation history</button></Link>
+      </div>
+
+      <div>
+      <Link to='/favorite'><button type="button" class="btn btn-primary">Favorite</button></Link>
+
+      </div>
+
     </div>
   );
 };

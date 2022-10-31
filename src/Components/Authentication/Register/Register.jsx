@@ -21,7 +21,8 @@ export default function Register() {
     password: "",
     rol:"user",
     displayName: "",
-    photoURL: ""
+    photoURL: "",
+    favorites:[]
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -35,12 +36,13 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL);
+      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL, user.favorites);
       let credential= {
         displayName: user.displayName,
         photoURL: user.photoURL,
         email: user.email,
         id: user.uid,
+        favorites: user.favorites
       }
       dispatch(createUsers(credential))
       navigate("/home")

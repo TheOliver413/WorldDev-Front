@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFavorites } from "../../redux/action/favoriteAction";
+import { cleanFavorite, getFavorites } from "../../redux/action/favoriteAction";
 import CardRoom from "../CardRoom/CardRoom";
 import { useAuth } from "../../context/AuthContext";
 import "./Favorite.css";
@@ -10,8 +10,17 @@ function Favorite() {
   const { user } = useAuth();
   const { favorites } = useSelector((state) => state.reducerFavorite);
 
+  // useEffect(()=>{
+  //   if(user && user.hasOwnProperty('uid')){
+  //     dispatch(getFavorites(user.uid))
+  //   }
+  //  }, [user])
+
+  
   useEffect(() => {
+    console.log('userfav', user)
     dispatch(getFavorites(user?.uid));
+    dispatch(cleanFavorite())
   }, [dispatch, user?.uid]);
 
   return (
