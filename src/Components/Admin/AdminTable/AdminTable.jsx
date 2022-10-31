@@ -220,7 +220,7 @@ import {
                 className="form-control"
                 readOnly
                 type="text"
-                value={this.state.data.length+1}
+                //value={this.state.data.length+1}
               />
             </FormGroup>
             
