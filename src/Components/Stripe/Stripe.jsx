@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import "./Styles.css"
+import { useAuth } from "../../context/AuthContext";
+import { getTotals } from "../../redux/action/cartAction";
 
 
 const stripePromise = loadStripe("pk_test_51Lv6iyAgVz7gSSKmM3Nn4gPDG0b2m1ao5epp7hU2zrhEiq9BXLQMX4Vp6Sqqq1VQbqgNtEny7WdAWO5zSnjPjn0i00AkkxU0oH");
@@ -16,6 +18,7 @@ const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const dispatch = useDispatch();
+    const { user } = useAuth();
 
     const { cartRooms, cartTotalAmount, cartTotalQuantity } = useSelector(state => state.reducerCart)
     const allBookings = useSelector(state => state.reducerStripe.allBooking)
@@ -25,6 +28,7 @@ const CheckoutForm = () => {
 
 
     useEffect(() => {
+        dispatch(getTotals())
         dispatch(getAllBooking())
     }, [dispatch])
 
@@ -42,15 +46,24 @@ const CheckoutForm = () => {
             }
         }
     } else {
-        cartRooms.forEach(e => {
+        cartRooms?.forEach(e => {
             let check = {
                 id: e.id,
+                name: e.name,
                 checkIn: e.checkIn,
                 checkOut: e.checkOut,
+                price: e.price,
                 cartQuantity: e.cartQuantity,
-                newStock: e.stock - e.cartQuantity
+                newStock: e.stock - e.cartQuantity,
+                hotel:(e.Hotels).map(el => el.name).toString(),
+                address:(e.Hotels).map(el => el.address).toString(),
+                idHotel:(e.Hotels).map(el => el.id).toString(),
+                status:'confirmed',
+                user:user.uid,
+                date: e.createdAt,
             }
             aux.push(check)
+            console.log('check1', check)
         })
     }
 
@@ -58,26 +71,45 @@ const CheckoutForm = () => {
 
     if (orderBook.length) {
         for (let i = 0; i < cartRooms.length; i++) {
-            let book = orderBook.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
+            let book = orderBook?.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
             if (book) {
                 let check = {
                     id: cartRooms[i].id,
+                    name: cartRooms[i].name,
                     checkIn: cartRooms[i].checkIn,
                     checkOut: cartRooms[i].checkOut,
+                    price: cartRooms[i].price,
                     cartQuantity: cartRooms[i].cartQuantity,
-                    newStock: book.newStock - cartRooms[i].cartQuantity
+                    newStock: book.newStock - cartRooms[i].cartQuantity,
+                    hotel:(cartRooms[i].Hotels).map(el => el.name).toString(),
+                    address:(cartRooms[i].Hotels).map(el => el.address).toString(),
+                    idHotel:(cartRooms[i].Hotels).map(el => el.id).toString(),
+                    status:'confirmed',
+                    user:user.uid,
+                    date: cartRooms[i].createdAt,
+                 
                 }
                 aux.push(check)
+                console.log('check2', check)
 
             } else {
                 let check = {
                     id: cartRooms[i].id,
+                    name: cartRooms[i].name,
                     checkIn: cartRooms[i].checkIn,
                     checkOut: cartRooms[i].checkOut,
+                    price: cartRooms[i].price,
                     cartQuantity: cartRooms[i].cartQuantity,
-                    newStock: cartRooms[i].stock - cartRooms[i].cartQuantity
+                    newStock: cartRooms[i].stock - cartRooms[i].cartQuantity,
+                    hotel:(cartRooms[i].Hotels).map(el => el.name).toString(),
+                    address:(cartRooms[i].Hotels).map(el => el.address).toString(),
+                    idHotel:(cartRooms[i].Hotels).map(el => el.id).toString(),
+                    status:'confirmed',
+                    user:user.uid,
+                    date: cartRooms[i].createdAt
                 }
                 aux.push(check)
+                console.log('check3', check)
             }
         }
     }
@@ -86,8 +118,11 @@ const CheckoutForm = () => {
     const booking = {
         cartTotalQuantity: cartTotalQuantity,
         cartTotalAmount: cartTotalAmount,
-        cartRoom: aux
+        cartRoom: aux,
+        status:'confirmed',
+        user:user.uid
     }
+    console.log('boooking', booking)
     //---------------------------------------------------------------------------
 
     const handleSubmit = async (e) => {
