@@ -1,11 +1,56 @@
 import axios from 'axios';
-
+export const GET_BLOCKED ="GET_BLOCKED";
 export const PUT_USERS = "PUT_USERS";
 export const POST_USERS = "POST_USERS";
 export const GET_DETAIL_USER = "GET_DETAIL_USER";
+export const GET_ALL_ADMINS ="GET_ALL_ADMINS";
+export const GET_ALL_USERS ="GET_ALL_USERS";
 
 
 const BACK_URL = "http://localhost:3001"
+
+export function blocked(data){
+  return async function(dispatch) {
+    try {
+      const block = await axios.put(`${BACK_URL}/users/blocked`,data)
+      dispatch({
+        type: GET_BLOCKED ,
+        payload: block.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function getAllAdmins(){
+  return async function(dispatch) {
+    try {
+      const getAdmins = await axios.get(`${BACK_URL}/users/admins`)
+      dispatch({
+        type: GET_ALL_ADMINS,
+        payload: getAdmins.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function getAllUsers(){
+  return async function(dispatch) {
+    try {
+      const getUsers = await axios.get(`${BACK_URL}/users`)
+      dispatch({
+        type: GET_ALL_USERS,
+        payload: getUsers.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 
 export function getDetailUser(id) {
   return async function (dispatch) {
