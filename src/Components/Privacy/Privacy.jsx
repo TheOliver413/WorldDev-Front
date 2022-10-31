@@ -672,26 +672,7 @@ Cómo contactar con nosotros
 Si tienes alguna pregunta sobre esta Política de cookies, envía un e-mail a dataprotectionoffice@booking.com.
 
 Esta Política de cookies puede modificarse cada cierto tiempo. Si estos cambios son sustanciales, te conciernen o afectan a tus derechos de protección de datos, nos pondremos en contacto contigo para avisarte. Sin embargo, te recomendamos consultar esta página con regularidad para estar al día de cualquier cambio (menos sustancial o relevante).</p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-            
-            
-            
+
             </div>
 
             <div>
