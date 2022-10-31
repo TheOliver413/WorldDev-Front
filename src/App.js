@@ -40,6 +40,8 @@ import ProfileSuperAdmin from "./Components/SuperAdmin/ProfileSuperAdmin";
 import FormsAdmin from "./Components/Admin/FormsAdmin/FormsAdmin";
 import FormsSuperAdmin from "./Components/SuperAdmin/FormsSuperAdmin";
 import CreateReview from "./Components/CreateReview/CreateReview";
+import HistoryBookings from "./Components/Users/HistoryBookings";
+import Stock from "./Components/Admin/Stock/Stock";
 
 function App() {
   const dispatch = useDispatch()
@@ -85,6 +87,8 @@ function App() {
           <Route exact path="/profileAdmin/formsAdmin" element={<FormsAdmin/>}/>
           <Route exact path="/profileSuperAdmin/formsSuperAdmin" element={<FormsSuperAdmin/>}/>
           <Route exact path="/hotel/:id/review" element={<CreateReview />} />
+          <Route path="/user/history" element={<HistoryBookings/>} />
+          <Route path="/admin/stock" element={<Stock/>} />
         </Routes>
         <Footer />
       </AuthProvider>

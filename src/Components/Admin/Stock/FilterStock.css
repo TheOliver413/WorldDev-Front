@@ -1,0 +1,41 @@
+.filter-btn,
+.filter-btn:hover {
+    border: 1px solid var(--clr-black);
+}
+
+.filter-window-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: #20120050;
+    z-index: 1111;
+}
+
+.filter-window {
+    background-color: white;
+    z-index: 2222;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    width: 75%;
+    max-width: 650px;
+    animation: start .25s;
+}
+
+@keyframes start {
+    0% {
+        transform: translate(-50%, -45%);
+        opacity: .4;
+    }
+}
+
+@media (min-width: 700px) {
+    .navfilters-order-filter {
+        gap: 1rem;
+    }
+}
