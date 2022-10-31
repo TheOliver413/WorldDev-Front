@@ -13,16 +13,16 @@ import { useDispatch } from "react-redux";
 
 
 export default function Register() {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const { signup, sendE, login, emailLink } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
     password: "",
-    rol:"user",
+    rol: "user",
     displayName: "",
     photoURL: "",
-    favorites:[]
+    favorites: []
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -37,7 +37,7 @@ export default function Register() {
     setError("");
     try {
       await signup(user.email, user.password, user.rol, user.displayName, user.photoURL, user.favorites);
-      let credential= {
+      let credential = {
         displayName: user.displayName,
         photoURL: user.photoURL,
         email: user.email,
@@ -45,14 +45,10 @@ export default function Register() {
         favorites: user.favorites
       }
       dispatch(createUsers(credential))
+      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
       navigate("/home")
     } catch (error) {
-      if (error.code === 'auth/invalid-email') {
-        toast.error("Email invalid", { position: 'bottom-right' })
-      }
-      if (error.code === 'auth/weak-password') {
-        toast.info("Weak password", { position: 'bottom-right' })
-      }
+      console.log("Error:"+error)
     }
   };
 
@@ -62,7 +58,7 @@ export default function Register() {
   //   try {
   //     await sendE(user.email)
   //     toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
-  //     navigate("/");
+      // navigate("/");
   //     await login(user.email, user.password)
   //     await emailLink(user.email, user.password)
 
@@ -96,16 +92,14 @@ export default function Register() {
           <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*****" onChange={handleChange} />
         </div>
 
-        {/* <div>
+        <div>
           {
             !user.email || !user.password || user.password.length < 6 ?
-            <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
-            :
-              <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
+              :
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
           }
-        </div> */}
-
-        <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+        </div>
 
         <div class="d-flex gap-1 justify-content-center mt-1">
           <div>Do you already have an account</div>
