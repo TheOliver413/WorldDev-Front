@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import "./Styles.css"
-import { useAuth } from "../../context/AuthContext";
 import { getTotals } from "../../redux/action/cartAction";
 
 import SendRecibo from '../emails/sendReceipt';
