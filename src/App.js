@@ -41,6 +41,8 @@ import AboutUs from "./Components/AboutUs/About"
 import ProfileSuperAdmin from "./Components/SuperAdmin/ProfileSuperAdmin";
 import FormsAdmin from "./Components/Admin/FormsAdmin/FormsAdmin";
 import FormsSuperAdmin from "./Components/SuperAdmin/FormsSuperAdmin";
+import Privacy from "./Components/Privacy/Privacy";
+import Terms from "./Components/Terms/Terms";
 
 function App() {
   const dispatch = useDispatch()
@@ -52,6 +54,8 @@ function App() {
       <AuthProvider>
         <Nav />
         <Routes>
+          <Route exact path="/terms" element={< Terms />} />
+          <Route exact path="/privacy" element={< Privacy />} />
           <Route exact path="/home/Events" element={< Events />} />
           <Route exact path="/home/ModifyHotel" element={< ModifyHotel />} />
           <Route exact path="/home/ModifyRooms" element={<ModifyRooms />} />
