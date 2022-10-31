@@ -28,7 +28,7 @@ function CreateReview() {
     dispatch(
       postReviewHotel({
         idHotel: id,
-        name: user.displayName,
+        name: user.displayName || user.email,
         rating,
         comment,
         user: user.uid,
@@ -48,7 +48,7 @@ function CreateReview() {
       {!success ? (
         <form onSubmit={handleSubmitReview} className="card-body">
           <h2>
-            Write a comment about&nbsp;
+            Write a review about&nbsp;
             {detailHotel.name ? detailHotel.name : "the hotel"}
           </h2>
           <h4 className="mt-4">Rating</h4>
