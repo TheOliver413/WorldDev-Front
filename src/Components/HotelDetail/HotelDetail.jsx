@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { clearDetail, getDetailHotel } from "../../redux/action/action.js";
 // import ServicesHotel from "../ServicesHotel/ServicesHotel.jsx";
 import CardRoom from "../CardRoom/CardRoom.jsx";
+import Review from "../Review/Review.jsx";
 import './HotelDetail.css'
 
 const HotelDetail = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const hotelDetail = useSelector((state) => state.reducerHotel.detailHotel);
-  const { name, image, qualification, description, Locations, Rooms } = hotelDetail
+  const { name, image, qualification, description, Locations, Rooms, Reviews } = hotelDetail
 
   //component did mount/update
   useEffect(() => {
@@ -64,12 +66,16 @@ const HotelDetail = () => {
               <CardRoom key={r.id} id={r.id} name={r.name} image={r.image} price={(r.price)} description={r.description} />
             ))}
 
-            {/* <h2>What this place offers</h2> */}
-            {/* <ServicesHotel /> */}
+            {!!Reviews.length && (
+              <>
+                <h2 className="mt-5">Reviews</h2>
+                {Reviews.map(r => (
+                  <Review key={r.id} id={r.id} name={r.name} rating={r.rating} comment={r.comment} />
+                ))}
+              </>
+            )}
             <div className="d-grid gap-2 d-sm-block">
-              <Link to="/home">
-                <button className="btn btn-primary mt-4">Back</button>
-              </Link>
+              <button onClick={() => navigate(-1)} className="btn btn-primary mt-4">Back</button>
             </div>
           </div>
         </>
