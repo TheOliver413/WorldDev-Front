@@ -35,11 +35,31 @@ const ProfileAdmin = () => {
         <h4>City: {datosA.city}</h4>
         <h4>Country: {datosA.country}</h4>
       </div>
+      
+      {/* {
+      datosA.rol==="superAdmin"?
       <div>
         <Link to='/profileAdmin/editAdmin'>
           <button>Edit</button>
         </Link>
+      </div>:null
+      } */}
+
+      <div>
+        <Link to='/profileAdmin/formsAdmin'>
+          <button>Edit forms</button>        
+        </Link>
       </div>
+
+      <div>
+        <button>Reservation history</button>
+      </div>
+
+      <div>
+        <button>User table</button>
+      </div>
+
+
     </div>
   );
 };

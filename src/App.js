@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Home from "./Components/Home/Home.jsx";
-import Create from "./Components/Create/Create";
+// import Create from "./Components/Create/Create";
 import Nav from "./Components/Nav/Nav"
 import HotelDetail from './Components/HotelDetail/HotelDetail.jsx'
 import Footer from './Components/Footer/Footer'
@@ -34,10 +34,13 @@ import Events from "./Components/Events/Events";
 import UserTable from "./Components/Admin/UserTable/UserTable";
 import AdminTable from "./Components/Admin/AdminTable/AdminTable";
 import RegisterAdmin from './Components/Admin/RegisterAdmin/RegisterAdmin';
-import EditAdmin from './Components/Admin/EditAdm/EditAdmin';
+import EditAdmin from './Components/Admin/EditAdmin/EditAdmin';
 import ProfileAdmin from './Components/Admin/ProfileAdmin/ProfileAdmin';
 
 import AboutUs from "./Components/AboutUs/About"
+import ProfileSuperAdmin from "./Components/SuperAdmin/ProfileSuperAdmin";
+import FormsAdmin from "./Components/Admin/FormsAdmin/FormsAdmin";
+import FormsSuperAdmin from "./Components/SuperAdmin/FormsSuperAdmin";
 
 function App() {
   const dispatch = useDispatch()
@@ -60,7 +63,7 @@ function App() {
           <Route exact path="/home/modifyEvents" element={<ModifyEvents />} />
           <Route exact path="/home/createRooms" element={<CreateRooms />} />
           <Route exact path="/home/createHotels" element={<CreateHotel />} />
-          <Route exact path="/home/dashboard" element={<Create />} />
+          {/* <Route exact path="/home/dashboard" element={<Create />} /> */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
@@ -78,6 +81,9 @@ function App() {
           <Route exact path="/profileAdmin" element={<ProfileAdmin/>}/>
           <Route exact path="/profileAdmin/editAdmin" element={<EditAdmin/>} />
           <Route exact path="/admin/usertable" element={<UserTable />} />
+          <Route exact path="/profileSuperAdmin" element={<ProfileSuperAdmin/>} />
+          <Route exact path="/profileAdmin/formsAdmin" element={<FormsAdmin/>}/>
+          <Route exact path="/profileSuperAdmin/formsSuperAdmin" element={<FormsSuperAdmin/>}/>
         </Routes>
         <Footer />
       </AuthProvider>
