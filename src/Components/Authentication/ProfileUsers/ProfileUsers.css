@@ -1,0 +1,24 @@
+.profileUser-container {
+  position: relative;
+}
+
+.profileUser-container img{
+  border-radius: 160px;
+  height: 160px !important;
+  object-fit: cover;
+}
+
+.profileUser-edit-btn {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  background: none;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .profileUser-edit-btn {
+    right: 3rem;
+    top: 3rem;
+  }
+}
