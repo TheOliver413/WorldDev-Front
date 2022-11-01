@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from 'react-redux'
+import { getTotals } from "./redux/action/cartAction";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Home from "./Components/Home/Home.jsx";
 // import Create from "./Components/Create/Create";
@@ -22,8 +23,6 @@ import ModifyServRooms from "./Components/CreateServRooms/ModifyServiceRooms";
 import ModifyEvents from "./Components/CreateEvents/ModifyEvents";
 import Stripe from "./Components/Stripe/Stripe";
 import Cart from "./Components/Cart/Cart";
-import { getTotals } from "./redux/action/cartAction";
-
 import AuthProvider from "./context/AuthContext";
 import ProtectedRoute from "./Components/Authentication/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Authentication/Login/Login";
@@ -36,19 +35,17 @@ import AdminTable from "./Components/Admin/AdminTable/AdminTable";
 import RegisterAdmin from './Components/Admin/RegisterAdmin/RegisterAdmin';
 import EditAdmin from './Components/Admin/EditAdmin/EditAdmin';
 import ProfileAdmin from './Components/Admin/ProfileAdmin/ProfileAdmin';
-
 import AboutUs from "./Components/AboutUs/About"
 import ProfileSuperAdmin from "./Components/SuperAdmin/ProfileSuperAdmin";
 import FormsAdmin from "./Components/Admin/FormsAdmin/FormsAdmin";
 import FormsSuperAdmin from "./Components/SuperAdmin/FormsSuperAdmin";
-import Privacy from "./Components/Privacy/Privacy";
-import Terms from "./Components/Terms/Terms";
 
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getTotals())
   }, [dispatch])
+
   return (
     <div>
       <AuthProvider>
@@ -88,6 +85,9 @@ function App() {
           <Route exact path="/profileSuperAdmin" element={<ProfileSuperAdmin/>} />
           <Route exact path="/profileAdmin/formsAdmin" element={<FormsAdmin/>}/>
           <Route exact path="/profileSuperAdmin/formsSuperAdmin" element={<FormsSuperAdmin/>}/>
+          <Route exact path="/hotel/:id/review" element={<CreateReview />} />
+          <Route path="/user/history" element={<HistoryBookings/>} />
+          <Route path="/admin/stock" element={<Stock/>} />
         </Routes>
         <Footer />
       </AuthProvider>

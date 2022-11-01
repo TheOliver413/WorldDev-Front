@@ -5,6 +5,13 @@ export const POST_STRIPE = "POST_STRIPE";
 export const POST_BOOKING = "POST_BOOKING";
 export const GET_ALL_BOOKINGS = 'GET_ALL_BOOKINGS';
 export const GET_BOOKING = 'GET_BOOKING';
+export const GET_BOOKINGS_USER = 'GET_BOOKINGS_USER';
+export const PUT_BOOKING_STATUS = 'PUT_BOOKING_STATUS';
+export const GET_BOOKS = 'GET_BOOKS';
+export const ORDER_BOOKS_BY_HOTEL = 'ORDER_BOOKS_BY_HOTEL';
+export const ORDER_BOOKS_BY_DATE = 'ORDER_BOOKS_BY_DATE';
+export const FILTER_BOOKS_BY_HOTEL = 'FILTER_BOOKS_BY_HOTEL';
+
 
 
 const BACK_URL = "http://localhost:3001";
@@ -36,7 +43,7 @@ export default function postStripe(payload, booking) {
 }
 
 
-export function getAllBooking(){
+export function getAllBooking() {
   return async function (dispatch) {
     try {
       const bookings = await axios.get(`${BACK_URL}/booking`);
@@ -62,5 +69,59 @@ export function getBookingById(id) {
       console.log(error)
     }
   }
+}
+
+export function getBookingByIdUser(id) {
+  return async function (dispatch) {
+    try {
+      const bookingUser = await axios.get(`${BACK_URL}/booking/user/${id}`);
+      dispatch({
+        type: GET_BOOKINGS_USER,
+        payload: bookingUser.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function updateStatusBooking(payload) {
+  return async function (dispatch) {
+    try {
+      const booking = await axios.put(`${BACK_URL}/booking/status`, payload);
+      dispatch({
+        type: PUT_BOOKING_STATUS,
+        payload
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function getBooks() {
+  return async function (dispatch) {
+    try {
+      const books = await axios.get(`${BACK_URL}/books`);
+      dispatch({
+        type: GET_BOOKS,
+        payload: books.data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function orderBooksByHotel(payload) {
+  return ({ type: ORDER_BOOKS_BY_HOTEL, payload })
+}
+
+export function orderBooksByDate(payload) {
+  return ({ type: ORDER_BOOKS_BY_DATE, payload })
+}
+
+export function filterBooksByHotel(payload) {
+  return ({ type: FILTER_BOOKS_BY_HOTEL, payload })
 }
 
