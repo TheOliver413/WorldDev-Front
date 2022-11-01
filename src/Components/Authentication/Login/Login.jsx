@@ -130,6 +130,16 @@ export default function Login() {
           <div className="fw-semibold text-secondary" onClick={handleGoogleSignin}>Continue with Google</div>
         </div>
 
+        <div className="d-flex gap-1 justify-content-center mt-1">
+          <div>By signing in or creating an account, you agree to our
+          <Link to="/terms">
+            <a href="#" className="login-text text-decoration-none fw-semibold">Terms and Conditions</a>
+          </Link> and
+          <Link to="/privacy">
+            <a href="#" className="login-text text-decoration-none fw-semibold"> Privacy Policy</a>
+          </Link>
+          </div>
+        </div>
       </form>
     </div>
   );
