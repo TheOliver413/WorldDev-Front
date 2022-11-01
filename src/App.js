@@ -39,6 +39,11 @@ import AboutUs from "./Components/AboutUs/About"
 import ProfileSuperAdmin from "./Components/SuperAdmin/ProfileSuperAdmin";
 import FormsAdmin from "./Components/Admin/FormsAdmin/FormsAdmin";
 import FormsSuperAdmin from "./Components/SuperAdmin/FormsSuperAdmin";
+import CreateReview from "./Components/CreateReview/CreateReview";
+import HistoryBookings from "./Components/Users/HistoryBookings";
+import Stock from "./Components/Admin/Stock/Stock";
+import Terms from "./Components/Terms/Terms";
+import Privacy from "./Components/Privacy/Privacy";
 
 function App() {
   const dispatch = useDispatch()
