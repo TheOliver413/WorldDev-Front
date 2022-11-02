@@ -81,14 +81,14 @@ export default function Login() {
         <div className="text-center fs-1 fw-bold">Login</div>
 
         <div className="input-group mt-4">
-          <div className="input-group-text loging">
+          <div className="input-group-text login">
             <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
           </div>
           <input className="form-control bg-light" type="email" name="email" id="email" placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
         <div className="input-group mt-1">
-          <div className="input-group-text loging">
+          <div className="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
           <input className="form-control bg-light" type={showPwd ? "text" : "password"} name="password" id="password" placeholder="*************" onChange={handleChange} />

@@ -72,14 +72,14 @@ export default function Register() {
         <div class="text-center fs-1 fw-bold">Register</div>
 
         <div class="input-group mt-4">
-          <div class="input-group-text loging">
+          <div class="input-group-text login">
             <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
           </div>
           <input class="form-control bg-light" type="email" name='email' placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
         <div class="input-group mt-1">
-          <div class="input-group-text loging">
+          <div class="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
           <input class="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="*****" onChange={handleChange} />
