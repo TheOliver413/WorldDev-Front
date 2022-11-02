@@ -65,6 +65,15 @@ const CreateServHotels = () => {
         })
         myWidget.open()
     }
+
+    const onHandleDeleteimage = (e) => {
+        e.preventDefault();
+        setInput_serv_hotel({
+          ...input_serv_hotel,
+          image: input_serv_hotel.image.filter(el => el.public_id !== e.target.value)
+      })
+    }
+
     //------------ HANDLE CHANGE DEMAS INPUT SERVICES HOTEL----------//
     const handleChange = (e) => {
         e.preventDefault();
@@ -160,8 +169,8 @@ const CreateServHotels = () => {
                                 <div>
                                     <div>
                                         {input_serv_hotel.image?.map((imag) => (
-                                            <div>
-                                                <img src={imag.url} alt='' />
+                                            <div key={imag.public_id}>
+                                                <img src={imag.url} alt='images servHotel'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                                             </div>
                                         ))}
                                     </div>

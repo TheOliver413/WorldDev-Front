@@ -2,18 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../Create/Styles.css';
 
-export default function Create() {
+export default function FormsSuperAdmin() {
 
   return (
     <div class="container">
+      <Link to='/profileSuperAdmin'>
+        <button className="btn btn-primary mt-1" type="button">Back</button>
+      </Link>
       <div class="row">
         <div class="col-sm-6">
-          <div>
-              <Link to="../Admin/UserTable/"><button>User Table</button></Link>
-              <Link to="../Admin/AdminTable"><button>Admin Table</button></Link>
-              <Link to="../Admin/AdminData"><button>Admin Data</button></Link>
-              <Link to="../Admin/AdminRegister"><button>Admin Register</button></Link>
-          </div>
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Hotels</h5>
@@ -112,4 +109,3 @@ export default function Create() {
     </div>
   )
 }
-

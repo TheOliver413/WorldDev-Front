@@ -7,13 +7,22 @@ import { toast } from "react-toastify";
 import loginico from "./login-icon.svg";
 import userico from "./username-icon.svg"
 import passwordico from "./password-icon.svg"
+import { createUsers } from "../../../redux/action/actionAuth";
+import { useDispatch } from "react-redux";
+
+
 
 export default function Register() {
+  const dispatch = useDispatch();
   const { signup, sendE, login, emailLink } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
+    rol: "user",
+    displayName: "",
+    photoURL: "",
+    favorites: []
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -27,32 +36,36 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password);
-      navigate("/home");
+      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL, user.favorites);
+      let credential = {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        email: user.email,
+        id: user.uid,
+        favorites: user.favorites
+      }
+      dispatch(createUsers(credential))
+      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
+      navigate("/home")
     } catch (error) {
-      if (error.code === 'auth/invalid-email') {
-        toast.error("Email invalid", { position: 'bottom-right' })
-      }
-      if (error.code === 'auth/weak-password') {
-        toast.info("Weak password", { position: 'bottom-right' })
-      }
+      console.log("Error:"+error)
     }
   };
 
-  const handleSendEmailVerification = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      await sendE(user.email)
-      toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
-      navigate("/");
-      await login(user.email, user.password)
-      await emailLink(user.email, user.password)
+  // const handleSendEmailVerification = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   try {
+  //     await sendE(user.email)
+  //     toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
+      // navigate("/");
+  //     await login(user.email, user.password)
+  //     await emailLink(user.email, user.password)
 
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -76,15 +89,15 @@ export default function Register() {
           <div class="input-group-text loging">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*************" onChange={handleChange} />
+          <input class="form-control bg-light" type="password" name='password' id="password" placeholder="*****" onChange={handleChange} />
         </div>
 
         <div>
           {
             !user.email || !user.password || user.password.length < 6 ?
-            <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
-            :
-              <button onClick={handleSendEmailVerification} className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
+              :
+              <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
           }
         </div>
 

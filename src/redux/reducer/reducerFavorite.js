@@ -3,6 +3,7 @@ import {
   GET_FAVORITES,
   GET_FAVORITES_ID,
   REMOVE_ROOM_FROM_FAVORITES,
+  CLEAN_FAVORITE
 } from "../action/favoriteAction.js";
 
 const initialStateHotel = {
@@ -33,6 +34,11 @@ const favorite_reducer = (state = initialStateHotel, action) => {
       return {
         ...state,
       };
+    case CLEAN_FAVORITE:
+      return {
+        ...state,
+        favorites: []
+      }
 
     default:
       return { ...state };

@@ -69,6 +69,15 @@ const ModifyServRooms = () => {
         })
         myWidget.open()
     }
+
+    const onHandleDeleteimage = (e) => {
+        e.preventDefault();
+        setInput_serv_room({
+          ...input_serv_room,
+          image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
+      })
+    }
+
     //------------ HANDLE CHANGE --------------//
     const handleChange = (e) => {
         e.preventDefault();
@@ -148,8 +157,8 @@ const ModifyServRooms = () => {
                                 <div>
                                     <div>
                                         {input_serv_room.image?.map((imag) => (
-                                            <div>
-                                                <img src={imag.url} alt='' />
+                                            <div key={imag.public_id}>
+                                                <img src={imag.url} alt='images servRoom'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                                             </div>
                                         ))}
                                     </div>

@@ -33,7 +33,8 @@ const cart_reducer = (state = initialState, action) => {
           localStorage.setItem('cartRooms', JSON.stringify(state.cartRooms))
           return {
             ...state,
-            cartTotalQuantity: state.cartTotalQuantity += 1
+            cartTotalQuantity: state.cartTotalQuantity += 1,
+            cartTotalAmount: state.cartTotalAmount += action.payload.totalPrice
           }
         //si TIENE DISTINTA FECHA => la agrego de vuelta
         } else {

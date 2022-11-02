@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import logo from "./world-developers.png";
@@ -6,6 +6,7 @@ import suitcase from "./suitcase.svg";
 import "./Styles.css";
 import { useAuth } from "../../context/AuthContext";
 import { clearCart } from "../../redux/action/cartAction";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 export default function Nav() {
   const cartTotalQuantity = useSelector(
@@ -16,6 +17,20 @@ export default function Nav() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+
+
+
+  const datosTotal= useSelector(state => state.reducerAuth.users)
+
+  useEffect(()=>{
+    if(user && user.hasOwnProperty('uid')){
+      dispatch(getDetailUser(user.uid))
+    }
+   }, [user])
+
+
+
 
   const handleLogout = async () => {
     try {
@@ -77,7 +92,7 @@ export default function Nav() {
               </Link>
             </li>
 
-            {user && (
+            {/* {user && (
               <>
                 <li className="nav-item">
                   <Link className="nav-link text-dark" to="/home/dashboard">
@@ -90,7 +105,7 @@ export default function Nav() {
                   </Link>
                 </li>
               </>
-            )}
+            )} */}
 
             <li className="nav-item">
               <Link className="nav-link text-dark" to="/about">
@@ -128,7 +143,19 @@ export default function Nav() {
 
             {userMenuVisibility && (
               <div className="nav-usermenu-bg">
-                <Link onClick={handleUserMenuToggle} to="/profileusers">See profile</Link>
+                    {
+                      datosTotal.rol==='user'?
+                      <Link onClick={handleUserMenuToggle} to="/profileusers">See profile</Link>:null
+                    }
+                    {
+                      datosTotal.rol==='admin' ?
+                      <Link onClick={handleUserMenuToggle} to="/profileAdmin">See profile</Link>:null
+                    }
+                    {
+                      datosTotal.rol==='superAdmin'?
+                      <Link onClick={handleUserMenuToggle} to="/profileSuperAdmin">See profile</Link>:null
+                    }
+              
                 <hr />
                 <button className="nav-log-btn" onClick={handleLogout} type="button">
                   Log out

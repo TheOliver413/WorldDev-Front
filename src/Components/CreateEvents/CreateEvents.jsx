@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createEvents, getHotels } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 const validate = (input_event) => {
   let errors = {};
@@ -81,6 +82,13 @@ const CreateEvents = () => {
     }))
   }
 
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    setInput_event({
+      ...input_event,
+      image: input_event.image.filter(el => el.public_id !== e.target.value)
+  })
+}
   //------------ HANDLE CHANGE --------------//
   const handleChangeDate = (e) => {
     e.preventDefault();
@@ -179,6 +187,8 @@ const CreateEvents = () => {
                             <input type="date" 
                             className="form-control"
                             value={input_event.date} 
+                            min={format(new Date(), 'yyyy-MM-dd')} 
+                            max="2023-04-01"
                             name="date" 
                             onChange={(e)=>
                             handleChangeDate(e)} />
@@ -204,8 +214,8 @@ const CreateEvents = () => {
                           <div>
                       <div>
                         {input_event.image?.map((imag) =>(
-                        <div>
-                          <img src={imag.url} alt='' />
+                        <div key={imag.public_id}>
+                          <img src={imag.url} alt='images event'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                         </div>
                        ))}
                         </div>

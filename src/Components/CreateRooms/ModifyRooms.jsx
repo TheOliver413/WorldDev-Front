@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, clearDetail } from '../../redux/action/action';
+import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, cleanRoomDetail } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -61,8 +61,12 @@ export default function ModifyRooms() {
   useEffect(() => {
     !hotels.length && dispatch(getHotels()); 
     dispatch(getAllServicesRoom()); 
-    return () =>clearDetail()  
   }, [dispatch, hotels])
+
+  //component will unmount
+  useEffect(()=> {
+    return () => dispatch(cleanRoomDetail())
+  }, [dispatch])
   
   //------------------ HANDLE CHANGE ROOMS-------------------//
 
@@ -138,6 +142,14 @@ export default function ModifyRooms() {
     })
     myWidget.open()
   }
+
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    input_setrooms({
+      ...input_rooms,
+      image: input_rooms.image.filter(el => el.public_id !== e.target.value)
+  })
+}
 
   const onHandleDelete = (e) => {
     e.preventDefault();
@@ -263,8 +275,8 @@ export default function ModifyRooms() {
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_rooms.image.map((imag) => (
-                    <div>
-                      <img src={imag.url} alt='images room' />
+                    <div key={imag.public_id}>
+                      <img  src={imag.url} alt='images room'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
 

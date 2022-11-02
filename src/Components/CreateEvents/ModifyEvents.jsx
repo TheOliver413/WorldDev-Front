@@ -93,6 +93,15 @@ const ModifyEvents = () => {
     })
     myWidget.open()
   }
+
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    setInput_event({
+      ...input_event,
+      image: input_event.image.filter(el => el.public_id !== e.target.value)
+  })
+}
+
   //------------ HANDLE CHANGE HOTEL NAME----------//
   const handleChangeHotel = (e) => {
     e.preventDefault();
@@ -119,6 +128,7 @@ const ModifyEvents = () => {
     }))
   }
 
+  console.log("info hacia el back: ",input_event)
   //----------------HANDLE SUBMIT EVENT------------------//
   const navigate = useNavigate()
   const handleSubmit = (e) => {
@@ -241,8 +251,8 @@ const ModifyEvents = () => {
                 <div>
                   <div>
                     {input_event.image?.map((imag) => (
-                      <div>
-                        <img src={imag.url} alt='' />
+                      <div key={imag.public_id}>
+                        <img src={imag.url} alt='images event'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                       </div>
                     ))}
                   </div>

@@ -4,6 +4,8 @@ import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHot
 import '../Create/Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 const validate = (input_hotels) => {
   let errors = {};
@@ -33,6 +35,24 @@ export default function ModifyHotel() {
   const get_city = useSelector(state => state.reducerHotel.location_city)
   const detailHotel = useSelector(state => state.reducerHotel.detailHotel)
 
+
+  const datos = useSelector((state) => state.reducerAuth.users);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user && user.uid) dispatch(getDetailUser(user.uid));
+  }, [dispatch, user]);
+
+useEffect(()=> {
+  if (datos && datos.rol === "admin"){
+    let hotelFinded = hotels.find(e => e.name === datos.hotel)
+
+    input_sethotels({
+      ...input_hotels,
+      id: hotelFinded.id
+    })
+  }
+},[datos])
 
   const [input_hotels, input_sethotels] = useState({
     id: "",
@@ -141,6 +161,13 @@ export default function ModifyHotel() {
     myWidget.open()
   }
 
+  const onHandleDeleteimage = (e) => {
+    e.preventDefault();
+    input_sethotels({
+      ...input_hotels,
+      image: input_hotels.image.filter(el => el.public_id !== e.target.value)
+  })
+}
 
   //---------------- HANDLE SUBMIT HOTELS------------------//
   const navigate = useNavigate()
@@ -180,6 +207,7 @@ export default function ModifyHotel() {
             <div className="mb-4">
               <div>
                 <label htmlFor="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                {datos && datos.rol === "superAdmin" ?
                 <select className="form-select" name="id" value={input_hotels.id} onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected>Select hotel name</option>
                   {hotels?.sort((a,b)=>{
@@ -189,7 +217,8 @@ export default function ModifyHotel() {
                       <option value={ele.id} key={i}>{`${ele.name}, ${(ele.Locations).map(ele=>
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     ))}
-                </select>
+                </select>:
+                <option disabled value={datos.id}> {datos.hotel} </option>}
                 <div className="nombre text-danger "></div>
                 <div>
                 {errors.id && (<p>{errors.id}</p>)}
@@ -220,8 +249,8 @@ export default function ModifyHotel() {
                 <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
                 <div>
                   {input_hotels.image.map((imag) => (
-                    <div>
-                      <img src={imag.url} alt='' />
+                    <div key={imag.public_id}>
+                      <img src={imag.url} alt='images hotel'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
                 </div>
