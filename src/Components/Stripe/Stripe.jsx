@@ -35,39 +35,60 @@ const CheckoutForm = () => {
     }, [dispatch])
 
 
-    //CONTROL DE STOCK ------------------------------------------------------
-    const aux = []
-    const bookRoom = [] //array de solo los objetos de allbookin.cartRoom
-    if (allBookings.length && cartRooms.length) {
+    //CONTROL DE STOCK ------------HOLA JUAN CARLOS!! NI SE TE OCURRA TOCAR EL STOCK!!!!--------------
+    let aux = []
+
+    let bookRoom = []//array de array de los objetos de allbookin.cartRoom
+
+    if (allBookings.length) {
         for (let i = 0; i < allBookings.length; i++) {
             for (let j = 0; j < cartRooms.length; j++) {
                 let book = (allBookings[i].cartRoom?.filter(e => e.id === cartRooms[j].id))
                 if (book.length) {
                     bookRoom.push(book)
+                } else { // si no encontre reservas con ese id (si el filter no encontro coincidencias)
+                    let check = cartRooms?.map(e => ({
+                        id: e.id,
+                        name: e.name,
+                        checkIn: e.checkIn,
+                        checkOut: e.checkOut,
+                        price: e.price,
+                        cartQuantity: e.cartQuantity,
+                        newStock: e.stock - e.cartQuantity,
+                        hotel: e.Hotels?.map(el => el.name).toString(),
+                        address: e.Hotels?.map(el => el.address).toString(),
+                        idHotel: e.Hotels?.map(el => el.id).toString(),
+                        status: 'confirmed',
+                        user: user.uid,
+                        date: e.createdAt.substring(0, 10),
+                    }))
+                    aux = check
                 }
             }
         }
-    } else {
-        cartRooms?.forEach(e => {
-            let check = {
-                id: e.id,
-                name: e.name,
-                checkIn: e.checkIn,
-                checkOut: e.checkOut,
-                price: e.price,
-                cartQuantity: e.cartQuantity,
-                newStock: e.stock - e.cartQuantity,
-                hotel:(e.Hotels).map(el => el.name).toString(),
-                address:(e.Hotels).map(el => el.address).toString(),
-                idHotel:(e.Hotels).map(el => el.id).toString(),
-                status:'confirmed',
-                user:user.uid,
-                date: e.createdAt,
-            }
-            aux.push(check)
-            console.log('check1', check)
-        })
+        console.log('bookRoom', bookRoom)
+
+    } else { // entra si NO hay ninguna reserva
+        let check = cartRooms?.map(e => ({
+            id: e.id,
+            name: e.name,
+            checkIn: e.checkIn,
+            checkOut: e.checkOut,
+            price: e.price,
+            cartQuantity: e.cartQuantity,
+            newStock: e.stock - e.cartQuantity,
+            hotel: e.Hotels?.map(el => el.name).toString(),
+            address: e.Hotels?.map(el => el.address).toString(),
+            idHotel: e.Hotels?.map(el => el.id).toString(),
+            status: 'confirmed',
+            user: user.uid,
+            date: e.createdAt.substring(0, 10),
+        }))
+        aux = check
+        console.log('check1', check)
+        console.log('aux1', aux)
     }
+
 
     const orderBook = bookRoom.length ? bookRoom.flat().sort((a, b) => { return a.newStock - b.newStock }) : []//  array de todas las reservas con el mismo id que el carrito ordenadas de < a > por stock
 
@@ -83,47 +104,51 @@ const CheckoutForm = () => {
                     price: cartRooms[i].price,
                     cartQuantity: cartRooms[i].cartQuantity,
                     newStock: book.newStock - cartRooms[i].cartQuantity,
-                    hotel:(cartRooms[i].Hotels).map(el => el.name).toString(),
-                    address:(cartRooms[i].Hotels).map(el => el.address).toString(),
-                    idHotel:(cartRooms[i].Hotels).map(el => el.id).toString(),
-                    status:'confirmed',
-                    user:user.uid,
-                    date: cartRooms[i].createdAt,
-                 
+                    hotel: cartRooms[i].Hotels?.map(el => el.name).toString(),
+                    address: cartRooms[i].Hotels?.map(el => el.address).toString(),
+                    idHotel: cartRooms[i].Hotels?.map(el => el.id).toString(),
+                    status: 'confirmed',
+                    user: user.uid,
+                    date: cartRooms[i].createdAt.substring(0, 10),
+
                 }
                 aux.push(check)
+                console.log('orderBook', orderBook)
                 console.log('check2', check)
+                console.log('aux2', aux)
 
             } else {
-                let check = {
-                    id: cartRooms[i].id,
-                    name: cartRooms[i].name,
-                    checkIn: cartRooms[i].checkIn,
-                    checkOut: cartRooms[i].checkOut,
-                    price: cartRooms[i].price,
-                    cartQuantity: cartRooms[i].cartQuantity,
-                    newStock: cartRooms[i].stock - cartRooms[i].cartQuantity,
-                    hotel:(cartRooms[i].Hotels).map(el => el.name).toString(),
-                    address:(cartRooms[i].Hotels).map(el => el.address).toString(),
-                    idHotel:(cartRooms[i].Hotels).map(el => el.id).toString(),
-                    status:'confirmed',
-                    user:user.uid,
-                    date: cartRooms[i].createdAt
-                }
-                aux.push(check)
+                let check = cartRooms?.map(e => ({
+                    id: e.id,
+                    name: e.name,
+                    checkIn: e.checkIn,
+                    checkOut: e.checkOut,
+                    price: e.price,
+                    cartQuantity: e.cartQuantity,
+                    newStock: e.stock - e.cartQuantity,
+                    hotel: e.Hotels?.map(el => el.name).toString(),
+                    address: e.Hotels?.map(el => el.address).toString(),
+                    idHotel: e.Hotels?.map(el => el.id).toString(),
+                    status: 'confirmed',
+                    user: user.uid,
+                    date: e.createdAt.substring(0, 10),
+                }))
+                aux = check
                 console.log('check3', check)
+                console.log('aux3', aux)
             }
         }
     }
 
-    //-----------------------------------------------------------------------------
+    //--------------------------------GRACIAS JUAN CARLOS!!! -------------------
     const booking = {
         cartTotalQuantity: cartTotalQuantity,
         cartTotalAmount: cartTotalAmount,
         cartRoom: aux,
-        status:'confirmed',
-        user:user.uid
+        status: 'confirmed',
+        user: user.uid
     }
+    console.log('cartRoomssss', cartRooms)
     console.log('boooking', booking)
     //---------------------------------------------------------------------------
 
@@ -135,7 +160,7 @@ const CheckoutForm = () => {
         });
 
         if (!error) {
-            const { id } = paymentMethod; 
+            const { id } = paymentMethod;
             const data = dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
             setLoading(true)
             elements.getElement(CardElement).clear();
@@ -143,8 +168,8 @@ const CheckoutForm = () => {
             setTimeout(() => {
                 navigate('/home')
             }, 8000);
-            console.log("EMAIL "+user.email)
-           
+            console.log("EMAIL " + user.email)
+
             SendRecibo(user.email)
         } else {
             toast.error('Unprocessed Payment', { position: 'bottom-right' })
