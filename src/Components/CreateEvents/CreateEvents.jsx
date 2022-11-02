@@ -5,6 +5,8 @@ import { createEvents, getHotels } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { useAuth } from "../../context/AuthContext";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 const validate = (input_event) => {
   let errors = {};
@@ -35,6 +37,25 @@ const CreateEvents = () => {
   useEffect(() => {
     !hotels.length && dispatch(getHotels());
   }, [dispatch, hotels])
+
+  //-------------------------------------------------
+  const datos = useSelector((state) => state.reducerAuth.users);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user && user.uid) dispatch(getDetailUser(user.uid));
+  }, [dispatch, user]);
+
+useEffect(()=> {
+  if (datos && datos.rol === "admin"){
+    let hotelFinded = hotels.find(e => e.name === datos.hotel)
+
+    setInput_event({
+      ...input_event,
+      idHotel: hotelFinded.id
+    })
+  }
+},[datos])
 
   //------------ HANDLE CHANGE HOTEL NAME----------//
   const handleChangeHotel = (e) => {
@@ -164,6 +185,7 @@ const CreateEvents = () => {
                     <div className="mb-4">
                         <div>
                             <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                            {datos && datos.rol === "superAdmin" ?
                             <select className="form-select" value={input_event.idHotel} onChange={(e)=>
                                 handleChangeHotel(e)}>
                                 <option hidden selected>Select hotel</option>
@@ -174,7 +196,8 @@ const CreateEvents = () => {
                                     <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e => `
                                         ${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
-                            </select>
+                            </select>:
+                                <option disabled value={datos.id}> {datos.hotel} </option>}
                             <div className="nombre text-danger ">
                                 {errors.idHotel && (<p>{errors.idHotel}</p>)}
                             </div>
