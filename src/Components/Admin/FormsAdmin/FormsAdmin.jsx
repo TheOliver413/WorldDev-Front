@@ -6,11 +6,14 @@ export default function FormsAdmin() {
   return (
     <div class="container">
       <div class="row">
+      <div>
+        <Link to='/profileAdmin'>
+          <button className="btn btn-primary mt-1" type="button">Back</button>        
+        </Link>
+      </div>
         <div class="col-sm-6">
           <div class="card">
-            <Link to='/profileAdmin'>
-              <button>Back</button>
-            </Link>
+      
             <div class="card-body">
               <h5 class="card-title">Hotels</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum quod deserunt autem cum at distinctio, minus repellendus tempore possimus consequuntur, excepturi explicabo molestiae ex eligendi! Magnam quae deleniti excepturi cum?</p>

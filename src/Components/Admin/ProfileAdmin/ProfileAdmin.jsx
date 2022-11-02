@@ -1,18 +1,13 @@
 import React, { useEffect} from "react";
-import { useState } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { getDetailUser} from '../../../redux/action/actionAuth'
 
-
-
 const ProfileAdmin = () => {
   const dispatch= useDispatch()
   const datosA= useSelector(state => state.reducerAuth.users)
   const {user} = useAuth()
-
-  console.log('useeeers', datosA)
 
   useEffect(()=>{
     if(user && user.hasOwnProperty('uid')){
@@ -23,14 +18,12 @@ const ProfileAdmin = () => {
   return (
     <div>
       <div>
-
         {
         datosA.rol==="superAdmin"?
         <Link to='/profileSuperAdmin/adminTable'>
           <button>Back</button>
         </Link>:null
         }
-
       </div>
       <div>
         <h2>{datosA.name} {datosA.lastname}</h2>
@@ -46,35 +39,21 @@ const ProfileAdmin = () => {
         <h4>City: {datosA.city}</h4>
         <h4>Country: {datosA.country}</h4>
       </div>
-      
-      {/* {
-      datosA.rol==="superAdmin"?
-      <div>
-        <Link to='/profileAdmin/editAdmin'>
-          <button>Edit</button>
-        </Link>
-      </div>:null
-      } */}
-
       <div>
         <Link to='/profileAdmin/formsAdmin'>
-          <button>Edit forms</button>        
+          <button className="btn btn-primary mt-1" type="button">Edit Forms</button>        
         </Link>
       </div>
-
       <div>
         <Link to='/stock'>
-          <button>Bookings</button>
+          <button className="btn btn-primary mt-1" type="button">Bookings</button>        
         </Link>
       </div>
-
       <div>
         <Link to='/userTable'>
-          <button>User Table</button>        
+          <button className="btn btn-primary mt-1" type="button">User Table</button>        
         </Link>
       </div>
-
-
     </div>
   );
 };

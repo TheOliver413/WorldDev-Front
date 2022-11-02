@@ -5,9 +5,27 @@ export const POST_USERS = "POST_USERS";
 export const GET_DETAIL_USER = "GET_DETAIL_USER";
 export const GET_ALL_ADMINS ="GET_ALL_ADMINS";
 export const GET_ALL_USERS ="GET_ALL_USERS";
+export const DELETE_USERS ="DELETE_USERS";
 
 
 const BACK_URL = "http://localhost:3001"
+
+export function deleteUsers(id){
+  return async function(dispatch) {
+    try {
+      const delUsers =await axios.delete(`${BACK_URL}/users/${id}`)
+      dispatch({
+        type:DELETE_USERS,
+        payload: delUsers
+      })
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
 
 export function blocked(data){
   return async function(dispatch) {

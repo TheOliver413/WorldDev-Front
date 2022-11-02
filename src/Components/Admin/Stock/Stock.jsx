@@ -45,15 +45,16 @@ const Stock = () => {
 
     return (
 
-        <>
+        <div class="container">
+        <div class="row">
             <div>
                 {
                     datos.rol === "superAdmin" ?
-                        <Link to='/profileSuperAdmin'>
-                            <button>Back</button>
+                        <Link to= "/profileSuperAdmin">
+                            <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
                         </Link> :
-                        <Link to='/profileAdmin'>
-                            <button>Back</button>
+                        <Link to= "/profileAdmin">
+                            <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
                         </Link>
                 }
             </div>
@@ -94,7 +95,8 @@ const Stock = () => {
                     ))}
                 </tbody>
             </table>
-        </>
+            </div>
+    </div>
     )
 }
 

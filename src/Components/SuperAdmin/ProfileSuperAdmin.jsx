@@ -8,31 +8,31 @@ const ProfileSuperAdmin = () => {
       <h1>WORLD DEVELOPER</h1>
       <div>
         <Link to='/profileSuperAdmin/formsSuperAdmin'>
-          <button>Edit Forms</button>        
+          <button className="btn btn-primary mt-1" type="button">Edit Forms</button>        
         </Link>
       </div>
       
       <div>
         <Link to='/profileSuperAdmin/adminTable'>
-          <button>Admin Table</button>        
+          <button className="btn btn-primary mt-1" type="button">Admin Table</button>        
         </Link>
       </div>
 
       <div>
         <Link to='/userTable'>
-          <button>User Table</button>        
+          <button className="btn btn-primary mt-1" type="button">User Table</button>        
         </Link>
       </div>
 
       <div>
         <Link to='/profileSuperAdmin/registerAdmin'>
-          <button>Administrator Registration</button>    
+          <button className="btn btn-primary mt-1" type="button">Admin Registration</button>    
         </Link>
       </div>
 
       <div>
         <Link to='/stock'>
-          <button>Bookings</button>
+          <button className="btn btn-primary mt-1" type="button">Bookings</button>
         </Link>
       </div>
 

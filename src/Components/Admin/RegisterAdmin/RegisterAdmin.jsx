@@ -52,7 +52,12 @@ export default function RegisterAdmin() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div class="container">
+       
+      <Link to= "/profileSuperAdmin">
+      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
+    <div className="d-flex justify-content-center align-items-center vh-50">
       {error && <Alert message={error} />}
 
       <form onSubmit={handleSubmit} className="bg-white p-5 rounded-5 text-secondary shadow" style={{ width: "25rem" }}>
@@ -80,6 +85,7 @@ export default function RegisterAdmin() {
           <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
         </div>
       </form>
+    </div>
     </div>
   );
 }

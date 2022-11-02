@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-//import {data} from "../../Authentication/UserInfo/UserInfo.jsx";
-import { connect} from "react-redux";
-import { getAllAdmins } from "../../../redux/action/actionAuth";
-import { blocked } from "../../../redux/action/actionAuth";
-
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUsers, getAllAdmins } from "../../../redux/action/actionAuth";
+import { useAuth } from "../../../context/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Table,
@@ -16,156 +14,139 @@ import {
   FormGroup,
   ModalFooter,
 } from "reactstrap";
+import { useEffect } from "react";
 
- class AdminTable extends React.Component {
-  
-  state = {
-    
-    data: this.props.data,
-    modalToUpdate: false,
-    form: {
-      id: "",
-      user: "",
-      email: "",
-      hotel:''
-    },
+export default function AdminTable() {
+  const dispatch = useDispatch();
+  const allAdmins = useSelector(state =>state.reducerAuth.allAdmins)
+  const [data, setData] = useState([]);
+  const [modalToUpdate, setModalToUpdate] = useState(false);
+  const [form , setForm] = useState({
+    name:"",
+    email:"",
+    hotel:""
+  });
+  const datos= useSelector(state => state.reducerAuth.Alladmins)
+  const {user} = useAuth()
+
+  const handleChange = (e) => {
+    setForm({...form,[e.target.name]: e.target.value});
   };
 
-  showModalToUpdate = (dat) => {
-    this.setState({
-      form: dat,
-      modalToUpdate: true,
-    });
-  };
+  useEffect(()=>{
+    if(user && user.hasOwnProperty('uid')){
+      dispatch(getAllAdmins(user.uid))
+    }
+   }, [user])
 
-  closeModalToUpdate = () => {
-    this.setState({ modalToUpdate: false });
-  };
+   const showModalToUpdate = (dat) => {
+    setModalToUpdate(true);
+    setForm(dat)
+  }; 
 
-  edit = (dat) => {
-    var count = 0;
-    var setting = this.state.data;
-    setting.map((register) => {
-      if (dat.id === register.id) {
-        setting[count].user = dat.user;
-        setting[count].email = dat.email;
-        setting[count].hotel = dat.hotel;
-      }
-      count++;
-    });
-    this.setState({ data: setting, modalToUpdate: false });
+  const closeModalToUpdate = () => {
+    setModalToUpdate(false);
   };
-
-  delete = (dat) => {
-    var option = window.confirm("Are you sure you want to Delete the item? "+dat.id);
-    if (option === true) {
+  function handleClickEdit(dat){
       var count = 0;
-      var  setting = this.state.data;
+      const setting = data;
       setting.map((register) => {
+        
         if (dat.id === register.id) {
-          setting.splice(count, 1);
+          setting[count].user = dat.user;
+          setting[count].email = dat.email;
         }
         count++;
       });
-      this.setState({ data: setting, modalToUpdate: false });
-    }
-  };
- 
-   add= ()=>{
-    var newValue= {...this.state.form};
-    newValue.id=this.state.data.length+1;
-    var list= this.state.data;
-    if(typeof list.find(e => e.id === newValue.id) === 'object'){
-      list.push(newValue);
-      this.setState({ modalInsert: false, data: list });
-    }  
-  } 
-
-  
-
-   handleChange = (e) => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
-  };
-
-  componentDidMount() {
-    this.props.getAllAdmins();
   }
 
-  render() {
-     
-    return (
-      <>
-        <Link to= "/profileSuperAdmin/formsSuperAdmin">
-            <button>
-                Back
-            </button>
-        </Link>
-        <div>
-            <h1>Admin Table</h1>
-        </div>
-        <Container>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Hotel</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+  const handleDelete = (e) => {
+    const option = window.confirm("Are you sure you want to Delete the admin " + e.target.value + "?")
+    if (option === true) {
+    dispatch(deleteUsers(e.target.id))
+    setData([]);}
+  }
+  
+    useEffect(() => {
+      dispatch(getAllAdmins())
+    }, [dispatch,data])
 
-            <tbody>
-              {this.state.data && this.state.data?.map((dat) => (
-                <tr key={dat.id}>
-                  <td>{dat.name}</td>
-                  <td>{dat.email}</td>
-                  <td>{dat.hotel}</td>
-                  <td>
+    console.log("datos:",datos)
+    return (
+      <div class="container">
+        <div class="row">
+      <Link to= "/profileSuperAdmin">
+      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
+      <Container>
+        <Table>
+          <thead>
+            <tr>
+              <th>Admin</th>
+              <th>Email</th>
+              <th>Hotel</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allAdmins && allAdmins?.map((dat) =>(
+              <tr key={dat.id}>
+                <td>{dat.name}</td>
+                <td>{dat.email}</td>
+                <td>{dat.hotel}</td>
+                <td>{dat.rol}</td>
+                <td>
+                  <tr>
+                    <Link to="/profileSuperAdmin/editAdmin/:id">
                     <Button
                       color="primary"
-                      onClick={() => this.showModalToUpdate(dat)}
+                      onClick={() => showModalToUpdate(dat)}
                     >
                       Edit
-                    </Button>{" "}
-                    <Button color="danger" onClick={()=> this.delete(dat)}>Delete</Button>
+                    </Button>
+                    </Link>
+                    
+                  </tr>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Container>
-
-        <Modal isOpen={this.state.modalToUpdate}>
+                  <td>
+                  <tr>
+                  <Button  id={dat.id} value={dat.name} outline color="danger" onClick={(e)=>handleDelete(e)}>Delete</Button>
+                  </tr>
+                  </td>
+              </tr>     
+            ))}
+          </tbody>
+        </Table>
+      </Container>
+     {/*  <Modal isOpen={modalToUpdate}>
           <ModalHeader>
            <div><h3>Edit Register</h3></div>
           </ModalHeader>
 
           <ModalBody>
             <FormGroup>
+              <label>
+               Id:
+              </label>
             
               <input
                 className="form-control"
                 readOnly
                 type="text"
-                value={this.state.form.id}
+                value={form.id}
               />
             </FormGroup>
             
             <FormGroup>
               <label>
-                Name: 
+                User: 
               </label>
               <input
                 className="form-control"
                 name="user"
                 type="text"
-                onChange={this.handleChange}
-                value={this.state.form.user}//
+                onChange={handleChange}
+                value={form.user}
               />
             </FormGroup>
             
@@ -177,100 +158,30 @@ import {
                 className="form-control"
                 name="email"
                 type="text"
-                onChange={this.handleChange}
-                value={this.state.form.email}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <label>
-                Hotel: 
-              </label>
-              <input
-                className="form-control"
-                name="hotel"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.form.hotel}//
+                onChange={handleChange}
+                value={form.email}
               />
             </FormGroup>
           </ModalBody>
 
           <ModalFooter>
+           <Link>
             <Button
               color="primary"
-              onClick={() => this.edit(this.state.form)}
+              onClick={() => handleClickEdit(form)}
             >
               Done
             </Button>
+           </Link>
             <Button
               color="danger"
-              onClick={() => this.closeModalToUpdate()}
+              onClick={() => closeModalToUpdate()}
             >
               Cancel
             </Button>
           </ModalFooter>
-        </Modal>
-
-        <Modal isOpen={this.state.modalInsert}>
-          <ModalBody>
-            <FormGroup>
-              
-              <input
-                className="form-control"
-                readOnly
-                type="text"
-                //value={this.state.data.length+1}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Name: 
-              </label>
-              <input
-                className="form-control"
-                name="user"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Email: 
-              </label>
-              <input
-                className="form-control"
-                name="email"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-          
-            <FormGroup>
-              <label>
-                Hotel: 
-              </label>
-              <input
-                className="form-control"
-                name="hotel"
-                type="text"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-          </ModalBody>
-        </Modal>
-      </>
-    );
-  }
+        </Modal> */}
+      </div>
+    </div>
+  )
 }
-
-export const mapStateToProps = state => ({
-  data: state.reducerAuth.allAdmins
-}); 
-export const mapDispatchToProps=(dispatch)=>{
-  return {getAllAdmins: () => dispatch(getAllAdmins()),
-          }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(AdminTable);
