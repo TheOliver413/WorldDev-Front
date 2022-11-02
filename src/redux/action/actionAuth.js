@@ -6,7 +6,7 @@ export const GET_DETAIL_USER = "GET_DETAIL_USER";
 export const GET_ALL_ADMINS ="GET_ALL_ADMINS";
 export const GET_ALL_USERS ="GET_ALL_USERS";
 export const DELETE_USERS ="DELETE_USERS";
-
+export const CLEAN_FORM_ADMIN = "CLEAN_FORM_ADMIN"
 
 const BACK_URL = "http://localhost:3001"
 
@@ -109,5 +109,11 @@ export function modifyUsers(payload) {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export function cleanFormAdmin() {
+  return {
+    type: CLEAN_FORM_ADMIN
   }
 }

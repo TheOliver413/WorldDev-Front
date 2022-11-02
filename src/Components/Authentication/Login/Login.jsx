@@ -35,7 +35,7 @@ export default function Login() {
       await login(user.email, user.password);
       navigate('/home')
     } catch (error) {
-      console.log(error.code)
+      // console.log(error.code)
       if (error.code === 'auth/wrong-password') {
         toast.error('Wrong password', { position: 'bottom-right' })
       }
@@ -50,7 +50,12 @@ export default function Login() {
       await loginWithGoogle();
       navigate("/home");
     } catch (error) {
-      setError(error.message);
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error('Popup closed by user', { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/cancelled-popup-request') {
+        toast.error('Cancelled popup request', { position: 'bottom-right' })
+      }
     }
   };
 

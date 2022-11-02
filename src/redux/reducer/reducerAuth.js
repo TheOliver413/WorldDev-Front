@@ -1,4 +1,4 @@
-import { POST_USERS, PUT_USERS, GET_DETAIL_USER, GET_ALL_USERS, GET_ALL_ADMINS, GET_BLOCKED, DELETE_USERS} from '../action/actionAuth.js'
+import { POST_USERS, PUT_USERS, GET_DETAIL_USER, GET_ALL_USERS, GET_ALL_ADMINS, GET_BLOCKED, DELETE_USERS, CLEAN_FORM_ADMIN} from '../action/actionAuth.js'
 
 const initialStateAuth = {
   users: {},
@@ -39,6 +39,11 @@ const reducer_auth = (state = initialStateAuth, action) => {
       return {
         ...state
       }  
+    case CLEAN_FORM_ADMIN:
+      return {
+        ...state,
+        allAdmins: []
+      }
     default:
       return { ...state }
   }
