@@ -159,21 +159,26 @@ const CheckoutForm = () => {
             card: elements.getElement(CardElement),
         });
 
+        setLoading(false)
         if (!error) {
+            setLoading(true)
             const { id } = paymentMethod;
             const data = dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
-            setLoading(true)
             elements.getElement(CardElement).clear();
-            setLoading(false)
+            setTimeout(() => {
+               setLoading(false)
+            }, 2500);
             setTimeout(() => {
                 navigate('/home')
             }, 8000);
             console.log("EMAIL " + user.email)
-
+            
             SendRecibo(user.email)
-        } else {
-            toast.error('Unprocessed Payment', { position: 'bottom-right' })
+        } else {   
+            toast.error('Unprocessed Payment', { position: 'bottom-right' })            
+                  
         }
+        
     }
 
 
@@ -199,7 +204,7 @@ const CheckoutForm = () => {
                         <span className="sr-only"></span>
                     </div>
                 ) : (
-                    "Pay"
+                    'Pay'
                 )}
             </button>
             <p><i className="bi bi-info-circle icon-success"></i> Once the payment has been processed, you will receive a reservation confirmation email.</p>
