@@ -8,6 +8,9 @@ export default function FormsAdmin() {
       <div class="row">
         <div class="col-sm-6">
           <div class="card">
+            <Link to='/profileAdmin'>
+              <button>Back</button>
+            </Link>
             <div class="card-body">
               <h5 class="card-title">Hotels</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum quod deserunt autem cum at distinctio, minus repellendus tempore possimus consequuntur, excepturi explicabo molestiae ex eligendi! Magnam quae deleniti excepturi cum?</p>

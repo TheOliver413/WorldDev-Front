@@ -1,7 +1,9 @@
 import { POST_USERS, PUT_USERS, GET_DETAIL_USER, GET_ALL_USERS, GET_ALL_ADMINS, GET_BLOCKED} from '../action/actionAuth.js'
 
 const initialStateAuth = {
-  users: {}
+  users: {},
+  allUsers: [],
+  allAdmins: []
 }
 
 const reducer_auth = (state = initialStateAuth, action) => {
