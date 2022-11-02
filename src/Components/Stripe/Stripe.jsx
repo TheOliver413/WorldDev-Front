@@ -163,7 +163,7 @@ const CheckoutForm = () => {
         if (!error) {
             setLoading(true)
             const { id } = paymentMethod;
-            const data = dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking))
+            dispatch(postStripe({ id, amount: cartTotalAmount, description: booking }, booking, { email: user.email }))
             elements.getElement(CardElement).clear();
             setTimeout(() => {
                setLoading(false)
@@ -171,9 +171,6 @@ const CheckoutForm = () => {
             setTimeout(() => {
                 navigate('/home')
             }, 8000);
-            console.log("EMAIL " + user.email)
-            
-            SendRecibo(user.email)
         } else {   
             toast.error('Unprocessed Payment', { position: 'bottom-right' })            
                   
