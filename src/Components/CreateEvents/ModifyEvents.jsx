@@ -243,7 +243,7 @@ useEffect(()=> {
                 type="date"
                 min={format(new Date(), 'yyyy-MM-dd')} 
                 max="2023-04-01"
-                class="form-control" 
+                className="form-control" 
                 defaultValue={input_event.date || eventId?.date} 
                 name="date" 
                 onChange={(e) =>handleChange(e)} />

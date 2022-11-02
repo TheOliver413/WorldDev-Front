@@ -74,8 +74,8 @@ const Stock = () => {
 
     return (
 
-        <div class="container">
-        <div class="row">
+        <div className="container">
+        <div className="row">
             <div>
                 {
                     datos.rol === "superAdmin" ?

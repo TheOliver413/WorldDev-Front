@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanFormAdmin, createUsers, getAllAdmins, modifyUsers } from '../../../redux/action/actionAuth';
 import { getHotels } from '../../../redux/action/action';
@@ -119,52 +119,52 @@ const EditAdmin = (id) => {
   },[dispatch])
 
   return (
-    <div class="container">
-    <div class="row">
+    <div className="container">
+    <div className="row">
   
   <dd><button className="btn btn-primary mt-1" type="button" onClick={()=>navigate(-1)}>Back</button></dd>
   
     <form onSubmit={handleSubmit}>
-      <div class="conteiner-users">
-        <div class="form-group col-md-6">
+      <div className="conteiner-users">
+        <div className="form-group col-md-6">
           <h1>Edit Admin Profile</h1>
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Email</label>
-          <input type="text" class="form-control" id="inputEmail" value={inputA.email} name='email' placeholder="Email" onChange={handleChangeData}></input>
+          <input type="text" className="form-control" id="inputEmail" value={inputA.email} name='email' placeholder="Email" onChange={handleChangeData}></input>
           {
             errors.email ? (<h4>{errors.email}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Name</label>
-          <input type="text" class="form-control" id="inputName" value={inputA.name} name='name' placeholder="Name" onChange={handleChangeData}></input>
+          <input type="text" className="form-control" id="inputName" value={inputA.name} name='name' placeholder="Name" onChange={handleChangeData}></input>
           {
             errors.name ? (<h4>{errors.name}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label >Lastname</label>
-          <input type="text" class="form-control" id="inputLastname" value={inputA.lastname} name='lastname' placeholder="Lastname" onChange={handleChangeData}></input>
+          <input type="text" className="form-control" id="inputLastname" value={inputA.lastname} name='lastname' placeholder="Lastname" onChange={handleChangeData}></input>
           {
             errors.lastname ? (<h4>{errors.lastname}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Birthday</label>
-          <input type="date" class="form-control" id="inputBirth" value={inputA.dateOfBirth} name='dateOfBirth' placeholder="Date of birthday" onChange={handleChangeData}></input>
+          <input type="date" className="form-control" id="inputBirth" value={inputA.dateOfBirth} name='dateOfBirth' placeholder="Date of birthday" onChange={handleChangeData}></input>
           {
             errors.dateOfBirth ? (<h4>{errors.dateOfBirth}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>DNI</label>
-          <input type="text" class="form-control" id="inputDNI" value={inputA.dni} name='dni' placeholder="DNI" onChange={handleChangeData}></input>
+          <input type="text" className="form-control" id="inputDNI" value={inputA.dni} name='dni' placeholder="DNI" onChange={handleChangeData}></input>
           {
             errors.dni ? (<h4>{errors.dni}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Hotel</label>
           <select onChange={(e)=>handleSelect(e)} value={inputA.hotel}>
             <option hidden>Hotel</option>
@@ -174,7 +174,7 @@ const EditAdmin = (id) => {
               ))
             }
           </select>
-          {/* <select class="form-select " name="id" value={inputA.id} onChange={handleChangeData}>
+          {/* <select className="form-select " name="id" value={inputA.id} onChange={handleChangeData}>
             <option hidden selected>Hotels...</option>
             {allHotels?.sort((a, b) => {
               if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
@@ -191,33 +191,33 @@ const EditAdmin = (id) => {
             errors.name ? (<h4>{errors.name}</h4>) : (false)
           }
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label >Address</label>
-          <input type="text" class="form-control" id="inputAddress" value={inputA.address} name='address' placeholder="1234 Main St" onChange={handleChangeData} />
+          <input type="text" className="form-control" id="inputAddress" value={inputA.address} name='address' placeholder="1234 Main St" onChange={handleChangeData} />
           {
             errors.address ? (<h4>{errors.address}</h4>) : (false)
           }
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
+        <div className="form-row">
+          <div className="form-group col-md-6">
             <label >City</label>
-            <input type="text" class="form-control" id="inputCity" value={inputA.city} name='city' placeholder='City...' onChange={handleChangeData} />
+            <input type="text" className="form-control" id="inputCity" value={inputA.city} name='city' placeholder='City...' onChange={handleChangeData} />
             {
             errors.city ? (<h4>{errors.city}</h4>) : (false)
             }
           </div>
-          <div class="form-group col-md-6">
+          <div className="form-group col-md-6">
             <label>Country</label>
-            <input type="text" class="form-control" id="inputCity" value={inputA.country} name='country' placeholder='Country...' onChange={handleChangeData} />
+            <input type="text" className="form-control" id="inputCity" value={inputA.country} name='country' placeholder='Country...' onChange={handleChangeData} />
             {
             errors.country ? (<h4>{errors.country}</h4>) : (false)
             }
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" className="btn btn-primary">Update</button>
       {/* <p></p>
-      <Link to='/carrito'><button type="button" class="btn btn-primary">Reservation</button></Link> */}
+      <Link to='/carrito'><button type="button" className="btn btn-primary">Reservation</button></Link> */}
     </form>
     </div>
         </div>
