@@ -39,6 +39,7 @@ function Filter() {
 
   const handleApply = (e) => {
     handleFilterClick(e)
+    if(!estadolocal) return
     dispatch(filterByCity(estadolocal))
   }
 
