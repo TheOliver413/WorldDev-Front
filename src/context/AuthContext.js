@@ -28,38 +28,37 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const signup = async (email, password, rol, displayName, photoURL, favorites) => {
+    const infoUser = await createUserWithEmailAndPassword(auth, email, password)
+      .then((currentUser) => {
+        console.log(currentUser.email);
+        return currentUser;
+      })
+    const docuRefU = doc(firestore, `users/${infoUser.user.uid}`);
+    setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL, favorites:favorites });
+  };
+
   // const signup = async (email, password, rol, displayName, photoURL) => {
-  //   const infoUser = await createUserWithEmailAndPassword(auth, email, password)
-
-  //     .then((currentUser) => {
-  //       console.log(currentUser.email);
-  //       return currentUser;
-  //     })
-  //   const docuRefU = doc(firestore, `users/${infoUser.user.uid}`);
-  //   setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL });
-  // };
-
-  const signup = async (email, password, rol, displayName, photoURL) => {
-    try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password)
-      await sendEmailVerification(user)
-        .then((currentUser) => {
-          return currentUser;
-        })
-      const docuRefU = doc(firestore, `users/${user.user.uid}`);
-      setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL });
-    } catch (error) {
-      if (error.code === "auth/email-already-in-use") { 
-        return  toast.error("Email already in use", { position: 'bottom-right' })
-      }
-      if (error.code === 'auth/invalid-email') {
-        return toast.error("Email invalid", { position: 'bottom-right' })
-      }
-      if (error.code === 'auth/weak-password') {
-        return toast.info("Weak password", { position: 'bottom-right' })
-      }
-    }
-  }
+  //   try {
+  //     const { user } = await createUserWithEmailAndPassword(auth, email, password)
+  //     await sendEmailVerification(user)
+  //       .then((currentUser) => {
+  //         return currentUser;
+  //       })
+  //     const docuRefU = doc(firestore, `users/${user.user.uid}`);
+  //     setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL });
+  //   } catch (error) {
+  //     if (error.code === "auth/email-already-in-use") { 
+  //       return  toast.error("Email already in use", { position: 'bottom-right' })
+  //     }
+  //     if (error.code === 'auth/invalid-email') {
+  //       return toast.error("Email invalid", { position: 'bottom-right' })
+  //     }
+  //     if (error.code === 'auth/weak-password') {
+  //       return toast.info("Weak password", { position: 'bottom-right' })
+  //     }
+  //   }
+  // }
 
   const login = async (email, password) => {
     const objeect = await signInWithEmailAndPassword(auth, email, password);

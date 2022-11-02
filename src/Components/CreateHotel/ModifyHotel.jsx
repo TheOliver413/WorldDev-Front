@@ -4,6 +4,8 @@ import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHot
 import '../Create/Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 const validate = (input_hotels) => {
   let errors = {};
@@ -33,6 +35,24 @@ export default function ModifyHotel() {
   const get_city = useSelector(state => state.reducerHotel.location_city)
   const detailHotel = useSelector(state => state.reducerHotel.detailHotel)
 
+
+  const datos = useSelector((state) => state.reducerAuth.users);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user && user.uid) dispatch(getDetailUser(user.uid));
+  }, [dispatch, user]);
+
+useEffect(()=> {
+  if (datos && datos.rol === "admin"){
+    let hotelFinded = hotels.find(e => e.name === datos.hotel)
+
+    input_sethotels({
+      ...input_hotels,
+      id: hotelFinded.id
+    })
+  }
+},[datos])
 
   const [input_hotels, input_sethotels] = useState({
     id: "",
@@ -187,6 +207,7 @@ export default function ModifyHotel() {
             <div className="mb-4">
               <div>
                 <label htmlFor="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                {datos && datos.rol === "superAdmin" ?
                 <select className="form-select" name="id" value={input_hotels.id} onChange={(e) => handleChangeHotel(e)}>
                   <option hidden selected>Select hotel name</option>
                   {hotels?.sort((a,b)=>{
@@ -196,7 +217,8 @@ export default function ModifyHotel() {
                       <option value={ele.id} key={i}>{`${ele.name}, ${(ele.Locations).map(ele=>
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     ))}
-                </select>
+                </select>:
+                <option disabled value={datos.id}> {datos.hotel} </option>}
                 <div className="nombre text-danger "></div>
                 <div>
                 {errors.id && (<p>{errors.id}</p>)}

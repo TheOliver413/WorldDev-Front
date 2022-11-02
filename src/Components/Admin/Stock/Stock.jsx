@@ -5,9 +5,23 @@ import { format } from 'date-fns';
 import { toast } from "react-toastify";
 import FilterStock from "./FilterStock";
 import OrderStock from "./OrderStock";
-
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { getDetailUser } from "../../../redux/action/actionAuth";
 
 const Stock = () => {
+
+    const { user } = useAuth();
+    const datos = useSelector(state => state.reducerAuth.users)
+
+    useEffect(() => {
+        if (user && user.hasOwnProperty('uid')) {
+            dispatch(getDetailUser(user.uid))
+        }
+    }, [user])
+
+
+
 
     const dispatch = useDispatch()
     const allBooks = useSelector(state => state.reducerStripe.allBooks)
@@ -32,6 +46,18 @@ const Stock = () => {
     return (
 
         <>
+            <div>
+                {
+                    datos.rol === "superAdmin" ?
+                        <Link to='/profileSuperAdmin'>
+                            <button>Back</button>
+                        </Link> :
+                        <Link to='/profileAdmin'>
+                            <button>Back</button>
+                        </Link>
+                }
+            </div>
+
             <div className="navfilters-order-filter d-flex justify-content-between align-items-center">
                 <FilterStock/>
                 <OrderStock/>
