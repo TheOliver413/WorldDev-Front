@@ -15,6 +15,8 @@ const ProfileAdmin = () => {
     }
    }, [user])
 
+
+
   return (
     <div>
       <div>
@@ -40,9 +42,15 @@ const ProfileAdmin = () => {
         <h4>Country: {datosA.country}</h4>
       </div>
       <div>
-        <Link to='/profileAdmin/formsAdmin'>
-          <button className="btn btn-primary mt-1" type="button">Edit Forms</button>        
-        </Link>
+        {
+          datosA?.hotel 
+          ? <Link to='/profileAdmin/formsAdmin'>
+              <button className="btn btn-primary mt-1" type="button">Edit Forms</button>        
+            </Link>
+          : 
+              <button disabled className="btn btn-primary mt-1" type="button">Edit Forms</button>        
+            
+        }
       </div>
       <div>
         <Link to='/stock'>

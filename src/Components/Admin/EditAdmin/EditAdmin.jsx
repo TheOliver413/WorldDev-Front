@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUsers, getAllAdmins, modifyUsers } from '../../../redux/action/actionAuth';
+import { cleanFormAdmin, createUsers, getAllAdmins, modifyUsers } from '../../../redux/action/actionAuth';
 import { getHotels } from '../../../redux/action/action';
 
 const validate = (inputA) => {
@@ -28,12 +28,8 @@ const EditAdmin = (id) => {
 
 
   const allAdmin= useSelector( state => state.reducerAuth.allAdmins)
-
   const allHotels = useSelector(state => state.reducerHotel.hotels)
-
   const [errors, setErrors] = useState({});
-
-
   const { user } = useAuth();
 
   
@@ -58,7 +54,13 @@ const EditAdmin = (id) => {
     setInputA({id: idAdmin})
   }
 
-
+  function refreshPage() {
+    window.location.reload()
+    setTimeout(()=>{
+        window.location.reload(false);
+    }, 50);
+    console.log('page to reload')
+  }
 
   useEffect(()=>{
     dispatch(getAllAdmins())
@@ -70,10 +72,6 @@ const EditAdmin = (id) => {
       })
     }
   },[user])
-
-
-
-
 
 
   function handleChangeData(e) {
@@ -103,10 +101,14 @@ const EditAdmin = (id) => {
     }));
     if( inputA.create === true){
       dispatch(modifyUsers(inputA))
+      dispatch(cleanFormAdmin())
       navigate('/profileSuperAdmin/adminTable')
+      refreshPage();
     } else {
       dispatch(createUsers(inputA))
-      navigate('/profileSuperAdmin/adminTable') 
+      dispatch(cleanFormAdmin()) 
+      navigate('/profileSuperAdmin/adminTable')
+      refreshPage();
     }
     console.log('holis', inputA)
     console.log('holiiiiiis', allAdmin)

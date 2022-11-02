@@ -30,7 +30,7 @@ const ProfileUsers = () => {
               <path d="M124.688 120.062C117.781 108.062 104.812 100 90 100H70C55.1875 100 42.2188 108.062 35.3125 120.062C46.3125 132.312 62.25 140 80 140C97.75 140 113.688 132.281 124.688 120.062ZM160 80C160 124.188 124.188 160 80 160C35.8125 160 0 124.188 0 80C0 35.8125 35.8125 0 80 0C124.188 0 160 35.8125 160 80ZM80 85C92.4375 85 102.5 74.9375 102.5 62.5C102.5 50.0625 92.4375 40 80 40C67.5625 40 57.5 50.0625 57.5 62.5C57.5 74.9375 67.5625 85 80 85Z" fill="#56A5AF"/>
             </svg>
         }
-        <h2 className="overflow-auto col">Welcome, {user?.displayName ? user?.displayName : user?.email}</h2>
+        <h2 className="overflow-auto col">Welcome, {user?.displayName ? user?.displayName : datos.name}</h2>
       </div>
       
       <h4>Personal info</h4>

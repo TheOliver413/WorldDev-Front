@@ -33,7 +33,7 @@ const EditUser = (id) => {
     window.location.reload()
     setTimeout(()=>{
         window.location.reload(false);
-    }, 100);
+    }, 50);
     console.log('page to reload')
   }
   

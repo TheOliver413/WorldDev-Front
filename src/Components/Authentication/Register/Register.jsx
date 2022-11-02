@@ -56,7 +56,15 @@ export default function Register() {
 
       navigate("/home")
     } catch (error) {
-      console.log("Error:" + error)
+      if (error.code === "auth/email-already-in-use") { 
+        return  toast.error("Email already in use", { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/invalid-email') {
+        return toast.error("Email invalid", { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/weak-password') {
+        return toast.info("Weak password", { position: 'bottom-right' })
+      }
     }
   };
 
@@ -82,7 +90,7 @@ export default function Register() {
           <div class="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="*****" onChange={handleChange} />
+          <input class="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="******" onChange={handleChange} />
           <div className="input-group-text loging" onClick={() => setShowPwd(!showPwd)}>
             {showPwd ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={"1.5rem"}>
               <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
