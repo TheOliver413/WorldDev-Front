@@ -30,10 +30,7 @@ const HistoryBookings = () => {
         cartQuantity: e.cartQuantity,
         price: e.price,
         status: e.status
-    }))
-    console.log('boooookkkHHHHHHHHHH', bookHotel)
-    
-    
+    }))   
 
 
     return (
@@ -41,7 +38,7 @@ const HistoryBookings = () => {
             {book?.map(e => (
                 
                 <div>
-                     <h6>Hotel: {e.hotel}</h6>
+                     <h6>Hotel: <Link to={`/hotel/${e.idHotel}`}>{e.hotel}</Link></h6>
                     <p>Reservation Date: {e.date}</p>
                     <ul>
                         <li>Room: {e.name}</li>

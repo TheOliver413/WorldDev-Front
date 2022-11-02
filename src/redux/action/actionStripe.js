@@ -11,6 +11,8 @@ export const GET_BOOKS = 'GET_BOOKS';
 export const ORDER_BOOKS_BY_HOTEL = 'ORDER_BOOKS_BY_HOTEL';
 export const ORDER_BOOKS_BY_DATE = 'ORDER_BOOKS_BY_DATE';
 export const FILTER_BOOKS_BY_HOTEL = 'FILTER_BOOKS_BY_HOTEL';
+export const FILTER_BOOKS_BY_STATUS = 'FILTER_BOOKS_BY_STATUS';
+
 
 
 
@@ -124,4 +126,9 @@ export function orderBooksByDate(payload) {
 export function filterBooksByHotel(payload) {
   return ({ type: FILTER_BOOKS_BY_HOTEL, payload })
 }
+
+export function filterBooksByStatus(payload) {
+  return ({ type: FILTER_BOOKS_BY_STATUS, payload })
+}
+
 
