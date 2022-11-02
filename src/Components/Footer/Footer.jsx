@@ -20,9 +20,7 @@ function Footer() {
             <div class="col-lg-4">
               <h6 class="fw-bold text-uppercase text-heading mb-3">about World Developers</h6>
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae aperiam quis quam
-                quibusdam dolores deleniti placeat impedit illo vitae cumque quo consequatur nulla vero
-                velit cum aliquam debitis, optio reprehenderit!
+              We are a platform where you can publish your hotel, manage and achieve great results because we have an important diffusion in the market. You can also publish events that take place in your rooms and get the client to have many additional services and increase their stay at the hotel.
               </p>
               <ul class="list-inline">
                 <li class="list-inline-item">
