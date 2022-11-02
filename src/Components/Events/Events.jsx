@@ -4,6 +4,7 @@ import {React, useEffect} from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents, getHotels } from '../../redux/action/action';
 import FilterEvent from '../FilterEvent/FilterEvent';
+import { Link } from 'react-router-dom';
 
 
 export default function Events(){
@@ -21,7 +22,7 @@ export default function Events(){
     
     return(
         <div className="card" >
-         <FilterEvent/>   
+         <FilterEvent/>  
         {
          eventos && eventos?.map( (ele)=>{
             return(
@@ -31,7 +32,17 @@ export default function Events(){
                   <img src={ele.image} className="img-fluid rounded-start" alt={ele.image} />
                 </div>
                 <div className="col-sm-8 mt-1">
-                    <h3>{ ele.Hotels.map(ele=>ele.name) }</h3>
+                    { ele.Hotels?.map( ele=>{
+                      return(
+                        <div>
+                    <Link to={ `/hotel/${ele.id}` } >
+                     <button className="btn btn-primary mt-1" type="button">Rooms</button>
+                    </Link>
+                      <h5>{ ele.name }</h5> 
+                      </div>
+                      )
+                    } ) }
+
                     <span>{ ele.Hotels.map(ele=>ele.address) }</span>, 
                     <span> { ele.Hotels.map(ele=>ele.Locations.map(e=>e.city)) }</span>.
                     <div>
@@ -41,7 +52,7 @@ export default function Events(){
 
 
                   <div className="card-body">
-                      <h2 className="card-title col-sm-10">{ele.name}</h2>
+                      <h3 className="card-title col-sm-10">{ele.name}</h3>
                     <div className="row mb1">
                       <p className="card-text col-sm-1">Date: </p>
                       <p className="card-text col-sm-2">{ele.date.substr(-30,10)}</p>

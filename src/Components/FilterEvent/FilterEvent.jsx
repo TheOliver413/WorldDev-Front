@@ -5,7 +5,7 @@ import { filterEventByDate, getAllEvents} from '../../redux/action/action';
 
 function FilterEvent() {
   const dispatch = useDispatch()
-  const eventos = useSelector(state=>state.reducerHotel.allEvents)
+  //const eventos = useSelector(state=>state.reducerHotel.allEvents)
   const cop_event = useSelector(state=>state.reducerHotel.copy_allEvents)
   const [filterWindowVisibility, setFilterWindowVisibility] = useState(false)
 
@@ -50,7 +50,7 @@ function FilterEvent() {
       <div className="d-flex flex-column">
         <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
           <div className='d-flex align-items-center justify-content-between'>
-            Filter
+            Date
             <i className="bi bi-sliders"></i>
           </div>
         </button>

@@ -9,6 +9,7 @@ export const CREATE_HOTELS = "CREATE_HOTELS";
 export const UPDATE_HOTELS = "UPDATE_HOTELS";
 export const CLEAR_HOTEL_DETAIL = "CLEAR_HOTEL_DETAIL";
 export const POST_HOTEL = "POST_HOTEL";
+export const FILTER_HOTEL_BY_CATEGORY = "FILTER_HOTEL_BY_CATEGORY";
 
 //-------------------ROOMS----------------//
 export const GET_ALL_ROOMS = "GET_ALL_ROOMS";
@@ -591,6 +592,14 @@ export function getCity(payload) {
 export function filterEventByDate( payload ){
   return {
     type: FILTER_EVENT_BY_DATE,
+    payload
+
+  }
+}
+//-----------------------FILTER HOTEL BY CATEGORY------------------------//
+export function filterHotelByCategory( payload ){
+  return {
+    type: FILTER_HOTEL_BY_CATEGORY,
     payload
 
   }

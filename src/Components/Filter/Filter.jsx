@@ -50,7 +50,7 @@ function Filter() {
       <div className="d-flex flex-column">
         <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
           <div className='d-flex align-items-center justify-content-between'>
-            Filter
+            City
             <i className="bi bi-sliders"></i>
           </div>
         </button>
