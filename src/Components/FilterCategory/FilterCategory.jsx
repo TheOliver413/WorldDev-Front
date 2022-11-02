@@ -18,6 +18,7 @@ function FilterCategory() {
 
   const handleApply = (e) => {
     handleFilterClick(e)
+    if(!estadolocal) return
     dispatch(filterHotelByCategory(estadolocal))
   }
 
