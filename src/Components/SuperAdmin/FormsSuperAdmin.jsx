@@ -17,7 +17,7 @@ export default function FormsSuperAdmin() {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Hotels</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum quod deserunt autem cum at distinctio, minus repellendus tempore possimus consequuntur, excepturi explicabo molestiae ex eligendi! Magnam quae deleniti excepturi cum?</p>
+              <p class="card-text">In this section you can create and/or modify a hotel by uploading its name, an image (drag the image or select one from a folder), choose the number of stars that corresponds, the exact address, location, state and a description of your services. </p>
               <Link to="/home/createHotels">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
@@ -36,7 +36,7 @@ export default function FormsSuperAdmin() {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Rooms</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
+              <p class="card-text"> In this section you can create and/or modify a room that is associated with a hotel. you can put a name, choose the category, add an image (drag an image or load it from a folder), add services available in the room, quantity available, price and a description of it. </p>
               <Link to="/home/createRooms">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
@@ -55,7 +55,7 @@ export default function FormsSuperAdmin() {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Services Hotels</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
+              <p class="card-text"> In this section you can create and/or modify a service that will be associated with a hotel, you will be able to add a service name, load an image (by dragging it or loading it from a folder), as well as add a description about it. </p>
               <Link to="/home/createServHotels">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
@@ -74,7 +74,7 @@ export default function FormsSuperAdmin() {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Services Rooms</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
+              <p class="card-text">In this section you can create and/or modify a service that will be associated with a room, you will be able to add a service name, load an image (by dragging it or loading it from a folder), as well as add a description about it.</p>
               <Link to="/home/createServRooms">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
@@ -93,7 +93,7 @@ export default function FormsSuperAdmin() {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Events</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda obcaecati repellat hic ad blanditiis iure, perspiciatis est et sequi fugit pariatur nihil, non ex rem illo eveniet mollitia magnam quidem?</p>
+              <p class="card-text">In this section you can create and/or modify an event that will be associated with a hotel, you will be able to add an event name, add a date, add the time, upload an image (by dragging it or uploading it from a folder), and Make a description of the event in question.</p>
               <Link to="/home/createEvents">
                 <button type="button" className="btn btn-primary btn-lg" disabled>
                   Create<i class="bi bi-plus-lg"></i>
