@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { CLEAR_CART } from './cartAction';
+import SendRecibo from '../../Components/emails/sendReceipt.jsx';
+
 export const POST_STRIPE = "POST_STRIPE";
 export const POST_BOOKING = "POST_BOOKING";
 export const GET_ALL_BOOKINGS = 'GET_ALL_BOOKINGS';
@@ -13,14 +15,10 @@ export const ORDER_BOOKS_BY_DATE = 'ORDER_BOOKS_BY_DATE';
 export const FILTER_BOOKS_BY_HOTEL = 'FILTER_BOOKS_BY_HOTEL';
 export const FILTER_BOOKS_BY_STATUS = 'FILTER_BOOKS_BY_STATUS';
 
-
-
-
 const BACK_URL = "http://localhost:3001";
 
-
 //-----------------------POST A STRIPE-------------------
-export default function postStripe(payload, booking) {
+export default function postStripe(payload, booking, receipt) {
   return async function (dispatch) {
     try {
       const { data } = await axios.post(`${BACK_URL}/stripe`, payload);
@@ -30,6 +28,7 @@ export default function postStripe(payload, booking) {
         payload
       })
       toast.success(`${data.message}, please check your email`, { position: "bottom-right" })
+      SendRecibo(receipt.email, data.receipt_url)
       await axios.post(`${BACK_URL}/booking`, booking)
       dispatch({
         type: POST_BOOKING,
