@@ -29,7 +29,13 @@ const EditUser = (id) => {
     create: true,
   });
   
-  // console.log('me duermooooo', inputU)
+  function refreshPage() {
+    window.location.reload()
+    setTimeout(()=>{
+        window.location.reload(false);
+    }, 100);
+    console.log('page to reload')
+  }
   
   useEffect(()=>{
     if(user && user.hasOwnProperty('uid')){
@@ -72,9 +78,11 @@ const EditUser = (id) => {
     if( inputU.create === true){
       dispatch(modifyUsers(inputU))
       navigate('/profileusers')
+      refreshPage()
     } else {
       dispatch(createUsers(inputU))
       navigate('/profileusers') 
+      refreshPage()
     }
     // }
     // setInputU({
@@ -97,7 +105,7 @@ const EditUser = (id) => {
           <img src={user.photoURL? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img>
         </div>
         <div class="form-group col-md-6">
-          <label for="inputEmail4"><h2>Welcome {user.displayName? user.displayName : user.email}!</h2></label>
+          <label for="inputEmail4"><h2>Welcome {user.displayName  || inputU.name? user.displayName : user.email || inputU.name}!</h2></label>
         </div>
         <div class="form-group col-md-6">
           <label>Name</label>
