@@ -117,6 +117,11 @@ const EditAdmin = (id) => {
   },[dispatch])
 
   return (
+    <div class="container">
+    <div class="row">
+  
+  <dd><button className="btn btn-primary mt-1" type="button" onClick={()=>navigate(-1)}>Back</button></dd>
+  
     <form onSubmit={handleSubmit}>
       <div class="conteiner-users">
         <div class="form-group col-md-6">
@@ -212,6 +217,8 @@ const EditAdmin = (id) => {
       {/* <p></p>
       <Link to='/carrito'><button type="button" class="btn btn-primary">Reservation</button></Link> */}
     </form>
+    </div>
+        </div>
   )
 }
 
