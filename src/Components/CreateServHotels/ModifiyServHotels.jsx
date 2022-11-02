@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById, clearServiceId } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 const validate = (input_hotel) => {
     let error = {};
@@ -49,6 +51,27 @@ const ModifyServHotels = () => {
     useEffect(()=> {
       return () => dispatch(clearServiceId())
     }, [dispatch])
+
+   //-------------------------------------------------
+   const datos = useSelector((state) => state.reducerAuth.users);
+   const { user } = useAuth();
+ 
+   useEffect(() => {
+     if (user && user.uid) dispatch(getDetailUser(user.uid));
+   }, [dispatch, user]);
+ 
+ useEffect(()=> {
+   if (datos && datos.rol === "admin"){
+     let hotelFinded = hotels.find(e => e.name === datos.hotel)
+ 
+     setInput_hotel({
+       ...input_hotel,
+       idHotel: hotelFinded.id
+     })
+     dispatch(getServicesHotel(hotelFinded.id))
+   }
+   
+ },[datos])
 
     //------------ HANDLE CHANGE HOTEL NAME----------//
     const handleChangeHotel = (e) => {
@@ -170,6 +193,7 @@ const ModifyServHotels = () => {
                         <div className="mb-4">
                             <div>
                                 <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                                {datos && datos.rol === "superAdmin" ?
                                 <select className="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
@@ -180,7 +204,8 @@ const ModifyServHotels = () => {
                                         <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
                                             `${e.state},${e.department},${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
-                                </select>
+                                </select>:
+                                <option disabled value={datos.id}> {datos.hotel} </option>}
                                 <div className="nombre text-danger ">
                                     <div>
                                         {error.idHotel && (<p>{error.idHotel}</p>)}
