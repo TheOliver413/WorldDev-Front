@@ -8,13 +8,10 @@ export default function FormsSuperAdmin() {
     <div class="container">
       <div class="row">
         <div class="col-sm-6">
-          <div>
-              <Link to="../Admin/UserTable/"><button>User Table</button></Link>
-              <Link to="../Admin/AdminTable"><button>Admin Table</button></Link>
-              <Link to="/home/dashboard/ProfileAdmin"><button>Profile Administrator</button></Link>
-              <Link to="/home/dashboard/RegisterAdmin"><button>Register Administrator</button></Link>
-          </div>
           <div class="card">
+          <Link to='/profileSuperAdmin'>
+              <button>Back</button>
+            </Link>
             <div class="card-body">
               <h5 class="card-title">Hotels</h5>
               <p class="card-text">In this section you can create and/or modify a hotel by uploading its name, an image (drag the image or select one from a folder), choose the number of stars that corresponds, the exact address, location, state and a description of your services. </p>

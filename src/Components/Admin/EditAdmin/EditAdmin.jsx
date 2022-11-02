@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUsers, modifyUsers } from '../../../redux/action/actionAuth';
+import { createUsers, getAllAdmins, modifyUsers } from '../../../redux/action/actionAuth';
 import { getHotels } from '../../../redux/action/action';
 
 const validate = (inputA) => {
@@ -10,14 +10,14 @@ const validate = (inputA) => {
 
   if(!inputA.email) errors.email="The administrator's email is required";
   if(!inputA.name) errors.name='Administrator name is required';
-  if(!inputA.lastname) errors.lastname="The administrator's last name is required";
-  if(!inputA.dateOfBirth) errors.dateOfBirth="The administrator's date of birth is required";
-  if(!inputA.dni) errors.dni="The administrator's ID is required"
+  if(!inputA.lastname) errors.lastname="Enter admin last name";
+  if(!inputA.dateOfBirth) errors.dateOfBirth="Enter administrator date of birth";
+  if(!inputA.dni) errors.dni="Enter administrator ID"
   if(!/^[0-9]+$/.test(inputA.dni)) errors.dni="Must contain only numbers"
   if(!inputA.nameH) errors.nameH = 'Hotel name is required'
-  if(!inputA.address) errors.address = "Hotel address is required"
-  if(!inputA.city) errors.city= "The city is required"
-  if(!inputA.country) errors.country= "The country is required"
+  if(!inputA.address) errors.address = "Enter administrator address"
+  if(!inputA.city) errors.city= "Enter admin city"
+  if(!inputA.country) errors.country= "Enter administrator country"
 
   return errors;
 }
@@ -27,7 +27,7 @@ const EditAdmin = (id) => {
   const navigate= useNavigate()
 
 
-  const Admin= useSelector( state => state.reducerAuth.users)
+  const allAdmin= useSelector( state => state.reducerAuth.allAdmins)
 
   const allHotels = useSelector(state => state.reducerHotel.hotels)
 
@@ -36,30 +36,37 @@ const EditAdmin = (id) => {
 
   const { user } = useAuth();
 
+  
   const [inputA, setInputA] = useState({
-    id: "",
     email: "",
     name: "",
     lastname: "",
     rol: "admin",
     dateOfBirth: "",
     dni: "",
-    hotel: [],
+    hotel: "",
     address: "",
     city: "",
     country: "",
-    create: true
+    create: true,
+    id: ""
   });
+  
+  const idAdmin=inputA.email ? allAdmin?.filter(e=>e.email===inputA.email).map(el=>el.id).toString(): null
 
+  if(idAdmin){
+    setInputA({id: idAdmin})
+  }
 
 
 
   useEffect(()=>{
+    dispatch(getAllAdmins())
     if(user && user.hasOwnProperty('uid')){
       setInputA({ 
         ...inputA,
-        id: user.uid,
-        email: user.email
+        // id: user.uid,
+        // email: user.email
       })
     }
   },[user])
@@ -84,7 +91,7 @@ const EditAdmin = (id) => {
   const handleSelect = (e) => {
     setInputA({
       ...inputA,
-      hotel: [...inputA.hotel, e.target.value]
+      hotel: e.target.value
     })
   }
 
@@ -96,12 +103,13 @@ const EditAdmin = (id) => {
     }));
     if( inputA.create === true){
       dispatch(modifyUsers(inputA))
-      navigate('/profileAdmin')
+      navigate('/profileSuperAdmin/adminTable')
     } else {
       dispatch(createUsers(inputA))
-      navigate('/profileAdmin') 
+      navigate('/profileSuperAdmin/adminTable') 
     }
-
+    console.log('holis', inputA)
+    console.log('holiiiiiis', allAdmin)
   }
 
   useEffect(()=>{
@@ -112,10 +120,7 @@ const EditAdmin = (id) => {
     <form onSubmit={handleSubmit}>
       <div class="conteiner-users">
         <div class="form-group col-md-6">
-          {/* <img src={user.photoURL ? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img> */}
-        </div>
-        <div class="form-group col-md-6">
-          {/* <label for="inputEmail4"><h2>Welcome {user.displayName ? user.displayName : user.email}!</h2></label> */}
+          <h1>Edit Admin Profile</h1>
         </div>
         <div class="form-group col-md-6">
           <label>Email</label>
@@ -154,7 +159,7 @@ const EditAdmin = (id) => {
         </div>
         <div class="form-group col-md-6">
           <label>Hotel</label>
-          <select onChange={handleSelect}>
+          <select onChange={(e)=>handleSelect(e)} value={inputA.hotel}>
             <option hidden>Hotel</option>
             {
               allHotels.map((h) => (

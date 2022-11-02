@@ -59,40 +59,40 @@ function App() {
           <Route exact path="/terms" element={< Terms />} />
           <Route exact path="/privacy" element={< Privacy />} />
           <Route exact path="/home/Events" element={< Events />} />
-          <Route exact path="/home/ModifyHotel" element={< ModifyHotel />} />
-          <Route exact path="/home/ModifyRooms" element={<ModifyRooms />} />
-          <Route exact path="/home/createServRooms" element={<CreateServRooms />} />
-          <Route exact path="/home/modifyServRooms" element={<ModifyServRooms />} />
-          <Route exact path="/home/createServHotels" element={<CreateServHotels />} />
-          <Route exact path="/home/modifyServHotels" element={<ModifyServHotels />} />
-          <Route exact path="/home/createEvents" element={<CreateEvents />} />
-          <Route exact path="/home/modifyEvents" element={<ModifyEvents />} />
-          <Route exact path="/home/createRooms" element={<CreateRooms />} />
-          <Route exact path="/home/createHotels" element={<CreateHotel />} />
+          <Route exact path="/home/ModifyHotel" element={<ProtectedRoute>< ModifyHotel /></ProtectedRoute>} />
+          <Route exact path="/home/ModifyRooms" element={<ProtectedRoute><ModifyRooms /></ProtectedRoute>} />
+          <Route exact path="/home/createServRooms" element={<ProtectedRoute><CreateServRooms /></ProtectedRoute>} />
+          <Route exact path="/home/modifyServRooms" element={<ProtectedRoute><ModifyServRooms /></ProtectedRoute>} />
+          <Route exact path="/home/createServHotels" element={<ProtectedRoute><CreateServHotels /></ProtectedRoute>} />
+          <Route exact path="/home/modifyServHotels" element={<ProtectedRoute><ModifyServHotels /></ProtectedRoute>} />
+          <Route exact path="/home/createEvents" element={<ProtectedRoute><CreateEvents /></ProtectedRoute>} />
+          <Route exact path="/home/modifyEvents" element={<ProtectedRoute><ModifyEvents /></ProtectedRoute>} />
+          <Route exact path="/home/createRooms" element={<ProtectedRoute><CreateRooms /></ProtectedRoute>} />
+          <Route exact path="/home/createHotels" element={<ProtectedRoute><CreateHotel /></ProtectedRoute>} />
           {/* <Route exact path="/home/dashboard" element={<Create />} /> */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path='/hotel/room/:id' element={<RoomDetail />} />
           <Route path='/hotel/:id' element={<HotelDetail />} />
-          <Route path='/favorite' element={<Favorite />} />
+          <Route path='/favorite' element={<ProtectedRoute><Favorite /></ProtectedRoute>} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/home/stripe' element={<Stripe />} />
+          <Route path='/home/stripe' element={<ProtectedRoute><Stripe /></ProtectedRoute>} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
-          <Route path="/profileusers" element={<ProfileUsers />} />
-          <Route path="/profileusers/EditUser" element={<EditUser/>}/>
-          <Route exact path="/admin/admintable" element={<AdminTable />} />
-          <Route exact path="/home/dashboard/RegisterAdmin" element={<RegisterAdmin/>} />
-          <Route exact path="/profileAdmin" element={<ProfileAdmin/>}/>
-          <Route exact path="/profileAdmin/editAdmin" element={<EditAdmin/>} />
-          <Route exact path="/admin/usertable" element={<UserTable />} />
-          <Route exact path="/profileSuperAdmin" element={<ProfileSuperAdmin/>} />
-          <Route exact path="/profileAdmin/formsAdmin" element={<FormsAdmin/>}/>
-          <Route exact path="/profileSuperAdmin/formsSuperAdmin" element={<FormsSuperAdmin/>}/>
+          <Route path="/profileusers" element={<ProtectedRoute><ProfileUsers /></ProtectedRoute>} />
+          <Route path="/profileusers/EditUser" element={<ProtectedRoute><EditUser/></ProtectedRoute>}/>
+          <Route exact path="/profileSuperAdmin/adminTable" element={<ProtectedRoute><AdminTable /></ProtectedRoute>} />
+          <Route exact path="/profileSuperAdmin/registerAdmin" element={<ProtectedRoute><RegisterAdmin/></ProtectedRoute>} />
+          <Route exact path="/profileAdmin" element={<ProtectedRoute><ProfileAdmin/></ProtectedRoute>}/>
+          <Route exact path="/profileSuperAdmin/editAdmin/:id" element={<ProtectedRoute><EditAdmin/></ProtectedRoute>} />
+          <Route exact path="/userTable" element={<ProtectedRoute><UserTable /></ProtectedRoute>} />
+          <Route exact path="/profileSuperAdmin" element={<ProtectedRoute><ProfileSuperAdmin/></ProtectedRoute>} />
+          <Route exact path="/profileAdmin/formsAdmin" element={<ProtectedRoute><FormsAdmin/></ProtectedRoute>}/>
+          <Route exact path="/profileSuperAdmin/formsSuperAdmin" element={<ProtectedRoute><FormsSuperAdmin/></ProtectedRoute>}/>
           <Route exact path="/hotel/:id/review" element={<CreateReview />} />
-          <Route path="/user/history" element={<HistoryBookings/>} />
-          <Route path="/admin/stock" element={<Stock/>} />
+          <Route path="/profileusers/bookingHistory" element={<ProtectedRoute><HistoryBookings/></ProtectedRoute>} />
+          <Route path="/stock" element={<ProtectedRoute><Stock/></ProtectedRoute>} />
         </Routes>
         <Footer />
       </AuthProvider>

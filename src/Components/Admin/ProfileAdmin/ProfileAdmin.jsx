@@ -12,6 +12,7 @@ const ProfileAdmin = () => {
   const datosA= useSelector(state => state.reducerAuth.users)
   const {user} = useAuth()
 
+  console.log('useeeers', datosA)
 
   useEffect(()=>{
     if(user && user.hasOwnProperty('uid')){
@@ -21,6 +22,16 @@ const ProfileAdmin = () => {
 
   return (
     <div>
+      <div>
+
+        {
+        datosA.rol==="superAdmin"?
+        <Link to='/profileSuperAdmin/adminTable'>
+          <button>Back</button>
+        </Link>:null
+        }
+
+      </div>
       <div>
         <h2>{datosA.name} {datosA.lastname}</h2>
       </div>
@@ -52,11 +63,15 @@ const ProfileAdmin = () => {
       </div>
 
       <div>
-        <button>Reservation history</button>
+        <Link to='/stock'>
+          <button>Bookings</button>
+        </Link>
       </div>
 
       <div>
-        <button>User table</button>
+        <Link to='/userTable'>
+          <button>User Table</button>        
+        </Link>
       </div>
 
 
@@ -64,4 +79,4 @@ const ProfileAdmin = () => {
   );
 };
 
-export default ProfileAdmin;
+export default ProfileAdmin;

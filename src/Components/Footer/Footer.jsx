@@ -53,10 +53,10 @@ function Footer() {
             <div class="col-lg-2 col-md-6 mb-5 mb-lg-0 ">
               <h6 class="fw-bold text-uppercase text-heading mb-3">Pages</h6>
               <ul class="list-unstyled">
-                <li><Link to='/' className='text-para'><i class="bi bi-house-door"></i> Home</Link></li>
+              <li><Link to='/' className='text-para'><i class="bi bi-house-door"></i> Home</Link></li>
                 <li><Link to='/home' className='text-para'><i class="bi bi-building"></i> Hotels</Link></li>
-                <li><Link to='/' className='text-para'><i class="bi bi-calendar-check"></i> Evenst</Link></li>
-                <li><Link to='/' className='text-para'><i class="bi bi-info-circle"></i> About Us</Link> </li>
+                <li><Link to='/home/Events' className='text-para'><i class="bi bi-calendar-check"></i> Evenst</Link></li>
+                <li><Link to='/about' className='text-para'><i class="bi bi-info-circle"></i> About Us</Link> </li>
               </ul>
             </div>
 
