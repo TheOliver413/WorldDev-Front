@@ -57,12 +57,12 @@
 }
 
 .border-end-0{
-  border-right: 0;
+  border-right: 0 !important;
 }
 
 .border-start-0{
-  border-left: 0;
-  border-radius: 0;
+  border-left: 0 !important;
+  border-radius: 0 !important;
 }
 
 .bg-dark-gray{
@@ -71,4 +71,8 @@
 
 .text-gray-300{
   color: #dee2ed;
+}
+
+.link{
+  color: white;
 }

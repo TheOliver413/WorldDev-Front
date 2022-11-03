@@ -1,0 +1,18 @@
+.borders{
+    border-radius: 0%;
+    border-color: #56A5AF !important;
+    color: #56A5AF;
+}
+
+.borders:hover{
+    background-color: #56A5AF;
+    color: white;
+}
+
+.color{
+    color: #56A5AF;
+}
+
+.negrilla{
+    font-weight: bolder;
+}

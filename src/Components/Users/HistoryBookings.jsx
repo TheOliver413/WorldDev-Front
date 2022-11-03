@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getHotels } from "../../redux/action/action";
 import { cleanHistory, getBookingByIdUser } from "../../redux/action/actionStripe";
-import { toast } from "react-toastify";
-import Loading from "../Loader/Loading";
+import "./HistoryBookings.css"
 
 const HistoryBookings = () => {
 
@@ -20,31 +18,35 @@ const HistoryBookings = () => {
         }
         return () => dispatch(cleanHistory())
     }, [dispatch, user])
-console.log('userrrid',user.uid )
-const book = booksUser?.map(e => e.cartRoom).flat()
-console.log('ID-HOTEL',book)
+    console.log('userrrid', user.uid)
+    const book = booksUser?.map(e => e.cartRoom).flat()
+    console.log('ID-HOTEL', book)
     return (
         <>
             {book.length ?
-                    book.map(e => (
-                        <div>
-                            <h6>Hotel: <Link to={`/hotel/${e.idHotel}`}>{e.hotel}</Link></h6>
-                            <p>Reservation Date: {e.date}</p>
-                            <ul>
-                                <li>Room: {e.name}</li>
-                                <li>CheckIn: {e.checkIn}</li>
-                                <li>CheckOut: {e.checkOut}</li>
-                                <li>Quantity: {e.cartQuantity}</li>
-                                <li>Price: {e.price}</li>
-                                <li>Status: {e.status}</li>
-                                <li>Please leave us <Link to= {`/hotel/${e.idHotel}/review`}><button type='button' className="btn btn-outline-info"> Your Review </button></Link></li>
-                            </ul>                            
+                book.map(e => (
+                    <div className="card">
+                        <div class="card-header">
+                            <h5>Hotel: <Link style={{ textDecoration: 'none' }} className={"color"} to={`/hotel/${e.idHotel}`}>{e.hotel}</Link></h5>
                         </div>
-                    ))
-                    :
-                    <div style={{ with: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <h1>No reservations found</h1>
+                        <div class="card-body">
+                        <h5 className="card-title">Reservation Date: {e.date}</h5>
+                            <ul className="list-group">
+                                <li className="list-group-item"><span className="negrilla">Room:</span>  {e.name}</li>
+                                <li className="list-group-item"><span className="negrilla">CheckIn:</span> {e.checkIn}</li>
+                                <li className="list-group-item"><span className="negrilla">CheckOut:</span> {e.checkOut}</li>
+                                <li className="list-group-item"><span className="negrilla">Quantity:</span> {e.cartQuantity}</li>
+                                <li className="list-group-item"><span className="negrilla">Price:</span> {e.price}</li>
+                                <li className="list-group-item"><span className="negrilla">Status:</span> {e.status}</li>
+                                <Link to={`/hotel/${e.idHotel}/review`}><button type='button' className="btn btn-outline-info btn-lg borders">Please leave us Your Review </button></Link>
+                            </ul>
+                        </div>
                     </div>
+                ))
+                :
+                <div style={{ with: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <h1>No reservations found</h1>
+                </div>
             }
         </>
     )
