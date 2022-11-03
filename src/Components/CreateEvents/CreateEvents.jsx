@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
+import { Link } from "react-router-dom";
 
 const validate = (input_event) => {
   let errors = {};
@@ -160,6 +161,9 @@ const CreateEvents = () => {
 
   return (
     <div>
+      <Link to="/profileSuperAdmin/formsSuperAdmin">
+        <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
       {
         datos.rol === 'superAdmin' || datos.rol === 'admin' ?
           <section className="d-flex justify-content-center align-items-center">
@@ -243,7 +247,7 @@ const CreateEvents = () => {
                         <div>
                           {input_event.image?.map((imag) => (
                             <div key={imag.public_id}>
-                              <img src={imag.url} alt='images event' /><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                              <img src={imag.url} alt='images event' /><button className="btn btn-outline-danger mt-2" value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                             </div>
                           ))}
                         </div>

@@ -7,6 +7,7 @@ import '../Create/Styles.css';
 import { useNavigate } from "react-router-dom";
 import { getDetailUser } from "../../redux/action/actionAuth";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 
 const validate = (input_hotels) => {
@@ -168,9 +169,14 @@ export default function Create() {
 
   return (
     <div>
+      <Link to="/profileSuperAdmin/formsSuperAdmin">
+        <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
       {
         datosTotal.rol === 'superAdmin' ?
+
           <section className="d-flex justify-content-center align-items-center">
+
             <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
               <div className="mb-4 d-flex justify-content-start align-items-center">
                 <h1>Hotel</h1>
@@ -197,7 +203,7 @@ export default function Create() {
                       <div>
                         {input_hotels.image.map((imag) => (
                           <div key={imag.public_id}>
-                            <img src={imag.url} alt='images hotel' /><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                            <img src={imag.url} alt='images hotel' /><button className="btn btn-outline-danger mt-2" value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                           </div>
                         ))}
 

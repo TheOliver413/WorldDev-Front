@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
+import { Link } from "react-router-dom";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -125,6 +126,9 @@ const ModifyServRooms = () => {
 
     return (
         <div>
+            <Link to="/profileSuperAdmin/formsSuperAdmin">
+                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+            </Link>
             {
                 datosTotal.rol === 'superAdmin' || datosTotal.rol === 'admin' ?
                     <section className="d-flex justify-content-center align-items-center">
@@ -173,7 +177,7 @@ const ModifyServRooms = () => {
                                                 <div>
                                                     {input_serv_room.image?.map((imag) => (
                                                         <div key={imag.public_id}>
-                                                            <img src={imag.url} alt='images servRoom' /><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                                                            <img src={imag.url} alt='images servRoom' /><button className="btn btn-outline-danger mt-2" value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                                                         </div>
                                                     ))}
                                                 </div>

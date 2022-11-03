@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
+import { Link } from "react-router-dom";
 
 const validate = (input_rooms) => {
   let errors = {};
@@ -207,6 +208,9 @@ export default function ModifyRooms() {
 
   return (
     <div>
+      <Link to="/profileSuperAdmin/formsSuperAdmin">
+        <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
       {
         datos.rol === 'superAdmin' || datos.rol === 'admin' ?
 
@@ -305,7 +309,7 @@ export default function ModifyRooms() {
                       <div>
                         {input_rooms.image.map((imag) => (
                           <div key={imag.public_id}>
-                            <img src={imag.url} alt='images room' /><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                            <img src={imag.url} alt='images room' /><button className="btn btn-outline-danger mt-2" value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                           </div>
                         ))}
 
