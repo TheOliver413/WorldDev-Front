@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import '../Create/Styles.css';
 
 export default function FormsSuperAdmin() {
   const dispatch = useDispatch()

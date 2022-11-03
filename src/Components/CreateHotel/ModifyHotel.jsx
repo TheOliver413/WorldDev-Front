@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHotel, clearDetail } from '../../redux/action/action';
-import '../Create/Styles.css';
+import './Styles.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";

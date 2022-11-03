@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createHotels, /* updateHotels, getHotels */ } from '../../redux/action/action';
 import { getCity, getDepartment, getState } from "../../redux/action/action";
 import { toast } from "react-toastify";
-import '../Create/Styles.css';
+import './Styles.css';
 import { useNavigate } from "react-router-dom";
 import { getDetailUser } from "../../redux/action/actionAuth";
 import { useAuth } from "../../context/AuthContext";
