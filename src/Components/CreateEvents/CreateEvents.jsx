@@ -39,6 +39,14 @@ const CreateEvents = () => {
     !hotels.length && dispatch(getHotels());
   }, [dispatch, hotels])
 
+
+  function refreshPage(){
+    window.location.reload()
+    setTimeout(()=>{
+      window.location.reload(false)
+    },500)
+  }
+
   //-------------------------------------------------
   const datos = useSelector((state) => state.reducerAuth.users);
   const { user } = useAuth();
@@ -153,6 +161,7 @@ const CreateEvents = () => {
         description: '',
       })
       navigate('/home/Events')
+      refreshPage()
     } else {
       toast.error("Check the fields", { position: 'bottom-right' })
     }

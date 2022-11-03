@@ -26,19 +26,25 @@ const Stock = () => {
     const dispatch = useDispatch()
     const { allBooks } = useSelector(state => state.reducerStripe)
     const hotels = useSelector(state => state.reducerHotel.allHotels)
-
+    const [refreshBooks, setRefreshBooks] = useState([])
     const [order, setOrder] = useState('')
 
     useEffect(() => {
         dispatch(getBooks())
         dispatch(getHotels())
-    }, [dispatch])
+    }, [dispatch,refreshBooks])
 
+    function filterBooks(){
+        let hotelFinded =  hotels?.find(e => e.name === datos.hotel)
+        let booksFiltered =  allBooks?.filter(e => e.idHotel === hotelFinded?.id) 
+        return  booksFiltered
+    }
 
     const handleStatus = (payload) => {
         let confirmation = window.confirm('Are you sure to cancel the reservation?')
         if (confirmation == true) {
             dispatch(updateStatusBooking(payload))
+            setRefreshBooks([])
             console.log('eeeeee', payload)
             toast.success('Cancelled reservation ', { position: 'bottom-right' })
 
@@ -93,8 +99,9 @@ const Stock = () => {
                                 }
                             </div>
                             <div />
-
+                           
                             <div class="row g-2">
+                                 {datos && datos.rol === "superAdmin" ?
                                 <div class="col-md">
                                     <div class="form-floating">
                                         <select className="form-select" onChange={(e) => handleFilterByHotel(e)}>
@@ -108,7 +115,9 @@ const Stock = () => {
                                         </select>
                                         <label for="floatingSelectGrid">Filter by Hotel</label>
                                     </div>
-                                </div>
+                                </div>: 
+                             <option disabled value={datos.id}> {datos.hotel} </option> }
+                                
                                 <div class="col-md">
                                     <div class="form-floating">
                                         <select className="form-select" onChange={(e) => handleFilterByStatus(e)}>
@@ -119,9 +128,9 @@ const Stock = () => {
                                     </div>
                                 </div>
                             </div>
+                                
 
-
-
+                            {datos && datos.rol === "superAdmin" ?
                             <div class="row g-2">
                                 <div class="col-md">
                                     <div class="form-floating">
@@ -143,7 +152,7 @@ const Stock = () => {
                                     </div>
                                 </div>
                             </div>
-
+                            : <div hidden/>}
                             <button type="button" className="btn" onClick={() => dispatch(getBooks())}>Clear</button>
 
 
@@ -163,6 +172,7 @@ const Stock = () => {
                                         <th scope="col">Cancel</th>
                                     </tr>
                                 </thead>
+                                {datos && datos.rol === "superAdmin" ?(
                                 <tbody className="table-group-divider">
 
                                     {allBooks.length ?
@@ -185,7 +195,30 @@ const Stock = () => {
                                             <h1>No reservations found</h1>
                                         </div>)
                                     }
-                                </tbody>
+                                </tbody>):(
+                                <tbody className="table-group-divider">
+
+                                {allBooks.length ?
+                            (filterBooks()?.map((b, i) => (
+                                <tr key={i}>
+                                <td>{`${b.hotel} ${b.address}`}</td>
+                                <td>{b.date}</td>
+                                <td>{b.name}</td>
+                                <td>USD {b.price}</td>
+                                <td>{b.cartQuantity}</td>
+                                <td>{b.checkIn}</td>
+                                <td>{b.checkOut}</td>
+                                <td>{b.newStock}</td>
+                                <td>{b.status}</td>
+                                <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-danger" type="button">Cancel</button></td>
+                                </tr>
+                                )))
+                                :
+                        (<div style={{ with: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h1>No reservations found</h1>
+                        </div>)
+                        }
+                        </tbody>)}
                             </table>
                         </div>
                     </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
