@@ -65,8 +65,8 @@ export default function UserTable() {
     }
 
     return (
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
      { datos && datos?.rol === "superAdmin"?
       <Link to= "/profileSuperAdmin">
       <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>

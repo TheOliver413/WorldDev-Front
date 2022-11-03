@@ -35,7 +35,7 @@ export default function Login() {
       await login(user.email, user.password);
       navigate('/home')
     } catch (error) {
-      console.log(error.code)
+      // console.log(error.code)
       if (error.code === 'auth/wrong-password') {
         toast.error('Wrong password', { position: 'bottom-right' })
       }
@@ -50,7 +50,12 @@ export default function Login() {
       await loginWithGoogle();
       navigate("/home");
     } catch (error) {
-      setError(error.message);
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error('Popup closed by user', { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/cancelled-popup-request') {
+        toast.error('Cancelled popup request', { position: 'bottom-right' })
+      }
     }
   };
 
@@ -81,14 +86,14 @@ export default function Login() {
         <div className="text-center fs-1 fw-bold">Login</div>
 
         <div className="input-group mt-4">
-          <div className="input-group-text loging">
+          <div className="input-group-text login">
             <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
           </div>
           <input className="form-control bg-light" type="email" name="email" id="email" placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
         <div className="input-group mt-1">
-          <div className="input-group-text loging">
+          <div className="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
           <input className="form-control bg-light" type={showPwd ? "text" : "password"} name="password" id="password" placeholder="*************" onChange={handleChange} />

@@ -56,7 +56,15 @@ export default function Register() {
 
       navigate("/home")
     } catch (error) {
-      console.log("Error:" + error)
+      if (error.code === "auth/email-already-in-use") { 
+        return  toast.error("Email already in use", { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/invalid-email') {
+        return toast.error("Email invalid", { position: 'bottom-right' })
+      }
+      if (error.code === 'auth/weak-password') {
+        return toast.info("Weak password", { position: 'bottom-right' })
+      }
     }
   };
 
@@ -65,24 +73,24 @@ export default function Register() {
       {error && <Alert message={error} />}
 
       <form onSubmit={handleSubmit} className="bg-white p-5 rounded-5 text-secondary shadow" style={{ width: "25rem" }}>
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <img src={loginico} alt="login-icon" style={{ height: "7rem" }} />
         </div>
 
-        <div class="text-center fs-1 fw-bold">Register</div>
+        <div className="text-center fs-1 fw-bold">Register</div>
 
-        <div class="input-group mt-4">
-          <div class="input-group-text loging">
+        <div className="input-group mt-4">
+          <div className="input-group-text login">
             <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type="email" name='email' placeholder="youremail@company.tld" onChange={handleChange} />
+          <input className="form-control bg-light" type="email" name='email' placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
-        <div class="input-group mt-1">
-          <div class="input-group-text loging">
+        <div className="input-group mt-1">
+          <div className="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input class="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="*****" onChange={handleChange} />
+          <input className="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="******" onChange={handleChange} />
           <div className="input-group-text loging" onClick={() => setShowPwd(!showPwd)}>
             {showPwd ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={"1.5rem"}>
               <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
@@ -104,10 +112,10 @@ export default function Register() {
           }
         </div>
 
-        <div class="d-flex gap-1 justify-content-center mt-1">
+        <div className="d-flex gap-1 justify-content-center mt-1">
           <div>Do you already have an account</div>
           <Link to="/login">
-            <a href="#" class="login-text text-decoration-none fw-semibold">Login</a>
+            <a href="#" className="login-text text-decoration-none fw-semibold">Login</a>
           </Link>
         </div>
       </form>

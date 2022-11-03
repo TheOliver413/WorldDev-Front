@@ -1,7 +1,4 @@
 .paginationContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   list-style: none;
   transition: .1s;
 }

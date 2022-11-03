@@ -23,15 +23,15 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
   const endPage = () => (dispatch(setActualPage(arrPageNumbers.length)))
 
   return (
-    <ul className='paginationContainer'>
+    <ul className='paginationContainer p-0 my-4 my-lg-5 d-flex align-items-center justify-content-center'>
       {/* Vuelve al Principio */}
       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
-        <i class="bi bi-chevron-double-left"></i>
+        <i className="bi bi-chevron-double-left"></i>
       </li>
 
       {/* prev */}
       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handlePrev}>
-        <i class="bi bi-chevron-left"></i>
+        <i className="bi bi-chevron-left"></i>
       </li>
 
       {/* page n */}
@@ -41,12 +41,12 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
 
       {/* next */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={handleNext}>
-        <i class="bi bi-chevron-right"></i>
+        <i className="bi bi-chevron-right"></i>
       </li>
 
       {/* va hasta el final */}
       <li className={actualPage === arrPageNumbers.length ? 'pageNumberDISABLED' : 'pageNumber'} onClick={endPage}>
-        <i class="bi bi-chevron-double-right"></i>
+        <i className="bi bi-chevron-double-right"></i>
       </li>
     </ul>
   );

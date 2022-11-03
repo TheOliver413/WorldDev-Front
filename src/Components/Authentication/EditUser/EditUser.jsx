@@ -33,7 +33,7 @@ const EditUser = (id) => {
     window.location.reload()
     setTimeout(()=>{
         window.location.reload(false);
-    }, 100);
+    }, 50);
     console.log('page to reload')
   }
   
@@ -100,37 +100,37 @@ const EditUser = (id) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div class="conteiner-users">
-        <div class="form-group col-md-6">
-          <img src={user.photoURL? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img>
+      <div className="conteiner-users">
+        <div className="form-group col-md-6">
+          <img src={user.photoURL? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} className="rounded mx-auto d-block" alt="Cinque Terre"></img>
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label for="inputEmail4"><h2>Welcome {user.displayName  || inputU.name? user.displayName : user.email || inputU.name}!</h2></label>
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Name</label>
-          <input type="text" class="form-control" id="inputName" value={inputU.name} name='name' placeholder="Name" onChange= {handleChangeData}></input>
+          <input type="text" className="form-control" id="inputName" value={inputU.name} name='name' placeholder="Name" onChange= {handleChangeData}></input>
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Lastname</label>
-          <input type="text" class="form-control" id="inputLastname" value={inputU.lastname} name='lastname' placeholder="Lastname" onChange= {handleChangeData}></input>
+          <input type="text" className="form-control" id="inputLastname" value={inputU.lastname} name='lastname' placeholder="Lastname" onChange= {handleChangeData}></input>
         </div>
-        <div class="form-group col-md-6">
+        <div className="form-group col-md-6">
           <label>Address</label>
-          <input type="text" class="form-control" id="inputAddress" value={inputU.address} name='address' placeholder="1234 Main St" onChange= {handleChangeData}/>
+          <input type="text" className="form-control" id="inputAddress" value={inputU.address} name='address' placeholder="1234 Main St" onChange= {handleChangeData}/>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
+        <div className="form-row">
+          <div className="form-group col-md-6">
             <label>City</label>
-            <input type="text" class="form-control" id="inputCity" value={inputU.city} name='city' placeholder='City...' onChange= {handleChangeData}/>
+            <input type="text" className="form-control" id="inputCity" value={inputU.city} name='city' placeholder='City...' onChange= {handleChangeData}/>
           </div>
-          <div class="form-group col-md-6">
+          <div className="form-group col-md-6">
             <label>Country</label>
-            <input type="text" class="form-control" id="inputCity" value={inputU.country} name='country' placeholder='Country...' onChange= {handleChangeData}/>
+            <input type="text" className="form-control" id="inputCity" value={inputU.country} name='country' placeholder='Country...' onChange= {handleChangeData}/>
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" className="btn btn-primary">Update</button>
       <p></p>
     </form>
   )

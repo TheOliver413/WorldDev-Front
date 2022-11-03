@@ -57,8 +57,8 @@ export default function AdminTable() {
 
     console.log("datos:",datos)
     return (
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
       <Link to= "/profileSuperAdmin">
       <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
       </Link>

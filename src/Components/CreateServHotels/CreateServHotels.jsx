@@ -31,6 +31,24 @@ const CreateServHotels = () => {
         !hotels.length && dispatch(getHotels())
     }, [dispatch, hotels])
 
+ //-------------------------------------------------
+ const datos = useSelector((state) => state.reducerAuth.users);
+ const { user } = useAuth();
+
+ useEffect(() => {
+   if (user && user.uid) dispatch(getDetailUser(user.uid));
+ }, [dispatch, user]);
+
+useEffect(()=> {
+ if (datos && datos.rol === "admin"){
+   let hotelFinded = hotels.find(e => e.name === datos.hotel)
+
+   setInput_serv_hotel({
+     ...input_serv_hotel,
+     idHotel: hotelFinded.id
+   })
+ }
+},[datos])
 
     //------------ HANDLE CHANGE NAME SERVICES HOTEL--------------//
     const handleName = (e) => {
@@ -138,6 +156,7 @@ const CreateServHotels = () => {
                         <div className="mb-4">
                             <div>
                                 <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                                {datos && datos.rol === "superAdmin" ? 
                                 <select className="form-select" value={input_serv_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
@@ -148,7 +167,8 @@ const CreateServHotels = () => {
                                         <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
                                             `${e.state},${e.department}, ${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
-                                </select>
+                                </select>:
+                                <option disabled value={datos.id}> {datos.hotel} </option>}
                                 <div className="nombre text-danger ">
                                     {errors.idHotel && (<p>{errors.idHotel}</p>)}
                                 </div>

@@ -74,7 +74,6 @@ const Stock = () => {
 
 
     return (
-
     <div class="container">
     <div class="row">
     

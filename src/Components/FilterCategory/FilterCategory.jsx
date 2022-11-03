@@ -18,10 +18,9 @@ function FilterCategory() {
 
   const handleApply = (e) => {
     handleFilterClick(e)
+    if(!estadolocal) return
     dispatch(filterHotelByCategory(estadolocal))
   }
-
-  const num = [1, 2, 3, 4, 5]
 
   const handleClearFilter = () => dispatch(getHotels())
   return (
@@ -45,9 +44,12 @@ function FilterCategory() {
           <p>Category</p>
           <select onChange={handleFilterByCategory} defaultValue='DEFAULT' className="form-select">
             <option value='DEFAULT' disabled>--select category--</option>
-            {num.map(n=>(
-              <option key={n} value={n}>{n} ★</option>
-            ))}
+            <option value="5" >★★★★★</option>
+            <option value="4" >★★★★</option>
+            <option value="3" >★★★</option>
+            <option value="2" >★★</option>
+            <option value="1" >★</option>
+            
           </select>
 
           <button id='applyBtn' onClick={handleApply} type="button" className="btn btn-primary mt-4">Apply</button>

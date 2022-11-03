@@ -50,6 +50,27 @@ const ModifyServHotels = () => {
       return () => dispatch(clearServiceId())
     }, [dispatch])
 
+   //-------------------------------------------------
+   const datos = useSelector((state) => state.reducerAuth.users);
+   const { user } = useAuth();
+ 
+   useEffect(() => {
+     if (user && user.uid) dispatch(getDetailUser(user.uid));
+   }, [dispatch, user]);
+ 
+ useEffect(()=> {
+   if (datos && datos.rol === "admin"){
+     let hotelFinded = hotels.find(e => e.name === datos.hotel)
+ 
+     setInput_hotel({
+       ...input_hotel,
+       idHotel: hotelFinded.id
+     })
+     dispatch(getServicesHotel(hotelFinded.id))
+   }
+   
+ },[datos])
+
     //------------ HANDLE CHANGE HOTEL NAME----------//
     const handleChangeHotel = (e) => {
         e.preventDefault();
@@ -175,6 +196,7 @@ const ModifyServHotels = () => {
                         <div className="mb-4">
                             <div>
                                 <label for="nombre"> <i className="bi bi-building"></i> Hotel Name</label>
+                                {datos && datos.rol === "superAdmin" ?
                                 <select className="form-select" name='idHotel' value={input_hotel.idHotel} onChange={(e) =>
                                     handleChangeHotel(e)}>
                                     <option hidden selected>Select hotel</option>
@@ -185,7 +207,8 @@ const ModifyServHotels = () => {
                                         <option key={e.id} value={e.id}>{`${e.name}, ${(e.Locations).map(e =>
                                             `${e.state},${e.department},${e.city.toLowerCase()}`)}`}</option>)} {/*mapeo el nombre de los
                                     hoteles*/}
-                                </select>
+                                </select>:
+                                <option disabled value={datos.id}> {datos.hotel} </option>}
                                 <div className="nombre text-danger ">
                                     <div>
                                         {error.idHotel && (<p>{error.idHotel}</p>)}

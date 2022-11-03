@@ -46,7 +46,24 @@ export default function CreateRooms() {
     dispatch(getAllServicesRoom());
   }, [dispatch, hotels])
   
- 
+ //--------------------------------------------------------
+ const datos = useSelector((state) => state.reducerAuth.users);
+ const { user } = useAuth();
+
+ useEffect(() => {
+   if (user && user.uid) dispatch(getDetailUser(user.uid));
+ }, [dispatch, user]);
+
+useEffect(()=> {
+ if (datos && datos.rol === "admin"){
+   let hotelFinded = hotels.find(e => e.name === datos.hotel)
+
+   input_setrooms({
+     ...input_rooms,
+     id: hotelFinded.id
+   })
+ }
+},[datos])
 
   //------------------ HANDLE CHANGE ROOMS-------------------//
   function handleChange (e) {
@@ -150,6 +167,7 @@ const onHandleDeleteimage = (e) => {
             <div className="mb-4">
               <div>
                 <label for="nombre"> <i className="bi bi-building"></i> Hotels</label>
+                {datos && datos.rol === "superAdmin" ? 
                 <select className="form-select " name="id" value={input_rooms.id} onChange={(e) =>
                   handleChange(e)}>
                   <option hidden selected>Hotels...</option>
@@ -161,7 +179,8 @@ const onHandleDeleteimage = (e) => {
                         `${ele.state},${ele.department}, ${ele.city.toLowerCase()}`)}`}</option>
                     )
                   )}
-                </select>
+                </select>:
+                <option disabled value={datos.id}> {datos.hotel} </option>}
                 <div className="nombre text-danger "></div>
               </div>
             </div>
