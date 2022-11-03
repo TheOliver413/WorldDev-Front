@@ -23,13 +23,13 @@ const ProfileSuperAdmin = () => {
       {
         datosTotal.rol === 'superAdmin' ?
           <div>
-            <h1 className='mx-5'>World Developers</h1>
+            <h1 className='mx-5'>✯ Dashboard ✯</h1>
 
             <div class="jumbotron bg-gray p-4">
-              <h1 class="display-5">Hello, world!</h1>
-              <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-              <hr class="my-4" />
-              <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+              <h1 class="display-5">Forms to create and modify</h1>
+              <p class="lead">In this section you will be able to create and modify the hotels, rooms, hotel services, services of each room and create events associated with a hotel.</p>
+              <hr class="my-4" /> 
+              <p></p>
               <p class="lead">
                 <Link to='/profileSuperAdmin/formsSuperAdmin'>
                   <button className="btn btn-primary mt-1" type="button">Edit Forms</button>
@@ -38,10 +38,22 @@ const ProfileSuperAdmin = () => {
             </div>
 
             <div class="jumbotron bg-gray p-4 mt-5">
-              <h1 class="display-5">Hello, world!</h1>
-              <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              <h1 class="display-5">Register for admins</h1>
+              <p class="lead">This section directs you to a login to register a hotel manager. You can then upload their contact information.</p>
               <hr class="my-4" />
-              <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+              <p></p>
+              <p class="lead">
+                <Link to='/profileSuperAdmin/registerAdmin'>
+                  <button className="btn btn-primary mt-1" type="button">Admin Registration</button>
+                </Link>
+              </p>
+            </div>
+
+            <div class="jumbotron bg-gray p-4 mt-5">
+              <h1 class="display-5">Admin views</h1>
+              <p class="lead">In this section you can see the administrators of each hotel, with their contact information. You can edit and delete the information of each hotel administrator.</p>
+              <hr class="my-4" />
+              <p></p>
               <p class="lead">
                 <Link to='/profileSuperAdmin/adminTable'>
                   <button className="btn btn-primary mt-1" type="button">Admin Table</button>
@@ -50,10 +62,10 @@ const ProfileSuperAdmin = () => {
             </div>
 
             <div class="jumbotron bg-gray p-4 mt-5">
-              <h1 class="display-5">Hello, world!</h1>
-              <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              <h1 class="display-5">User views</h1>
+              <p class="lead">In this section you can see the users with their contact information. You can delete each user's information as needed.</p>
               <hr class="my-4" />
-              <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+              <p></p>
               <p class="lead">
                 <Link to='/userTable'>
                   <button className="btn btn-primary mt-1" type="button">User Table</button>
@@ -61,23 +73,13 @@ const ProfileSuperAdmin = () => {
               </p>
             </div>
 
-            <div class="jumbotron bg-gray p-4 mt-5">
-              <h1 class="display-5">Hello, world!</h1>
-              <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-              <hr class="my-4" />
-              <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-              <p class="lead">
-                <Link to='/profileSuperAdmin/registerAdmin'>
-                  <button className="btn btn-primary mt-1" type="button">Admin Registration</button>
-                </Link>
-              </p>
-            </div>
+
 
             <div class="jumbotron bg-gray p-4 mt-5 mb-5">
-              <h1 class="display-5">Hello, world!</h1>
-              <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              <h1 class="display-5">Reservation management</h1>
+              <p class="lead">In this section you will have the views of the reservations, you can filter them by name, order them, filter them by status and cancel them.</p>
               <hr class="my-4" />
-              <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+              <p></p>
               <p class="lead">
               <Link to='/stock'>
                 <button className="btn btn-primary mt-1" type="button">Bookings</button>
