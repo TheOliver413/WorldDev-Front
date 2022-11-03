@@ -20,7 +20,7 @@ const AboutUs = () => {
               alt="Hotels" width='100%' object-fit='cover' height="200" className="imagen" />
             <h2>Hotels</h2>
             <p>World developers offers you a wide variety of hotels in the best destinations so that you can enjoy an unforgettable vacation while you work.</p>
-            <p><a className="btn btn-outline-info" href="/home">View details</a></p>
+            <p><a className="btn btn-outline-info" href="/home">View details &raquo;</a></p>
           </div>
 
           <div className="col-lg-4 border rounded">
