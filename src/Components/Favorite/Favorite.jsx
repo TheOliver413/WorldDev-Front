@@ -11,11 +11,11 @@ function Favorite() {
   const { user } = useAuth();
   const { favorites } = useSelector((state) => state.reducerFavorite);
 
-  // useEffect(()=>{
-  //   if(user && user.hasOwnProperty('uid')){
-  //     dispatch(getFavorites(user.uid))
-  //   }
-  //  }, [user])
+  useEffect(()=>{
+    if(user && user.hasOwnProperty('uid')){
+      dispatch(getFavorites(user.uid))
+    }
+   }, [user])
   const navigate= useNavigate()
 
   

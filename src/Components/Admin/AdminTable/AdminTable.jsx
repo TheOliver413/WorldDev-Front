@@ -86,17 +86,19 @@ export default function AdminTable() {
               <Link to="/profileSuperAdmin">
                 <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
               </Link>
-              <Container>
-                <Table>
+
+                <table className="table table-striped" style={{ 'max-width': '1500px', 'margin-inline': 'auto' }}>
                   <thead>
                     <tr>
-                      <th>Admin</th>
-                      <th>Email</th>
-                      <th>Hotel</th>
-                      <th>Role</th>
+                      <th scope="col">Admin</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Hotel</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Edit</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="table-group-divider">
                     {allAdmins && allAdmins?.map((dat) => (
                       <tr key={dat.id}>
                         <td>{dat.name}</td>
@@ -106,10 +108,7 @@ export default function AdminTable() {
                         <td>
                           <tr>
                             <Link to="/profileSuperAdmin/editAdmin/:id">
-                              <Button
-                                color="primary"
-                                onClick={() => showModalToUpdate(dat)}
-                              >
+                              <Button outline color="info" onClick={() => showModalToUpdate(dat)}>
                                 Edit
                               </Button>
                             </Link>
@@ -118,77 +117,15 @@ export default function AdminTable() {
                         </td>
                         <td>
                           <tr>
-                            <Button id={dat.id} value={dat.name} outline color="danger" onClick={(e) => handleDelete(e)}>Delete</Button>
+                            <Button outline color="danger" id={dat.id} value={dat.name} onClick={(e) => handleDelete(e)}>
+                              Delete
+                            </Button>
                           </tr>
                         </td>
                       </tr>
                     ))}
                   </tbody>
-                </Table>
-              </Container>
-              {/*  <Modal isOpen={modalToUpdate}>
-          <ModalHeader>
-           <div><h3>Edit Register</h3></div>
-          </ModalHeader>
-
-          <ModalBody>
-            <FormGroup>
-              <label>
-               Id:
-              </label>
-            
-              <input
-                className="form-control"
-                readOnly
-                type="text"
-                value={form.id}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                User: 
-              </label>
-              <input
-                className="form-control"
-                name="user"
-                type="text"
-                onChange={handleChange}
-                value={form.user}
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <label>
-                Email: 
-              </label>
-              <input
-                className="form-control"
-                name="email"
-                type="text"
-                onChange={handleChange}
-                value={form.email}
-              />
-            </FormGroup>
-          </ModalBody>
-
-          <ModalFooter>
-           <Link>
-            <Button
-              color="primary"
-              onClick={() => handleClickEdit(form)}
-            >
-              Done
-            </Button>
-           </Link>
-            <Button
-              color="danger"
-              onClick={() => closeModalToUpdate()}
-            >
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal> */}
+                </table>
             </div>
           </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
       }

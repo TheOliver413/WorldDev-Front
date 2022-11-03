@@ -15,7 +15,9 @@ export default function Login() {
 
   const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
+    rol: "",
+    favorites: []
   });
 
   const [showPwd, setShowPwd] = useState(false)

@@ -87,7 +87,7 @@ export default function RegisterAdmin() {
             <Link to="/profileSuperAdmin">
               <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
             </Link>
-            <div className="d-flex justify-content-center align-items-center vh-50">
+            <div className="d-flex justify-content-center align-items-center mb-5 vh-50">
               {error && <Alert message={error} />}
 
               <form onSubmit={handleSubmit} className="bg-white p-5 rounded-5 text-secondary shadow" style={{ width: "25rem" }}>

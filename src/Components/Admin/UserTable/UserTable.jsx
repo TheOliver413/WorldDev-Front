@@ -79,25 +79,28 @@ export default function UserTable() {
                 <Link to="/profileAdmin">
                   <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
                 </Link>}
-              <Container>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>User</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allUsers && allUsers?.map((dat) => (
-                      <tr key={dat.id}>
-                        <td>{dat.name}</td>
-                        <td>{dat.email}</td>
-                        <td>{dat.rol}</td>
-                        <td>
-                          <tr>
-                            <Button id={dat.id} value={dat.name} outline color="danger" onClick={(e) => handleDelete(e)}>Delete</Button>
-                            {dat.blocked && dat.blocked === true ?
+              <table className="table table-striped" style={{ 'max-width': '1500px', 'margin-inline': 'auto' }}>
+                <thead>
+                  <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody className="table-group-divider">
+                  {allUsers && allUsers?.map((dat) => (
+                    <tr key={dat.id}>
+                      <td>{dat.name}</td>
+                      <td>{dat.email}</td>
+                      <td>{dat.rol}</td>
+                      <td>
+                        <tr>
+                          <Button id={dat.id} value={dat.name} outline color="danger" onClick={(e) => handleDelete(e)}>
+                            Delete
+                          </Button>
+                        </tr>
+                        {/* {dat.blocked && dat.blocked === true ?
                               <Button value={dat.id} color="dark"
                                 onClick={handleBlockButton}>
                                 Block
@@ -106,14 +109,13 @@ export default function UserTable() {
                                 onClick={handleUnlockButton}
                               >
                                 Unlock
-                              </Button>}
-                          </tr>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Container>
+                              </Button>} */}
+
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
       }
