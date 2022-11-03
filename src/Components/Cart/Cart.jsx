@@ -152,8 +152,8 @@ function Cart() {
           </Link>
         </>
       ) : (
-        <div className="my-5 py-4 px-2">
-          <h1 className="mb-4">No rooms added to cart</h1>
+        <div className="my-5 mt-5 py-4 px-2">
+          <h1 className="mb-5">No rooms added to cart</h1>
           <button
             type="button"
             className="btn btn-primary mt-4"
