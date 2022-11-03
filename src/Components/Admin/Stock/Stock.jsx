@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { getDetailUser } from "../../../redux/action/actionAuth";
 
+
 const Stock = () => {
 
     const { user } = useAuth();
@@ -73,66 +74,84 @@ const Stock = () => {
 
 
     return (
-
-        <div className="container">
-        <div className="row">
-            <div>
-                {
-                    datos.rol === "superAdmin" ?
-                        <Link to= "/profileSuperAdmin">
-                            <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
-                        </Link> :
-                        <Link to= "/profileAdmin">
-                            <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
-                        </Link>
-                }
+    <div class="container">
+    <div class="row">
+    
+    <table className="table" style={{ 'max-width': '1200px', 'margin-inline': 'auto' }}>
+    <div class="col"><div class="p-2">
+        {
+            datos.rol === "superAdmin" ?
+            <Link to= "/profileSuperAdmin">
+                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+            </Link> :
+            <Link to= "/profileAdmin">
+                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+            </Link>
+        }
+    </div>
+  
+    </div>
+    <div class="row mt-1" >
+        <h6 scope="col " ><strong>Filter</strong></h6>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <select className="form-select" onChange={(e) => handleFilterByHotel(e)}>
+                          <option hidden >By Hotels</option>
+                            {hotels && hotels.sort((a, b) => {
+                            if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                            if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                            return 0;}).map(e => {return <option key={e.id} value={e.name}>{e.name}</option>})}
+                        </select>
+                    </div>
+                <div class="col">
+            <div className="row align-items-center">
+                        <select className="form-select" onChange={(e) => handleFilterByStatus(e)}>
+                            <option hidden>By Status</option>
+                            <option value='confirmed'>Confirmed</option>
+                            <option value='cancelled'>Cancelled</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <h6>Filter</h6>
-                <select onChange={(e) => handleFilterByHotel(e)}>
-                    <option hidden >By Hotels</option>
-                    {hotels && hotels.sort((a, b) => {
-                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
-                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
-                        return 0;
-                    }).map(e => {
-                        return <option key={e.id} value={e.name}>{e.name}</option>
-                    })}
-                </select>
-            </div>
-            <div>
-                <select onChange={(e) => handleFilterByStatus(e)}>
-                    <option hidden>By Status</option>
-                    <option value='confirmed'>Confirmed</option>
-                    <option value='cancelled'>Cancelled</option>
-                </select>
-            </div>
-
-
-            <button type="button" onClick={() => dispatch(getBooks())}>Clear</button>
-
-            <div>
-                <h6>Sort</h6>
-                <select onChange={handleOrderByHotel}>
-                    <option hidden >By Hotels</option>
-                    <option value='a-z'>A-Z</option>
-                    <option value='z-a'>Z-A</option>
-                </select>
-            </div>
-
-            <div>
-                <select onChange={handleOrderByDate}>
+        </div>
+    </div>
+    <div className="row align-items-center mt-3">
+        <h6 scope="col "><strong>Sort</strong></h6>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <select className="form-select" onChange={handleOrderByHotel}>
+                            <option hidden >Alphabetically</option>
+                            <option value='a-z'>A-Z</option>
+                            <option value='z-a'>Z-A</option>
+                        </select>
+                    </div>
+        <div class="col">
+                      <div className="row align-items-center">
+                        <select className="form-select" onChange={handleOrderByDate}>
                     <option hidden >By Date</option>
                     <option value='asc'>Check Asc</option>
                     <option value='desc'>Check Desc</option>
                 </select>
+                
             </div>
-
-
-            <h4>BOOKINGS</h4>
-            <table className="table" style={{ 'max-width': '1200px', 'margin-inline': 'auto' }}>
+            
+                    </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </table>
+        
+        <table className="table" style={{ 'max-width': '1200px', 'margin-inline': 'auto' }}>
                 <thead>
+                <div class="p-2"> 
+        <button className="btn btn-primary mt-1" type="button" onClick={() => dispatch(getBooks())}>
+                    REFRESH ALL BOOKINGS
+        </button>
+    </div>
                     <tr>
                         <th scope="col">Hotels</th>
                         <th scope="col">Date</th>
@@ -162,7 +181,7 @@ const Stock = () => {
                     ))}
                 </tbody>
             </table>
-            </div>
+        </div>
     </div>
     )
 }

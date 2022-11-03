@@ -4,8 +4,7 @@ import { createHotels, /* updateHotels, getHotels */ } from '../../redux/action/
 import { getCity, getDepartment, getState } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import '../Create/Styles.css';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 
 const validate = (input_hotels) => {
   let errors = {};
@@ -25,7 +24,6 @@ const validateTwo = (input_location) => {
   if(!input_location.department) error.department = 'Department is required'
   return error;
 }
-
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -155,12 +153,16 @@ export default function Create() {
   }
 
   return (
+    <div class="container">
+        <div class="row">
+        <Link to= "/profileSuperAdmin/formsSuperAdmin">
+      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
     <section className="d-flex justify-content-center align-items-center">
-      <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-        <div className="mb-4 d-flex justify-content-start align-items-center">
+      <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3 p-4">
+        <div className="mb-2 d-flex justify-content-start align-items-center">
           <h1>Hotel</h1>
         </div>
-
         <div className="mb-1">
           <form onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-4">
@@ -174,7 +176,6 @@ export default function Create() {
                 {errors.name && (<p>{errors.name}</p>)}
             </div>
             </div>
-
             <div className="mb-4">
               <div>
                 <label for="nombre"> <i className="bi bi-image"></i> Image</label>
@@ -185,7 +186,6 @@ export default function Create() {
                       <img src={imag.url} alt='images hotel'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
                     </div>
                   ))}
-
                 </div>
                 <div className="nombre text-danger "></div>
               </div>
@@ -193,7 +193,6 @@ export default function Create() {
                 {errors.image && (<p>{errors.image}</p>)}
             </div>
             </div>
-
             <div className="mb-4">
               <div>
                 <label for="nombre"><i className="bi bi-star"></i> Qualification</label>
@@ -206,7 +205,6 @@ export default function Create() {
                 {errors.qualification && (<p>{errors.qualification}</p>)}
             </div>
               </div>
-
               <div className="mb-4">
                 <label for="nombre"><i className="bi bi-geo-alt"></i> Address</label>
                 <input type="text" className="form-control" placeholder="Address..."
@@ -216,7 +214,6 @@ export default function Create() {
                 {errors.address && (<p>{errors.address}</p>)}
             </div>
               </div>
-
               <div className="mb-4">
                 <label for="nombre"><i className="bi bi-house"></i> State</label>
                 <select className="form-select" name="state" value={input_location.state} onChange={(e) => handleChangeLocation(e)}>
@@ -236,7 +233,6 @@ export default function Create() {
                 {error.state && (<p>{error.state}</p>)}
             </div>
               </div>
-
               <div className="mb-4 d-flex justify-content-between">
               <div>
                   <label for="apellido"><i className="bi bi-pin"></i> Department</label>
@@ -257,7 +253,6 @@ export default function Create() {
                 {error.department && (<p>{error.department}</p>)}
             </div>
                 </div>
-
                 <div>
                   <label for="nombre"><i className="bi bi-pin-map"></i> City</label>
                   <select className="form-select" name="idLocation" value={input_hotels.idLocation} onChange={(e) => handleChange(e)}>
@@ -278,7 +273,6 @@ export default function Create() {
             </div>
                 </div>
               </div>
-
               <div className="mb-4">
                 <label for="mensaje"> <i className="bi bi-chat-left-dots" required></i> Description</label>
                 <textarea className="form-control" placeholder="Description..." value={input_hotels.description}
@@ -288,7 +282,6 @@ export default function Create() {
                 {errors.description && (<p>{errors.description}</p>)}
             </div>
               </div>
-
               <div className="mb-2">
               {!input_hotels.name || !input_hotels.image.length || !input_hotels.qualification || !input_hotels.description || !input_hotels.address ||!input_hotels.idLocation || !input_location.state || !input_location.department || Object.keys(errors).length?
               <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
@@ -303,4 +296,6 @@ export default function Create() {
         </div>
       </div>
     </section>
+    </div>
+    </div>
     )}
