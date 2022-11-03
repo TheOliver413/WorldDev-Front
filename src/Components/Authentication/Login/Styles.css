@@ -1,11 +1,17 @@
 .loging {
-    background-color: var(--clr-dark-main);
+  background-color: var(--clr-dark-main);
 }
 
 .login-text {
-    color: var(--clr-dark-main);
+  color: var(--clr-dark-main);
+  cursor: pointer;
 }
 
-.login{
-    background-color: var(--clr-dark-main) !important;
+.login-text:hover {
+  color: var(--clr-dark-main);
+  text-decoration: underline !important;
+}
+
+.login {
+  background-color: var(--clr-dark-main) !important;
 }
