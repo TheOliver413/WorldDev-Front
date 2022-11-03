@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHotel, clearDetail } from '../../redux/action/action';
 import '../Create/Styles.css';
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
 
@@ -51,7 +51,7 @@ useEffect(()=> {
       ...input_hotels,
       id: hotelFinded.id
     })
-  }
+  }
 },[datos])
 
   const [input_hotels, input_sethotels] = useState({
@@ -196,6 +196,11 @@ useEffect(()=> {
   }
 
   return (
+    <div class="container">
+        <div class="row">
+        <Link to= "/profileSuperAdmin/formsSuperAdmin">
+      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
     <section className="d-flex justify-content-center align-items-center">
       <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
         <div className="mb-4 d-flex justify-content-start align-items-center">
@@ -382,4 +387,6 @@ useEffect(()=> {
         </div>
       </div>
     </section>
+    </div>
+    </div>
   )}
