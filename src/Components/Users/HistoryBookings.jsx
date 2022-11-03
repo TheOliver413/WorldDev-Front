@@ -21,7 +21,8 @@ const HistoryBookings = () => {
         return () => dispatch(cleanHistory())
     }, [dispatch, user])
 console.log('userrrid',user.uid )
-    const book = booksUser?.map(e => e.cartRoom).flat()
+const book = booksUser?.map(e => e.cartRoom).flat()
+console.log('ID-HOTEL',book)
     return (
         <>
             {book.length ?
@@ -36,7 +37,7 @@ console.log('userrrid',user.uid )
                                 <li>Quantity: {e.cartQuantity}</li>
                                 <li>Price: {e.price}</li>
                                 <li>Status: {e.status}</li>
-                                <li>Please leave us <Link to= {`/hotel/${e.id}/review`}><button type='button' className="btn btn-outline-info"> Your Review </button></Link></li>
+                                <li>Please leave us <Link to= {`/hotel/${e.idHotel}/review`}><button type='button' className="btn btn-outline-info"> Your Review </button></Link></li>
                             </ul>                            
                         </div>
                     ))
