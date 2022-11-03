@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearServiceRoomById, getAllServicesRoom, getServiceRoomById, modifyServicesRooms } from "../../redux/action/action";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { getDetailUser } from "../../redux/action/actionAuth";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -19,6 +21,16 @@ const ModifyServRooms = () => {
     const servicesRoom = useSelector(state => state.reducerRoom.servicesRoom)
     const serviceById = useSelector(state => state.reducerRoom.serviceRoomId)
 
+    const { user } = useAuth()
+
+    const datosTotal = useSelector(state => state.reducerAuth.users)
+
+    useEffect(() => {
+        if (user && user.hasOwnProperty('uid')) {
+            dispatch(getDetailUser(user.uid))
+        }
+    }, [user])
+
     const [input_serv_room, setInput_serv_room] = useState({
         id: '',
         name: '',
@@ -32,7 +44,7 @@ const ModifyServRooms = () => {
     }, [dispatch])
 
     //component will unmount
-    useEffect(()=> {
+    useEffect(() => {
         return () => dispatch(clearServiceRoomById())
     }, [dispatch])
 
@@ -73,9 +85,9 @@ const ModifyServRooms = () => {
     const onHandleDeleteimage = (e) => {
         e.preventDefault();
         setInput_serv_room({
-          ...input_serv_room,
-          image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
-      })
+            ...input_serv_room,
+            image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
+        })
     }
 
     //------------ HANDLE CHANGE --------------//
@@ -112,85 +124,83 @@ const ModifyServRooms = () => {
 
 
     return (
-        <div class="container">
-        <div class="row">
-        <Link to= "/profileSuperAdmin/formsSuperAdmin">
-      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
-      </Link>
-        <section className="d-flex justify-content-center align-items-center">
-            <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-                <div className="mb-4 d-flex justify-content-start align-items-center">
-                    <h1>Modify Services Rooms</h1>
-                </div>
-
-                <div className="mb-4">
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <div className="mb-4">
-                            <div>
-                                <label for="nombre"> <i className="bi bi-gear"></i> Current Service Name</label>
-                                <select className="form-select" value={input_serv_room.id} name="id" onChange={(e) =>
-                                    handleChange(e)}>
-                                    <option hidden selected>Select Service Name</option>
-                                    {servicesRoom?.sort((a, b) => {
-                                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
-                                        if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
-                                        return 0;
-                                    }).map(e =>
-                                        <option key={e.id} value={e.id}>{e.name.toLowerCase()}</option>)}
-                                </select>
-                                <div className="nombre text-danger ">
-                                    {errors.id && (<p>{errors.id}</p>)}
-                                </div>
+        <div>
+            {
+                datosTotal.rol === 'superAdmin' || datosTotal.rol === 'admin' ?
+                    <section className="d-flex justify-content-center align-items-center">
+                        <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+                            <div className="mb-4 d-flex justify-content-start align-items-center">
+                                <h1>Modify Services Rooms</h1>
                             </div>
-                        </div>
 
-                        <div className="mb-4">
-                            <div>
-                                <label for="nombre"> <i className="bi bi-plus-circle"></i> New Service Name</label>
-                                <input type="text" className="form-control" placeholder="New Service name..."
-                                defaultValue={input_serv_room.name || serviceById?.name } name="name" onChange={(e) => handleName(e)} />
-                                <div className="nombre text-danger ">
-                                    {errors.name && (<p>{errors.name}</p>)}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mb-4">
-                            <div>
-                                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
-                                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
-                                <div>
-                                    <div>
-                                        {input_serv_room.image?.map((imag) => (
-                                            <div key={imag.public_id}>
-                                                <img src={imag.url} alt='images servRoom'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                            <div className="mb-4">
+                                <form onSubmit={(e) => handleSubmit(e)}>
+                                    <div className="mb-4">
+                                        <div>
+                                            <label for="nombre"> <i className="bi bi-gear"></i> Current Service Name</label>
+                                            <select className="form-select" value={input_serv_room.id} name="id" onChange={(e) =>
+                                                handleChange(e)}>
+                                                <option hidden selected>Select Service Name</option>
+                                                {servicesRoom?.sort((a, b) => {
+                                                    if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                                                    if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                                                    return 0;
+                                                }).map(e =>
+                                                    <option key={e.id} value={e.id}>{e.name.toLowerCase()}</option>)}
+                                            </select>
+                                            <div className="nombre text-danger ">
+                                                {errors.id && (<p>{errors.id}</p>)}
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                    <div className="nombre text-danger ">
-                                        {errors.image && (<p>{errors.image}</p>)}
+
+                                    <div className="mb-4">
+                                        <div>
+                                            <label for="nombre"> <i className="bi bi-plus-circle"></i> New Service Name</label>
+                                            <input type="text" className="form-control" placeholder="New Service name..."
+                                                defaultValue={input_serv_room.name || serviceById?.name} name="name" onChange={(e) => handleName(e)} />
+                                            <div className="nombre text-danger ">
+                                                {errors.name && (<p>{errors.name}</p>)}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div className="mb-4">
+                                        <div>
+                                            <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                                            <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                                            <div>
+                                                <div>
+                                                    {input_serv_room.image?.map((imag) => (
+                                                        <div key={imag.public_id}>
+                                                            <img src={imag.url} alt='images servRoom' /><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="nombre text-danger ">
+                                                    {errors.image && (<p>{errors.image}</p>)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="mb-4">
+                                        {!input_serv_room.id || !input_serv_room.name || !input_serv_room.image.length ||
+                                            Object.keys(errors).length
+                                            ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                                <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
+                                            </button>
+                                            : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                                <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
+                                            </button>}
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
-
-
-                        <div className="mb-4">
-                            {!input_serv_room.id || !input_serv_room.name || !input_serv_room.image.length ||
-                                Object.keys(errors).length
-                                ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
-                                </button>
-                                : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Modify </span><i id="icono" className="bi bi-cursor-fill "></i>
-                                </button>}
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </section>
-        </div>
+                    </section> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
+            }
         </div>
     )
 }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { Alert } from "../Alert/Alert";
@@ -7,16 +8,18 @@ import { toast } from "react-toastify";
 import loginico from "./login-icon.svg";
 import userico from "./username-icon.svg"
 import passwordico from "./password-icon.svg"
-import { createUsers } from "../../../redux/action/actionAuth";
-import { useDispatch } from "react-redux";
+import { createUsers, getDetailUser } from "../../../redux/action/actionAuth";
 import { getAuth, sendEmailVerification } from "firebase/auth";
 
 
 export default function Register() {
   const dispatch = useDispatch();
-  const { signup, sendE, login, emailLink } = useAuth();
+  const datosTotal = useSelector(state => state.reducerAuth.users)
 
-  const [user, setUser] = useState({
+  const { signup, sendE, login, emailLink, user } = useAuth();
+
+  const [userComunes, setUserComunes] = useState({
+    id: datosTotal.uid,
     email: "",
     password: "",
     rol: "user",
@@ -25,10 +28,16 @@ export default function Register() {
     favorites: []
   });
 
+  useEffect(() => {
+    if (user && user.hasOwnProperty('uid')) {
+      dispatch(getDetailUser(user.uid))
+    }
+  }, [user])
+
   const [showPwd, setShowPwd] = useState(false)
 
   const handleChange = ({ target: { name, value } }) => {
-    setUser({ ...user, [name]: value })
+    setUserComunes({ ...userComunes, [name]: value })
   }
 
   const [error, setError] = useState("");
@@ -38,13 +47,13 @@ export default function Register() {
     e.preventDefault();
     setError("");
     try {
-      await signup(user.email, user.password, user.rol, user.displayName, user.photoURL, user.favorites);
+      await signup(userComunes.email, userComunes.password, userComunes.rol, userComunes.displayName, userComunes.photoURL, userComunes.favorites);
       let credential = {
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        email: user.email,
-        id: user.uid,
-        favorites: user.favorites
+        displayName: userComunes.displayName,
+        photoURL: userComunes.photoURL,
+        email: userComunes.email,
+        id: userComunes.uid,
+        favorites: userComunes.favorites
       }
       dispatch(createUsers(credential))
 
@@ -53,11 +62,10 @@ export default function Register() {
         .then(() => {
           toast.info('We sent you an email. Check your inbox', { position: 'bottom-right' })
         })
-
       navigate("/home")
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") { 
-        return  toast.error("Email already in use", { position: 'bottom-right' })
+      if (error.code === "auth/email-already-in-use") {
+        return toast.error("Email already in use", { position: 'bottom-right' })
       }
       if (error.code === 'auth/invalid-email') {
         return toast.error("Email invalid", { position: 'bottom-right' })
@@ -73,24 +81,24 @@ export default function Register() {
       {error && <Alert message={error} />}
 
       <form onSubmit={handleSubmit} className="bg-white p-5 rounded-5 text-secondary shadow" style={{ width: "25rem" }}>
-        <div className="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
           <img src={loginico} alt="login-icon" style={{ height: "7rem" }} />
         </div>
 
-        <div className="text-center fs-1 fw-bold">Register</div>
+        <div class="text-center fs-1 fw-bold">Register</div>
 
-        <div className="input-group mt-4">
-          <div className="input-group-text login">
+        <div class="input-group mt-4">
+          <div class="input-group-text login">
             <img src={userico} alt="username-icon" className="user" style={{ height: "1rem" }} />
           </div>
-          <input className="form-control bg-light" type="email" name='email' placeholder="youremail@company.tld" onChange={handleChange} />
+          <input class="form-control bg-light" type="email" name='email' placeholder="youremail@company.tld" onChange={handleChange} />
         </div>
 
-        <div className="input-group mt-1">
-          <div className="input-group-text login">
+        <div class="input-group mt-1">
+          <div class="input-group-text login">
             <img src={passwordico} alt="password-icon" style={{ height: "1rem" }} />
           </div>
-          <input className="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="******" onChange={handleChange} />
+          <input class="form-control bg-light" type={showPwd ? "text" : "password"} name='password' id="password" placeholder="******" onChange={handleChange} />
           <div className="input-group-text loging" onClick={() => setShowPwd(!showPwd)}>
             {showPwd ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height={"1.5rem"}>
               <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
@@ -105,17 +113,17 @@ export default function Register() {
 
         <div>
           {
-            !user.email || !user.password || user.password.length < 6 ?
+            !userComunes.email || !userComunes.password || userComunes.password.length < 6 ?
               <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" disabled type="submit">Register</button>
               :
               <button className="btn btn-info login text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Register</button>
           }
         </div>
 
-        <div className="d-flex gap-1 justify-content-center mt-1">
+        <div class="d-flex gap-1 justify-content-center mt-1">
           <div>Do you already have an account</div>
           <Link to="/login">
-            <a href="#" className="login-text text-decoration-none fw-semibold">Login</a>
+            <a href="#" class="login-text text-decoration-none fw-semibold">Login</a>
           </Link>
         </div>
       </form>

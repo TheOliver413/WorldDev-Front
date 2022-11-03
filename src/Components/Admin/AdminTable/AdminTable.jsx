@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUsers, getAllAdmins } from "../../../redux/action/actionAuth";
 import { useAuth } from "../../../context/AuthContext";
@@ -18,91 +18,115 @@ import { useEffect } from "react";
 
 export default function AdminTable() {
   const dispatch = useDispatch();
-  const allAdmins = useSelector(state =>state.reducerAuth.allAdmins)
+  const navigate = useNavigate()
+  const allAdmins = useSelector(state => state.reducerAuth.allAdmins)
   const [data, setData] = useState([]);
   const [modalToUpdate, setModalToUpdate] = useState(false);
-  const [form , setForm] = useState({
-    name:"",
-    email:"",
-    hotel:""
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    hotel: ""
   });
-  const datos= useSelector(state => state.reducerAuth.Alladmins)
-  const {user} = useAuth()
+  const datos = useSelector(state => state.reducerAuth.Alladmins)
+  const { user } = useAuth()
 
   const handleChange = (e) => {
-    setForm({...form,[e.target.name]: e.target.value});
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  useEffect(()=>{
-    if(user && user.hasOwnProperty('uid')){
+
+  const datosTotal = useSelector(state => state.reducerAuth.users)
+
+  useEffect(() => {
+    if (user && user.hasOwnProperty('uid')) {
       dispatch(getAllAdmins(user.uid))
     }
-   }, [user])
+  }, [user])
 
-   const showModalToUpdate = (dat) => {
+  const showModalToUpdate = (dat) => {
     setModalToUpdate(true);
     setForm(dat)
-  }; 
+  };
+
+  const closeModalToUpdate = () => {
+    setModalToUpdate(false);
+  };
+  function handleClickEdit(dat) {
+    var count = 0;
+    const setting = data;
+    setting.map((register) => {
+
+      if (dat.id === register.id) {
+        setting[count].user = dat.user;
+        setting[count].email = dat.email;
+      }
+      count++;
+    });
+  }
 
   const handleDelete = (e) => {
     const option = window.confirm("Are you sure you want to Delete the admin " + e.target.value + "?")
     if (option === true) {
-    dispatch(deleteUsers(e.target.id))
-    setData([]);}
+      dispatch(deleteUsers(e.target.id))
+      setData([]);
+    }
   }
-  
-    useEffect(() => {
-      dispatch(getAllAdmins())
-    }, [dispatch,data])
 
-    console.log("datos:",datos)
-    return (
-      <div className="container">
-        <div className="row">
-      <Link to= "/profileSuperAdmin">
-      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
-      </Link>
-      <Container>
-        <Table>
-          <thead>
-            <tr>
-              <th>Admin</th>
-              <th>Email</th>
-              <th>Hotel</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allAdmins && allAdmins?.map((dat) =>(
-              <tr key={dat.id}>
-                <td>{dat.name}</td>
-                <td>{dat.email}</td>
-                <td>{dat.hotel}</td>
-                <td>{dat.rol}</td>
-                <td>
-                  <tr>
-                    <Link to="/profileSuperAdmin/editAdmin/:id">
-                    <Button
-                      color="primary"
-                      onClick={() => showModalToUpdate(dat)}
-                    >
-                      Edit
-                    </Button>
-                    </Link>
-                    
-                  </tr>
-                  </td>
-                  <td>
-                  <tr>
-                  <Button  id={dat.id} value={dat.name} outline color="danger" onClick={(e)=>handleDelete(e)}>Delete</Button>
-                  </tr>
-                  </td>
-              </tr>     
-            ))}
-          </tbody>
-        </Table>
-      </Container>
-     {/*  <Modal isOpen={modalToUpdate}>
+  useEffect(() => {
+    dispatch(getAllAdmins())
+  }, [dispatch, data])
+
+  console.log("datos:", datos)
+  return (
+    <div>
+      {
+        datosTotal.rol === 'superAdmin' ?
+          <div className="container">
+            <div className="row">
+              <Link to="/profileSuperAdmin">
+                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+              </Link>
+              <Container>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Admin</th>
+                      <th>Email</th>
+                      <th>Hotel</th>
+                      <th>Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allAdmins && allAdmins?.map((dat) => (
+                      <tr key={dat.id}>
+                        <td>{dat.name}</td>
+                        <td>{dat.email}</td>
+                        <td>{dat.hotel}</td>
+                        <td>{dat.rol}</td>
+                        <td>
+                          <tr>
+                            <Link to="/profileSuperAdmin/editAdmin/:id">
+                              <Button
+                                color="primary"
+                                onClick={() => showModalToUpdate(dat)}
+                              >
+                                Edit
+                              </Button>
+                            </Link>
+
+                          </tr>
+                        </td>
+                        <td>
+                          <tr>
+                            <Button id={dat.id} value={dat.name} outline color="danger" onClick={(e) => handleDelete(e)}>Delete</Button>
+                          </tr>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Container>
+              {/*  <Modal isOpen={modalToUpdate}>
           <ModalHeader>
            <div><h3>Edit Register</h3></div>
           </ModalHeader>
@@ -165,7 +189,9 @@ export default function AdminTable() {
             </Button>
           </ModalFooter>
         </Modal> */}
-      </div>
+            </div>
+          </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
+      }
     </div>
   )
 }
