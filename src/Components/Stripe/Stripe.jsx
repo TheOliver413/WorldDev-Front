@@ -60,7 +60,7 @@ const CheckoutForm = () => {
                         idHotel: e.Hotels?.map(el => el.id).toString(),
                         status: 'confirmed',
                         user: user.uid,
-                        date: e.createdAt.substring(0, 10),
+                        date: format(new Date(), 'yyyy-MM-dd'),
                     }))
                     aux = check
                 }
@@ -82,7 +82,7 @@ const CheckoutForm = () => {
             idHotel: e.Hotels?.map(el => el.id).toString(),
             status: 'confirmed',
             user: user.uid,
-            date: e.createdAt.substring(0, 10),
+            date: format(new Date(), 'yyyy-MM-dd')
         }))
         aux = check
         console.log('check1', check)
@@ -109,7 +109,7 @@ const CheckoutForm = () => {
                     idHotel: cartRooms[i].Hotels?.map(el => el.id).toString(),
                     status: 'confirmed',
                     user: user.uid,
-                    date: cartRooms[i].createdAt.substring(0, 10),
+                    date: format(new Date(), 'yyyy-MM-dd')
 
                 }
                 aux.push(check)
@@ -131,7 +131,7 @@ const CheckoutForm = () => {
                     idHotel: e.Hotels?.map(el => el.id).toString(),
                     status: 'confirmed',
                     user: user.uid,
-                    date: e.createdAt.substring(0, 10),
+                    date: format(new Date(), 'yyyy-MM-dd')
                 }))
                 aux = check
                 console.log('check3', check)

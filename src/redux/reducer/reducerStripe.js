@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
     GET_BOOKING,
     GET_ALL_BOOKINGS,
@@ -10,6 +11,7 @@ import {
     ORDER_BOOKS_BY_DATE,
     FILTER_BOOKS_BY_HOTEL,
     FILTER_BOOKS_BY_STATUS,
+    CLEAN_HISTORY,
 } from '../action/actionStripe';
 
 const initialStateStripe = {
@@ -18,7 +20,7 @@ const initialStateStripe = {
     booking: [],
     bookingsUser: [],
     allBooks: [],// lo modifico
-    books:[],//copia - no lo toco
+    books: [],//copia - no lo toco
 
 };
 
@@ -60,21 +62,21 @@ const stripe_reducer = (state = initialStateStripe, action) => {
         case ORDER_BOOKS_BY_HOTEL:
             let sortName = action.payload === 'a-z' ?
                 state.allBooks?.sort((a, b) => {
-                        if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
-                        if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
-                        return 0;
+                    if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                    if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                    return 0;
                 })
                 : state.allBooks?.sort((a, b) => {
-                        if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
-                        if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
-                        return 0;
+                    if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                    if (a.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.hotel.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                    return 0;
                 })
             return {
                 ...state,
                 allBooks: sortName
             }
-        case ORDER_BOOKS_BY_DATE:           
-           let sortDate = action.payload === 'asc' ?
+        case ORDER_BOOKS_BY_DATE:
+            let sortDate = action.payload === 'asc' ?
                 state.allBooks?.sort((a, b) => {
                     if (a.checkIn > b.checkIn) return 1;
                     if (a.checkIn < b.checkIn) return -1;
@@ -90,20 +92,25 @@ const stripe_reducer = (state = initialStateStripe, action) => {
                 allBooks: sortDate
             }
         case FILTER_BOOKS_BY_HOTEL:
-            const books = state.books            
+            const books = state.books
             const filterByHotel = books?.filter((el) => el.hotel?.includes(action.payload))
             return {
                 ...state,
                 allBooks: filterByHotel
             }
-            case FILTER_BOOKS_BY_STATUS:
+        case FILTER_BOOKS_BY_STATUS:
             const book = state.books
             const filterByStatus = book?.filter((el) => el.status?.includes(action.payload))
             return {
                 ...state,
                 allBooks: filterByStatus
             }
-        
+        case CLEAN_HISTORY:
+            return {
+                ...state,
+                bookingsUser: action.payload
+            }
+
         default:
             return {
                 ...state

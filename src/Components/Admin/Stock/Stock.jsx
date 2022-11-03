@@ -6,6 +6,7 @@ import { getHotels } from "../../../redux/action/action";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { getDetailUser } from "../../../redux/action/actionAuth";
+//import Loading from "../../Loader/Loading";
 
 const Stock = () => {
     const navigate = useNavigate()
@@ -39,6 +40,7 @@ const Stock = () => {
             dispatch(updateStatusBooking(payload))
             console.log('eeeeee', payload)
             toast.success('Cancelled reservation ', { position: 'bottom-right' })
+
 
         } else {
             toast.error('Reservation not canceled', { position: 'bottom-right' })
@@ -89,6 +91,7 @@ const Stock = () => {
                                         </Link>
                                 }
                             </div>
+                            <div/>
 
                             <div>
                                 <h6>Filter</h6>
@@ -132,45 +135,53 @@ const Stock = () => {
                             </div>
 
 
-                            <h4>BOOKINGS</h4>
-                            <table className="table" style={{ 'max-width': '1200px', 'margin-inline': 'auto' }}>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Hotels</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Rooms</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Check-in</th>
-                                        <th scope="col">Check-out</th>
-                                        <th scope="col">Stock balance</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-group-divider">
-                                    {allBooks && allBooks?.map((b, i) => (
-                                        <tr key={i}>
-                                            <td>{`${b.hotel} ${b.address}`}</td>
-                                            <td>{b.date}</td>
-                                            <td>{b.name}</td>
-                                            <td>USD {b.price}</td>
-                                            <td>{b.cartQuantity}</td>
-                                            <td>{b.checkIn}</td>
-                                            <td>{b.checkOut}</td>
-                                            <td>{b.newStock}</td>
-                                            <td>{b.status}</td>
-                                            <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="col-12 btn btn-primary d-flex justify-content-between" type="button">Cancel</button></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
-            }
-        </div>
+                <h4>BOOKINGS</h4>
+                <table className="table" style={{ 'max-width': '1200px', 'margin-inline': 'auto' }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">Hotels</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Rooms</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Check-in</th>
+                            <th scope="col">Check-out</th>
+                            <th scope="col">Stock balance</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody className="table-group-divider">
 
-    )
+                        {allBooks.length ?
+                            (allBooks.map((b, i) => (
+                                <tr key={i}>
+                                    <td>{`${b.hotel} ${b.address}`}</td>
+                                    <td>{b.date}</td>
+                                    <td>{b.name}</td>
+                                    <td>USD {b.price}</td>
+                                    <td>{b.cartQuantity}</td>
+                                    <td>{b.checkIn}</td>
+                                    <td>{b.checkOut}</td>
+                                    <td>{b.newStock}</td>
+                                    <td>{b.status}</td>
+                                    <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-danger" type="button">Cancel</button></td>
+                                </tr>
+                            )))
+                            :
+                            (<div style={{ with: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <h1>No reservations found</h1>
+                            </div>)
+                        }
+                    </tbody>
+                </table>
+            </div>            
+            </div> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
 }
+</div>
+)
+}
+
+
 
 export default Stock;
 

@@ -14,6 +14,7 @@ export const ORDER_BOOKS_BY_HOTEL = 'ORDER_BOOKS_BY_HOTEL';
 export const ORDER_BOOKS_BY_DATE = 'ORDER_BOOKS_BY_DATE';
 export const FILTER_BOOKS_BY_HOTEL = 'FILTER_BOOKS_BY_HOTEL';
 export const FILTER_BOOKS_BY_STATUS = 'FILTER_BOOKS_BY_STATUS';
+export const CLEAN_HISTORY = 'CLEAN_HISTORY'
 
 const BACK_URL = "http://localhost:3001";
 
@@ -130,4 +131,6 @@ export function filterBooksByStatus(payload) {
   return ({ type: FILTER_BOOKS_BY_STATUS, payload })
 }
 
-
+export function cleanHistory(){
+  return({ type: CLEAN_HISTORY, payload:[] })
+}
