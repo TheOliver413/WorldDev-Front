@@ -127,7 +127,7 @@ export default function Nav() {
                 LOG IN
               </button>
             ) : (
-              <div className="nav-user-container d-flex flex-column align-items-end ms-4" onClick={handleUserMenuToggle}>
+              <div className="nav-user-container d-flex flex-column align-items-center ms-4" onClick={handleUserMenuToggle}>
 
                 {
                   user.photoURL
