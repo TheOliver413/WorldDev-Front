@@ -23,7 +23,7 @@ function Pagination({ hotels, hotelsPerPage, pages }) {
   const endPage = () => (dispatch(setActualPage(arrPageNumbers.length)))
 
   return (
-    <ul className='paginationContainer'>
+    <ul className='paginationContainer p-0 my-4 my-lg-5 d-flex align-items-center justify-content-center'>
       {/* Vuelve al Principio */}
       <li className={actualPage === 1 ? 'pageNumberDISABLED' : 'pageNumber'} onClick={topPage}>
         <i className="bi bi-chevron-double-left"></i>
