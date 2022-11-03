@@ -43,7 +43,7 @@ export const POST_EVENT = 'POST_EVENT';
 export const PUT_EVENT = 'POST_EVENT';
 export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID';
 export const CLEAR_EVENT_BY_ID = 'CLEAR_EVENT_BY_ID';
-
+export const GET_EVENT_BY_ID_HOTEL = "GET_EVENT_BY_ID_HOTEL"
 //--------------ORDER/FILTER/CLEAN------------//
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const FILTER_BY_CITY = 'FILTER_BY_CITY'
@@ -396,6 +396,20 @@ export function clearServiceRoomById() {
           console.log(error)
         }
       }}
+      
+      export function getEventsByIdHotel(id) {
+        return async function (dispatch) {
+          try {
+            const eventHotel = await axios.get(`${BACK_URL}/events/hotel/${id}`)
+            dispatch ({
+              type: GET_EVENT_BY_ID_HOTEL,
+              payload: eventHotel.data    
+            })        
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      }
 
       export function modifyEvents(payload) {
         return async function (dispatch) {
