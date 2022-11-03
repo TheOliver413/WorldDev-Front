@@ -5,7 +5,7 @@ export const POST_REVIEW_HOTEL_REQUEST = "POST_REVIEW_HOTEL";
 export const POST_REVIEW_HOTEL_SUCCESS = "POST_REVIEW_HOTEL_SUCCESS";
 export const POST_REVIEW_HOTEL_FAIL = "POST_REVIEW_HOTEL_FAIL";
 
-const BACK_URL = "http://localhost:3001";
+const BACK_URL = "https://worlddev-back.onrender.com";
 
 export function postReviewHotel(payload) {
   return async function (dispatch) {

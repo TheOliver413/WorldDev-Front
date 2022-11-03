@@ -8,7 +8,7 @@ export const GET_ALL_USERS ="GET_ALL_USERS";
 export const DELETE_USERS ="DELETE_USERS";
 export const CLEAN_FORM_ADMIN = "CLEAN_FORM_ADMIN"
 
-const BACK_URL = "http://localhost:3001"
+const BACK_URL = "https://worlddev-back.onrender.com"
 
 export function deleteUsers(id){
   return async function(dispatch) {
