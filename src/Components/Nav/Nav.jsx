@@ -47,7 +47,7 @@ export default function Nav() {
   const [userMenuVisibility, setUserMenuVisibility] = useState(false)
   const handleUserMenuToggle = () => setUserMenuVisibility(!userMenuVisibility)
 
-  if (loading) return <h1>loading...</h1>;
+
   
   return (
     <nav className="nav-container navbar navbar-expand-lg sticky-top">
