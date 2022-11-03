@@ -64,40 +64,6 @@ function Filter() {
           {/* <button onClick={handleFilterClick} type="button" className="btn align-self-end">x</button> */}
           <p className='fs-5'>Filter by...</p>
 
-          {/* <p>Type of room</p>
-          {rooms?.map(r => (
-            <div key={r.id} className="form-check">
-              <input onChange={handleFilterByRoom} className="form-check-input" type="checkbox" value={r.name} />
-              <label className="form-check-label">
-                {r.name}
-              </label>
-            </div>
-          ))}
-
-          <p>Services</p>
-          {servicesHotel?.map(s => (
-            <div key={s.id} className="form-check">
-              <input className="form-check-input" type="checkbox" value={s.name} />
-              <label className="form-check-label">
-                {s.name}
-              </label>
-            </div>
-          ))}
-
-          <p>Price</p>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="0-100" />
-            <label className="form-check-label">
-              0 - $100
-            </label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="100-200" />
-            <label className="form-check-label">
-              $100 - $200
-            </label>
-          </div> */}
-
           <p>City</p>
           <select onChange={handleFilterByCity} defaultValue='DEFAULT' className="form-select">
             <option value='DEFAULT' disabled>--select city--</option>
