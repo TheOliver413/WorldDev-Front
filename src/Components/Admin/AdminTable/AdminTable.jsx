@@ -44,22 +44,6 @@ export default function AdminTable() {
     setForm(dat)
   }; 
 
-  const closeModalToUpdate = () => {
-    setModalToUpdate(false);
-  };
-  function handleClickEdit(dat){
-      var count = 0;
-      const setting = data;
-      setting.map((register) => {
-        
-        if (dat.id === register.id) {
-          setting[count].user = dat.user;
-          setting[count].email = dat.email;
-        }
-        count++;
-      });
-  }
-
   const handleDelete = (e) => {
     const option = window.confirm("Are you sure you want to Delete the admin " + e.target.value + "?")
     if (option === true) {

@@ -4,9 +4,7 @@ import { createRooms, getHotels, getAllServicesRoom } from '../../redux/action/a
 // import { getCity, getDepartment, getState } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import '../CreateRooms/Styles.css';
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { getDetailUser } from "../../redux/action/actionAuth";
+import { useNavigate, Link } from "react-router-dom";
 
 const validate = (input_rooms) => {
   let errors = {};
@@ -153,6 +151,11 @@ const onHandleDeleteimage = (e) => {
   }
 
   return (
+    <div class="container">
+        <div class="row">
+        <Link to= "/profileSuperAdmin/formsSuperAdmin">
+      <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+      </Link>
     <section className="d-flex justify-content-center align-items-center">
       <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
         <div className="mb-4 d-flex justify-content-start align-items-center">
@@ -308,5 +311,7 @@ const onHandleDeleteimage = (e) => {
           </form>
         </div>
       </div>
-    </section> 
+    </section>
+    </div>
+    </div> 
   )}
