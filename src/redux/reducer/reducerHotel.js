@@ -25,7 +25,7 @@ import {
   CLEAR_SERVICE_ID,
   CLEAR_EVENT_BY_ID,
   FILTER_HOTEL_BY_CATEGORY,
-
+  GET_EVENT_BY_ID_HOTEL
 } from '../action/action';
 
 const initialStateHotel = {
@@ -247,6 +247,11 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         ...state,
         hotels: filteredHotelsByCategory
       };
+      case GET_EVENT_BY_ID_HOTEL:
+      return{
+        ...state,
+        allEvents: action.payload
+      }
     default:
       return { ...state }
   }
