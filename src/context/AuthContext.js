@@ -1,13 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  sendPasswordResetEmail, 
-  sendEmailVerification 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 import { auth } from "../firebase";
@@ -35,72 +34,26 @@ export default function AuthProvider({ children }) {
         return currentUser;
       })
     const docuRefU = doc(firestore, `users/${infoUser.user.uid}`);
-    setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL, favorites:favorites });
+    setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL, favorites: favorites });
   };
-
-  // const signup = async (email, password, rol, displayName, photoURL) => {
-  //   try {
-  //     const { user } = await createUserWithEmailAndPassword(auth, email, password)
-  //     await sendEmailVerification(user)
-  //       .then((currentUser) => {
-  //         return currentUser;
-  //       })
-  //     const docuRefU = doc(firestore, `users/${user.user.uid}`);
-  //     setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL });
-  //   } catch (error) {
-  //     if (error.code === "auth/email-already-in-use") { 
-  //       return  toast.error("Email already in use", { position: 'bottom-right' })
-  //     }
-  //     if (error.code === 'auth/invalid-email') {
-  //       return toast.error("Email invalid", { position: 'bottom-right' })
-  //     }
-  //     if (error.code === 'auth/weak-password') {
-  //       return toast.info("Weak password", { position: 'bottom-right' })
-  //     }
-  //   }
-  // }
 
   const login = async (email, password) => {
     const objeect = await signInWithEmailAndPassword(auth, email, password);
   };
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (email, rol, displayName, photoURL, favorite) => {
     const googleProvider = new GoogleAuthProvider();
-    const infoGoo = await signInWithPopup(auth, googleProvider)
+    const infoGoo = await signInWithPopup(auth, googleProvider )
       .then((currentUser) => {
         return currentUser;
       })
     const docuRefU = doc(firestore, `users/${infoGoo.user.uid}`);
-    setDoc(docuRefU, { email: infoGoo.user.email, rol: 'user' });
+    setDoc(docuRefU,  {email: infoGoo.user.email, rol: 'user', favorites:infoGoo.user.favorites});
   };
 
   const logout = async () => await signOut(auth)
 
   const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
-
-  //   const confirmPassword = async (oobCode, newPassword) => await confirmPasswordReset(auth,oobCode, newPassword)
-
-  //   const sendE = async (email) => sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
-  //     window.localStorage.setItem('emailForSignIn', email);
-  //   })
-  //   .catch((error) => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //   });
-
-  //   const emailLink = async(email)=> signInWithEmailLink(auth, email, emailLink).then(user.credentials)
-  //   if (isSignInWithEmailLink(auth, window.location.href)) {
-  //   let email = window.localStorage.getItem('emailForSignIn');
-  //   if (!email) {
-  //     email = window.prompt('Please provide your email for confirmation');
-  //   }
-  //   signInWithEmailLink(auth, email, window.location.href)
-  //     .then((result) => {
-  //       window.localStorage.removeItem('emailForSignIn');
-  //     })
-  //     .catch((error) => {
-  //     });
-  // }
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {

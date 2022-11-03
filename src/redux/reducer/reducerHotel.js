@@ -25,13 +25,12 @@ import {
   CLEAR_SERVICE_ID,
   CLEAR_EVENT_BY_ID,
   FILTER_HOTEL_BY_CATEGORY,
-
+  GET_EVENT_BY_ID_HOTEL
 } from '../action/action';
 
 const initialStateHotel = {
   hotels: [],
   allHotels: [],
-  copy_hotels:[],
   detailHotel: {},
   servicesHotel: [],
   onlyServicesHotel: [],
@@ -54,7 +53,6 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         ...state,
         hotels: action.payload,
         allHotels: action.payload,
-        copy_hotels:action.payload,
       }
 
     case SEARCH_NAME_HOTEL:
@@ -242,22 +240,18 @@ const hotels_reducer = (state = initialStateHotel, action) => {
         ...state,
         eventId: {}
       };
+    
     case FILTER_HOTEL_BY_CATEGORY:
-
-      // state.hotels = state.copy_hotels;
-      state.copy_hotels = state.hotels
-
-      console.log("info en reducer: ",action.payload)
-      if( action.payload ){ 
-        var filt_hotel_category = state.copy_hotels?.filter(e=>e.qualification == action.payload)}
-        else{
-          var filt_hotel_category = state.hotels
-        }
-      
+      const filteredHotelsByCategory = state.allHotels.filter(e => e.qualification === parseInt(action.payload))   
       return {
         ...state,
-        hotels: filt_hotel_category
+        hotels: filteredHotelsByCategory
       };
+      case GET_EVENT_BY_ID_HOTEL:
+      return{
+        ...state,
+        allEvents: action.payload
+      }
     default:
       return { ...state }
   }

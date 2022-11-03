@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { cleanFavorite, getFavorites } from "../../redux/action/favoriteAction";
 import CardRoom from "../CardRoom/CardRoom";
@@ -10,11 +11,12 @@ function Favorite() {
   const { user } = useAuth();
   const { favorites } = useSelector((state) => state.reducerFavorite);
 
-  // useEffect(()=>{
-  //   if(user && user.hasOwnProperty('uid')){
-  //     dispatch(getFavorites(user.uid))
-  //   }
-  //  }, [user])
+  useEffect(()=>{
+    if(user && user.hasOwnProperty('uid')){
+      dispatch(getFavorites(user.uid))
+    }
+   }, [user])
+  const navigate= useNavigate()
 
   
   useEffect(() => {
@@ -41,6 +43,11 @@ function Favorite() {
           ? <h1 className="favorite-noFavs">{favorites}</h1>
           : <h1 className="favorite-noFavs">Loading favorites...</h1>
       )}
+      <div>
+      <dd>
+        <button className="btn btn-primary mt-1" type="button" onClick={()=>navigate(-1)}>Back</button>
+      </dd>
+      </div>
     </div>
   );
 }

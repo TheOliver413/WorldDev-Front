@@ -23,7 +23,7 @@ function Cart() {
   }
   const handleDecreaseCart = (room) => {
     setError(false)
-    dispatch(decreaseCart(room))    
+    dispatch(decreaseCart(room)) 
   }
   const handleIncreaseCart = (room) => {
     setError(false)
@@ -65,35 +65,37 @@ function Cart() {
 
     }
     
-    const bookFlat = bookRoom.length ? bookRoom.flat() : bookRoom // quito los subarray
+    const orderBook = bookRoom.length ? bookRoom.flat().sort((a, b) => { return a.newStock - b.newStock }) : [] // quito los subarray
+    console.log('orderBook',orderBook)
 
-    const checkinfind = [] // array de todas las reservas con misma fecha y id que el carrito 
-    if (bookFlat.length) {
+     
+    if (orderBook.length) {    
       for (let i = 0; i < cartRooms.length; i++) {
-        for (let j = 0; j < bookFlat.length; j++) {
-          if (bookFlat[j].id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(bookFlat[j].checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(bookFlat[j].checkOut), 'yyyy-MM-dd')) {
-            checkinfind.push(bookFlat[j])
-          }
-        }
-      }
-    }
-   
-    if (checkinfind.length) {
-      let checkStock = checkinfind?.sort((a, b) => { return a.newStock - b.newStock }) // ordeno por stock de menor a mayor
-    
-      for (let i = 0; i < cartRooms.length; i++) {
-        let stockIdCheck = checkStock.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
-        if (stockIdCheck?.newStock <= 0) {
+        let stockIdCheck = orderBook.find(e => e.id === cartRooms[i].id && cartRooms[i].checkIn >= format(new Date(e.checkIn), 'yyyy-MM-dd') && cartRooms[i].checkIn <= format(new Date(e.checkOut), 'yyyy-MM-dd'))
+        
+        if (stockIdCheck && stockIdCheck.newStock <= 0) {
           setError(true)
           return toast.error('The selected date is not available', { position: 'bottom-right' })
         }
-        else if (stockIdCheck.newStock > 0 && stockIdCheck.newStock <= cartRooms[i].cartQuantity) {
+        else if (stockIdCheck && stockIdCheck.newStock > 0 && stockIdCheck.newStock <= cartRooms[i].cartQuantity) {
           setError(true)
           return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' })
         } else {
           setError(false)
         }
       }
+    }else {// sino valido con el stock original
+      cartRooms?.forEach(e => {
+        if (e.stock <= 0) {
+          setError(true)
+          return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
+        } else if (e.stock > 0 && e.stock <= e.cartQuantity) {
+          setError(true)
+          return toast.error('There is not enough availability for the selected date', { position: 'bottom-right' });
+        } else {
+          setError(false)
+        }
+      })
     }
   }
 
@@ -150,8 +152,8 @@ function Cart() {
           </Link>
         </>
       ) : (
-        <div className="my-5 py-4 px-2">
-          <h1 className="mb-4">No rooms added to cart</h1>
+        <div className="my-5 mt-5 py-4 px-2">
+          <h1 className="mb-5">No rooms added to cart</h1>
           <button
             type="button"
             className="btn btn-primary mt-4"

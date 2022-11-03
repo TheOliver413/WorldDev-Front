@@ -17,17 +17,12 @@ function LandingPage() {
               World Developers
             </h1>
             <p>
-              World developers is a blah blah blah etc Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit. Eget adipiscing facilisis
-              convallis lectus quis sed. Et libero, tincidunt dolor placerat magna
-              rhoncus morbi nibh accumsan. Ut tortor eget eu cum orci, adipiscing
-              sollicitudin lacus.
-              <br />
-              Copy paste: Su atención, confort, ubicación y su excelente relación
-              precio/calidad lo convierte en la elección ideal para viajes de
-              negocios, culturales, recreativos o para participar de congresos y
-              jornadas.
+            Here you can find a wide variety of hotels around the country that offer rooms with different services and you can also search for IT events that are published by each hotel.
             </p>
+            <p>
+            Each hotel provides a service oriented towards software developers. You will find all the amenities you need. You will be surrounded by the IT world
+            </p>
+
             <Link to="/home">
               <button className='landingpage-btn'>See hotels</button>
             </Link>

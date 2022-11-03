@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getDetailHotel } from "../../redux/action/action";
 import { postReviewHotel } from "../../redux/action/reviewAction";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from 'react-toastify'
 
 function CreateReview() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function CreateReview() {
 
   const handleSubmitReview = (e) => {
     e.preventDefault();
+    if (!user) return toast.error('You must log in to write a review', { position: 'bottom-right' })
     dispatch(
       postReviewHotel({
         idHotel: id,
@@ -92,11 +94,12 @@ function CreateReview() {
           )}
         </form>
       ) : (
-        <div className="card-body">
-          <h2>Review submited, volvé xfa etc</h2>
+        <div className="d-grid gap-4 card-body">
+          <h2>Review submitted</h2>
+          <p>Thank you for choosing us.</p>
           <button
             onClick={() => navigate("/home")}
-            className="btn btn-primary w-100 mt-4"
+            className="btn btn-primary w-100 mt-2"
             type="button"
           >
             Go home

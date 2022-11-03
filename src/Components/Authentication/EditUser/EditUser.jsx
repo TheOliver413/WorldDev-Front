@@ -1,49 +1,61 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUsers, modifyUsers } from '../../../redux/action/actionAuth';
+import { createUsers, getDetailUser, modifyUsers } from '../../../redux/action/actionAuth';
 
 const EditUser = (id) => {
 
-  const usersG= useSelector( state => state.reducerAuth.users)
-  const dispatch= useDispatch()
-  const navigate= useNavigate()
+  const usersG = useSelector(state => state.reducerAuth.users)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const {user} =  useAuth()
+  const { user } = useAuth()
   // console.log('holaaaa',user)
- 
+
+  useEffect(() => {
+    if (user && user.hasOwnProperty('uid')) {
+      dispatch(getDetailUser(user.uid))
+    }
+  }, [user])
+
 
   const [inputU, setInputU] = useState({
     id: '',
-    email:'',
-    displayName:'',
+    email: '',
+    displayName: '',
     name: '',
     lastname: '',
     rol: 'user',
-    photoURL:'',
+    photoURL: '',
     country: '',
     city: '',
     address: '',
-    favorite:[],
+    favorite: [],
     create: true,
   });
-  
-  // console.log('me duermooooo', inputU)
-  
-  useEffect(()=>{
-    if(user && user.hasOwnProperty('uid')){
+
+  function refreshPage() {
+    window.location.reload()
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 50);
+    console.log('page to reload')
+  }
+
+  useEffect(() => {
+    if (user && user.hasOwnProperty('uid')) {
       //console.log("esto es un id",user.uid)
-      setInputU({ 
+      setInputU({
         ...inputU,
         id: user.uid,
         displayName: user.displayName,
-        photoURL: user.photoURL, 
-        email: user.email, 
+        photoURL: user.photoURL,
+        email: user.email,
         favorite: user.favorite
       })
     }
-  },[user])
+  }, [user])
 
   function handleChangeData(e) {
     e.preventDefault();
@@ -53,7 +65,7 @@ const EditUser = (id) => {
     })
   }
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     // const {user} = useAuth()
     // let createUser= {
@@ -69,12 +81,14 @@ const EditUser = (id) => {
     //   address: inputU.address,
     //   create: true,
     // };
-    if( inputU.create === true){
+    if (inputU.create === true) {
       dispatch(modifyUsers(inputU))
       navigate('/profileusers')
+      refreshPage()
     } else {
       dispatch(createUsers(inputU))
-      navigate('/profileusers') 
+      navigate('/profileusers')
+      refreshPage()
     }
     // }
     // setInputU({
@@ -87,45 +101,51 @@ const EditUser = (id) => {
     //   address: ''
     // })
   }
-  
+
 
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div class="conteiner-users">
-        <div class="form-group col-md-6">
-          <img src={user.photoURL? user.photoURL : "https://www.clarkstontolldentalpractice.com/wp-content/uploads/2020/06/default-img-2-1.jpg"} class="rounded mx-auto d-block" alt="Cinque Terre"></img>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputEmail4"><h2>Welcome {user.displayName? user.displayName : user.email}!</h2></label>
-        </div>
-        <div class="form-group col-md-6">
-          <label>Name</label>
-          <input type="text" class="form-control" id="inputName" value={inputU.name} name='name' placeholder="Name" onChange= {handleChangeData}></input>
-        </div>
-        <div class="form-group col-md-6">
-          <label>Lastname</label>
-          <input type="text" class="form-control" id="inputLastname" value={inputU.lastname} name='lastname' placeholder="Lastname" onChange= {handleChangeData}></input>
-        </div>
-        <div class="form-group col-md-6">
-          <label>Address</label>
-          <input type="text" class="form-control" id="inputAddress" value={inputU.address} name='address' placeholder="1234 Main St" onChange= {handleChangeData}/>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>City</label>
-            <input type="text" class="form-control" id="inputCity" value={inputU.city} name='city' placeholder='City...' onChange= {handleChangeData}/>
+    <>
+      {usersG.rol === 'user' ? (
+        <form onSubmit={handleSubmit}>
+          <div className="profileUser-container d-flex flex-column gap-0 w-75 mx-auto my-4 card p-4 p-md-5" style={{ maxWidth: "600px" }}>
+            <div className="d-flex flex-column flex-md-row align-items-md-center gap-4 mb-3 mb-md-4">
+              {user?.photoURL
+                ? <img src={user?.photoURL} alt={user?.displayName} />
+                : <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none">
+                    <path d="M124.688 120.062C117.781 108.062 104.812 100 90 100H70C55.1875 100 42.2188 108.062 35.3125 120.062C46.3125 132.312 62.25 140 80 140C97.75 140 113.688 132.281 124.688 120.062ZM160 80C160 124.188 124.188 160 80 160C35.8125 160 0 124.188 0 80C0 35.8125 35.8125 0 80 0C124.188 0 160 35.8125 160 80ZM80 85C92.4375 85 102.5 74.9375 102.5 62.5C102.5 50.0625 92.4375 40 80 40C67.5625 40 57.5 50.0625 57.5 62.5C57.5 74.9375 67.5625 85 80 85Z" fill="#56A5AF"/>
+                  </svg>
+              }
+              <h2 className="overflow-auto col">Welcome, {user.displayName || inputU.name? user.displayName : user.email || inputU.name}</h2>
+            </div>
+            <div className="my-2">
+              <label>Name</label>
+              <input type="text" className="form-control" value={inputU.name} name='name' placeholder="Name" onChange={handleChangeData} />
+            </div>
+            <div className="my-2">
+              <label>Lastname</label>
+              <input type="text" className="form-control" value={inputU.lastname} name='lastname' placeholder="Lastname" onChange={handleChangeData} />
+            </div>
+            <div className="my-2">
+              <label>Address</label>
+              <input type="text" className="form-control" value={inputU.address} name='address' placeholder="1234 Main St" onChange={handleChangeData}/>
+            </div>
+            <div className="my-2">
+              <label>City</label>
+              <input type="text" className="form-control" value={inputU.city} name='city' placeholder='City...' onChange= {handleChangeData}/>
+            </div>
+            <div className="my-2">
+              <label>Country</label>
+              <input type="text" className="form-control" value={inputU.country} name='country' placeholder='Country...' onChange= {handleChangeData}/>
+            </div>
+            <button type="submit" className="btn btn-primary mt-4">Update</button>
           </div>
-          <div class="form-group col-md-6">
-            <label>Country</label>
-            <input type="text" class="form-control" id="inputCity" value={inputU.country} name='country' placeholder='Country...' onChange= {handleChangeData}/>
-          </div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Update</button>
-      <p></p>
-    </form>
+        </form>
+      ) : (
+        <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
+      )}
+    </>
   )
 }
 
-export default  EditUser
+export default EditUser

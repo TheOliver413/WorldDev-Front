@@ -1,6 +1,5 @@
 .order-container select {
   background: white;
-  border: none;
-  color: var(--clr-dark-main);
   cursor: pointer;
+  color: black;
 }

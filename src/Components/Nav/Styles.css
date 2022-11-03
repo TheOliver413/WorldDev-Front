@@ -13,7 +13,7 @@
 
 .navbar-logo {
   height: 45px;
-  margin: 16px;
+  margin-inline: 16px;
   object-fit: cover;
 }
 

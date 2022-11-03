@@ -2,58 +2,52 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getHotels } from "../../redux/action/action";
-import { getBookingByIdUser } from "../../redux/action/actionStripe";
+import { cleanHistory, getBookingByIdUser } from "../../redux/action/actionStripe";
+import "./HistoryBookings.css"
 
 const HistoryBookings = () => {
 
     const dispatch = useDispatch()
     const { user } = useAuth();
     const booksUser = useSelector(state => state.reducerStripe.bookingsUser)
-    const hotels = useSelector(state => state.reducerHotel.allHotels)
-    
+
 
     useEffect(() => {
-        dispatch(getHotels())
-        if(user && user.hasOwnProperty('uid')) {
-        dispatch(getBookingByIdUser(user.uid))}
-    }, [user])
-
+        if (user && user.hasOwnProperty('uid')) {
+            dispatch(getBookingByIdUser(user.uid))
+        }
+        return () => dispatch(cleanHistory())
+    }, [dispatch, user])
+    console.log('userrrid', user.uid)
     const book = booksUser?.map(e => e.cartRoom).flat()
-    const bookHotel = book?.map(e=> ({
-        idHotel: e.idHotel,
-        hotel: e.hotel,
-        date: e.date,
-        name: e.name,
-        checkIn: e.checkIn,
-        checkOut: e.checkOut,
-        cartQuantity: e.cartQuantity,
-        price: e.price,
-        status: e.status
-    }))
-    console.log('boooookkkHHHHHHHHHH', bookHotel)
-    
-    
-
-
+    console.log('ID-HOTEL', book)
     return (
         <>
-            {book?.map(e => (
-                
-                <div>
-                     <h6>Hotel: {e.hotel}</h6>
-                    <p>Reservation Date: {e.date}</p>
-                    <ul>
-                        <li>Room: {e.name}</li>
-                        <li>CheckIn: {e.checkIn}</li>
-                        <li>CheckOut: {e.checkOut}</li>
-                        <li>Quantity: {e.cartQuantity}</li>
-                        <li>Price: {e.price}</li>
-                        <li>Status: {e.status}</li>
-                    </ul>
+            {book.length ?
+                book.map(e => (
+                    <div className="card">
+                        <div class="card-header">
+                            <h5>Hotel: <Link style={{ textDecoration: 'none' }} className={"color"} to={`/hotel/${e.idHotel}`}>{e.hotel}</Link></h5>
+                        </div>
+                        <div class="card-body">
+                        <h5 className="card-title">Reservation Date: {e.date}</h5>
+                            <ul className="list-group">
+                                <li className="list-group-item"><span className="negrilla">Room:</span>  {e.name}</li>
+                                <li className="list-group-item"><span className="negrilla">CheckIn:</span> {e.checkIn}</li>
+                                <li className="list-group-item"><span className="negrilla">CheckOut:</span> {e.checkOut}</li>
+                                <li className="list-group-item"><span className="negrilla">Quantity:</span> {e.cartQuantity}</li>
+                                <li className="list-group-item"><span className="negrilla">Price:</span> {e.price}</li>
+                                <li className="list-group-item"><span className="negrilla">Status:</span> {e.status}</li>
+                                <Link to={`/hotel/${e.idHotel}/review`}><button type='button' className="btn btn-outline-info btn-lg borders">Please leave us Your Review </button></Link>
+                            </ul>
+                        </div>
+                    </div>
+                ))
+                :
+                <div style={{ with: '100%', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <h1>No reservations found</h1>
                 </div>
-            ))}
-
+            }
         </>
     )
 

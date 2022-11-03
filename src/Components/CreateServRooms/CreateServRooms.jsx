@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createServicesRooms } from "../../redux/action/action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getDetailUser } from "../../redux/action/actionAuth";
+import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -14,6 +17,16 @@ const validate = (input_serv_room) => {
 
 const CreateServRooms = () => {
     const dispatch = useDispatch();
+
+    const { user } = useAuth()
+
+    const datosTotal = useSelector(state => state.reducerAuth.users)
+
+    useEffect(() => {
+        if (user && user.hasOwnProperty('uid')) {
+            dispatch(getDetailUser(user.uid))
+        }
+    }, [user])
 
     const [input_serv_room, setInput_serv_room] = useState({
         name: '',
@@ -34,34 +47,35 @@ const CreateServRooms = () => {
             name: e.target.value
         }))
     }
-//------------------Cloudinary-----------------//
-async function handleOpenWidget(){
-    var myWidget = await window.cloudinary.createUploadWidget({
-      cloudName: 'dyyoavgq5', 
-      uploadPreset: 'wwtvto96'}, (error, result) => { 
-        if (!error && result && result.event === "success") { 
-          // console.log('Done! Here is the image info: ', result.info); 
-          // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
-          setInput_serv_room( {
+    //------------------Cloudinary-----------------//
+    async function handleOpenWidget() {
+        var myWidget = await window.cloudinary.createUploadWidget({
+            cloudName: 'dyyoavgq5',
+            uploadPreset: 'wwtvto96'
+        }, (error, result) => {
+            if (!error && result && result.event === "success") {
+                // console.log('Done! Here is the image info: ', result.info); 
+                // setImages((prev) => [...prev,{url: result.info.url, public_id: result.info.public_id}])
+                setInput_serv_room({
+                    ...input_serv_room,
+                    image: [...input_serv_room.image, { url: result.info.url, public_id: result.info.public_id }]
+                })
+                setErrors(validate({
+                    ...input_serv_room,
+                    image: [...input_serv_room.image, { url: result.info.url, public_id: result.info.public_id }]
+                }))
+            }
+        })
+        myWidget.open()
+    }
+
+    const onHandleDeleteimage = (e) => {
+        e.preventDefault();
+        setInput_serv_room({
             ...input_serv_room,
-            image:[...input_serv_room.image, {url: result.info.url,public_id: result.info.public_id}]
-          })
-          setErrors(validate({
-            ...input_serv_room,
-            image:[...input_serv_room.image, {url: result.info.url,public_id: result.info.public_id}]
-          }))         
-        }
-      })
-      myWidget.open()
-  }
-  
-  const onHandleDeleteimage = (e) => {
-    e.preventDefault();
-    setInput_serv_room({
-      ...input_serv_room,
-      image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
-  })
-}
+            image: input_serv_room.image.filter(el => el.public_id !== e.target.value)
+        })
+    }
 
     //----------------HANDLE SUBMIT SERVICES ROOM------------------//
     const navigate = useNavigate()
@@ -82,59 +96,67 @@ async function handleOpenWidget(){
 
 
     return (
-        <section className="d-flex justify-content-center align-items-center">
-            <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
-                <div className="mb-4 d-flex justify-content-start align-items-center">
-                    <h1>Services Rooms</h1>
-                </div>
+        <div>
+            <Link to="/profileSuperAdmin/formsSuperAdmin">
+                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
+            </Link>
+            {
+                datosTotal.rol === 'superAdmin' || datosTotal.rol === 'admin' ?
+                    <section className="d-flex justify-content-center align-items-center">
+                        <div className="card shadow col-xs-12 col-sm-6 col-md-6 col-lg-3   p-4">
+                            <div className="mb-4 d-flex justify-content-start align-items-center">
+                                <h1>Services Rooms</h1>
+                            </div>
 
-                <div className="mb-4">
-                    <form onSubmit={(e) => handleSubmit(e)}>
-                        <div className="mb-4">
-                            <div>
-                                <label for="nombre"> <i className="bi bi-gear"></i> Service Name</label>
-                                <input type="text" className="form-control" placeholder="Service name..."
-                                    value={input_serv_room.name} name="name" onChange={(e) => handleName(e)} />
-                                <div className="nombre text-danger ">
-                                    {errors.name && (<p>{errors.name}</p>)}
-                                </div>
+                            <div className="mb-4">
+                                <form onSubmit={(e) => handleSubmit(e)}>
+                                    <div className="mb-4">
+                                        <div>
+                                            <label for="nombre"> <i className="bi bi-gear"></i> Service Name</label>
+                                            <input type="text" className="form-control" placeholder="Service name..."
+                                                value={input_serv_room.name} name="name" onChange={(e) => handleName(e)} />
+                                            <div className="nombre text-danger ">
+                                                {errors.name && (<p>{errors.name}</p>)}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mb-4">
+                                        <div>
+                                            <label for="nombre"> <i className="bi bi-image"></i> Image</label>
+                                            <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
+                                            <div>
+                                                <div>
+                                                    {input_serv_room.image?.map((imag) => (
+                                                        <div key={imag.public_id}>
+                                                            <img src={imag.url} alt='images servRoom' /><button className="btn btn-outline-danger mt-2" value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="nombre text-danger ">
+                                                    {errors.image && (<p>{errors.image}</p>)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="mb-4">
+                                        {!input_serv_room.name || !input_serv_room.image.length || Object.keys(errors).length
+                                            ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                                <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
+                                            </button>
+                                            : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
+                                                <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
+                                            </button>}
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
-
-                        <div className="mb-4">
-                            <div>
-                <label for="nombre"> <i className="bi bi-image"></i> Image</label>
-                <button type="button" className="col-12 btn btn-primary d-flex justify-content-between" onClick={() => handleOpenWidget()}>Upload files . . .</button>
-                <div>
-                <div>
-                  {input_serv_room.image?.map((imag) =>(
-                    <div key={imag.public_id}>
-                      <img src={imag.url} alt='images servRoom'/><button value={imag.public_id} onClick={(e) => onHandleDeleteimage(e)}>x</button>
-                    </div>
-                  ))}
-                </div>
-                <div className="nombre text-danger ">
-                                    {errors.image && (<p>{errors.image}</p>)}
-                                </div>
-                        </div>
-                        </div>
-                        </div>
-                        
-
-                        <div className="mb-4">
-                            {!input_serv_room.name || !input_serv_room.image.length || Object.keys(errors).length
-                                ? <button disabled type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
-                                </button>
-                                : <button type="submit" className="col-12 btn btn-primary d-flex justify-content-between">
-                                    <span>Create </span><i id="icono" className="bi bi-cursor-fill "></i>
-                                </button>}
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </section>
+                    </section> : <button className="btn btn-primary mt-1 mx-5 my-4" type="button" onClick={() => navigate(-1)}>Unauthorized entry, Back</button>
+            }
+        </div>
     )
 }
 
