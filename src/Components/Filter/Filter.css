@@ -1,6 +1,13 @@
-.filter-btn,
+.filter-btn {
+  border: 1px solid var(--clr-dark-main) !important;
+  color: var(--clr-dark-main) !important;
+  padding: .5rem .75rem !important;
+  border-radius: 4px !important;
+}
+
 .filter-btn:hover {
-  border: 1px solid var(--clr-black);
+  background-color: var(--clr-dark-main) !important;
+  color: white !important;
 }
 
 .filter-window-background {

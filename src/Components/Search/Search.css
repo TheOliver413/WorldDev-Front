@@ -1,13 +1,13 @@
 .search {
   position: relative;
-  max-width: 270px;
+  max-width: 256px;
 }
 
 .search-input {
   width: 100%;
-  width: 270px;
+  width: 256px;
   border-radius: 4px;
-  border: 1px var(--clr-black) solid;
+  border: 1px var(--clr-black-50) solid;
   height: 2.5rem;
   padding-inline: 1rem 2.75rem;
   outline: none;
@@ -50,7 +50,7 @@
   transform: translate(5px,8px) rotate(315deg);
 }
 
-@media (min-width: 725px) {
+@media (min-width: 768px) {
   .search {
     max-width: 325px;
   }
