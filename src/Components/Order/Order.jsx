@@ -20,9 +20,8 @@ export default function Order() {
 
   return (
     <div className="order-container">
-      <span>Sort by:</span>
-      <select className="" onChange={handleSort} defaultValue='DEFAULT'>
-        <option value="DEFAULT" disabled>-select-</option>
+      <select className="search-input" onChange={handleSort} defaultValue='DEFAULT'>
+        <option value="DEFAULT" disabled>Sort by..</option>
         <option value="A-Z">Name (A-Z)</option>
         <option value="Z-A">Name (Z-A)</option>
         <option value="qualification asc">Lowest score</option>
