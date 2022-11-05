@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getHotels, filterHotelByCategory } from '../../redux/action/action';
+import { filterHotelByCategory } from '../../redux/action/action';
 
 function FilterCategory() {
   const dispatch = useDispatch()
@@ -22,18 +22,16 @@ function FilterCategory() {
     dispatch(filterHotelByCategory(estadolocal))
   }
 
-  const handleClearFilter = () => dispatch(getHotels())
   return (
     <>
       {/* FILTER BUTTON */}
       <div className="d-flex flex-column">
-        <button onClick={handleFilterClick} style={{ 'width': '5.5em' }} className='btn btn-outline-primary btn-lg'>
+        <button onClick={handleFilterClick} className='filter-btn btn'>
           <div className='d-flex align-items-center justify-content-between'>
-          ★
-            <i className="bi bi-sliders"></i>
+          Filter by ★
+            <i className="ms-2 bi bi-sliders"></i>
           </div>
         </button>
-        <small onClick={handleClearFilter} className='p-0' type='button'>Clear filters</small>
       </div>
 
       {/* WINDOW */}
@@ -49,7 +47,6 @@ function FilterCategory() {
             <option value="3" >★★★</option>
             <option value="2" >★★</option>
             <option value="1" >★</option>
-            
           </select>
 
           <button id='applyBtn' onClick={handleApply} type="button" className="btn btn-primary mt-4">Apply</button>
