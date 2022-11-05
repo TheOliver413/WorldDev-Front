@@ -187,7 +187,7 @@ const Stock = () => {
                                                 <td>{b.checkOut}</td>
                                                 <td>{b.newStock}</td>
                                                 <td>{b.status}</td>
-                                                <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-danger" type="button">Cancel</button></td>
+                                                <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-outline-danger" type="button">Cancel</button></td>
                                             </tr>
                                         )))
                                         :
@@ -210,7 +210,7 @@ const Stock = () => {
                                 <td>{b.checkOut}</td>
                                 <td>{b.newStock}</td>
                                 <td>{b.status}</td>
-                                <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-danger" type="button">Cancel</button></td>
+                                <td><button id={b.id} onClick={() => handleStatus({ id: b.id, user: b.user, status: "cancelled" })} className="btn btn-outline-danger" type="button">Cancel</button></td>
                                 </tr>
                                 )))
                                 :
