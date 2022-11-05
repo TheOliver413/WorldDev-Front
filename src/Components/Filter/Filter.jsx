@@ -56,7 +56,11 @@ function Filter() {
           <p>City</p>
           <select onChange={handleFilterByCity} defaultValue='DEFAULT' className="form-select">
             <option value='DEFAULT' disabled>--select city--</option>
-            {location.length && location.map(l => (
+            {location.length && location.sort((a,b) => {
+            if (a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+            if (a.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+            return 0;
+          }).map(l => (
               <option value={l} key={l}>{l}</option>
             ))}
           </select>
