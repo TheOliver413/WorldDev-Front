@@ -89,7 +89,11 @@ export default function UserTable() {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                  {allUsers && allUsers?.map((dat) => (
+                  {allUsers && allUsers?.sort(function (a, b) {
+                    if (a.email.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.email.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                    if (a.email.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.email.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                    return 0;
+                  }).map((dat) => (
                     <tr key={dat.id}>
                       <td>{dat.name}</td>
                       <td>{dat.email}</td>
