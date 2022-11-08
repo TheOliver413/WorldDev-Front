@@ -20,14 +20,13 @@ export default function Order() {
 
   return (
     <div className="order-container">
-      <select className="form-select form-select-lg border-primary" onChange={handleSort} defaultValue='DEFAULT'>
-        <option className='color' value="DEFAULT" disabled>Select-</option>
-        <option className='color' value="A-Z">Name (A-Z)</option>
-        <option className='color' value="Z-A">Name (Z-A)</option>
-        <option className='color' value="qualification asc">Lowest score</option>
-        <option className='color' value="qualification desc">Highest score</option>
+      <select className="search-input" onChange={handleSort} defaultValue='DEFAULT'>
+        <option value="DEFAULT" disabled>Sort by..</option>
+        <option value="A-Z">Name (A-Z)</option>
+        <option value="Z-A">Name (Z-A)</option>
+        <option value="qualification asc">Lowest score</option>
+        <option value="qualification desc">Highest score</option>
       </select>
-      <span>Sort by</span>
     </div>
   )
 }

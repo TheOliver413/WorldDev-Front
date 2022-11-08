@@ -1,18 +1,15 @@
 .navfilters-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
   padding: 2rem;
   gap: 1rem;
 }
 
-@media (min-width: 700px) {
-  .navfilters-container {
-    flex-direction: row;
-    justify-content: space-between;
+.navfilters-clear-btn {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .navfilters-clear-btn {
+    width: auto;
   }
-  .navfilters-order-filter {
-    gap: 1rem;
-  }  
 }

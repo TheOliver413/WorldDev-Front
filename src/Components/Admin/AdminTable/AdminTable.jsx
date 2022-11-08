@@ -20,6 +20,7 @@ export default function AdminTable() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const allAdmins = useSelector(state => state.reducerAuth.allAdmins)
+  console.log(allAdmins)
   const [data, setData] = useState([]);
   const [modalToUpdate, setModalToUpdate] = useState(false);
   const [form, setForm] = useState({
@@ -99,7 +100,11 @@ export default function AdminTable() {
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
-                    {allAdmins && allAdmins?.map((dat) => (
+                    {allAdmins?.sort(function (a, b) {
+                      if (a.hotel?.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.hotel?.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+                      if (a.hotel?.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.hotel?.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+                      return 0;
+                    }).map((dat) => (
                       <tr key={dat.id}>
                         <td>{dat.name}</td>
                         <td>{dat.email}</td>

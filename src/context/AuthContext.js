@@ -48,8 +48,12 @@ export default function AuthProvider({ children }) {
         return currentUser;
       })
     const docuRefU = doc(firestore, `users/${infoGoo.user.uid}`);
-    setDoc(docuRefU,  {email: infoGoo.user.email, rol: 'user', favorites:infoGoo.user.favorites});
-  };
+    const info = (await getDoc(docuRefU)).data() 
+    if(info && (info.hasOwnProperty("favorites") || info.hasOwnProperty("rol"))){
+    }else{
+      setDoc(docuRefU,  {email: infoGoo.user.email, displayName: infoGoo.user.displayName, photoURL: infoGoo.user.photoURL, favorites: [], rol: "user"});
+    }
+};
 
   const logout = async () => await signOut(auth)
 

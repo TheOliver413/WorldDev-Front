@@ -200,7 +200,11 @@ const EditAdmin = (id) => {
           <label>Hotel</label>
           <select className="form-select" onChange={(e) => handleSelect(e)} value={inputA.hotel}>
             <option hidden>--select hotel--</option>
-            {allHotels.map((h) => (
+          {allHotels.sort(function (a, b) {
+            if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() > b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return 1;
+            if (a.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase() < b.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) return -1;
+            return 0;
+          }).map((h) => (
               <option value={h.name} key={h.name}>
                 {h.name}
               </option>

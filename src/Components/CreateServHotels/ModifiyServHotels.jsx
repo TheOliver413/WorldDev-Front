@@ -184,9 +184,9 @@ const ModifyServHotels = () => {
 
     return (
         <div>
-            <Link to="/profileSuperAdmin/formsSuperAdmin">
-                <dd><button className="btn btn-primary mt-1" type="button">Back</button></dd>
-            </Link>
+            {/* <Link to="/profileSuperAdmin/formsSuperAdmin"> */}
+                <dd><button onClick={() => navigate(-1)} className="btn btn-primary mt-1" type="button">Back</button></dd>
+            {/* </Link> */}
             {
                 datos.rol === 'superAdmin' || datos.rol === 'admin' ?
                     <section className="d-flex justify-content-center align-items-center">
