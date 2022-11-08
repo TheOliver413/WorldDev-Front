@@ -2,4 +2,6 @@
   background: white;
   color: var(--clr-dark-main);
   cursor: pointer;
+  border: none;
+  outline: none;
 }

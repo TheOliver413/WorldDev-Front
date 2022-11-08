@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Search from "../Search/Search";
 import Order from "../Order/Order";
 import Filter from "../Filter/Filter";
@@ -9,7 +9,11 @@ import { useDispatch } from "react-redux";
 
 export default function Nav() {
   const dispatch = useDispatch()
-  const handleClearFilter = () => dispatch(getHotels())
+  const [selectValue, setSelectValue] = useState('DEFAULT')
+  const handleClearFilter = () => {
+    dispatch(getHotels())
+    setSelectValue('DEFAULT')
+  }
   
   return (
     <div className="navfilters-container d-flex flex-column flex-lg-row justify-content-lg-between align-items-center gap-1">
@@ -20,7 +24,7 @@ export default function Nav() {
           <Filter />
         </div>
         <button onClick={handleClearFilter} className='navfilters-clear-btn order-md-2 filter-btn btn' type='button'>Clear filters</button>
-        <Order />
+        <Order selectValue={selectValue} setSelectValue={setSelectValue} />
       </div>
     </div>
   )

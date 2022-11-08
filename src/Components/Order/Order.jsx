@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { orderBy, getCategory, setActualPage, setMinPageNumber, setMaxPageNumber } from "../../redux/action/action";
 import './Order.css'
 
-export default function Order() {
+export default function Order({ selectValue, setSelectValue }) {
   const dispatch = useDispatch()
   const [, setOrder] = useState('')
   const [, setOrderCategory] = useState('')
 
   function handleSort(e) {
+    setSelectValue(e.target.value)
     dispatch(getCategory(e.target.value))
     dispatch(setActualPage(1))
     dispatch(setMinPageNumber(0))
@@ -20,8 +21,9 @@ export default function Order() {
 
   return (
     <div className="order-container">
-      <select className="search-input" onChange={handleSort} defaultValue='DEFAULT'>
-        <option value="DEFAULT" disabled>Sort by..</option>
+      <span>Sort by:</span>
+      <select onChange={handleSort} defaultValue={selectValue} value={selectValue}>
+        <option value="DEFAULT" disabled>-select sort-</option>
         <option value="A-Z">Name (A-Z)</option>
         <option value="Z-A">Name (Z-A)</option>
         <option value="qualification asc">Lowest score</option>
