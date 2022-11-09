@@ -39,14 +39,10 @@ function Filter() {
   return (
     <>
       {/* FILTER BUTTON */}
-      <div className="d-flex flex-column">
-        <button onClick={handleFilterClick} className='filter-btn btn' type='button'>
-          <div className='d-flex align-items-center justify-content-between'>
-            Filter by city
-            <i className="ms-2 bi bi-sliders"></i>
-          </div>
-        </button>
-      </div>
+      <button onClick={handleFilterClick} className='filter-btn btn d-flex align-items-center justify-content-between' type='button'>
+        Filter by city
+        <i className="ms-2 bi bi-sliders"></i>
+      </button>
 
       {/* WINDOW */}
       {filterWindowVisibility && <div id='background' onClick={handleFilterClick} className='filter-window-background'>
