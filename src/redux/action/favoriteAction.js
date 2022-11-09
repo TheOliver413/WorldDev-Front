@@ -39,7 +39,7 @@ export function getFavorites(userId) {
         payload: res.data,
       });
     } catch (e) {
-      console.log('e.response.data',e.response.data);
+      console.log('error getFavorites', e);
       dispatch({
         type: GET_FAVORITES,
         payload: e.response.data,
@@ -50,7 +50,7 @@ export function getFavorites(userId) {
 
 export function getFavoritesID(userId) {
   return async function (dispatch) {
-    const res = await axios.get(`${BACK_URL}/favorites/${userId}`)
+    const res = await axios.get(`${BACK_URL}/favorites/list/${userId}`)
     // const res = await axios.get(
     //   `${BACK_URL}/favorites/list/zO5A1bYsv2S3btXqqYw5t428rB13`
     // );
