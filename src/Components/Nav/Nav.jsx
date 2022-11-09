@@ -10,28 +10,19 @@ import { getDetailUser } from "../../redux/action/actionAuth";
 import '../Authentication/ProfileUsers/ProfileUsers.css';
 
 export default function Nav() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { logout, user } = useAuth();
+  const datosTotal= useSelector(state => state.reducerAuth.users)
   const cartTotalQuantity = useSelector(
     (state) => state.reducerCart.cartTotalQuantity
   );
 
-  const { logout, user, loading } = useAuth();
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-
-
-
-  const datosTotal= useSelector(state => state.reducerAuth.users)
-
-  useEffect(()=>{
+  useEffect(() => {
     if(user && user.hasOwnProperty('uid')){
       dispatch(getDetailUser(user.uid))
     }
-   }, [user])
-
-
-
+  }, [dispatch, user])
 
   const handleLogout = async () => {
     try {
@@ -46,8 +37,6 @@ export default function Nav() {
 
   const [userMenuVisibility, setUserMenuVisibility] = useState(false)
   const handleUserMenuToggle = () => setUserMenuVisibility(!userMenuVisibility)
-
-
   
   return (
     <nav className="nav-container navbar navbar-expand-lg sticky-top">
@@ -57,10 +46,6 @@ export default function Nav() {
           to="/"
         >
           <img className="navbar-logo" src={logo} alt="World Developers logo" />
-          <div className="text-start">
-            <h6 className="mb-0">WORLD DEVELOPERS</h6>
-            <small className="fs-6">Work & Relax</small>
-          </div>
         </Link>
         <button
           className="navbar-toggler border-0 shadow-none"
@@ -92,22 +77,6 @@ export default function Nav() {
                 EVENTS
               </Link>
             </li>
-
-            {/* {user && (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link text-dark" to="/home/dashboard">
-                    CREATE
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link text-dark" to="/favorite">
-                    FAVORITES
-                  </Link>
-                </li>
-              </>
-            )} */}
-
             <li className="nav-item">
               <Link className="nav-link text-dark" to="/about">
                 ABOUT US
