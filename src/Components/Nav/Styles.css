@@ -13,7 +13,6 @@
 
 .navbar-logo {
   height: 45px;
-  margin-inline: 16px;
   object-fit: cover;
 }
 
@@ -58,10 +57,10 @@
   background-color: var(--clr-very-light-main);
   position: absolute;
   top: 100%;
-  right: 1rem;
+  width: 100%;
   border-radius: 0 0 4px 4px;
   padding: 1rem;
-  text-align: right;
+  text-align: center;
   color: inherit;
 }
 
@@ -70,4 +69,18 @@
 }
 .nav-usermenu-bg a:hover {
   text-decoration: underline;
+}
+
+@media (min-width:992px) {
+  .nav-usermenu-bg {
+    background-color: var(--clr-very-light-main);
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    width: auto;
+    border-radius: 0 0 4px 4px;
+    padding: 1rem;
+    text-align: right;
+    color: inherit;
+  }  
 }
