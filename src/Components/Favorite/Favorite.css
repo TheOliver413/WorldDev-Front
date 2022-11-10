@@ -10,11 +10,3 @@
 .favorite-noFavs {
   margin-block: 4.5rem;
 }
-
-@media (min-width: 600px) {
-  .favorite-container {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-  }
-}
