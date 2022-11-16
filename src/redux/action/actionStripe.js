@@ -16,7 +16,7 @@ export const FILTER_BOOKS_BY_HOTEL = 'FILTER_BOOKS_BY_HOTEL';
 export const FILTER_BOOKS_BY_STATUS = 'FILTER_BOOKS_BY_STATUS';
 export const CLEAN_HISTORY = 'CLEAN_HISTORY'
 
-const BACK_URL = "https://worlddev-back.onrender.com";
+const BACK_URL = "https://worlddev-back-op5m.onrender.com";
 
 //-----------------------POST A STRIPE-------------------
 export default function postStripe(payload, booking, receipt) {

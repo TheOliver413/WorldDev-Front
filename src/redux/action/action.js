@@ -62,7 +62,7 @@ export const GET_CITY = "GET_CITY";
 export const GET_DEPARTMENT = "GET_DEPARTMENT";
 
 //-----------------URLS----------------------//
-const BACK_URL = "https://worlddev-back.onrender.com"
+const BACK_URL = "https://worlddev-back-op5m.onrender.com"
 const URL_POST_HOTEL = `${BACK_URL}/hotels`;
 const URL_POST_ROOM = `${BACK_URL}/rooms`;
 const URL_GET_STATE = `${BACK_URL}/locations`;
