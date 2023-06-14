@@ -5,7 +5,6 @@ import { format } from 'date-fns'
 import { addRoomToCart, clearCart, decreaseCart, getTotals, removeRoomFromCart } from "../../redux/action/cartAction";
 import { toast } from "react-toastify";
 
-
 function Cart() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -34,7 +33,6 @@ function Cart() {
     setError(false)
     dispatch(clearCart())
   }
-
 
   //CONTROL DE STOCK-------------------------------------------------------------
   const stockControl = () => {
@@ -98,70 +96,79 @@ function Cart() {
       })
     }
   }
-
   //--------------------------------------------------------
 
   return (
-    <div className="text-center">
+    <div className="d-grid gap-4 mx-auto" style={{ maxWidth: '1200px', padding: '2rem' }}>
+      <h1 className="fw-bold">Booking cart</h1>
       {cartRooms.length ? (
         <>
-          <table className="table mx-auto" style={{ 'maxWidth': '1200px' }}>
-            <thead>
-              <tr>
-                <th scope="col">Room</th>
-                <th scope="col">Check-in</th>
-                <th scope="col">Check-out</th>
-                <th scope="col">N° of room/s</th>
-                <th scope="col">Final price</th>
-              </tr>
-            </thead>
-            <tbody className="table-group-divider">
-              {cartRooms.map((r) => (
-                <tr key={r.id + r.checkIn + r.checkOut}>
-                  <td><Link to={`/hotel/room/${r.id}`} className='text-decoration-none'>{r.Hotels[0].name}, {r.name}</Link></td>
-                  <td>{format(new Date(`${r.checkIn}T03:00:00`), 'dd/MM/yy')}</td>
-                  <td>{format(new Date(`${r.checkOut}T03:00:00`), 'dd/MM/yy')}</td>
-                  <td>
-                    <button onClick={() => handleDecreaseCart(r)} className="p-1 btn" type="button">-</button>
-                    {r.cartQuantity}
-                    {error?
-                      <button disabled onClick={() => handleIncreaseCart(r)} className="p-1 btn" type="button">+</button>
-                      : <button onClick={() => handleIncreaseCart(r)} className="p-1 btn" type="button">+</button>}
-                    <br />
-                    <button onClick={() => handleRemoveFromCart(r)} className="p-0 btn" type="button">Remove</button>
-                  </td>
-                  <td>${r.totalPrice * r.cartQuantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <h3 className="mt-5">Total: ${cartTotalAmount}</h3>
-          {error ?
-            <button disabled type="button" onClick={() => navigate('/home/stripe')} className="btn btn-primary mt-4">
+          {/* cards */}
+          {cartRooms.map((r) => (
+            <div className="row g-3 g-md-4 align-items-center" key={r.id + r.checkIn + r.checkOut}>
+              {/* img */}
+              <div className="col-md-2">
+                <img
+                  style={{ height: "7rem" }}
+                  className="w-100 rounded-3 object-fit-cover"
+                  src={r.image[0]}
+                  alt={r.name}
+                />
+              </div>
+              {/* room name & check in/out */}
+              <div className="col-md-6">
+                <h4>
+                  <Link className='link-dark link-underline-opacity-0 link-underline-opacity-100-hover' to={`/hotel/room/${r.id}`}>
+                    {r.Hotels[0].name}, {r.name}
+                  </Link>
+                </h4>
+                <p className="mb-0">
+                  {format(new Date(`${r.checkIn}T03:00:00`), 'dd/MM/yy')} - {format(new Date(`${r.checkOut}T03:00:00`), 'dd/MM/yy')}
+                </p>
+              </div>
+              {/* -, cart quantity, +, remove */}
+              <div className="col-md-3 d-md-grid justify-content-md-center">
+                <div className="d-flex gap-2">
+                  <button className="btn lh-1 px-2 py-1 border-1 border-primary" onClick={() => handleDecreaseCart(r)} type="button">-</button>
+                  <span>{r.cartQuantity}</span>
+                  <button className="btn lh-1 px-2 py-1 border-1 border-primary" onClick={() => handleIncreaseCart(r)} type="button" disabled={error}>+</button>
+                </div>
+                <button className="p-0 px-md-2 btn" onClick={() => handleRemoveFromCart(r)} type="button">Remove</button>
+              </div>
+              {/* room price */}
+              <p className="col-md-1 mb-0 text-md-end fw-bold">${r.totalPrice * r.cartQuantity}</p>
+            </div>
+          ))}
+          <hr className="bg-dark opacity-25" />
+          {/* total price */}
+          <div className="d-flex flex-column flex-md-row gap-3 justify-content-md-between align-items-md-center">
+            <Link className="text-dark" to='/home'>
+              &laquo; Continue shopping
+            </Link>
+            <h3 className="fw-bold mb-0">Total: ${cartTotalAmount}</h3>
+          </div>
+          {/* buttons */}
+          <div className="d-flex flex-column align-items-md-end">
+            <button className="btn btn-primary" disabled={error} type="button" onClick={() => navigate('/home/stripe')}>
               Book now
             </button>
-            : <button type="button" onClick={() => navigate('/home/stripe')} className="btn btn-primary mt-4">
-              Book now
-            </button>}
-          <br />
-          <button onClick={handleClearCart} type="button" className="btn">
-            Clear cart
-          </button>
-          <Link className="text-decoration-none" to='/home'>
-            <p className="my-4">&laquo; Continue shopping</p>
-          </Link>
+            <button className="btn" onClick={handleClearCart} type="button">
+              Clear cart
+            </button>
+          </div>
         </>
       ) : (
-        <div className="my-5 mt-5 py-4 px-2">
-          <h1 className="mb-5">No rooms added to cart</h1>
+        <>
+          <p>No rooms added to cart</p>
           <button
+            className="btn btn-primary"
+            style={{ width: "max-content" }}
             type="button"
-            className="btn btn-primary mt-4"
             onClick={() => navigate("/home")}
           >
             See hotels
           </button>
-        </div>
+        </>
       )}
     </div>
   );
