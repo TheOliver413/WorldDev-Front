@@ -33,7 +33,6 @@ export function getFavorites(userId) {
       // const res = await axios.get(
       //   `${BACK_URL}/favorites/zO5A1bYsv2S3btXqqYw5t428rB13`
       //);
-      console.log("res get", res.data);
       dispatch({
         type: GET_FAVORITES,
         payload: res.data,

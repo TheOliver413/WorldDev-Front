@@ -124,7 +124,6 @@ const hotels_reducer = (state = initialStateHotel, action) => {
     case ORDER_BY:
       let aux = [...state.hotels];
       let order = [];
-      console.log(aux)
       switch (action.payload) {
         case 'all':
           order = [...state.allHotels];

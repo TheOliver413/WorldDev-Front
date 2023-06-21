@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { modifyRooms, getHotels, getAllRoomsOfHotel, getAllServicesRoom, getDetailRoom, cleanRoomDetail } from '../../redux/action/action';
 import '../CreateRooms/Styles.css';
@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import { Link } from "react-router-dom";
 
 const validate = (input_rooms) => {
   let errors = {};
@@ -26,7 +25,6 @@ const validate = (input_rooms) => {
 const validateTwo = (input_hotel) => {
   let error = {};
   if (!input_hotel.idHotel) error.idHotel = 'Hotel name is required';
-  console.log('error is hotel', error)
   return error;
 }
 
@@ -55,7 +53,7 @@ export default function ModifyRooms() {
       })
       dispatch(getAllRoomsOfHotel(hotelFinded.id))
     }
-  }, [datos])
+  }, [dispatch, datos])
 
   const [input_hotel, setInput_hotel] = useState({
     idHotel: "",
@@ -71,10 +69,7 @@ export default function ModifyRooms() {
     stock: 0,
   })
 
-
-  const [nameRooms, setnameRooms] = useState([
-    "Single", "Double", "Family", "Suite"
-  ])
+  const nameRooms = ["Single", "Double", "Family", "Suite"]
 
   const [errors, setErrors] = useState({})
   const [error, setError] = useState({})

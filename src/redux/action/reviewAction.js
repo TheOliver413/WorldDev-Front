@@ -13,8 +13,7 @@ export function postReviewHotel(payload) {
       dispatch({
         type: POST_REVIEW_HOTEL_REQUEST,
       });
-      const res = await axios.post(`${BACK_URL}/reviews`, payload);
-      console.log("res.data postReviewHotel", res.data);
+      await axios.post(`${BACK_URL}/reviews`, payload);
       dispatch({
         type: POST_REVIEW_HOTEL_SUCCESS,
       });
@@ -22,7 +21,6 @@ export function postReviewHotel(payload) {
         position: "bottom-right",
       });
     } catch (e) {
-      console.log("error postReviewHotel", e.response.data);
       toast.error(`Error, ${e.response.data}`, { position: "bottom-right" });
       dispatch({
         type: POST_REVIEW_HOTEL_FAIL,

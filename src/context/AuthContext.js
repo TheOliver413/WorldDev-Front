@@ -12,7 +12,6 @@ import {
 import { auth } from "../firebase";
 import app from '../firebase'
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import { toast } from "react-toastify";
 
 const authContext = createContext();
 
@@ -30,16 +29,13 @@ export default function AuthProvider({ children }) {
   const signup = async (email, password, rol, displayName, photoURL, favorites) => {
     const infoUser = await createUserWithEmailAndPassword(auth, email, password)
       .then((currentUser) => {
-        console.log(currentUser.email);
         return currentUser;
       })
     const docuRefU = doc(firestore, `users/${infoUser.user.uid}`);
     setDoc(docuRefU, { email: email, rol: rol, displayName: displayName, photoURL: photoURL, favorites: favorites });
   };
 
-  const login = async (email, password) => {
-    const objeect = await signInWithEmailAndPassword(auth, email, password);
-  };
+  const login = async (email, password) => await signInWithEmailAndPassword(auth, email, password);
 
   const loginWithGoogle = async (email, rol, displayName, photoURL, favorite) => {
     const googleProvider = new GoogleAuthProvider();
@@ -61,7 +57,6 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log({ currentUser });
       setUser(currentUser);
       setLoading(false);
     });

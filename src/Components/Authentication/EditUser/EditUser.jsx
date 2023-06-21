@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUsers, getDetailUser, modifyUsers } from '../../../redux/action/actionAuth';
 
-const EditUser = (id) => {
-
+const EditUser = () => {
   const usersG = useSelector(state => state.reducerAuth.users)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const { user } = useAuth()
-  // console.log('holaaaa',user)
 
   useEffect(() => {
     if (user && user.hasOwnProperty('uid')) {
       dispatch(getDetailUser(user.uid))
     }
-  }, [user])
+  }, [dispatch, user])
 
 
   const [inputU, setInputU] = useState({
@@ -40,12 +38,10 @@ const EditUser = (id) => {
     setTimeout(() => {
       window.location.reload(false);
     }, 50);
-    console.log('page to reload')
   }
 
   useEffect(() => {
     if (user && user.hasOwnProperty('uid')) {
-      //console.log("esto es un id",user.uid)
       setInputU({
         ...inputU,
         id: user.uid,

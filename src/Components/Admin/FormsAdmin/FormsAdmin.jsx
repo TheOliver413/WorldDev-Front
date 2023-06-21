@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -16,7 +16,7 @@ export default function FormsAdmin() {
     if (user && user.hasOwnProperty('uid')) {
       dispatch(getDetailUser(user.uid))
     }
-  }, [user])
+  }, [dispatch, user])
 
   return (
     <div>

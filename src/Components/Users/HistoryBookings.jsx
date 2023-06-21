@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -6,11 +6,9 @@ import { cleanHistory, getBookingByIdUser } from "../../redux/action/actionStrip
 import "./HistoryBookings.css"
 
 const HistoryBookings = () => {
-
     const dispatch = useDispatch()
     const { user } = useAuth();
     const booksUser = useSelector(state => state.reducerStripe.bookingsUser)
-
 
     useEffect(() => {
         if (user && user.hasOwnProperty('uid')) {
@@ -18,18 +16,16 @@ const HistoryBookings = () => {
         }
         return () => dispatch(cleanHistory())
     }, [dispatch, user])
-    console.log('userrrid', user.uid)
     const book = booksUser?.map(e => e.cartRoom).flat()
-    console.log('ID-HOTEL', book)
     return (
         <>
             {book.length ?
                 book.map(e => (
                     <div className="card">
-                        <div class="card-header">
+                        <div className="card-header">
                             <h5>Hotel: <Link style={{ textDecoration: 'none' }} className={"color"} to={`/hotel/${e.idHotel}`}>{e.hotel}</Link></h5>
                         </div>
-                        <div class="card-body">
+                        <div className="card-body">
                         <h5 className="card-title">Reservation Date: {e.date}</h5>
                             <ul className="list-group">
                                 <li className="list-group-item"><span className="negrilla">Room:</span>  {e.name}</li>
@@ -50,6 +46,5 @@ const HistoryBookings = () => {
             }
         </>
     )
-
 }
 export default HistoryBookings

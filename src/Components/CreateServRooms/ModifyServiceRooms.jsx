@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearServiceRoomById, getAllServicesRoom, getServiceRoomById, modifyServicesRooms } from "../../redux/action/action";
@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import { Link } from "react-router-dom";
 
 const validate = (input_serv_room) => {
     let errors = {};
@@ -30,7 +29,7 @@ const ModifyServRooms = () => {
         if (user && user.hasOwnProperty('uid')) {
             dispatch(getDetailUser(user.uid))
         }
-    }, [user])
+    }, [dispatch, user])
 
     const [input_serv_room, setInput_serv_room] = useState({
         id: '',

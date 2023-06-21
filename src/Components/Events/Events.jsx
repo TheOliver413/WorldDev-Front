@@ -1,6 +1,4 @@
-/*-------------IMPORTS----------- */
-
-import { React, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getAllEvents, getHotels } from '../../redux/action/action';
 import FilterEvent from '../FilterEvent/FilterEvent';
@@ -8,10 +6,8 @@ import { Link } from 'react-router-dom';
 
 
 export default function Events() {
-
   const dispatch = useDispatch();
   const eventos = useSelector(state => state.reducerHotel.allEvents)
-  const hoteles = useSelector((state) => state.reducerHotel.allHotels)
 
   /*------------USEEFFECT--------- */
   useEffect(() => {

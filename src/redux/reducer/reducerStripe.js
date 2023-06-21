@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import {
     GET_BOOKING,
     GET_ALL_BOOKINGS,
