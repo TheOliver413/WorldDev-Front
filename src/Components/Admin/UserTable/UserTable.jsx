@@ -1,25 +1,15 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers, blocked, deleteUsers, getDetailUser } from "../../../redux/action/actionAuth";
+import { getAllUsers, deleteUsers, getDetailUser } from "../../../redux/action/actionAuth";
 import { useAuth } from "../../../context/AuthContext";
-import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Table,
-  Button,
-  Container,
-} from "reactstrap";
-import { useEffect } from "react";
+import { Button } from "reactstrap";
 
 export default function UserTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const allUsers = useSelector(state => state.reducerAuth.allUsers)
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({
-    user: "",
-    email: ""
-  });
   const datos = useSelector(state => state.reducerAuth.users)
   const { user } = useAuth()
 
@@ -27,7 +17,7 @@ export default function UserTable() {
     if (user && user.hasOwnProperty('uid')) {
       dispatch(getDetailUser(user.uid))
     }
-  }, [user])
+  }, [dispatch, user])
 
   const handleDelete = (e) => {
     const option = window.confirm("Are you sure you want to Delete the user " + e.target.value + "?")
@@ -37,34 +27,9 @@ export default function UserTable() {
     }
   }
 
-  const handleBlockButton = (e) => {
-    const option = window.confirm("Are you sure you want to Block the user?")
-    if (option === true) {
-      dispatch(blocked({ id: e.target.value, blocked: true }))
-      setData([])
-      refreshPage()
-    }
-  }
-
-  const handleUnlockButton = (e) => {
-    const option = window.confirm("Are you sure you want to Unlock the user?")
-    if (option === true) {
-      dispatch(blocked({ id: e.target.value, blocked: true }))
-      setData([])
-      refreshPage()
-    }
-  }
-
   useEffect(() => {
     dispatch(getAllUsers())
   }, [dispatch, data])
-
-  function refreshPage() {
-    window.location.reload()
-    setTimeout(() => {
-      window.location.reload(false)
-    }, 500)
-  }
 
   return (
     <div>

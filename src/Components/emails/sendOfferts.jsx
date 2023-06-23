@@ -12,6 +12,5 @@ export default async function sendEmail(email) {
             html: `<h1>Hotel Deals</h1> <p>Here you have the current offers of our hotels</p>`,
         }
     }
-    console.log('listo para ser enviado');
     await addDoc(collectionReft, emailContent);
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { format } from 'date-fns'
@@ -64,8 +64,6 @@ function Cart() {
     }
     
     const orderBook = bookRoom.length ? bookRoom.flat().sort((a, b) => { return a.newStock - b.newStock }) : [] // quito los subarray
-    console.log('orderBook',orderBook)
-
      
     if (orderBook.length) {    
       for (let i = 0; i < cartRooms.length; i++) {

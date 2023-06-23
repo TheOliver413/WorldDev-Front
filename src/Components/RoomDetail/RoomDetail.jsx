@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { cleanRoomDetail, getDetailRoom } from "../../redux/action/action.js";
@@ -9,7 +9,6 @@ import './RoomDetail.css'
 import { getAllBooking } from "../../redux/action/actionStripe.js";
 import { useAuth } from "../../context/AuthContext";
 import { addRoomToFavorites, getFavoritesID, removeRoomFromFavorites } from "../../redux/action/favoriteAction.js";
-// import { el } from "date-fns/locale";
 
 const RoomDetail = () => {
   const dispatch = useDispatch();
@@ -56,8 +55,6 @@ const RoomDetail = () => {
   const finalPrice = price * differenceInDays(new Date(checkOut), new Date(checkIn)) > 0 ? price * differenceInDays(new Date(checkOut), new Date(checkIn)) : price;
   const difDays = differenceInDays(new Date(checkOut), new Date(checkIn)) <= 0 ? 1 : differenceInDays(new Date(checkOut), new Date(checkIn))
 
-
-
   //CONTROL DE STOCK----------HOLA JUAN CARLOS!! NI SE TE OCURRA TOCAR EL STOCK!!!!----------------------------------
 
   const stockControl = () => {
@@ -73,7 +70,6 @@ const RoomDetail = () => {
         }
       }
 
-      console.log('bookIDDDD', booksId)
       //---------------------------------ALLBOKKING-------------------------
       if (booksId.length) {//______________bookid-----------
         booksId = booksId.flat()
@@ -89,7 +85,6 @@ const RoomDetail = () => {
               setError(false)
             }
           } else {
-            console.log('lalalal', e.checkIn)
             if (roomDetail.stock <= 0) {
               setError(true)
               return toast.error('There is no availability for this room at the moment', { position: 'bottom-right' });
@@ -99,9 +94,6 @@ const RoomDetail = () => {
             } else {
               setError(false)
             }
-            console.log('roomDetail.stock', roomDetail.stock)
-            console.log('quantity', quantity)
-
           }
 
         })
@@ -117,8 +109,6 @@ const RoomDetail = () => {
         } else {
           setError(false)
         }
-        console.log('roomDetail.stock', roomDetail.stock)
-        console.log('quantity', quantity)
       }
       ///----------------------------ALLBOOKING-----------------------
     } else {// chequea con el stock original
@@ -131,9 +121,6 @@ const RoomDetail = () => {
       } else {
         setError(false)
       }
-      console.log('roomDetail.stock', roomDetail.stock)
-      console.log('quantity', quantity)
-      console.log('e.putocheckIn', checkIn)
     }
   }
   //--------------------------GRACIAS JUAN CARLOS!!------------------------------------------------

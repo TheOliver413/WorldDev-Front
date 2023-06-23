@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,7 +77,7 @@ const EditAdmin = (id) => {
         // email: user.email
       });
     }
-  }, [user]);
+  }, [dispatch, user]);
 
   function handleChangeData(e) {
     e.preventDefault();
