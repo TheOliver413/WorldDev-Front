@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +8,7 @@ import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import "./Styles.css"
 import { getTotals } from "../../redux/action/cartAction";
-
-import SendRecibo from '../emails/sendReceipt';
 import { useAuth } from "../../context/AuthContext";
-
 
 const stripePromise = loadStripe("pk_test_51Lv6iyAgVz7gSSKmM3Nn4gPDG0b2m1ao5epp7hU2zrhEiq9BXLQMX4Vp6Sqqq1VQbqgNtEny7WdAWO5zSnjPjn0i00AkkxU0oH");
 
@@ -25,9 +22,7 @@ const CheckoutForm = () => {
     const { cartRooms, cartTotalAmount, cartTotalQuantity } = useSelector(state => state.reducerCart)
     const allBookings = useSelector(state => state.reducerStripe.allBooking)
 
-
     const [loading, setLoading] = useState(false);
-
 
     useEffect(() => {
         dispatch(getTotals())
@@ -66,7 +61,6 @@ const CheckoutForm = () => {
                 }
             }
         }
-        console.log('bookRoom', bookRoom)
 
     } else { // entra si NO hay ninguna reserva
         let check = cartRooms?.map(e => ({
@@ -85,8 +79,6 @@ const CheckoutForm = () => {
             date: format(new Date(), 'yyyy-MM-dd')
         }))
         aux = check
-        console.log('check1', check)
-        console.log('aux1', aux)
     }
 
 
@@ -113,9 +105,6 @@ const CheckoutForm = () => {
 
                 }
                 aux.push(check)
-                console.log('orderBook', orderBook)
-                console.log('check2', check)
-                console.log('aux2', aux)
 
             } else {
                 let check = cartRooms?.map(e => ({
@@ -134,8 +123,6 @@ const CheckoutForm = () => {
                     date: format(new Date(), 'yyyy-MM-dd')
                 }))
                 aux = check
-                console.log('check3', check)
-                console.log('aux3', aux)
             }
         }
     }
@@ -148,8 +135,6 @@ const CheckoutForm = () => {
         status: 'confirmed',
         user: user.uid
     }
-    console.log('cartRoomssss', cartRooms)
-    console.log('boooking', booking)
     //---------------------------------------------------------------------------
 
     const handleSubmit = async (e) => {
@@ -177,8 +162,6 @@ const CheckoutForm = () => {
         }
         
     }
-
-
 
     return (
         <form className="card card-body gap-1" onSubmit={handleSubmit}>

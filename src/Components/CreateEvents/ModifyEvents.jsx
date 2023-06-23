@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearEventById, getAllEvents, getEventById, getHotels, modifyEvents,getEventsByIdHotel } from "../../redux/action/action";
@@ -7,7 +6,6 @@ import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import { Link } from "react-router-dom";
 
 const validate = (input_event) => {
   let errors = {};
@@ -61,14 +59,13 @@ const ModifyEvents = () => {
  useEffect(()=> {
   if (datos && datos.rol === "admin"){
     let hotelFinded = hotels.find(e => e.name === datos.hotel)
-    console.log("consologeando holte!!!", hotelFinded)
     dispatch(getEventsByIdHotel(hotelFinded.id))
     setInput_event({
       ...input_event,
       idHotel: hotelFinded.id
     })
   }
- },[datos])
+ },[dispatch, datos])
 
   //------------ HANDLE CHANGE EVENT--------------//
   const handleChangeEvent = (e) => {
@@ -157,7 +154,6 @@ function refreshPage(){
     window.location.reload(false)
   },500)
 }
-  console.log("info hacia el back: ", input_event)
   //----------------HANDLE SUBMIT EVENT------------------//
   const navigate = useNavigate()
   const handleSubmit = (e) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   filterBooksByHotel,
@@ -50,7 +50,6 @@ const Stock = () => {
     if (confirmation) {
       dispatch(updateStatusBooking(payload));
       setRefreshBooks([]);
-      // console.log("eeeeee", payload);
       toast.success("Reservation cancelled", { position: "bottom-right" });
     } else {
       toast.error("Reservation not canceled", { position: "bottom-right" });
@@ -60,7 +59,6 @@ const Stock = () => {
   const handleFilterByHotel = (e) => {
     e.preventDefault();
     dispatch(filterBooksByHotel(e.target.value));
-    console.log("filter hotel", allBooks);
   };
 
   const handleFilterByStatus = (e) => {
@@ -72,14 +70,12 @@ const Stock = () => {
     e.preventDefault();
     setOrder(e.target.value);
     dispatch(orderBooksByHotel(e.target.value));
-    console.log("order hotel", allBooks);
   };
 
   const handleOrderByDate = (e) => {
     e.preventDefault();
     setOrder(e.target.value);
     dispatch(orderBooksByDate(e.target.value));
-    console.log("order date", allBooks);
   };
 
   return (

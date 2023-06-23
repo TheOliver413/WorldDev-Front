@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -9,14 +9,12 @@ const ProfileAdmin = () => {
   const dispatch = useDispatch();
   const datosA = useSelector((state) => state.reducerAuth.users);
   const { user } = useAuth();
-  console.log('user',user);
-  console.log('datosA',datosA);
 
   useEffect(() => {
     if (user && user.hasOwnProperty("uid")) {
       dispatch(getDetailUser(user.uid));
     }
-  }, [user]);
+  }, [dispatch, user]);
 
   return (
     <div className="profileUser-container d-flex flex-column gap-0 w-75 mx-auto my-4 card p-4 p-md-5" style={{ maxWidth: "600px" }}>

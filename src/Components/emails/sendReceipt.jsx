@@ -13,7 +13,6 @@ export default async function SendRecibo(email, receipt_url) {
             <a href=${receipt_url}> look at your bill</a>`,
         }
     }
-    console.log('listo para ser enviado');
     await addDoc(collectionReft, emailContent);
 return
 }

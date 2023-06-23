@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateHotels, getHotels, getState, getDepartment, getCity, getDetailHotel, clearDetail } from '../../redux/action/action';
 import './Styles.css';
@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import { Link } from "react-router-dom";
 
 const validate = (input_hotels) => {
   let errors = {};

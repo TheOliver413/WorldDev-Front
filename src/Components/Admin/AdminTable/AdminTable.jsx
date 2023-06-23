@@ -1,26 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUsers, getAllAdmins } from "../../../redux/action/actionAuth";
 import { useAuth } from "../../../context/AuthContext";
-import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Table,
-  Button,
-  Container,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  FormGroup,
-  ModalFooter,
-} from "reactstrap";
+import { Button } from "reactstrap";
 import { useEffect } from "react";
 
 export default function AdminTable() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const allAdmins = useSelector(state => state.reducerAuth.allAdmins)
-  console.log(allAdmins)
   const [data, setData] = useState([]);
   const [modalToUpdate, setModalToUpdate] = useState(false);
   const [form, setForm] = useState({
@@ -28,13 +17,7 @@ export default function AdminTable() {
     email: "",
     hotel: ""
   });
-  const datos = useSelector(state => state.reducerAuth.Alladmins)
   const { user } = useAuth()
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
 
   const datosTotal = useSelector(state => state.reducerAuth.users)
 
@@ -42,28 +25,12 @@ export default function AdminTable() {
     if (user && user.hasOwnProperty('uid')) {
       dispatch(getAllAdmins(user.uid))
     }
-  }, [user])
+  }, [dispatch, user])
 
   const showModalToUpdate = (dat) => {
     setModalToUpdate(true);
     setForm(dat)
   };
-
-  const closeModalToUpdate = () => {
-    setModalToUpdate(false);
-  };
-  function handleClickEdit(dat) {
-    var count = 0;
-    const setting = data;
-    setting.map((register) => {
-
-      if (dat.id === register.id) {
-        setting[count].user = dat.user;
-        setting[count].email = dat.email;
-      }
-      count++;
-    });
-  }
 
   const handleDelete = (e) => {
     const option = window.confirm("Are you sure you want to Delete the admin " + e.target.value + "?")
@@ -77,7 +44,6 @@ export default function AdminTable() {
     dispatch(getAllAdmins())
   }, [dispatch, data])
 
-  console.log("datos:", datos)
   return (
     <div>
       {

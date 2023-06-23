@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyServicesHotels, getHotels, getServicesHotel, getServicesHotelById, clearServiceId } from "../../redux/action/action";
@@ -6,7 +5,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getDetailUser } from "../../redux/action/actionAuth";
-import { Link } from "react-router-dom";
 
 const validate = (input_hotel) => {
     let error = {};
@@ -72,7 +70,7 @@ const ModifyServHotels = () => {
             dispatch(getServicesHotel(hotelFinded.id))
         }
 
-    }, [datos])
+    }, [dispatch, datos])
 
     //------------ HANDLE CHANGE HOTEL NAME----------//
     const handleChangeHotel = (e) => {
